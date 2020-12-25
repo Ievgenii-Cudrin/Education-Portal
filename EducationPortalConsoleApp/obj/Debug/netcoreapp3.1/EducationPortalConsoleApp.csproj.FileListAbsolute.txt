@@ -1,0 +1,12 @@
+E:\Projects\Education-Portal\EducationPortalConsoleApp\bin\Debug\netcoreapp3.1\EducationPortalConsoleApp.exe
+E:\Projects\Education-Portal\EducationPortalConsoleApp\bin\Debug\netcoreapp3.1\EducationPortalConsoleApp.deps.json
+E:\Projects\Education-Portal\EducationPortalConsoleApp\bin\Debug\netcoreapp3.1\EducationPortalConsoleApp.runtimeconfig.json
+E:\Projects\Education-Portal\EducationPortalConsoleApp\bin\Debug\netcoreapp3.1\EducationPortalConsoleApp.runtimeconfig.dev.json
+E:\Projects\Education-Portal\EducationPortalConsoleApp\bin\Debug\netcoreapp3.1\EducationPortalConsoleApp.dll
+E:\Projects\Education-Portal\EducationPortalConsoleApp\bin\Debug\netcoreapp3.1\EducationPortalConsoleApp.pdb
+E:\Projects\Education-Portal\EducationPortalConsoleApp\obj\Debug\netcoreapp3.1\EducationPortalConsoleApp.AssemblyInfoInputs.cache
+E:\Projects\Education-Portal\EducationPortalConsoleApp\obj\Debug\netcoreapp3.1\EducationPortalConsoleApp.AssemblyInfo.cs
+E:\Projects\Education-Portal\EducationPortalConsoleApp\obj\Debug\netcoreapp3.1\EducationPortalConsoleApp.csproj.CoreCompileInputs.cache
+E:\Projects\Education-Portal\EducationPortalConsoleApp\obj\Debug\netcoreapp3.1\EducationPortalConsoleApp.dll
+E:\Projects\Education-Portal\EducationPortalConsoleApp\obj\Debug\netcoreapp3.1\EducationPortalConsoleApp.pdb
+E:\Projects\Education-Portal\EducationPortalConsoleApp\obj\Debug\netcoreapp3.1\EducationPortalConsoleApp.genruntimeconfig.cache
