@@ -6,6 +6,8 @@ namespace EducationPortalConsoleApplication
     {
         static void Main(string[] args)
         {
+            string s = Console.ReadLine();
+            Console.WriteLine(s);
             Console.WriteLine("Hello World!");
         }
     }
