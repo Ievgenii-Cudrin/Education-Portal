@@ -11,30 +11,45 @@ namespace DataAccessLayer.Serialization
 {
     public class UsersSerialization
     {
-        XmlSerializer writer = new XmlSerializer(typeof(User));
+        XmlDocument xmlDocument = new XmlDocument();
+        XDocument xDocument;
+        public UsersSerialization()
+        {
+            xmlDocument.Load("person.xml");
+            xDocument = XDocument.Load("person.xml");
+        }
+
         public void AddObjectToXml(User user)
         {
-            //Load document
-            XmlDocument xDoc = new XmlDocument();
-            xDoc.Load("person.xml");
-
-            XmlElement xRoot = xDoc.DocumentElement;
+            XmlElement xRoot = xmlDocument.DocumentElement;
 
             //Create elements
-            XmlElement userElem = xDoc.CreateElement("user");
+            XmlElement userElem = xmlDocument.CreateElement("user");
 
-            XmlElement nameElem = xDoc.CreateElement("Name");
-            XmlElement emailElem = xDoc.CreateElement("Email");
-            XmlElement phoneElem = xDoc.CreateElement("PhoneNumber");
+            XmlElement nameElem = xmlDocument.CreateElement("Name");
+            XmlElement emailElem = xmlDocument.CreateElement("Email");
+            XmlElement phoneElem = xmlDocument.CreateElement("PhoneNumber");
+            XmlAttribute idAttribute = xmlDocument.CreateAttribute("id");
 
-            //Add inner element text
-            
-            userElem.AppendChild(nameElem.AppendChild(xDoc.CreateTextNode(user.Name)));
-            userElem.AppendChild(emailElem.AppendChild(xDoc.CreateTextNode(user.Email)));
-            userElem.AppendChild(phoneElem.AppendChild(xDoc.CreateTextNode(user.PhoneNumber)));
+            // Create inner element text
+            XmlText nameText = xmlDocument.CreateTextNode(user.Name);
+            XmlText emailText = xmlDocument.CreateTextNode(user.Email);
+            XmlText phoneText = xmlDocument.CreateTextNode(user.PhoneNumber);
+            XmlText idText = xmlDocument.CreateTextNode(GenareteId().ToString());
+
+            //Append child elements
+            idAttribute.AppendChild(idText);
+            nameElem.AppendChild(nameText);
+            emailElem.AppendChild(emailText);
+            phoneElem.AppendChild(phoneText);
+            userElem.Attributes.Append(idAttribute);
+
+            userElem.AppendChild(nameElem);
+            userElem.AppendChild(emailElem);
+            userElem.AppendChild(phoneElem);
 
             xRoot.AppendChild(userElem);
-            xDoc.Save("person.xml");
+            xmlDocument.Save("person.xml");
         }
 
         public List<User> GetAllUsers()
@@ -42,10 +57,10 @@ namespace DataAccessLayer.Serialization
             List<User> users = new List<User>();
 
             //Load document
-            XDocument xdoc = XDocument.Load("person.xml");
+            
 
             //Find all users element
-            foreach (XElement phoneElement in xdoc.Element("rootElement").Elements("user"))
+            foreach (XElement phoneElement in xDocument.Element("rootElement").Elements("user"))
             {
                 //Find inner elemets
                 XElement nameAttribute = phoneElement.Element("Name");
@@ -66,6 +81,34 @@ namespace DataAccessLayer.Serialization
                 }
             }
             return users;
+        }
+
+        public void DeleteUser(string name)
+        {
+            XmlNodeList nodes = xmlDocument.DocumentElement.ChildNodes;
+
+            foreach (XmlNode node in nodes)
+            {
+                foreach (XmlElement el in node)
+                {
+                    if(el.InnerText == name)
+                    {
+                        xmlDocument.DocumentElement.RemoveChild(node);
+                        break;
+                    }
+                    break;
+                }
+            }
+            xmlDocument.Save("person.xml");
+        }
+
+        public int GenareteId()
+        {
+            //Get id from last 
+            XElement lastPost = (XElement)xDocument.Root.LastNode;
+            int Id = Convert.ToInt32(lastPost.Attribute("id").Value);
+
+            return ++Id;
         }
     }
 }
