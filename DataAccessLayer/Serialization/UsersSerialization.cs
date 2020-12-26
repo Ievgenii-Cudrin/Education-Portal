@@ -52,20 +52,17 @@ namespace DataAccessLayer.Serialization
             xmlDocument.Save("person.xml");
         }
 
-        public List<User> GetAllUsers()
+        public List<User> GetAllUsersFromXml()
         {
             List<User> users = new List<User>();
-
-            //Load document
             
-
             //Find all users element
-            foreach (XElement phoneElement in xDocument.Element("rootElement").Elements("user"))
+            foreach (XElement userElement in xDocument.Element("rootElement").Elements("user"))
             {
                 //Find inner elemets
-                XElement nameAttribute = phoneElement.Element("Name");
-                XElement emailElement = phoneElement.Element("Email");
-                XElement phoneNumberElement = phoneElement.Element("PhoneNumber");
+                XElement nameAttribute = userElement.Element("Name");
+                XElement emailElement = userElement.Element("Email");
+                XElement phoneNumberElement = userElement.Element("PhoneNumber");
 
                 if (nameAttribute != null && emailElement != null && phoneNumberElement != null)
                 {
@@ -83,23 +80,21 @@ namespace DataAccessLayer.Serialization
             return users;
         }
 
-        public void DeleteUser(string name)
+        public User GetSingleUserFromXml(int id)
         {
-            XmlNodeList nodes = xmlDocument.DocumentElement.ChildNodes;
+            XmlNode childnode = xmlDocument.DocumentElement.SelectSingleNode($"user[@id='{id.ToString()}']");
 
-            foreach (XmlNode node in nodes)
+        }
+
+        public void DeleteUserFromXml(string name)
+        {
+            //Find node
+            XmlNode nodeToDelete = xmlDocument.DocumentElement.SelectSingleNode($"user[Name='{name}']");
+            if(nodeToDelete != null)
             {
-                foreach (XmlElement el in node)
-                {
-                    if(el.InnerText == name)
-                    {
-                        xmlDocument.DocumentElement.RemoveChild(node);
-                        break;
-                    }
-                    break;
-                }
+                xmlDocument.DocumentElement.RemoveChild(nodeToDelete);
+                xmlDocument.Save("person.xml");
             }
-            xmlDocument.Save("person.xml");
         }
 
         public int GenareteId()

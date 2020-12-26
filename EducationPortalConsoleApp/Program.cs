@@ -10,42 +10,38 @@ namespace EducationPortalConsoleApp
         static void Main(string[] args)
         {
             UsersSerialization ser = new UsersSerialization();
-            //ser.DeleteUser("a");
+
+            //testing AddUser method
+            //while (true)
+            //{
+            //    Console.WriteLine("Enter your name: ");
+            //    string _Name = Console.ReadLine();
 
 
-            //test AddUser method
-            while (true)
-            {
-                Console.WriteLine("Enter your name: ");
-                string _Name = Console.ReadLine();
+            //    Console.WriteLine("Enter your Email: ");
+            //    string _Email = Console.ReadLine();
 
 
-                Console.WriteLine("Enter your Email: ");
-                string _Email = Console.ReadLine();
+            //    Console.WriteLine("Enter your PhoneNumber: ");
+            //    string _PhoneNumber = Console.ReadLine();
 
 
-                Console.WriteLine("Enter your PhoneNumber: ");
-                string _PhoneNumber = Console.ReadLine();
-
-
-                User user = new User()
-                {
-                    Email = _Email,
-                    Name = _Name,
-                    PhoneNumber = _PhoneNumber
-                };
+            //    User user = new User()
+            //    {
+            //        Email = _Email,
+            //        Name = _Name,
+            //        PhoneNumber = _PhoneNumber
+            //    };
 
 
 
-                ser.AddObjectToXml(user);
-                //List<User> users = ser.GetAllUsers();
-                //foreach (var user1 in users)
-                //{
-                //    Console.WriteLine($"Name: {user1.Name}");
-                //    Console.WriteLine($"Email: {user1.Email}");
-                //    Console.WriteLine($"Phone Number: {user1.PhoneNumber}");
-                //}
-            }
+            //    ser.AddObjectToXml(user);
+            //}
+
+            //testing Delete method
+            Console.WriteLine("Enter name to delete from database: ");
+            string _Name = Console.ReadLine();
+            ser.DeleteUser(_Name);
 
             Console.ReadLine();
         }
