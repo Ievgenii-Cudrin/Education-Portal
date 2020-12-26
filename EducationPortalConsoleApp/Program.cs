@@ -39,10 +39,12 @@ namespace EducationPortalConsoleApp
             //}
 
             //testing Delete method
-            Console.WriteLine("Enter name to delete from database: ");
-            string _Name = Console.ReadLine();
-            ser.DeleteUser(_Name);
+            //Console.WriteLine("Enter name to delete from database: ");
+            //string _Name = Console.ReadLine();
+            //ser.DeleteUserFromXml(_Name);
 
+            User u = ser.GetSingleUserFromXml(2);
+            Console.WriteLine(u.Name);
             Console.ReadLine();
         }
     }
