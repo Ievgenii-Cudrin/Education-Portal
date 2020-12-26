@@ -27,27 +27,45 @@ namespace DataAccessLayer.Serialization
             XmlElement emailElem = xDoc.CreateElement("Email");
             XmlElement phoneElem = xDoc.CreateElement("PhoneNumber");
 
-            // Create inner element text
-            XmlText nameText = xDoc.CreateTextNode(user.Name);
-            XmlText emailText = xDoc.CreateTextNode(user.Email);
-            XmlText phoneText = xDoc.CreateTextNode(user.PhoneNumber);
-
-            nameElem.AppendChild(nameText);
-            emailElem.AppendChild(emailText);
-            phoneElem.AppendChild(phoneText);
-
-            userElem.AppendChild(nameElem);
-            userElem.AppendChild(emailElem);
-            userElem.AppendChild(phoneElem);
+            //Add inner element text
+            
+            userElem.AppendChild(nameElem.AppendChild(xDoc.CreateTextNode(user.Name)));
+            userElem.AppendChild(emailElem.AppendChild(xDoc.CreateTextNode(user.Email)));
+            userElem.AppendChild(phoneElem.AppendChild(xDoc.CreateTextNode(user.PhoneNumber)));
 
             xRoot.AppendChild(userElem);
             xDoc.Save("person.xml");
         }
 
-        public User[] GetAllUsers()
+        public List<User> GetAllUsers()
         {
+            List<User> users = new List<User>();
 
-            return null;
+            //Load document
+            XDocument xdoc = XDocument.Load("person.xml");
+
+            //Find all users element
+            foreach (XElement phoneElement in xdoc.Element("rootElement").Elements("user"))
+            {
+                //Find inner elemets
+                XElement nameAttribute = phoneElement.Element("Name");
+                XElement emailElement = phoneElement.Element("Email");
+                XElement phoneNumberElement = phoneElement.Element("PhoneNumber");
+
+                if (nameAttribute != null && emailElement != null && phoneNumberElement != null)
+                {
+                    //Create user from xml
+                    User user = new User()
+                    {
+                        Name = nameAttribute.Value,
+                        Email = emailElement.Value,
+                        PhoneNumber = phoneNumberElement.Value
+                    };
+
+                    users.Add(user);
+                }
+            }
+            return users;
         }
     }
 }
