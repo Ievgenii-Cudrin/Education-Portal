@@ -10,3 +10,7 @@ E:\Projects\Education-Portal\EducationPortalConsoleApp\obj\Debug\netcoreapp3.1\E
 E:\Projects\Education-Portal\EducationPortalConsoleApp\obj\Debug\netcoreapp3.1\EducationPortalConsoleApp.dll
 E:\Projects\Education-Portal\EducationPortalConsoleApp\obj\Debug\netcoreapp3.1\EducationPortalConsoleApp.pdb
 E:\Projects\Education-Portal\EducationPortalConsoleApp\obj\Debug\netcoreapp3.1\EducationPortalConsoleApp.genruntimeconfig.cache
+E:\Projects\Education-Portal\EducationPortalConsoleApp\bin\Debug\netcoreapp3.1\DataAccessLayer.dll
+E:\Projects\Education-Portal\EducationPortalConsoleApp\bin\Debug\netcoreapp3.1\DataAccessLayer.pdb
+E:\Projects\Education-Portal\EducationPortalConsoleApp\obj\Debug\netcoreapp3.1\EducationPortalConsoleApp.csprojAssemblyReference.cache
+E:\Projects\Education-Portal\EducationPortalConsoleApp\obj\Debug\netcoreapp3.1\EducationPortalConsoleApp.csproj.CopyComplete

@@ -7,14 +7,27 @@
   "targets": {
     ".NETCoreApp,Version=v3.1": {
       "EducationPortalConsoleApp/1.0.0": {
+        "dependencies": {
+          "DataAccessLayer": "1.0.0"
+        },
         "runtime": {
           "EducationPortalConsoleApp.dll": {}
+        }
+      },
+      "DataAccessLayer/1.0.0": {
+        "runtime": {
+          "DataAccessLayer.dll": {}
         }
       }
     }
   },
   "libraries": {
     "EducationPortalConsoleApp/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DataAccessLayer/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
