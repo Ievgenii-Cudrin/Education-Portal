@@ -9,11 +9,11 @@ using System.Xml.Serialization;
 
 namespace DataAccessLayer.Serialization
 {
-    public class UsersSerialization
+    public class UserSerialization
     {
         XmlDocument xmlDocument = new XmlDocument();
         XDocument xDocument;
-        public UsersSerialization()
+        public UserSerialization()
         {
             xmlDocument.Load("person.xml");
             xDocument = XDocument.Load("person.xml");
@@ -100,21 +100,25 @@ namespace DataAccessLayer.Serialization
             return user;
         }
 
-        public void DeleteUserFromXml(string name)
+        public void DeleteUserFromXml(int id)
         {
-            //Find node
-            XmlNode nodeToDelete = xmlDocument.DocumentElement.SelectSingleNode($"user[Name='{name}']");
-            if(nodeToDelete != null)
+            //Find node by name
+            //XmlNode nodeToDelete = xmlDocument.DocumentElement.SelectSingleNode($"user[Name='{name}']");
+
+            //Find noed by id
+            XmlNode nodeToDelete = xmlDocument.DocumentElement.SelectSingleNode($"user[@id='{id.ToString()}']");
+            if (nodeToDelete != null)
             {
                 xmlDocument.DocumentElement.RemoveChild(nodeToDelete);
                 xmlDocument.Save("person.xml");
             }
         }
 
-        public int GenareteId()
+        private int GenareteId()
         {
+            XDocument xDoc = XDocument.Load("person.xml");
             //Get id from last 
-            XElement lastPost = (XElement)xDocument.Root.LastNode;
+            XElement lastPost = (XElement)xDoc.Root.LastNode;
             int Id = Convert.ToInt32(lastPost.Attribute("id").Value);
 
             return ++Id;

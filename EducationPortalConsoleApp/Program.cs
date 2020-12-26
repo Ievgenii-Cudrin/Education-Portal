@@ -9,7 +9,7 @@ namespace EducationPortalConsoleApp
     {
         static void Main(string[] args)
         {
-            UsersSerialization ser = new UsersSerialization();
+            UserSerialization ser = new UserSerialization();
 
             //testing AddUser method
             //while (true)
@@ -43,8 +43,11 @@ namespace EducationPortalConsoleApp
             //string _Name = Console.ReadLine();
             //ser.DeleteUserFromXml(_Name);
 
-            User u = ser.GetSingleUserFromXml(2);
-            Console.WriteLine(u.Name);
+            ser.DeleteUserFromXml(5);
+
+            //test
+            //User u = ser.GetSingleUserFromXml(2);
+            //Console.WriteLine(u.Name);
             Console.ReadLine();
         }
     }

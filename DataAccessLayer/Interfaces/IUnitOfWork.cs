@@ -7,7 +7,7 @@ namespace DataAccessLayer.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {
-        IRepository<User> Phones { get; }
+        IRepository<User> Users { get; }
         void Save();
     }
 }

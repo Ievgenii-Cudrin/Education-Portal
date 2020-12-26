@@ -16,22 +16,22 @@ namespace DataAccessLayer.Repositories
         }
         public void Create(User item)
         {
-            throw new NotImplementedException();
+            _context.Users.AddObjectToXml(item);
         }
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            _context.Users.DeleteUserFromXml(id);
         }
 
         public User Get(int id)
         {
-            throw new NotImplementedException();
+            return _context.Users.GetSingleUserFromXml(id);
         }
 
         public IEnumerable<User> GetAll()
         {
-            throw new NotImplementedException();
+            return _context.Users.GetAllUsersFromXml();
         }
 
         public void Update(User item)

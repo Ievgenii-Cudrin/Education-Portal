@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 using DataAccessLayer.Entities;
+using DataAccessLayer.Serialization;
 
 namespace DataAccessLayer.DataContext
 {
     public class UserContext
     {
-        public List<User> Users { get; set; }
+        public UserSerialization Users { get; set; }
     }
 }
