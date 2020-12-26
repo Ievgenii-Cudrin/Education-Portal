@@ -24,6 +24,11 @@ namespace DataAccessLayer.Repositories
             _context.Users.DeleteUserFromXml(id);
         }
 
+        public IEnumerable<User> Find(Func<User, bool> predicate)
+        {
+            return _context.Users.Find(predicate);
+        }
+
         public User Get(int id)
         {
             return _context.Users.GetSingleUserFromXml(id);

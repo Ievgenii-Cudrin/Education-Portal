@@ -6,6 +6,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using System.Linq;
 
 namespace DataAccessLayer.Serialization
 {
@@ -52,7 +53,7 @@ namespace DataAccessLayer.Serialization
             xmlDocument.Save("person.xml");
         }
 
-        public List<User> GetAllUsersFromXml()
+        public IEnumerable<User> GetAllUsersFromXml()
         {
             List<User> users = new List<User>();
             
@@ -78,6 +79,11 @@ namespace DataAccessLayer.Serialization
                 }
             }
             return users;
+        }
+
+        public IEnumerable<User> Find(Func<User, Boolean> predicate)
+        {
+            return GetAllUsersFromXml().Where(predicate).ToList();
         }
 
         public User GetSingleUserFromXml(int id)

@@ -10,6 +10,7 @@ namespace DataAccessLayer.Interfaces
         T Get(int id);
         void Create(T item);
         void Update(T item);
+        IEnumerable<T> Find(Func<T, Boolean> predicate);
         void Delete(int id);
     }
 }
