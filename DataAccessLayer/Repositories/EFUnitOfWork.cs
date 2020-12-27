@@ -22,9 +22,7 @@ namespace DataAccessLayer.Repositories
             get
             {
                 if(userRepository == null)
-                {
                     userRepository = new UserRepository(context);
-                }
                 return userRepository;
             }
         }

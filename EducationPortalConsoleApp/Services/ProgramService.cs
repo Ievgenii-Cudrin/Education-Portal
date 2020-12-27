@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer.Entities;
 using DataAccessLayer.Interfaces;
+using DataAccessLayer.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,9 +11,9 @@ namespace EducationPortalConsoleApp.Services
     public class ProgramService
     {
         IUnitOfWork _uow;
-        public ProgramService(IUnitOfWork uow)
+        public ProgramService()
         {
-            this._uow = uow;
+            this._uow = new EFUnitOfWork();
         }
         public void StartApp()
         {
@@ -41,17 +42,40 @@ namespace EducationPortalConsoleApp.Services
 
             void CreateUser()
             {
-
+                
             }
 
             void UpdateUser()
             {
+                Console.Write($"Enter user ID to update: ");
+                int id = Convert.ToInt32(Console.ReadLine());
+
+                User user = _uow.Users.Get(id);
+                if (user == null)
+                {
+                    Console.WriteLine($"User not found");
+                }
+                else
+                {
+                    user.Name = GetNameFromUser();
+                    user.Email = GetEmailFromUser();
+                    user.PhoneNumber = GetPhoneNumberFromUser();
+
+                    _uow.Users.Update(user);
+                }
 
             }
 
             void ShowAllUsers()
             {
-
+                IEnumerable<User> users = _uow.Users.GetAll();
+                foreach(var user in users)
+                {
+                    Console.WriteLine($"Name: {user.Name}");
+                    Console.WriteLine($"Email: {user.Email}");
+                    Console.WriteLine($"Phone number: {user.PhoneNumber}");
+                    Console.WriteLine("---------------------------");
+                }
             }
 
             void DeleteUser()
@@ -72,7 +96,7 @@ namespace EducationPortalConsoleApp.Services
             {
                 Name = GetNameFromUser(),
                 Email = GetEmailFromUser(),
-                PhoneNumber = GetPhoneNumber()
+                PhoneNumber = GetPhoneNumberFromUser()
             };
 
 
@@ -80,7 +104,7 @@ namespace EducationPortalConsoleApp.Services
             string GetNameFromUser()
             {
                 EnterName:
-                Console.WriteLine($"Enter your name: ");
+                Console.WriteLine($"Enter name: ");
                 string name = Console.ReadLine();
 
                 if (String.IsNullOrEmpty(name))
@@ -94,11 +118,11 @@ namespace EducationPortalConsoleApp.Services
             string GetEmailFromUser()
             {
                 EnterEmail:
-                Console.WriteLine($"Enter your name: ");
+                Console.WriteLine($"Enter email: ");
                 string email = Console.ReadLine();
 
                 //check this expression
-                if (Regex.IsMatch(email, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase))
+                if (!Regex.IsMatch(email, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase))
                 {
                     Console.WriteLine("Incorrect email. Please, try again!");
                     goto EnterEmail;
@@ -109,7 +133,7 @@ namespace EducationPortalConsoleApp.Services
             string GetPhoneNumberFromUser()
             {
                 EnterPhoneNumber:
-                Console.WriteLine($"Enter your name: ");
+                Console.WriteLine($"Enter phone number: ");
                 string phoneNumber = Console.ReadLine();
 
                 if (Regex.IsMatch(phoneNumber, @"^\(?([0-9]{3})\)?[-.●]?([0-9]{3})[-.●]?([0-9]{4})$", RegexOptions.IgnoreCase))

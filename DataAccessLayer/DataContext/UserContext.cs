@@ -8,6 +8,6 @@ namespace DataAccessLayer.DataContext
 {
     public class UserContext
     {
-        public UserSerialization Users { get; set; }
+        public UserSerialization Users = new UserSerialization();
     }
 }

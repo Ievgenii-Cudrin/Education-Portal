@@ -93,6 +93,7 @@ namespace DataAccessLayer.Serialization
 
                 if (nameAttribute != null && Convert.ToInt32(nameAttribute.Value) == id)
                 {
+                    user.Id = Convert.ToInt32(userElement.Attribute("id").Value);
                     user.Name = userElement.Element("Name").Value;
                     user.Email = userElement.Element("Email").Value;
                     user.PhoneNumber = userElement.Element("PhoneNumber").Value;

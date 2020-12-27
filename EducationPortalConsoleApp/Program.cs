@@ -11,7 +11,7 @@ namespace EducationPortalConsoleApp
         static void Main(string[] args)
         {
 
-            ProgramService.StartApp();
+            new ProgramService().StartApp();
 
             Console.ReadLine();
         }
