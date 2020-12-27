@@ -5,9 +5,8 @@ using System.Text;
 
 namespace DataAccessLayer.Interfaces
 {
-    public interface IUnitOfWork : IDisposable
+    public interface IUnitOfWork
     {
         IRepository<User> Users { get; }
-        void Save();
     }
 }
