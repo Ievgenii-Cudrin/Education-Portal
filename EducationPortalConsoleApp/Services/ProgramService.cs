@@ -42,7 +42,7 @@ namespace EducationPortalConsoleApp.Services
 
             void CreateUser()
             {
-                
+                _uow.Users.Create(GenerateObjectFromUser());
             }
 
             void UpdateUser()
