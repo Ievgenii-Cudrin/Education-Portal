@@ -68,23 +68,14 @@ namespace EducationPortalConsoleApp.Services
                 $"\n4.Delete user");
             }
 
-            User GenerateObjectFromUser()
+            User GenerateObjectFromUser() => new User()
             {
-                return new User()
-                {
-                    Name = GetNameFromUser(),
-                    Email = GetEmailFromUser(),
-                    PhoneNumber = ""
-                };
+                Name = GetNameFromUser(),
+                Email = GetEmailFromUser(),
+                PhoneNumber = GetPhoneNumber()
+            };
 
-                Console.WriteLine($"Enter your email adress: ");
-                string email = Console.ReadLine();
 
-                Console.WriteLine($"Enter your phone number: ");
-                string phoneNumber = Console.ReadLine();
-
-                return null;
-            }
 
             string GetNameFromUser()
             {
@@ -115,7 +106,7 @@ namespace EducationPortalConsoleApp.Services
                 return email;
             }
 
-            string GetPhoneNumber()
+            string GetPhoneNumberFromUser()
             {
                 EnterPhoneNumber:
                 Console.WriteLine($"Enter your name: ");
