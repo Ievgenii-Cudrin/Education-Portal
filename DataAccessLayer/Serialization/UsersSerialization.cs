@@ -12,12 +12,14 @@ namespace DataAccessLayer.Serialization
 {
     public class UserSerialization
     {
-        XmlDocument xmlDocument = new XmlDocument();
+        XmlDocument xmlDocument;
         XDocument xDocument;
+        static string pathToDocument = "person.xml";
         public UserSerialization()
         {
-            xmlDocument.Load("person.xml");
-            xDocument = XDocument.Load("person.xml");
+            xmlDocument = new XmlDocument();
+            xmlDocument.Load(pathToDocument);
+            xDocument = XDocument.Load(pathToDocument);
         }
 
         public void AddObjectToXml(User user)
@@ -50,7 +52,7 @@ namespace DataAccessLayer.Serialization
             userElem.AppendChild(phoneElem);
 
             xRoot.AppendChild(userElem);
-            xmlDocument.Save("person.xml");
+            xmlDocument.Save(pathToDocument);
         }
 
         public IEnumerable<User> GetAllUsersFromXml()
@@ -116,7 +118,7 @@ namespace DataAccessLayer.Serialization
             if (nodeToDelete != null)
             {
                 xmlDocument.DocumentElement.RemoveChild(nodeToDelete);
-                xmlDocument.Save("person.xml");
+                xmlDocument.Save(pathToDocument);
             }
         }
 
@@ -134,11 +136,13 @@ namespace DataAccessLayer.Serialization
                     userElement.Element("Name").Value = user.Name;
                     userElement.Element("Email").Value = user.Email;
                     userElement.Element("PhoneNumber").Value = user.PhoneNumber;
-                    xDocument.Save("person.xml");
+                    xDocument.Save(pathToDocument);
                     break;
                 }
             }
         }
+
+        public void SaveChanges() => xDocument.Save(pathToDocument);
 
         private int GenareteId()
         {
