@@ -41,7 +41,7 @@ namespace DataAccessLayer.Repositories
 
         public void Update(User item)
         {
-            throw new NotImplementedException();
+            _context.Users.UpdateObject(item);
         }
     }
 }

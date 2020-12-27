@@ -120,6 +120,26 @@ namespace DataAccessLayer.Serialization
             }
         }
 
+        public void UpdateObject(User user)
+        {
+            //Sorting out xml elements
+            foreach (XElement userElement in xDocument.Element("rootElement").Elements("user").ToList())
+            {
+                XAttribute nameAttribute = userElement.Attribute("id");
+                
+                //Find element by id
+                if (nameAttribute != null && Convert.ToInt32(nameAttribute.Value) == user.Id)
+                {
+                    //Update data in node
+                    userElement.Element("Name").Value = user.Name;
+                    userElement.Element("Email").Value = user.Email;
+                    userElement.Element("PhoneNumber").Value = user.PhoneNumber;
+                    xDocument.Save("person.xml");
+                    break;
+                }
+            }
+        }
+
         private int GenareteId()
         {
             XDocument xDoc = XDocument.Load("person.xml");
