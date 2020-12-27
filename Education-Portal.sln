@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessLayer", "DataAccessLayer\DataAccessLayer.csproj", "{9B7C67B4-3171-494E-ABAB-796BEF77AD8D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationPortalConsoleApp", "EducationPortalConsoleApp\EducationPortalConsoleApp.csproj", "{5B437A77-367F-4870-82D6-F7783796992F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducationPortalConsoleApp", "EducationPortalConsoleApp\EducationPortalConsoleApp.csproj", "{5B437A77-367F-4870-82D6-F7783796992F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLogicLayer", "BusinessLogicLayer\BusinessLogicLayer.csproj", "{0D1FC3EC-4AFB-4DFB-B9D1-DA840513C1BA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{5B437A77-367F-4870-82D6-F7783796992F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B437A77-367F-4870-82D6-F7783796992F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B437A77-367F-4870-82D6-F7783796992F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D1FC3EC-4AFB-4DFB-B9D1-DA840513C1BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D1FC3EC-4AFB-4DFB-B9D1-DA840513C1BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D1FC3EC-4AFB-4DFB-B9D1-DA840513C1BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D1FC3EC-4AFB-4DFB-B9D1-DA840513C1BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

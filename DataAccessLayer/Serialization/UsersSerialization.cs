@@ -83,11 +83,6 @@ namespace DataAccessLayer.Serialization
             return users;
         }
 
-        public IEnumerable<User> Find(Func<User, Boolean> predicate)
-        {
-            return GetAllUsersFromXml().Where(predicate).ToList();
-        }
-
         public User GetSingleUserFromXml(int id)
         {
             //XmlNode childnode = xmlDocument.DocumentElement.SelectSingleNode($"user[@id='{id.ToString()}']");
@@ -144,9 +139,11 @@ namespace DataAccessLayer.Serialization
 
         public void SaveChanges() => xDocument.Save(pathToDocument);
 
+        public IEnumerable<User> Find(Func<User, Boolean> predicate) => GetAllUsersFromXml().Where(predicate).ToList();
+
         private int GenareteId()
         {
-            XDocument xDoc = XDocument.Load("person.xml");
+            XDocument xDoc = XDocument.Load(pathToDocument);
             //Get id from last 
             XElement lastPost = (XElement)xDoc.Root.LastNode;
             int Id = Convert.ToInt32(lastPost.Attribute("id").Value);
