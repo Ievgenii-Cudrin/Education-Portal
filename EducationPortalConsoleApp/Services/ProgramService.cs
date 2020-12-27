@@ -80,7 +80,18 @@ namespace EducationPortalConsoleApp.Services
 
             void DeleteUser()
             {
+                Console.Write($"Enter user ID to delete: ");
+                int id = Convert.ToInt32(Console.ReadLine());
 
+                User user = _uow.Users.Get(id);
+                if (user == null)
+                {
+                    Console.WriteLine($"User not found");
+                }
+                else
+                {
+                    _uow.Users.Delete(user.Id);
+                }
             }
 
             void ShowTextForChoice()
