@@ -5,6 +5,7 @@ using System.Xml.Serialization;
 
 namespace DataAccessLayer.Entities
 {
+    [XmlType("Course")]
     [XmlInclude(typeof(Skill)), XmlInclude(typeof(Material))]
     public class Course
     {

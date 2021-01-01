@@ -8,7 +8,7 @@ namespace DataAccessLayer.Entities
     [XmlType("Skill")]
     public class Skill
     {
-        [XmlAttribute("PersID", DataType = "string")]
+        [XmlAttribute("SkillID", DataType = "string")]
         public string Id { get; set; }
 
         [XmlElement("Name")]

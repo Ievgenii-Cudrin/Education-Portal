@@ -90,7 +90,7 @@ namespace EducationPortalConsoleApp.Services
                 }
                 else
                 {
-                    _uow.Users.Delete(user.Id);
+                    _uow.Users.Delete(Convert.ToInt32(user.Id));
                 }
             }
 

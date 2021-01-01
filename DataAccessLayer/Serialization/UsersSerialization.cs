@@ -93,7 +93,7 @@ namespace DataAccessLayer.Serialization
 
                 if (nameAttribute != null && Convert.ToInt32(nameAttribute.Value) == id)
                 {
-                    user.Id = Convert.ToInt32(userElement.Attribute("id").Value);
+                    user.Id = userElement.Attribute("id").Value;
                     user.Name = userElement.Element("Name").Value;
                     user.Email = userElement.Element("Email").Value;
                     user.PhoneNumber = userElement.Element("PhoneNumber").Value;
@@ -126,7 +126,7 @@ namespace DataAccessLayer.Serialization
                 XAttribute nameAttribute = userElement.Attribute("id");
                 
                 //Find element by id
-                if (nameAttribute != null && Convert.ToInt32(nameAttribute.Value) == user.Id)
+                if (nameAttribute != null && nameAttribute.Value == user.Id)
                 {
                     //Update data in node
                     userElement.Element("Name").Value = user.Name;
