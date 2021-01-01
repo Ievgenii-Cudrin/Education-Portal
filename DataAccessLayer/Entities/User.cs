@@ -9,6 +9,7 @@ namespace DataAccessLayer.Entities
     [XmlInclude(typeof(Skill)), XmlInclude(typeof(Course))]
     public class User
     {
+        [XmlAttribute("UserID", DataType = "string")]
         public string Id { get; set; }
 
         [XmlElement("Name")]
