@@ -144,10 +144,14 @@ namespace DataAccessLayer.Serialization
 
         private int GenareteId()
         {
+            int Id = 0;
             XDocument xDoc = XDocument.Load(pathToDocument);
             //Get id from last 
             XElement lastPost = (XElement)xDoc.Root.LastNode;
-            int Id = Convert.ToInt32(lastPost.Attribute("id").Value);
+            if (lastPost == null)
+                return Id;
+            else
+                Id = Convert.ToInt32(lastPost.Attribute("id").Value);
 
             return ++Id;
         }
