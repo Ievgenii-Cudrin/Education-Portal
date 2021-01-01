@@ -5,16 +5,14 @@ using System.Xml.Serialization;
 
 namespace DataAccessLayer.Entities
 {
-    [XmlType("Skill")]
-    public class Skill
+    [XmlType("Material")] // define Type
+    //[XmlInclude(typeof(Video)), XmlInclude(typeof(Book)), XmlInclude(typeof(Article))]
+    public class Material
     {
         [XmlAttribute("PersID", DataType = "string")]
         public string Id { get; set; }
 
         [XmlElement("Name")]
         public string Name { get; set; }
-
-        [XmlElement("CountOfPoint")]
-        public int CountOfPoint { get; set; }
     }
 }
