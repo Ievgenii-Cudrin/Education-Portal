@@ -22,6 +22,10 @@ namespace EducationPortalConsoleApp
             serialize.AddObjectToXml(user);
 
             User user2 = serialize.GetSingleUserFromXml(722);
+
+            IEnumerable<User> users = serialize.GetAllUsersFromXml();
+
+
             //new ProgramService().StartApp();
 
             Console.ReadLine();

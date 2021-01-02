@@ -35,31 +35,22 @@ namespace DataAccessLayer.Serialization
             fs.Close();
         }
 
-        public IEnumerable<User> GetAllUsersFromXml()
+        public IEnumerable<T> GetAllUsersFromXml()
         {
-            List<User> users = new List<User>();
-            
-            //Find all users element
-            foreach (XElement userElement in xDocument.Element("rootElement").Elements("user"))
+            List<T> users = new List<T>();
+
+
+            DirectoryInfo d = new DirectoryInfo($"{type.Name}");//Assuming Test is your Folder
+            FileInfo[] files = d.GetFiles("*.xml"); //Getting Text files
+
+            foreach(var file in files)
             {
-                //Find inner elemets
-                XElement nameAttribute = userElement.Element("Name");
-                XElement emailElement = userElement.Element("Email");
-                XElement phoneNumberElement = userElement.Element("PhoneNumber");
-
-                if (nameAttribute != null && emailElement != null && phoneNumberElement != null)
-                {
-                    //Create user from xml
-                    User user = new User()
-                    {
-                        Name = nameAttribute.Value,
-                        Email = emailElement.Value,
-                        PhoneNumber = phoneNumberElement.Value
-                    };
-
-                    users.Add(user);
-                }
+                XmlSerializer serializer = new XmlSerializer(typeof(T));
+                FileStream fs = new FileStream(file.FullName, FileMode.Open);
+                users.Add((T)serializer.Deserialize(fs));
+                fs.Close();
             }
+
             return users;
         }
 
@@ -69,6 +60,7 @@ namespace DataAccessLayer.Serialization
             XmlSerializer serializer = new XmlSerializer(typeof(T));
             FileStream fs = new FileStream($"{type.Name}/{type.Name}{id}.xml", FileMode.Open);
             objectFromXml = (T)serializer.Deserialize(fs);
+            fs.Close();
             return objectFromXml;
         }
 
@@ -107,8 +99,6 @@ namespace DataAccessLayer.Serialization
         }
 
         public void SaveChanges() => xDocument.Save(pathToDocument);
-
-        public IEnumerable<User> Find(Func<User, Boolean> predicate) => GetAllUsersFromXml().Where(predicate).ToList();
 
         private int GenareteId()
         {
