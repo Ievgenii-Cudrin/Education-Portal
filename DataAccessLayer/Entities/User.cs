@@ -18,9 +18,6 @@ namespace DataAccessLayer.Entities
         [XmlElement("PhoneNumber")]
         public string PhoneNumber { get; set; }
 
-        [XmlElement("Listname")]
-        public string Listname { get; set; }
-
         [XmlElement("Email")]
         public string Email { get; set; }
 
@@ -28,7 +25,7 @@ namespace DataAccessLayer.Entities
         [XmlArrayItem("SkillObjekt")]
         public List<Skill> Skills = new List<Skill>();
 
-        [XmlArray("SkillArray")]
+        [XmlArray("CourseArray")]
         [XmlArrayItem("SkillObjekt")]
         public List<Course> Courses = new List<Course>();
 

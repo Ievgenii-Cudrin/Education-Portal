@@ -10,8 +10,17 @@ namespace EducationPortalConsoleApp
     {
         static void Main(string[] args)
         {
+            UserSerialization<User> serialize = new UserSerialization<User>();
 
-            new ProgramService().StartApp();
+            User user = new User()
+            {
+                Name = "Jeffrey Richter",
+                Email = "Kto-to-noviy@gmail.com",
+                PhoneNumber = "321654"
+            };
+
+            serialize.AddObjectToXml(user);
+            //new ProgramService().StartApp();
 
             Console.ReadLine();
         }

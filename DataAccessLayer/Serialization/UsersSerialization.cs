@@ -7,52 +7,32 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace DataAccessLayer.Serialization
 {
-    public class UserSerialization
+    public class UserSerialization<T>
     {
         XmlDocument xmlDocument;
         XDocument xDocument;
+        Type type;
+
         static string pathToDocument = "person.xml";
         public UserSerialization()
         {
             xmlDocument = new XmlDocument();
             xmlDocument.Load(pathToDocument);
             xDocument = XDocument.Load(pathToDocument);
+            type = typeof(T);
         }
 
-        public void AddObjectToXml(User user)
+        public void AddObjectToXml(T objToXml)
         {
-            XmlElement xRoot = xmlDocument.DocumentElement;
-
-            //Create elements
-            XmlElement userElem = xmlDocument.CreateElement("user");
-
-            XmlElement nameElem = xmlDocument.CreateElement("Name");
-            XmlElement emailElem = xmlDocument.CreateElement("Email");
-            XmlElement phoneElem = xmlDocument.CreateElement("PhoneNumber");
-            XmlAttribute idAttribute = xmlDocument.CreateAttribute("id");
-
-            // Create inner element text
-            XmlText nameText = xmlDocument.CreateTextNode(user.Name);
-            XmlText emailText = xmlDocument.CreateTextNode(user.Email);
-            XmlText phoneText = xmlDocument.CreateTextNode(user.PhoneNumber);
-            XmlText idText = xmlDocument.CreateTextNode(GenareteId().ToString());
-
-            //Append child elements
-            idAttribute.AppendChild(idText);
-            nameElem.AppendChild(nameText);
-            emailElem.AppendChild(emailText);
-            phoneElem.AppendChild(phoneText);
-            userElem.Attributes.Append(idAttribute);
-
-            userElem.AppendChild(nameElem);
-            userElem.AppendChild(emailElem);
-            userElem.AppendChild(phoneElem);
-
-            xRoot.AppendChild(userElem);
-            xmlDocument.Save(pathToDocument);
+            System.IO.Directory.CreateDirectory($"{type.Name}");
+            XmlSerializer serializer = new XmlSerializer(typeof(T));                             //Не нужен второй параметр. Проверить
+            FileStream fs = new FileStream($"{type.Name}/{type.Name}{GenareteId()}.xml", FileMode.Create);
+            serializer.Serialize(fs, objToXml);
+            fs.Close();
         }
 
         public IEnumerable<User> GetAllUsersFromXml()
