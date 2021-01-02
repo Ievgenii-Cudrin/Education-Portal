@@ -124,12 +124,11 @@ namespace DataAccessLayer.Serialization
 
         private int GenareteId()
         {
-            XDocument xDoc = XDocument.Load(pathToDocument);
-            //Get id from last 
-            XElement lastPost = (XElement)xDoc.Root.LastNode;
-            int Id = Convert.ToInt32(lastPost.Attribute("id").Value);
+            DirectoryInfo d = new DirectoryInfo($"{type.Name}");//Assuming Test is your Folder
+            FileInfo File = d.GetFiles("*.xml").LastOrDefault(); //Getting Text files
+            int id = Convert.ToInt32(Regex.Match(File.Name, @"\d+").Value);
 
-            return ++Id;
+            return ++id;
         }
     }
 }
