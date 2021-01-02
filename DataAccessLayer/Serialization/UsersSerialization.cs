@@ -85,7 +85,7 @@ namespace DataAccessLayer.Serialization
         {
             FileInfo file = directory.GetFiles("*.xml").LastOrDefault();
             int id = 0;
-            if (file.Exists)
+            if (file != null)
                 id = Convert.ToInt32(Regex.Match(file.Name, @"\d+").Value) + 1;
 
             return id;
