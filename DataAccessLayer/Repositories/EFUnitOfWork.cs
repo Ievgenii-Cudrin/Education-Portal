@@ -26,10 +26,5 @@ namespace DataAccessLayer.Repositories
                 return userRepository;
             }
         }
-
-        public void Save()
-        {
-            context.Users.SaveChanges();
-        }
     }
 }

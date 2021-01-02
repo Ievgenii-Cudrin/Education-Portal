@@ -13,92 +13,81 @@ namespace DataAccessLayer.Serialization
 {
     public class UserSerialization<T>
     {
-        XmlDocument xmlDocument;
-        XDocument xDocument;
         Type type;
+        XmlSerializer serializer;
+        DirectoryInfo directory;
 
-        static string pathToDocument = "person.xml";
-        public UserSerialization()
-        {
-            xmlDocument = new XmlDocument();
-            xmlDocument.Load(pathToDocument);
-            xDocument = XDocument.Load(pathToDocument);
+        public UserSerialization() 
+        { 
             type = typeof(T);
+            serializer = new XmlSerializer(typeof(T));
+            directory = new DirectoryInfo($"{type.Name}");
         }
 
-        public void AddObjectToXml(T objToXml)
+        public void Add(T objToXml)
         {
-            System.IO.Directory.CreateDirectory($"{type.Name}");
-            XmlSerializer serializer = new XmlSerializer(typeof(T));                             //Не нужен второй параметр. Проверить
-            FileStream fs = new FileStream($"{type.Name}/{type.Name}{GenareteId()}.xml", FileMode.Create);
-            serializer.Serialize(fs, objToXml);
-            fs.Close();
+            Directory.CreateDirectory($"{type.Name}");
+            using(FileStream fs = new FileStream($"{type.Name}/{type.Name}{GenareteId()}.xml", FileMode.Create))
+            {
+                serializer.Serialize(fs, objToXml);
+            }
         }
 
-        public IEnumerable<T> GetAllFromXml()
+        public IEnumerable<T> GetAll()
         {
             List<T> users = new List<T>();
 
-            DirectoryInfo d = new DirectoryInfo($"{type.Name}");//Assuming Test is your Folder
-            FileInfo[] files = d.GetFiles("*.xml"); //Getting Text files
+            FileInfo[] files = directory.GetFiles("*.xml");
 
-            foreach(var file in files)
+            if(files != null)
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(T));
-                FileStream fs = new FileStream(file.FullName, FileMode.Open);
-                users.Add((T)serializer.Deserialize(fs));
-                fs.Close();
+                foreach (var file in files)
+                {
+                    using(FileStream fs = new FileStream(file.FullName, FileMode.Open))
+                    {
+                        users.Add((T)serializer.Deserialize(fs));
+                    }
+                }
             }
 
             return users;
         }
 
-        public T GetSingleUserFromXml(int id)
+        public T Get(int id)
         {
             T objectFromXml;
-            XmlSerializer serializer = new XmlSerializer(typeof(T));
-            FileStream fs = new FileStream($"{type.Name}/{type.Name}{id}.xml", FileMode.Open);
-            objectFromXml = (T)serializer.Deserialize(fs);
-            fs.Close();
+            using(FileStream fs = new FileStream($"{type.Name}/{type.Name}{id}.xml", FileMode.Open))
+            {
+                objectFromXml = (T)serializer.Deserialize(fs);
+            }
+            
             return objectFromXml;
         }
 
-        public void DeleteUserFromXml(int id)
+        public void Delete(int id)
         {
-            DirectoryInfo d = new DirectoryInfo($"{type.Name}");//Assuming Test is your Folder
-            FileInfo file = d.GetFiles($"{type.Name}{id}.xml").FirstOrDefault();//.Where(x => x.Name == $"{type.Name}{id}").FirstOrDefault();
-            file.Delete();
+            FileInfo file = directory.GetFiles($"{type.Name}{id}.xml").FirstOrDefault();
+            if(file.Exists)
+                file.Delete();
+            else
+                Console.WriteLine("File note found");
         }
 
-        public void UpdateObject(User user)
+        public void UpdateObject(T objectToUpdate)
         {
-            //Sorting out xml elements
-            foreach (XElement userElement in xDocument.Element("rootElement").Elements("user").ToList())
-            {
-                XAttribute nameAttribute = userElement.Attribute("id");
-                
-                //Find element by id
-                if (nameAttribute != null && nameAttribute.Value == user.Id)
-                {
-                    //Update data in node
-                    userElement.Element("Name").Value = user.Name;
-                    userElement.Element("Email").Value = user.Email;
-                    userElement.Element("PhoneNumber").Value = user.PhoneNumber;
-                    xDocument.Save(pathToDocument);
-                    break;
-                }
-            }
+            FileStream fs = new FileStream($"{type.Name}/{type.Name}{typeof(T).GetProperty("Id").GetValue(objectToUpdate)}.xml", FileMode.OpenOrCreate);
+            serializer.Serialize(fs, objectToUpdate);
+            fs.Close();
         }
-
-        public void SaveChanges() => xDocument.Save(pathToDocument);
 
         private int GenareteId()
         {
-            DirectoryInfo d = new DirectoryInfo($"{type.Name}");//Assuming Test is your Folder
-            FileInfo File = d.GetFiles("*.xml").LastOrDefault(); //Getting Text files
-            int id = Convert.ToInt32(Regex.Match(File.Name, @"\d+").Value);
+            FileInfo file = directory.GetFiles("*.xml").LastOrDefault();
+            int id = 0;
+            if (file.Exists)
+                id = Convert.ToInt32(Regex.Match(file.Name, @"\d+").Value) + 1;
 
-            return ++id;
+            return id;
         }
     }
 }

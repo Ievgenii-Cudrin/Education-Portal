@@ -14,18 +14,21 @@ namespace EducationPortalConsoleApp
 
             User user = new User()
             {
-                Name = "Jeffrey Richter",
-                Email = "Kto-to-noviy@gmail.com",
+                Id = "728",
+                Name = "Jeffrey Richter obj 728",
+                Email = "728-Kto-to-noviy@gmail.com",
                 PhoneNumber = "321654"
             };
 
-            serialize.AddObjectToXml(user);
+            //serialize.Add(user);
 
-            User user2 = serialize.GetSingleUserFromXml(722);
+            //User user2 = serialize.Get(722);
 
-            IEnumerable<User> users = serialize.GetAllFromXml();
+            IEnumerable<User> users = serialize.GetAll();
 
-            serialize.DeleteUserFromXml(722);
+            //serialize.Delete(722);
+
+            serialize.UpdateObject(user);
 
             //new ProgramService().StartApp();
 
