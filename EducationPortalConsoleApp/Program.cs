@@ -10,9 +10,9 @@ namespace EducationPortalConsoleApp
     {
         static void Main(string[] args)
         {
-            UserSerialization<User> serialize = new UserSerialization<User>();
-            UserSerialization<Skill> skillSerialize = new UserSerialization<Skill>();
-            UserSerialization<Material> materialSerialize = new UserSerialization<Material>();
+            XmlSerialization<User> serialize = new XmlSerialization<User>();
+            XmlSerialization<Skill> skillSerialize = new XmlSerialization<Skill>();
+            XmlSerialization<Material> materialSerialize = new XmlSerialization<Material>();
 
             User user = new User()
             {

@@ -6,8 +6,8 @@ using DataAccessLayer.Serialization;
 
 namespace DataAccessLayer.DataContext
 {
-    public class UserContext
+    public class SerializeContext
     {
-        public UserSerialization<User> Users = new UserSerialization<User>();
+        public XmlSerialization<User> Users = new UserSerialization<User>();
     }
 }
