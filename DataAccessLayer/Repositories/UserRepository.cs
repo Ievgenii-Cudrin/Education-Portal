@@ -9,8 +9,8 @@ namespace DataAccessLayer.Repositories
 {
     public class UserRepository : IRepository<User>
     {
-        private UserContext _context;
-        public UserRepository(UserContext context)
+        private XmlSerializeContext _context;
+        public UserRepository(XmlSerializeContext context)
         {
             this._context = context;
         }

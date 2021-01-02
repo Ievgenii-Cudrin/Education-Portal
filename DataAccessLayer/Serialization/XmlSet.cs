@@ -11,13 +11,13 @@ using System.Text.RegularExpressions;
 
 namespace DataAccessLayer.Serialization
 {
-    public class XmlSerialization<T>
+    public class XmlSet<T>   //XmlSerialization
     {
         Type type;
         XmlSerializer serializer;
         DirectoryInfo directory;
 
-        public XmlSerialization() 
+        public XmlSet() 
         { 
             type = typeof(T);
             serializer = new XmlSerializer(typeof(T));
