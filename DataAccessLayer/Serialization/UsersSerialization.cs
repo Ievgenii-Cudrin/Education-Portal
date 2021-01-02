@@ -75,9 +75,10 @@ namespace DataAccessLayer.Serialization
 
         public void UpdateObject(T objectToUpdate)
         {
-            FileStream fs = new FileStream($"{type.Name}/{type.Name}{typeof(T).GetProperty("Id").GetValue(objectToUpdate)}.xml", FileMode.OpenOrCreate);
-            serializer.Serialize(fs, objectToUpdate);
-            fs.Close();
+            using (FileStream fs = new FileStream($"{type.Name}/{type.Name}{typeof(T).GetProperty("Id").GetValue(objectToUpdate)}.xml", FileMode.OpenOrCreate))
+            {
+                serializer.Serialize(fs, objectToUpdate);
+            }
         }
 
         private int GenareteId()
