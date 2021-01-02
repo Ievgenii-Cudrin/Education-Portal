@@ -31,7 +31,7 @@ namespace DataAccessLayer.Repositories
 
         public IEnumerable<User> GetAll()
         {
-            return _context.Users.GetAllUsersFromXml();
+            return _context.Users.GetAllFromXml();
         }
 
         public void Update(User item)

@@ -35,10 +35,9 @@ namespace DataAccessLayer.Serialization
             fs.Close();
         }
 
-        public IEnumerable<T> GetAllUsersFromXml()
+        public IEnumerable<T> GetAllFromXml()
         {
             List<T> users = new List<T>();
-
 
             DirectoryInfo d = new DirectoryInfo($"{type.Name}");//Assuming Test is your Folder
             FileInfo[] files = d.GetFiles("*.xml"); //Getting Text files
@@ -66,16 +65,9 @@ namespace DataAccessLayer.Serialization
 
         public void DeleteUserFromXml(int id)
         {
-            //Find node by name
-            //XmlNode nodeToDelete = xmlDocument.DocumentElement.SelectSingleNode($"user[Name='{name}']");
-
-            //Find noed by id
-            XmlNode nodeToDelete = xmlDocument.DocumentElement.SelectSingleNode($"user[@id='{id.ToString()}']");
-            if (nodeToDelete != null)
-            {
-                xmlDocument.DocumentElement.RemoveChild(nodeToDelete);
-                xmlDocument.Save(pathToDocument);
-            }
+            DirectoryInfo d = new DirectoryInfo($"{type.Name}");//Assuming Test is your Folder
+            FileInfo file = d.GetFiles($"{type.Name}{id}.xml").FirstOrDefault();//.Where(x => x.Name == $"{type.Name}{id}").FirstOrDefault();
+            file.Delete();
         }
 
         public void UpdateObject(User user)

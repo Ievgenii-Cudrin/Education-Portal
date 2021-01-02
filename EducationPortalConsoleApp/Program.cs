@@ -23,8 +23,9 @@ namespace EducationPortalConsoleApp
 
             User user2 = serialize.GetSingleUserFromXml(722);
 
-            IEnumerable<User> users = serialize.GetAllUsersFromXml();
+            IEnumerable<User> users = serialize.GetAllFromXml();
 
+            serialize.DeleteUserFromXml(722);
 
             //new ProgramService().StartApp();
 
