@@ -20,6 +20,8 @@ namespace EducationPortalConsoleApp
             };
 
             serialize.AddObjectToXml(user);
+
+            User user2 = serialize.GetSingleUserFromXml(722);
             //new ProgramService().StartApp();
 
             Console.ReadLine();

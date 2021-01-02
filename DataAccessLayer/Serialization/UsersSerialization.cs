@@ -63,25 +63,13 @@ namespace DataAccessLayer.Serialization
             return users;
         }
 
-        public User GetSingleUserFromXml(int id)
+        public T GetSingleUserFromXml(int id)
         {
-            //XmlNode childnode = xmlDocument.DocumentElement.SelectSingleNode($"user[@id='{id.ToString()}']");
-            User user = new User();
-            foreach (XElement userElement in xDocument.Element("rootElement").Elements("user"))
-            {
-                XAttribute nameAttribute = userElement.Attribute("id");
-
-                if (nameAttribute != null && Convert.ToInt32(nameAttribute.Value) == id)
-                {
-                    user.Id = userElement.Attribute("id").Value;
-                    user.Name = userElement.Element("Name").Value;
-                    user.Email = userElement.Element("Email").Value;
-                    user.PhoneNumber = userElement.Element("PhoneNumber").Value;
-                    break;
-                }
-            }
-
-            return user;
+            T objectFromXml;
+            XmlSerializer serializer = new XmlSerializer(typeof(T));
+            FileStream fs = new FileStream($"{type.Name}/{type.Name}{id}.xml", FileMode.Open);
+            objectFromXml = (T)serializer.Deserialize(fs);
+            return objectFromXml;
         }
 
         public void DeleteUserFromXml(int id)
