@@ -103,10 +103,24 @@ namespace EducationPortalConsoleApp.Helpers
 
             if (countOfPages < 1)
             {
-                Console.WriteLine("Еhe number of book pages must be more than 1. Please, try again!");
+                Console.WriteLine("The number of book pages must be more than 1. Please, try again!");
                 goto EnterCountOfPages;
             }
             return countOfPages;
+        }
+
+        public static int GetDurationOfVideo()
+        {
+            EnterCountOfPages:
+            Console.WriteLine($"Enter video duration in minutes: ");
+            int videoDuration = Convert.ToInt32(Console.ReadLine());
+
+            if (videoDuration < 1)
+            {
+                Console.WriteLine("Video duration in minutes must be more than 1. Please, try again!");
+                goto EnterCountOfPages;
+            }
+            return videoDuration;
         }
     }
 }

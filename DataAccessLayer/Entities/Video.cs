@@ -15,6 +15,6 @@ namespace DataAccessLayer.Entities
         public string Quality { get; set; }
 
         [XmlElement("Duration")]
-        public string Duration { get; set; }
+        public int Duration { get; set; }
     }
 }
