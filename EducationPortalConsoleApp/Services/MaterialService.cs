@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.Interfaces;
+﻿using DataAccessLayer.Entities;
+using DataAccessLayer.Interfaces;
 using DataAccessLayer.Repositories;
 using EducationPortalConsoleApp.Helpers;
 using System;
@@ -16,7 +17,7 @@ namespace EducationPortalConsoleApp.Services
         }
         public void StartApp()
         {
-            MaterialConsoleMessageHelper.ShowTextForChoice();
+            MaterialConsoleMessageHelper.ShowTextForChoiceCRUDMethod();
 
             string userChoice = Console.ReadLine();
 
@@ -41,7 +42,28 @@ namespace EducationPortalConsoleApp.Services
 
             void CreateMaterial()
             {
-                _uow.Users.Create(UserGetDataHelper.GenerateObjectFromUser());
+                MaterialConsoleMessageHelper.ShowTextForChoiceKindOfMaterial();
+                string kindOfMaterial = Console.ReadLine();
+                Material material;
+                switch (userChoice)
+                {
+                    case "1":
+                        material = CreateVideo();
+                        _uow.Materials.Create(material);
+                        break;
+                    case "2":
+                        material = CreateBook();
+                        _uow.Materials.Create(material);
+                        break;
+                    case "3":
+                        material = CreateArticle();
+                        _uow.Materials.Create(material);
+                        break;
+                    default:
+                        Console.WriteLine("Default case");
+                        break;
+                }
+
             }
         }
     }
