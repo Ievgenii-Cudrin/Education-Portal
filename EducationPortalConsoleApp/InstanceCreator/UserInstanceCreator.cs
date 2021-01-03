@@ -10,9 +10,9 @@ namespace EducationPortalConsoleApp.InstanceCreator
     {
         public static User UserCreator() => new User()
         {
-            Name = UserGetDataHelper.GetNameFromUser(),
-            Email = UserGetDataHelper.GetEmailFromUser(),
-            PhoneNumber = UserGetDataHelper.GetPhoneNumberFromUser()
+            Name = GetDataHelper.GetNameFromUser(),
+            Email = GetDataHelper.GetEmailFromUser(),
+            PhoneNumber = GetDataHelper.GetPhoneNumberFromUser()
         };
     }
 }

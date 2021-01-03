@@ -7,9 +7,11 @@ namespace EducationPortalConsoleApp.InstanceCreator
 {
     public static class BookInstanceCreator
     {
-        public static Book BookCreator()
+        public static Book BookCreator() => new Book()
         {
-            return null;
-        }
+            Name = "",
+            Author = "",
+            CountOfPages = 0
+        };
     }
 }

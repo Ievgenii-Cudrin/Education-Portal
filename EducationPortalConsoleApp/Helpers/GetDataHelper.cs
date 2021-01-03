@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace EducationPortalConsoleApp.Helpers
 {
-    public static class UserGetDataHelper
+    public static class GetDataHelper
     {
         public static string GetPhoneNumberFromUser()
         {
@@ -49,6 +49,23 @@ namespace EducationPortalConsoleApp.Helpers
                 goto EnterName;
             }
             return name;
+        }
+
+        public static DateTime GetDateTime()
+        {
+            Console.WriteLine("Enter a date (e.g. 10/22/1987): ");
+            DateTime userDateTime;
+            TrySetNewDate:
+            if (DateTime.TryParse(Console.ReadLine(), out userDateTime))
+            {
+                return userDateTime;
+            }
+            else
+            {
+                Console.WriteLine("You have entered an incorrect value.");
+                goto TrySetNewDate;
+            }
+            Console.ReadLine();
         }
     }
 }

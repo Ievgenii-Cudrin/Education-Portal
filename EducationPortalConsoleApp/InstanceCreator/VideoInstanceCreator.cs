@@ -7,9 +7,12 @@ namespace EducationPortalConsoleApp.InstanceCreator
 {
     public static class VideoInstanceCreator
     {
-        public static Video VideoCreator()
+        public static Video VideoCreator() => new Video()
         {
-            return null;
-        }
+            Name = "",
+            Duration = "",
+            Link = "",
+            Quality = ""
+        };
     }
 }

@@ -44,7 +44,7 @@ namespace EducationPortalConsoleApp.Services
 
             void CreateUser()
             {
-                _uow.Users.Create(UserInstanceCreator);
+                _uow.Users.Create(UserInstanceCreator.UserCreator());
             }
 
             void UpdateUser()
@@ -59,9 +59,9 @@ namespace EducationPortalConsoleApp.Services
                 }
                 else
                 {
-                    user.Name = UserGetDataHelper.GetNameFromUser();
-                    user.Email = UserGetDataHelper.GetEmailFromUser();
-                    user.PhoneNumber = UserGetDataHelper.GetPhoneNumberFromUser();
+                    user.Name = GetDataHelper.GetNameFromUser();
+                    user.Email = GetDataHelper.GetEmailFromUser();
+                    user.PhoneNumber = GetDataHelper.GetPhoneNumberFromUser();
 
                     _uow.Users.Update(user);
                 }

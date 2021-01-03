@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer.Entities;
+using EducationPortalConsoleApp.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,9 +8,11 @@ namespace EducationPortalConsoleApp.InstanceCreator
 {
     public static class ArticleInstanceCreator
     {
-        public static Article ArticleCreator()
+        public static Article ArticleCreator() => new Article()
         {
-            return null;
-        }
+            Name = GetDataHelper.GetNameFromUser(),
+            PublicationDate = new DateTime(0,0,0),
+            Site = ""
+        };
     }
 }
