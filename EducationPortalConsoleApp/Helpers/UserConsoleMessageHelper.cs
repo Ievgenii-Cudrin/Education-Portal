@@ -5,7 +5,7 @@ using System.Text;
 
 namespace EducationPortalConsoleApp.Helpers
 {
-    public class ConsoleMessageHelper
+    public class UserConsoleMessageHelper
     {
         public static void ShowTextForChoice()
         {
@@ -16,7 +16,7 @@ namespace EducationPortalConsoleApp.Helpers
             $"\n4.Delete user");
         }
 
-        public static void ShowObjects(List<User> users)
+        public static void ShowObjects(IEnumerable<User> users)
         {
             foreach (var user in users)
             {

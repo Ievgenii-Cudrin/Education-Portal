@@ -18,7 +18,7 @@ namespace EducationPortalConsoleApp.Services
         }
         public void StartApp()
         {
-            ShowTextForChoice();
+            UserConsoleMessageHelper.ShowTextForChoice();
 
             string userChoice = Console.ReadLine();
 
@@ -43,7 +43,7 @@ namespace EducationPortalConsoleApp.Services
 
             void CreateUser()
             {
-                _uow.Users.Create(GetDataFromUserHelper.GenerateObjectFromUser());
+                _uow.Users.Create(UserGetDataHelper.GenerateObjectFromUser());
             }
 
             void UpdateUser()
@@ -58,9 +58,9 @@ namespace EducationPortalConsoleApp.Services
                 }
                 else
                 {
-                    user.Name = GetDataFromUserHelper.GetNameFromUser();
-                    user.Email = GetDataFromUserHelper.GetEmailFromUser();
-                    user.PhoneNumber = GetDataFromUserHelper.GetPhoneNumberFromUser();
+                    user.Name = UserGetDataHelper.GetNameFromUser();
+                    user.Email = UserGetDataHelper.GetEmailFromUser();
+                    user.PhoneNumber = UserGetDataHelper.GetPhoneNumberFromUser();
 
                     _uow.Users.Update(user);
                 }
@@ -70,7 +70,7 @@ namespace EducationPortalConsoleApp.Services
             void ShowAllUsers()
             {
                 IEnumerable<User> users = _uow.Users.GetAll();
-                
+                UserConsoleMessageHelper.ShowObjects(users);
             }
 
             void DeleteUser()
