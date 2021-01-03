@@ -122,5 +122,19 @@ namespace EducationPortalConsoleApp.Helpers
             }
             return videoDuration;
         }
+
+        public static string GetVideoQuality()
+        {
+            EnterQuality:
+            Console.WriteLine($"Enter video quality: ");
+            string videoQuality = Console.ReadLine();
+
+            if (String.IsNullOrEmpty(videoQuality))
+            {
+                Console.WriteLine("Video quality must not be empty. Please, try again!");
+                goto EnterQuality;
+            }
+            return videoQuality;
+        }
     }
 }

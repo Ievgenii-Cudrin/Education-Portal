@@ -2,6 +2,7 @@
 using DataAccessLayer.Interfaces;
 using DataAccessLayer.Repositories;
 using EducationPortalConsoleApp.Helpers;
+using EducationPortalConsoleApp.InstanceCreator;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,6 +16,7 @@ namespace EducationPortalConsoleApp.Services
         {
             this._uow = new EFUnitOfWork();
         }
+
         public void StartApp()
         {
             MaterialConsoleMessageHelper.ShowTextForChoiceCRUDMethod();
@@ -40,46 +42,47 @@ namespace EducationPortalConsoleApp.Services
                     break;
             }
 
-            void CreateMaterial()
-            {
-                MaterialConsoleMessageHelper.ShowTextForChoiceKindOfMaterial();
-                string kindOfMaterial = Console.ReadLine();
-                Material material;
-                switch (userChoice)
-                {
-                    case "1":
-                        material = MaterialGetDataHelper.CreateVideo();
-                        _uow.Materials.Create(material);
-                        break;
-                    case "2":
-                        material = MaterialGetDataHelper.CreateBook();
-                        _uow.Materials.Create(material);
-                        break;
-                    case "3":
-                        material = MaterialGetDataHelper.CreateArticle();
-                        _uow.Materials.Create(material);
-                        break;
-                    default:
-                        Console.WriteLine("Default case");
-                        break;
-                }
+        }
 
+        void CreateMaterial()
+        {
+            MaterialConsoleMessageHelper.ShowTextForChoiceKindOfMaterial();
+            string kindOfMaterial = Console.ReadLine();
+            Material material;
+            switch (kindOfMaterial)
+            {
+                case "1":
+                    material = VideoInstanceCreator.VideoCreator();
+                    _uow.Materials.Create(material);
+                    break;
+                case "2":
+                    material = BookInstanceCreator.BookCreator();
+                    _uow.Materials.Create(material);
+                    break;
+                case "3":
+                    material = ArticleInstanceCreator.ArticleCreator();
+                    _uow.Materials.Create(material);
+                    break;
+                default:
+                    Console.WriteLine("Default case");
+                    break;
             }
 
-            void UpdateMaterial()
-            {
+        }
 
-            }
+        void UpdateMaterial()
+        {
 
-            void ShowAllMaterials()
-            {
+        }
 
-            }
+        void ShowAllMaterials()
+        {
 
-            void DeleteMaterial()
-            {
+        }
 
-            }
+        void DeleteMaterial()
+        {
+
         }
     }
 }
