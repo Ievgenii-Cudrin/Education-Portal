@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace EducationPortalConsoleApp.Helpers
 {
-    public static class Helper
+    public static class GetDataFromUserHelper
     {
         public static string GetPhoneNumberFromUser()
         {
@@ -51,20 +51,12 @@ namespace EducationPortalConsoleApp.Helpers
             return name;
         }
 
-        public static void ShowTextForChoice()
-        {
-            Console.WriteLine($"Hi, dear user. Please, make your choice: " +
-            $"\n1.Create user" +
-            $"\n2.Update user" +
-            $"\n3.Show all users" +
-            $"\n4.Delete user");
-        }
 
         public static User GenerateObjectFromUser() => new User()
         {
-            Name = Helper.GetNameFromUser(),
-            Email = Helper.GetEmailFromUser(),
-            PhoneNumber = Helper.GetPhoneNumberFromUser()
+            Name = GetDataFromUserHelper.GetNameFromUser(),
+            Email = GetDataFromUserHelper.GetEmailFromUser(),
+            PhoneNumber = GetDataFromUserHelper.GetPhoneNumberFromUser()
         };
     }
 }
