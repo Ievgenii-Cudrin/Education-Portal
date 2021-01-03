@@ -53,9 +53,9 @@ namespace EducationPortalConsoleApp.Helpers
 
         public static DateTime GetDateTime()
         {
+            TrySetNewDate:
             Console.WriteLine("Enter a date (e.g. 10/22/1987): ");
             DateTime userDateTime;
-            TrySetNewDate:
             if (DateTime.TryParse(Console.ReadLine(), out userDateTime))
             {
                 return userDateTime;
@@ -65,7 +65,20 @@ namespace EducationPortalConsoleApp.Helpers
                 Console.WriteLine("You have entered an incorrect value.");
                 goto TrySetNewDate;
             }
-            Console.ReadLine();
+        }
+
+        public static string GetSiteAdressFromUser()
+        {
+        EnterName:
+            Console.WriteLine($"Enter site: ");
+            string site = Console.ReadLine();
+
+            if (String.IsNullOrEmpty(site))
+            {
+                Console.WriteLine("Name must not be empty. Please, try again!");
+                goto EnterName;
+            }
+            return site;
         }
     }
 }

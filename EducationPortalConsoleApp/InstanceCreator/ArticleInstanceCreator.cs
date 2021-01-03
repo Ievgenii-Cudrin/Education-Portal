@@ -11,7 +11,7 @@ namespace EducationPortalConsoleApp.InstanceCreator
         public static Article ArticleCreator() => new Article()
         {
             Name = GetDataHelper.GetNameFromUser(),
-            PublicationDate = new DateTime(0,0,0),
+            PublicationDate = GetDataHelper.GetDateTime(),
             Site = ""
         };
     }
