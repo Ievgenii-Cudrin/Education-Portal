@@ -2,6 +2,7 @@
 using DataAccessLayer.Interfaces;
 using DataAccessLayer.Repositories;
 using EducationPortalConsoleApp.Helpers;
+using EducationPortalConsoleApp.InstanceCreator;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -43,7 +44,7 @@ namespace EducationPortalConsoleApp.Services
 
             void CreateUser()
             {
-                _uow.Users.Create(UserGetDataHelper.GenerateObjectFromUser());
+                _uow.Users.Create(UserInstanceCreator);
             }
 
             void UpdateUser()

@@ -50,13 +50,5 @@ namespace EducationPortalConsoleApp.Helpers
             }
             return name;
         }
-
-
-        public static User GenerateObjectFromUser() => new User()
-        {
-            Name = UserGetDataHelper.GetNameFromUser(),
-            Email = UserGetDataHelper.GetEmailFromUser(),
-            PhoneNumber = UserGetDataHelper.GetPhoneNumberFromUser()
-        };
     }
 }

@@ -1,10 +1,15 @@
-﻿using System;
+﻿using DataAccessLayer.Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace EducationPortalConsoleApp.InstanceCreator
 {
-    class VideoInstanceCreator
+    public static class VideoInstanceCreator
     {
+        public static Video VideoCreator()
+        {
+            return null;
+        }
     }
 }
