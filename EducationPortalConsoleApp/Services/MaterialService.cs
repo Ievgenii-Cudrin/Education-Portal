@@ -65,6 +65,21 @@ namespace EducationPortalConsoleApp.Services
                 }
 
             }
+
+            void UpdateMaterial()
+            {
+
+            }
+
+            void ShowAllMaterials()
+            {
+
+            }
+
+            void DeleteMaterial()
+            {
+
+            }
         }
     }
 }
