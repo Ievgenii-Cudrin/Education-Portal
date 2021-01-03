@@ -109,7 +109,7 @@ namespace EducationPortalConsoleApp.Helpers
             return countOfPages;
         }
 
-        public static int GetDurationOfVideo()
+        public static int GetVideoDuration()
         {
             EnterCountOfPages:
             Console.WriteLine($"Enter video duration in minutes: ");

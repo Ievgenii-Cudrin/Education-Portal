@@ -72,7 +72,20 @@ namespace EducationPortalConsoleApp.Services
 
         void UpdateMaterial()
         {
+            Console.Write($"Enter material ID to update: ");
+            int id = Convert.ToInt32(Console.ReadLine());
 
+            Material material = _uow.Materials.Get(id);
+            if (material == null)
+            {
+                Console.WriteLine($"Material not found");
+            }
+            else
+            {
+                //TODO
+
+                _uow.Materials.Update(material);
+            }
         }
 
         void ShowAllMaterials()

@@ -11,9 +11,9 @@ namespace EducationPortalConsoleApp.InstanceCreator
         public static Video VideoCreator() => new Video()
         {
             Name = GetDataHelper.GetNameFromUser(),
-            Duration = GetDataHelper.GetDurationOfVideo(),
+            Duration = GetDataHelper.GetVideoDuration(),
             Link = GetDataHelper.GetSiteAddressFromUser(),
-            Quality = ""
+            Quality = GetDataHelper.GetVideoQuality()
         };
     }
 }
