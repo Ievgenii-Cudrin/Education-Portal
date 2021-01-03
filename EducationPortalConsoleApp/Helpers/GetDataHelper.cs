@@ -51,7 +51,7 @@ namespace EducationPortalConsoleApp.Helpers
             return name;
         }
 
-        public static DateTime GetDateTime()
+        public static DateTime GetDateTimeFromUser()
         {
             TrySetNewDate:
             Console.WriteLine("Enter a date (e.g. 10/22/1987): ");
@@ -69,7 +69,7 @@ namespace EducationPortalConsoleApp.Helpers
 
         public static string GetSiteAdressFromUser()
         {
-        EnterName:
+            EnterName:
             Console.WriteLine($"Enter site: ");
             string site = Console.ReadLine();
 
@@ -79,6 +79,20 @@ namespace EducationPortalConsoleApp.Helpers
                 goto EnterName;
             }
             return site;
+        }
+
+        public static string GetAuthorNameFromUser()
+        {
+            EnterAuthorName:
+            Console.WriteLine($"Enter author name: ");
+            string authorName = Console.ReadLine();
+
+            if (String.IsNullOrEmpty(authorName))
+            {
+                Console.WriteLine("Name must not be empty. Please, try again!");
+                goto EnterAuthorName;
+            }
+            return authorName;
         }
     }
 }

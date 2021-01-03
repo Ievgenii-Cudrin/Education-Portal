@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer.Entities;
+using EducationPortalConsoleApp.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,7 +10,7 @@ namespace EducationPortalConsoleApp.InstanceCreator
     {
         public static Book BookCreator() => new Book()
         {
-            Name = "",
+            Name = GetDataHelper.GetNameFromUser(),
             Author = "",
             CountOfPages = 0
         };
