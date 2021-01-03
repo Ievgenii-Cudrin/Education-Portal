@@ -96,7 +96,14 @@ namespace EducationPortalConsoleApp.Services
 
         void DeleteMaterial()
         {
+            Console.Write($"Enter material ID to delete: ");
+            int id = Convert.ToInt32(Console.ReadLine());
 
+            Material material = _uow.Materials.Get(id);
+            if (material == null)
+                Console.WriteLine($"User not found");
+            else
+                _uow.Materials.Delete(Convert.ToInt32(material.Id));
         }
     }
 }
