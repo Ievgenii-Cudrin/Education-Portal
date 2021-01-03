@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EducationPortalConsoleApp.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -9,21 +10,23 @@ namespace EducationPortalConsoleApp.Services
         public static void SelectEntityToWork()
         {
             //TODO Console - 
+            ProgramServiceConsoleMessageHelper.ShowTextWithEntityToSelect();
+
             string userChoice = Console.ReadLine();
 
             switch (userChoice)
             {
                 case "1":
-                    CreateMaterial();
+                    new UserService().StartWorkWithUser();
                     break;
                 case "2":
-                    UpdateMaterial();
+                    new MaterialService().StartWorkWithMaterial();
                     break;
                 case "3":
-                    ShowAllMaterials();
+                    //ShowAllMaterials();
                     break;
                 case "4":
-                    DeleteMaterial();
+                    //DeleteMaterial();
                     break;
                 default:
                     Console.WriteLine("Default case");

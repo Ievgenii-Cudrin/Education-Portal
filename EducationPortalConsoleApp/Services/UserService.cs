@@ -17,7 +17,7 @@ namespace EducationPortalConsoleApp.Services
         {
             this._uow = new EFUnitOfWork();
         }
-        public void StartApp()
+        public void StartWorkWithUser()
         {
             UserConsoleMessageHelper.ShowTextForChoice();
 
