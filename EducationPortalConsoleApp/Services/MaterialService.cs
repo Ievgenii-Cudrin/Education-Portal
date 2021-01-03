@@ -90,7 +90,8 @@ namespace EducationPortalConsoleApp.Services
 
         void ShowAllMaterials()
         {
-
+            IEnumerable<Material> materials = _uow.Materials.GetAll();
+            //MaterialConsoleMessageHelper.ShowObjects(users);
         }
 
         void DeleteMaterial()
