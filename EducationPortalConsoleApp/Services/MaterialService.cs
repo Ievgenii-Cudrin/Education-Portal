@@ -48,15 +48,15 @@ namespace EducationPortalConsoleApp.Services
                 switch (userChoice)
                 {
                     case "1":
-                        material = CreateVideo();
+                        material = MaterialGetDataHelper.CreateVideo();
                         _uow.Materials.Create(material);
                         break;
                     case "2":
-                        material = CreateBook();
+                        material = MaterialGetDataHelper.CreateBook();
                         _uow.Materials.Create(material);
                         break;
                     case "3":
-                        material = CreateArticle();
+                        material = MaterialGetDataHelper.CreateArticle();
                         _uow.Materials.Create(material);
                         break;
                     default:
