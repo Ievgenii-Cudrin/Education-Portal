@@ -67,7 +67,7 @@ namespace EducationPortalConsoleApp.Helpers
             }
         }
 
-        public static string GetSiteAdressFromUser()
+        public static string GetSiteAddressFromUser()
         {
             EnterName:
             Console.WriteLine($"Enter site: ");
@@ -75,7 +75,7 @@ namespace EducationPortalConsoleApp.Helpers
 
             if (String.IsNullOrEmpty(site))
             {
-                Console.WriteLine("Name must not be empty. Please, try again!");
+                Console.WriteLine("Site address must not be empty. Please, try again!");
                 goto EnterName;
             }
             return site;
@@ -93,6 +93,20 @@ namespace EducationPortalConsoleApp.Helpers
                 goto EnterAuthorName;
             }
             return authorName;
+        }
+
+        public static int GetCountOfBookPages()
+        {
+            EnterCountOfPages:
+            Console.WriteLine($"Enter count of book pages: ");
+            int countOfPages = Convert.ToInt32(Console.ReadLine());
+
+            if (countOfPages < 1)
+            {
+                Console.WriteLine("Еhe number of book pages must be more than 1. Please, try again!");
+                goto EnterCountOfPages;
+            }
+            return countOfPages;
         }
     }
 }

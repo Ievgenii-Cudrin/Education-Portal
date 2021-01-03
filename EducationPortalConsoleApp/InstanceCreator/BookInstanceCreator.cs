@@ -11,8 +11,8 @@ namespace EducationPortalConsoleApp.InstanceCreator
         public static Book BookCreator() => new Book()
         {
             Name = GetDataHelper.GetNameFromUser(),
-            Author = "",
-            CountOfPages = 0
+            Author = GetDataHelper.GetAuthorNameFromUser(),
+            CountOfPages = GetDataHelper.GetCountOfBookPages()
         };
     }
 }

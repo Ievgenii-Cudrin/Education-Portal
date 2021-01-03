@@ -12,7 +12,7 @@ namespace EducationPortalConsoleApp.InstanceCreator
         {
             Name = GetDataHelper.GetNameFromUser(),
             PublicationDate = GetDataHelper.GetDateTimeFromUser(),
-            Site = GetDataHelper.GetSiteAdressFromUser()
+            Site = GetDataHelper.GetSiteAddressFromUser()
         };
     }
 }
