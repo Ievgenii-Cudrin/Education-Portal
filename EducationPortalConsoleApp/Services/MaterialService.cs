@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer.Interfaces;
 using DataAccessLayer.Repositories;
+using EducationPortalConsoleApp.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,7 +16,7 @@ namespace EducationPortalConsoleApp.Services
         }
         public void StartApp()
         {
-            UserConsoleMessageHelper.ShowTextForChoice();
+            MaterialConsoleMessageHelper.ShowTextForChoice();
 
             string userChoice = Console.ReadLine();
 
@@ -40,7 +41,7 @@ namespace EducationPortalConsoleApp.Services
 
             void CreateMaterial()
             {
-                _uow.Users.Create();
+                _uow.Users.Create(UserGetDataHelper.GenerateObjectFromUser());
             }
         }
     }
