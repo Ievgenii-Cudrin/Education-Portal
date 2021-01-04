@@ -11,7 +11,7 @@ using System.Text.RegularExpressions;
 
 namespace DataAccessLayer.Serialization
 {
-    public class XmlSet<T>   //XmlSerialization
+    public class XmlSet<T> where T : class  //XmlSerialization
     {
         Type type;
         XmlSerializer serializer;
@@ -58,12 +58,26 @@ namespace DataAccessLayer.Serialization
         public T Get(int id)
         {
             T objectFromXml;
-            using(FileStream fs = new FileStream($"{type.Name}/{type.Name}{id}.xml", FileMode.Open))
+            FileInfo file;
+            try
             {
-                objectFromXml = (T)serializer.Deserialize(fs);
+                file = directory.GetFiles($"{type.Name}/{type.Name}{id}.xml").FirstOrDefault();
+                if (file.Exists)
+                {
+                    using (FileStream fs = new FileStream(file.Name, FileMode.Open))
+                    {
+                        objectFromXml = (T)serializer.Deserialize(fs);
+                    }
+                    return objectFromXml;
+                }
+            }
+            catch(Exception ex)
+            {
+                
             }
             
-            return objectFromXml;
+            
+            return null;
         }
 
         public void Delete(int id)

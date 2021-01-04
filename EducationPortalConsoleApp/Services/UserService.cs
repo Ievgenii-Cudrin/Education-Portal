@@ -60,7 +60,7 @@ namespace EducationPortalConsoleApp.Services
                 User user = _uow.Users.Get(id);
                 if (user == null)
                 {
-                    Console.WriteLine($"User not found");
+                    Console.WriteLine($"\nUser not found");
                 }
                 else
                 {
@@ -91,7 +91,7 @@ namespace EducationPortalConsoleApp.Services
                 User user = _uow.Users.Get(id);
                 if (user == null)
                 {
-                    Console.WriteLine($"User not found");
+                    Console.WriteLine($"\nUser not found");
                 }
                 else
                 {
