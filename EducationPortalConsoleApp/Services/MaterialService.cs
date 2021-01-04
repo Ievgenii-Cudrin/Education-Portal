@@ -37,6 +37,9 @@ namespace EducationPortalConsoleApp.Services
                 case "4":
                     DeleteMaterial();
                     break;
+                case "5":
+                    ProgramService.SelectEntityToWork();
+                    break;
                 default:
                     Console.WriteLine("Default case");
                     break;
@@ -54,20 +57,26 @@ namespace EducationPortalConsoleApp.Services
                 case "1":
                     material = VideoInstanceCreator.VideoCreator();
                     _uow.Materials.Create(material);
+                    MaterialConsoleMessageHelper.MaterialCreated();
                     break;
                 case "2":
                     material = BookInstanceCreator.BookCreator();
                     _uow.Materials.Create(material);
+                    MaterialConsoleMessageHelper.MaterialCreated();
                     break;
                 case "3":
                     material = ArticleInstanceCreator.ArticleCreator();
                     _uow.Materials.Create(material);
+                    MaterialConsoleMessageHelper.MaterialCreated();
+                    break;
+                case "4":
+                    StartWorkWithMaterial();
                     break;
                 default:
-                    Console.WriteLine("Default case");
+                    Console.WriteLine("Default case. Please, try again!");
+                    CreateMaterial();
                     break;
             }
-
         }
 
         void UpdateMaterial()

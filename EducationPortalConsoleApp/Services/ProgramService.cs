@@ -22,12 +22,12 @@ namespace EducationPortalConsoleApp.Services
                 case "2":
                     new MaterialService().StartWorkWithMaterial();
                     break;
-                case "3":
-                    //ShowAllMaterials();
-                    break;
-                case "4":
-                    //DeleteMaterial();
-                    break;
+                //case "3":
+                //    //ShowAllMaterials();
+                //    break;
+                //case "4":
+                //    //DeleteMaterial();
+                //    break;
                 default:
                     Console.WriteLine("Default case");
                     break;

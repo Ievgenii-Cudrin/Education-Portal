@@ -37,6 +37,9 @@ namespace EducationPortalConsoleApp.Services
                 case "4":
                     DeleteUser();
                     break;
+                case "5":
+                    ProgramService.SelectEntityToWork();
+                    break;
                 default:
                     Console.WriteLine("Default case");
                     break;

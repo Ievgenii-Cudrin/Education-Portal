@@ -8,19 +8,27 @@ namespace EducationPortalConsoleApp.Helpers
     {
         public static void ShowTextForChoiceCRUDMethod()
         {
-            Console.WriteLine($"Hi, dear user. Please, make your choice: " +
+            Console.WriteLine($"Okey. Make the next choice to continue: " +
             $"\n1.Add material" +
             $"\n2.Update material" +
             $"\n3.Show all materials" +
-            $"\n4.Delete material");
+            $"\n4.Delete material" +
+            $"\n5.Return");
         }
 
         public static void ShowTextForChoiceKindOfMaterial()
         {
-            Console.WriteLine($"Hi, dear user. Please, make your choice: " +
+            Console.WriteLine($"Make the next choice to continue: " +
             $"\n1.Add video" +
             $"\n2.Add book" +
-            $"\n3.Add article");
+            $"\n3.Add article" +
+            $"\n4.Return");
+        }
+
+        public static void MaterialCreated()
+        {
+            Console.WriteLine("Material successfully created." +
+            $"\nSelect next choice");
         }
     }
 }

@@ -10,9 +10,10 @@ namespace EducationPortalConsoleApp.Helpers
         {
             Console.WriteLine($"Hi, dear user. Please, make your choice: " +
             $"\n1.Operation with users" +
-            $"\n2.Operation with materials" +
-            $"\n3.Operation with courses" +
-            $"\n4.Operation with skills");
+            $"\n2.Operation with materials"
+            //$"\n3.Operation with courses" +
+            //$"\n4.Operation with skills"
+            );
         }
     }
 }
