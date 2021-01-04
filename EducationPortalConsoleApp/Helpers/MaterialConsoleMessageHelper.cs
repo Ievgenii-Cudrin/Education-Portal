@@ -34,8 +34,33 @@ namespace EducationPortalConsoleApp.Helpers
         }
 
 
-        public static void ShowVideoInfo(Material video) { }
-        public static void ShowArticleInfo(Material article) { }
-        public static void ShowBookInfo(Material book) { }
+        public static void ShowVideoInfo(Material video)
+        {
+            Video copyOfInputParametrVideo = (Video)video;
+            Console.WriteLine($"Id: {copyOfInputParametrVideo.Id}");
+            Console.WriteLine($"Name: {copyOfInputParametrVideo.Name}");
+            Console.WriteLine($"Link: {copyOfInputParametrVideo.Link}");
+            Console.WriteLine($"Video quality: {copyOfInputParametrVideo.Quality}");
+            Console.WriteLine("---------------------------");
+        }
+        public static void ShowArticleInfo(Material article)
+        {
+            Article copyOfInputParametrArtivle = (Article)article;
+            Console.WriteLine($"Id: {copyOfInputParametrArtivle.Id}");
+            Console.WriteLine($"Name: {copyOfInputParametrArtivle.Name}");
+            Console.WriteLine($"Link: {copyOfInputParametrArtivle.PublicationDate}");
+            Console.WriteLine($"Video quality: {copyOfInputParametrArtivle.Site}");
+            Console.WriteLine("---------------------------");
+        }
+
+        public static void ShowBookInfo(Material book)
+        {
+            Book copyOfInputParametrBook = (Book)book;
+            Console.WriteLine($"Id: {copyOfInputParametrBook.Id}");
+            Console.WriteLine($"Book name: {copyOfInputParametrBook.Name}");
+            Console.WriteLine($"Book author: {copyOfInputParametrBook.Author}");
+            Console.WriteLine($"Count of book pages: {copyOfInputParametrBook.CountOfPages}");
+            Console.WriteLine("---------------------------");
+        }
     }
 }

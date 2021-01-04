@@ -9,7 +9,7 @@ namespace DataAccessLayer.Entities
     [XmlInclude(typeof(Skill)), XmlInclude(typeof(Material))]
     public class Course
     {
-        [XmlAttribute("CourseID")]
+        [XmlElement("CourseID")]
         public string Id { get; set; }
 
         [XmlElement("Description")]

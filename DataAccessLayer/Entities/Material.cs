@@ -9,7 +9,7 @@ namespace DataAccessLayer.Entities
     [XmlInclude(typeof(Video)), XmlInclude(typeof(Book)), XmlInclude(typeof(Article))]
     public class Material
     {
-        [XmlAttribute("MaterialID", DataType = "string")]
+        [XmlElement("MaterialID")]
         public string Id { get; set; }
 
         [XmlElement("Name")]
