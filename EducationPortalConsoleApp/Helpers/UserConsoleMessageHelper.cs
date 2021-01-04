@@ -9,11 +9,12 @@ namespace EducationPortalConsoleApp.Helpers
     {
         public static void ShowTextForChoice()
         {
-            Console.WriteLine($"Hi, dear user. Please, make your choice: " +
+            Console.WriteLine($"Okey. Make the next choice to continue: " +
             $"\n1.Create user" +
             $"\n2.Update user" +
             $"\n3.Show all users" +
-            $"\n4.Delete user");
+            $"\n4.Delete user" +
+            $"\n5.Return");
         }
 
         public static void ShowObjects(IEnumerable<User> users)

@@ -30,6 +30,7 @@ namespace EducationPortalConsoleApp.Services
                 //    break;
                 default:
                     Console.WriteLine("Default case");
+                    SelectEntityToWork();
                     break;
             }
         }

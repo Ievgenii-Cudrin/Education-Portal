@@ -81,6 +81,7 @@ namespace EducationPortalConsoleApp.Services
 
         void UpdateMaterial()
         {
+            //TODO finish this method
             Console.Write($"Enter material ID to update: ");
             int id = Convert.ToInt32(Console.ReadLine());
 

@@ -48,6 +48,8 @@ namespace EducationPortalConsoleApp.Services
             void CreateUser()
             {
                 _uow.Users.Create(UserInstanceCreator.UserCreator());
+                Console.WriteLine("User created successfully! You can continue. \n");
+                StartWorkWithUser();
             }
 
             void UpdateUser()
@@ -67,7 +69,9 @@ namespace EducationPortalConsoleApp.Services
                     user.PhoneNumber = GetDataHelper.GetPhoneNumberFromUser();
 
                     _uow.Users.Update(user);
+                    Console.WriteLine("User updated");
                 }
+                StartWorkWithUser();
 
             }
 
@@ -75,6 +79,8 @@ namespace EducationPortalConsoleApp.Services
             {
                 IEnumerable<User> users = _uow.Users.GetAll();
                 UserConsoleMessageHelper.ShowObjects(users);
+                Console.WriteLine("");
+                StartWorkWithUser();
             }
 
             void DeleteUser()
@@ -89,8 +95,10 @@ namespace EducationPortalConsoleApp.Services
                 }
                 else
                 {
-                    _uow.Users.Delete(Convert.ToInt32(user.Id));
+                    _uow.Users.Delete(Convert.ToInt32(id));
+                    Console.WriteLine("User deleted");
                 }
+                StartWorkWithUser();
             }
         }
     }
