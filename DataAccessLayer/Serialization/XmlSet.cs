@@ -59,23 +59,16 @@ namespace DataAccessLayer.Serialization
         {
             T objectFromXml;
             FileInfo file;
-            try
+
+            file = directory.GetFiles($"{type.Name}{id}.xml").FirstOrDefault();
+            if (file != null)
             {
-                file = directory.GetFiles($"{type.Name}/{type.Name}{id}.xml").FirstOrDefault();
-                if (file.Exists)
+                using (FileStream fs = new FileStream($"{type.Name}/{file.Name}", FileMode.Open))
                 {
-                    using (FileStream fs = new FileStream(file.Name, FileMode.Open))
-                    {
-                        objectFromXml = (T)serializer.Deserialize(fs);
-                    }
-                    return objectFromXml;
+                    objectFromXml = (T)serializer.Deserialize(fs);
                 }
-            }
-            catch(Exception ex)
-            {
-                
-            }
-            
+                return objectFromXml;
+            };
             
             return null;
         }

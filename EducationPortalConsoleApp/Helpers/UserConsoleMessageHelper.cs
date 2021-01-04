@@ -21,6 +21,7 @@ namespace EducationPortalConsoleApp.Helpers
         {
             foreach (var user in users)
             {
+                Console.WriteLine($"Id: {user.Id}");
                 Console.WriteLine($"Name: {user.Name}");
                 Console.WriteLine($"Email: {user.Email}");
                 Console.WriteLine($"Phone number: {user.PhoneNumber}");

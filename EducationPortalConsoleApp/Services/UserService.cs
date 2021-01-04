@@ -69,7 +69,7 @@ namespace EducationPortalConsoleApp.Services
                     user.PhoneNumber = GetDataHelper.GetPhoneNumberFromUser();
 
                     _uow.Users.Update(user);
-                    Console.WriteLine("User updated");
+                    Console.WriteLine("\nUser updated\n");
                 }
                 StartWorkWithUser();
 
@@ -91,7 +91,7 @@ namespace EducationPortalConsoleApp.Services
                 User user = _uow.Users.Get(id);
                 if (user == null)
                 {
-                    Console.WriteLine($"\nUser not found");
+                    Console.WriteLine($"\nUser not found\n");
                 }
                 else
                 {

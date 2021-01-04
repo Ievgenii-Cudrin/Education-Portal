@@ -102,6 +102,8 @@ namespace EducationPortalConsoleApp.Services
         {
             IEnumerable<Material> materials = _uow.Materials.GetAll();
             //MaterialConsoleMessageHelper.ShowObjects(users);
+
+            StartWorkWithMaterial();
         }
 
         void DeleteMaterial()
@@ -111,9 +113,11 @@ namespace EducationPortalConsoleApp.Services
 
             Material material = _uow.Materials.Get(id);
             if (material == null)
-                Console.WriteLine($"User not found");
+                Console.WriteLine($"\nMaterial not found\n");
             else
                 _uow.Materials.Delete(Convert.ToInt32(material.Id));
+
+            StartWorkWithMaterial();
         }
 
         void ContinueAfterMaterialCreated()
