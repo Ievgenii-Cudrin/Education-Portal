@@ -101,6 +101,15 @@ namespace EducationPortalConsoleApp.Services
         void ShowAllMaterials()
         {
             IEnumerable<Material> materials = _uow.Materials.GetAll();
+            foreach(var material in materials)
+            {
+                if (material is Video)
+                    ShowVideoInfo(material);
+                else if (material is Article)
+                    ShowArticleInfo(material);
+                else
+                    ShowBookInfo(material);
+            }
             //MaterialConsoleMessageHelper.ShowObjects(users);
 
             StartWorkWithMaterial();
@@ -125,5 +134,11 @@ namespace EducationPortalConsoleApp.Services
             MaterialConsoleMessageHelper.MaterialCreated();
             StartWorkWithMaterial();
         }
+
+        void ShowVideoInfo(Material video) { }
+
+        void ShowArticleInfo(Material article) { }
+
+        void ShowBookInfo(Material book) { }
     }
 }
