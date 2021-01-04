@@ -57,17 +57,17 @@ namespace EducationPortalConsoleApp.Services
                 case "1":
                     material = VideoInstanceCreator.VideoCreator();
                     _uow.Materials.Create(material);
-                    MaterialConsoleMessageHelper.MaterialCreated();
+                    ContinueAfterMaterialCreated();
                     break;
                 case "2":
                     material = BookInstanceCreator.BookCreator();
                     _uow.Materials.Create(material);
-                    MaterialConsoleMessageHelper.MaterialCreated();
+                    ContinueAfterMaterialCreated();
                     break;
                 case "3":
                     material = ArticleInstanceCreator.ArticleCreator();
                     _uow.Materials.Create(material);
-                    MaterialConsoleMessageHelper.MaterialCreated();
+                    ContinueAfterMaterialCreated();
                     break;
                 case "4":
                     StartWorkWithMaterial();
@@ -113,6 +113,12 @@ namespace EducationPortalConsoleApp.Services
                 Console.WriteLine($"User not found");
             else
                 _uow.Materials.Delete(Convert.ToInt32(material.Id));
+        }
+
+        void ContinueAfterMaterialCreated()
+        {
+            MaterialConsoleMessageHelper.MaterialCreated();
+            StartWorkWithMaterial();
         }
     }
 }

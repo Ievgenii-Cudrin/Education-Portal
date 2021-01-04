@@ -28,7 +28,8 @@ namespace EducationPortalConsoleApp.Helpers
         public static void MaterialCreated()
         {
             Console.WriteLine("Material successfully created." +
-            $"\nSelect next choice");
+            $"\nSelect next choice" +
+            "\n");
         }
     }
 }
