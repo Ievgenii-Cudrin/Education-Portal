@@ -104,11 +104,11 @@ namespace EducationPortalConsoleApp.Services
             foreach(var material in materials)
             {
                 if (material is Video)
-                    ShowVideoInfo(material);
+                    MaterialConsoleMessageHelper.ShowVideoInfo(material);
                 else if (material is Article)
-                    ShowArticleInfo(material);
+                    MaterialConsoleMessageHelper.ShowArticleInfo(material);
                 else
-                    ShowBookInfo(material);
+                    MaterialConsoleMessageHelper.ShowBookInfo(material);
             }
             //MaterialConsoleMessageHelper.ShowObjects(users);
 
@@ -134,11 +134,5 @@ namespace EducationPortalConsoleApp.Services
             MaterialConsoleMessageHelper.MaterialCreated();
             StartWorkWithMaterial();
         }
-
-        void ShowVideoInfo(Material video) { }
-
-        void ShowArticleInfo(Material article) { }
-
-        void ShowBookInfo(Material book) { }
     }
 }

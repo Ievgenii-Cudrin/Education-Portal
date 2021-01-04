@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataAccessLayer.Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -31,5 +32,10 @@ namespace EducationPortalConsoleApp.Helpers
             $"\nSelect next choice" +
             "\n");
         }
+
+
+        public static void ShowVideoInfo(Material video) { }
+        public static void ShowArticleInfo(Material article) { }
+        public static void ShowBookInfo(Material book) { }
     }
 }
