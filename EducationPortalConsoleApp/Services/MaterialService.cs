@@ -89,12 +89,20 @@ namespace EducationPortalConsoleApp.Services
             if (material == null)
             {
                 Console.WriteLine($"Material not found");
+                StartWorkWithMaterial();
             }
             else
             {
                 //TODO
+                if (material is Video)
+                    material = VideoInstanceCreator.VideoCreator();
+                else if (material is Article)
+                    material = ArticleInstanceCreator.ArticleCreator();
+                else
+                    material = BookInstanceCreator.BookCreator();
 
                 _uow.Materials.Update(material);
+                StartWorkWithMaterial();
             }
         }
 
@@ -110,6 +118,8 @@ namespace EducationPortalConsoleApp.Services
                 else
                     MaterialConsoleMessageHelper.ShowBookInfo(material);
             }
+            Console.WriteLine("\n");
+            StartWorkWithMaterial();
             //MaterialConsoleMessageHelper.ShowObjects(users);
 
             StartWorkWithMaterial();
