@@ -84,7 +84,7 @@ namespace DataAccessLayer.Serialization
 
         public void UpdateObject(T objectToUpdate)
         {
-            using (FileStream fs = new FileStream($"{type.Name}/{type.Name}{typeof(T).GetProperty("Id").GetValue(objectToUpdate)}.xml", FileMode.OpenOrCreate))
+            using (FileStream fs = new FileStream($"{type.Name}/{type.Name}{typeof(T).GetProperty("Id").GetValue(objectToUpdate)}.xml", FileMode.Open))
             {
                 serializer.Serialize(fs, objectToUpdate);
             }
