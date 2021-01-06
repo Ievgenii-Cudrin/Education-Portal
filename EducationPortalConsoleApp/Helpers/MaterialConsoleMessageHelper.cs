@@ -9,7 +9,7 @@ namespace EducationPortalConsoleApp.Helpers
     {
         public static void ShowTextForChoiceCRUDMethod()
         {
-            Console.WriteLine($"Okey. Make the next choice to continue: " +
+            Console.WriteLine($"\nOkey. Make the next choice to continue: " +
             $"\n1.Add material" +
             $"\n2.Update material" +
             $"\n3.Show all materials" +
