@@ -19,7 +19,7 @@ namespace EducationPortalConsoleApp.Helpers
 
         public static void ShowTextForChoiceKindOfMaterial()
         {
-            Console.WriteLine($"Make the next choice to continue: " +
+            Console.WriteLine($"\nMake the next choice to continue: " +
             $"\n1.Add video" +
             $"\n2.Add book" +
             $"\n3.Add article" +

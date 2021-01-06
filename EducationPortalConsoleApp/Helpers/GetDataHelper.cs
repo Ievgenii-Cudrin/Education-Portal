@@ -54,7 +54,7 @@ namespace EducationPortalConsoleApp.Helpers
         public static DateTime GetDateTimeFromUser()
         {
             TrySetNewDate:
-            Console.WriteLine("Enter a date (e.g. 10/22/1987): ");
+            Console.WriteLine("Enter a date (e.g. 22.10.1987): ");
             DateTime userDateTime;
             if (DateTime.TryParse(Console.ReadLine(), out userDateTime))
             {

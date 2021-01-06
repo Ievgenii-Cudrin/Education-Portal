@@ -101,7 +101,7 @@ namespace EducationPortalConsoleApp.Services
                 else
                     material = BookInstanceCreator.BookCreator();
 
-                material.Id = id.ToString();
+                material.Id = id;
                 _uow.Materials.Update(material);
                 Console.WriteLine("Material has been successfully updated");
                 StartWorkWithMaterial();

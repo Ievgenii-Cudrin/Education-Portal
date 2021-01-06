@@ -10,7 +10,7 @@ namespace DataAccessLayer.Entities
     public class Material
     {
         [XmlElement("MaterialID")]
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         [XmlElement("Name")]
         public string Name { get; set; }

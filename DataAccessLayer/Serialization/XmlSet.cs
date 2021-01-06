@@ -27,7 +27,7 @@ namespace DataAccessLayer.Serialization
         public void Add(T objToXml)
         {
             int id = GenareteId();
-            typeof(T).GetProperty("Id").SetValue(objToXml, id.ToString());
+            typeof(T).GetProperty("Id").SetValue(objToXml, id);
             Directory.CreateDirectory($"{type.Name}");
             using(FileStream fs = new FileStream($"{type.Name}/{type.Name}{id}.xml", FileMode.Create))
             {
