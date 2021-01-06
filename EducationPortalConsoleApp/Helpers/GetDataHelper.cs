@@ -11,10 +11,10 @@ namespace EducationPortalConsoleApp.Helpers
         public static string GetPhoneNumberFromUser()
         {
         EnterPhoneNumber:
-            Console.WriteLine($"Enter phone number: ");
+            Console.WriteLine($"Enter phone number (e.g. 099-933-92-10 or 0999339210): ");
             string phoneNumber = Console.ReadLine();
 
-            if (Regex.IsMatch(phoneNumber, @"^\(?([0-9]{3})\)?[-.●]?([0-9]{3})[-.●]?([0-9]{4})$", RegexOptions.IgnoreCase))
+            if (!Regex.IsMatch(phoneNumber, @"^\(?([0-9]{3})\)?[-.●]?([0-9]{3})[-.●]?([0-9]{4})$", RegexOptions.IgnoreCase))
             {
                 Console.WriteLine("Incorrect phone number. Please, try again!");
                 goto EnterPhoneNumber;
