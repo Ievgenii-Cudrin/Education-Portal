@@ -10,18 +10,7 @@ namespace BullsAndCows
         {
             possibleAnswers = GetAllAnswers();
 
-            //while (true)
-            //{
-            //    var tuple = (bulls: 0, cows: 0);
-            //    string bulls = Console.ReadLine();
-            //    string cows = Console.ReadLine();
-            //    tuple = GetCountOfBullsAndCowsInTwoNumbers(bulls, cows);
-            //    Console.WriteLine($"bulls: {tuple.bulls}, cows: {tuple.cows}");
-            //}
-
-
             StartGame();
-            Console.WriteLine();
 
             Console.ReadLine();
         }
@@ -31,7 +20,8 @@ namespace BullsAndCows
             string currentAnswer = GetOneAnswer(possibleAnswers);
             List<string> currentPossibleAnswers = possibleAnswers;
 
-            Console.WriteLine($"Lets go. Your number is {currentAnswer} ?");
+            Console.WriteLine($"Lets go. Your number is {currentAnswer} ? (Y, N)");
+
             Console.Write("Enter bools: ");
             int bulls = Convert.ToInt32(Console.ReadLine());
             Console.Write("Enter cows: ");
@@ -47,6 +37,15 @@ namespace BullsAndCows
             }
 
             possibleAnswers = Sieve(currentAnswer, bulls, cows, currentPossibleAnswers);
+
+            if(possibleAnswers.Count == 1)
+            {
+                Console.WriteLine($"Your number is {possibleAnswers[0]} !!! GameOver");
+            }
+            else
+            {
+                StartGame();
+            }
         }
 
         private static List<string> Sieve(string currentAnswer, int bulls, int cows, List<string> currentPossibleAnswers)
@@ -94,6 +93,7 @@ namespace BullsAndCows
 
         static int[] GetIntMass(string str)
         {
+            //Convert string to int[]
             int[] massOfNumbers = new int[str.Length];
             for (int i = 0; i < str.Length; i++)
             {
