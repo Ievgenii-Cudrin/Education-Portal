@@ -10,18 +10,18 @@ namespace BullsAndCows
         {
             possibleAnswers = GetAllAnswers();
 
-            while (true)
-            {
-                var tuple = (bulls: 0, cows: 0);
-                string bulls = Console.ReadLine();
-                string cows = Console.ReadLine();
-                tuple = GetCountOfBullsAndCowsInTwoNumbers(bulls, cows);
-                Console.WriteLine($"bulls: {tuple.bulls}, cows: {tuple.cows}");
-            }
-            
+            //while (true)
+            //{
+            //    var tuple = (bulls: 0, cows: 0);
+            //    string bulls = Console.ReadLine();
+            //    string cows = Console.ReadLine();
+            //    tuple = GetCountOfBullsAndCowsInTwoNumbers(bulls, cows);
+            //    Console.WriteLine($"bulls: {tuple.bulls}, cows: {tuple.cows}");
+            //}
 
-            //StartGame();
-            //Console.WriteLine();
+
+            StartGame();
+            Console.WriteLine();
 
             Console.ReadLine();
         }
@@ -54,7 +54,11 @@ namespace BullsAndCows
             List<string> newPossibleAnswers = new List<string>();
             for(int i = 0; i < currentPossibleAnswers.Count; i++)
             {
-
+                var tuple = GetCountOfBullsAndCowsInTwoNumbers(currentAnswer, currentPossibleAnswers[i]);
+                if(bulls == tuple.Item1 && cows == tuple.Item2)
+                {
+                    newPossibleAnswers.Add(currentPossibleAnswers[i]);
+                }
             }
             return newPossibleAnswers;
         }
