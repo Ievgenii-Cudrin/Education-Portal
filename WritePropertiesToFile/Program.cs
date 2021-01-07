@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
+using System.Linq;
 
 namespace WritePropertiesToFile
 {
@@ -72,23 +74,64 @@ namespace WritePropertiesToFile
     {
         static void Main(string[] args)
         {
-
-            Console.WriteLine("Hello World!");
+            StartApp();
+            Console.ReadLine();
         }
 
-        public static void  AddRecord(string name, string gender, string eyeColor, string path)
+        static void StartApp()
         {
-            try
+            //Create file
+            string fileName = "PersonInfo.csv";
+            CreateFile(fileName);
+
+            //Get all properties from Person type
+            List<PropertyInfo> declaredProperties = typeof(Person).GetTypeInfo().GetProperties().ToList();
+            string[] propertiesFromUser = GetPropertiesFromUser(declaredProperties);
+
+            //Data with filtered properties
+            string[] finish = GetFilteredPersonPersonProperties(PersonList.GetListPerson(), propertiesFromUser, declaredProperties);
+
+            //Add data csv file
+            AddDataToCSVFile(finish, fileName);
+
+            Console.WriteLine("Data added successfully");
+        }
+
+        private static void AddDataToCSVFile(string[] finish, string fileName)
+        {
+        }
+
+        private static string[] GetFilteredPersonPersonProperties(List<Person> getListPerson, string[] propertiesFromUser, List<PropertyInfo> declaredProperties)
+        {
+        }
+
+
+        private static string[] GetPropertiesFromUser(IEnumerable<PropertyInfo> typeProperties)
+        {
+            Console.WriteLine("You can write only this properties: ");
+            foreach(var property in typeProperties)
             {
-                using(StreamWriter file = new StreamWriter(path, true))
-                {
-                    file.WriteLine(name + ", " + gender + ", " + eyeColor + ", " + path);
-                }
+                Console.WriteLine($"{property.Name}");
             }
-            catch(Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
+            Console.Write("\nPlease, enter user properties: ");
+            string[] massOfpropertiesFromUser = Console.ReadLine().Split(',');
+            return massOfpropertiesFromUser; 
+        }
+
+        public static void  AddRecord(string data, string path)
+        {
+        }
+
+        public static void CreateFile(string path)
+        {
+            var file = new FileInfo(path);
+            FileStream stream;
+            if (!file.Exists)
+                stream = file.Create();
+            else
+                return;
+
+            stream.Close();
         }
     }
 }
