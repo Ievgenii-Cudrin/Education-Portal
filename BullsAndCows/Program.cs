@@ -20,7 +20,7 @@ namespace BullsAndCows
             string currentAnswer = GetOneAnswer(possibleAnswers);
             List<string> currentPossibleAnswers = possibleAnswers;
 
-            Console.WriteLine($"Lets go. Your number is {currentAnswer} ? (Y, N)");
+            Console.WriteLine($"Lets go. May be your number is {currentAnswer} ?");
 
             Console.Write("Enter bools: ");
             int bulls = Convert.ToInt32(Console.ReadLine());
@@ -30,10 +30,12 @@ namespace BullsAndCows
             if (bulls < 0 || bulls > 4 || cows < 0 || cows > 4)
             {
                 Console.WriteLine("Your digit must be: 1<= digit <=4 ");
+                return;
             }
             else if (bulls == 4 && cows == 0)
             {
                 Console.WriteLine($"Game over! Your number is {currentAnswer}");
+                return;
             }
 
             possibleAnswers = Sieve(currentAnswer, bulls, cows, currentPossibleAnswers);
