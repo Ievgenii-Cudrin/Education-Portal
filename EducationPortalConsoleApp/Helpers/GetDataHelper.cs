@@ -70,10 +70,10 @@ namespace EducationPortalConsoleApp.Helpers
         public static string GetSiteAddressFromUser()
         {
             EnterName:
-            Console.WriteLine($"Enter site: ");
+            Console.WriteLine($"Enter site (e.g. www.google.com): ");
             string site = Console.ReadLine();
-
-            if (String.IsNullOrEmpty(site))
+            bool b = Regex.IsMatch(site, @"^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$", RegexOptions.IgnoreCase);
+            if (!b)
             {
                 Console.WriteLine("Site address must not be empty. Please, try again!");
                 goto EnterName;
