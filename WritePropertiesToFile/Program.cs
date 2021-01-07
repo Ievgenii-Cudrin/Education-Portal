@@ -103,6 +103,33 @@ namespace WritePropertiesToFile
 
         private static string[] GetFilteredPersonPersonProperties(List<Person> getListPerson, string[] propertiesFromUser, List<PropertyInfo> declaredProperties)
         {
+            string[] finish = new string[getListPerson.Count];
+            for(int i = 0; i < getListPerson.Count; i++)
+            {
+                string filterUserProperties = "";
+                for(int j = 0; j < propertiesFromUser.Length; j++)
+                {
+                    for(int k = 0; k< declaredProperties.Count; k++)
+                    {
+                        if (propertiesFromUser[j].Replace(" ", "").ToLower() == declaredProperties[k].Name.ToLower())
+                        {
+                            //Check value in property
+                            PropertyInfo prop = getListPerson[i].GetType().GetProperty(declaredProperties[k].Name, BindingFlags.Instance | BindingFlags.Public);
+                            var val = prop.GetValue(getListPerson[i], null) != null ? prop.GetValue(getListPerson[i], null).ToString() : null;
+
+                            if (val != null && val != "0")
+                            {
+                                //Add property with value to string
+                                filterUserProperties = filterUserProperties + $"{declaredProperties[k].Name}: " + typeof(Person).GetProperty(declaredProperties[k].Name).GetValue(getListPerson[i]).ToString() + ",";
+                                break;
+                            }
+                        }
+                    }
+                    
+                }
+                finish[i] = filterUserProperties;
+            }
+            return finish;
         }
 
 
