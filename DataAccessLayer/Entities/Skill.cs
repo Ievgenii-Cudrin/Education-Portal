@@ -9,7 +9,7 @@ namespace DataAccessLayer.Entities
     public class Skill
     {
         [XmlElement("SkillID")]
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         [XmlElement("Name")]
         public string Name { get; set; }

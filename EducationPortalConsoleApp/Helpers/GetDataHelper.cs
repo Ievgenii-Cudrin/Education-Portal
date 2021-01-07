@@ -11,10 +11,10 @@ namespace EducationPortalConsoleApp.Helpers
         public static string GetPhoneNumberFromUser()
         {
         EnterPhoneNumber:
-            Console.WriteLine($"Enter phone number: ");
+            Console.WriteLine($"Enter phone number (e.g. 099-933-92-10 or 0999339210): ");
             string phoneNumber = Console.ReadLine();
 
-            if (Regex.IsMatch(phoneNumber, @"^\(?([0-9]{3})\)?[-.●]?([0-9]{3})[-.●]?([0-9]{4})$", RegexOptions.IgnoreCase))
+            if (!Regex.IsMatch(phoneNumber, @"^\(?([0-9]{3})\)?[-.●]?([0-9]{3})[-.●]?([0-9]{4})$", RegexOptions.IgnoreCase))
             {
                 Console.WriteLine("Incorrect phone number. Please, try again!");
                 goto EnterPhoneNumber;
@@ -54,7 +54,7 @@ namespace EducationPortalConsoleApp.Helpers
         public static DateTime GetDateTimeFromUser()
         {
             TrySetNewDate:
-            Console.WriteLine("Enter a date (e.g. 10/22/1987): ");
+            Console.WriteLine("Enter a date (e.g. 22.10.1987): ");
             DateTime userDateTime;
             if (DateTime.TryParse(Console.ReadLine(), out userDateTime))
             {
@@ -70,10 +70,10 @@ namespace EducationPortalConsoleApp.Helpers
         public static string GetSiteAddressFromUser()
         {
             EnterName:
-            Console.WriteLine($"Enter site: ");
+            Console.WriteLine($"Enter site (e.g. www.google.com): ");
             string site = Console.ReadLine();
-
-            if (String.IsNullOrEmpty(site))
+            bool b = Regex.IsMatch(site, @"^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$", RegexOptions.IgnoreCase);
+            if (!b)
             {
                 Console.WriteLine("Site address must not be empty. Please, try again!");
                 goto EnterName;
