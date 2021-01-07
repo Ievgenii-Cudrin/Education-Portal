@@ -5,11 +5,13 @@ namespace BullsAndCows
 {
     class Program
     {
+        static List<string> possibleAnswers = GetAllAnswers();
         static void Main(string[] args)
         {
-            
+            possibleAnswers = GetAllAnswers();
 
-            
+
+
 
             StartGame();
             Console.WriteLine();
@@ -19,26 +21,55 @@ namespace BullsAndCows
 
         private static void StartGame()
         {
-            List<string> possibleAnswers = GetAllAnswers();
-            string answer = GetOneAnswer(possibleAnswers);
+            string currentAnswer = GetOneAnswer(possibleAnswers);
+            List<string> currentPossibleAnswers = possibleAnswers;
 
-
-            Console.WriteLine($"Lets go. Your number is {answer} ?");
+            Console.WriteLine($"Lets go. Your number is {currentAnswer} ?");
             Console.Write("Enter bools: ");
-            int bull = Convert.ToInt32(Console.ReadLine());
+            int bulls = Convert.ToInt32(Console.ReadLine());
             Console.Write("Enter cows: ");
-            int cow = Convert.ToInt32(Console.ReadLine());
+            int cows = Convert.ToInt32(Console.ReadLine());
 
-            if (bull < 0 || bull > 4 || cow < 0 || cow > 4)
+            if (bulls < 0 || bulls > 4 || cows < 0 || cows > 4)
             {
                 Console.WriteLine("Your digit must be: 1<= digit <=4 ");
             }
-            else if (bull == 4 && cow == 0)
+            else if (bulls == 4 && cows == 0)
             {
-                Console.WriteLine($"Game over! Your number is {answer}");
+                Console.WriteLine($"Game over! Your number is {currentAnswer}");
             }
 
+            possibleAnswers = Sieve(currentAnswer, bulls, cows, currentPossibleAnswers);
+        }
 
+        private static List<string> Sieve(string currentAnswer, int bulls, int cows, List<string> currentPossibleAnswers)
+        {
+            List<string> newPossibleAnswers = new List<string>();
+            for(int i = 0; i < currentPossibleAnswers.Count; i++)
+            {
+
+            }
+            return newPossibleAnswers;
+        }
+
+        private static (int, int) GetCountOfBullsAndCowsInTwoNumbers(string currentAnswer, string answerFromPossibleMassive)
+        {
+            int[] current = GetIntMass(currentAnswer);
+            int[] possible = GetIntMass(answerFromPossibleMassive);
+
+            
+            var result = (1, 3);
+            return result;
+        }
+
+        static int[] GetIntMass(string str)
+        {
+            int[] massOfNumbers = new int[str.Length];
+            for (int i = 0; i < str.Length; i++)
+            {
+                massOfNumbers[i] = Convert.ToInt32(str[i]);
+            }
+            return massOfNumbers;
         }
 
         //Create list with all possible answers
