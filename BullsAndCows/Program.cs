@@ -54,6 +54,7 @@ namespace BullsAndCows
             for(int i = 0; i < currentPossibleAnswers.Count; i++)
             {
                 var tuple = GetCountOfBullsAndCowsInTwoNumbers(currentAnswer, currentPossibleAnswers[i]);
+                //equals bulls and cows
                 if(bulls == tuple.Item1 && cows == tuple.Item2)
                 {
                     newPossibleAnswers.Add(currentPossibleAnswers[i]);
@@ -69,6 +70,7 @@ namespace BullsAndCows
 
             var tuple = (bulls: 0, cows: 0);
 
+            //calculate bulls and cows in every string
             for(int i = 0; i < current.Length; i++)
             {
                 if (current[i] == possible[i])
