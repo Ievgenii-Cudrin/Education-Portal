@@ -99,6 +99,10 @@ namespace WritePropertiesToFile
 
         private static void AddDataToCSVFile(string[] finish, string fileName)
         {
+            foreach(var str in finish)
+            {
+                AddRecord(str, fileName);
+            }
         }
 
         private static string[] GetFilteredPersonPersonProperties(List<Person> getListPerson, string[] propertiesFromUser, List<PropertyInfo> declaredProperties)
@@ -147,6 +151,17 @@ namespace WritePropertiesToFile
 
         public static void  AddRecord(string data, string path)
         {
+            try
+            {
+                using(StreamWriter file = new StreamWriter(path, true))
+                {
+                    file.WriteLine(data);
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         public static void CreateFile(string path)
