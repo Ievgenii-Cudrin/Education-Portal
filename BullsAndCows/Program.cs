@@ -7,14 +7,38 @@ namespace BullsAndCows
     {
         static void Main(string[] args)
         {
-            List<string> possibleAnswers = GetAllAnswers();
+            
 
+            
+
+            StartGame();
+            Console.WriteLine();
+
+            Console.ReadLine();
+        }
+
+        private static void StartGame()
+        {
+            List<string> possibleAnswers = GetAllAnswers();
             string answer = GetOneAnswer(possibleAnswers);
 
 
-            Console.WriteLine(answer);
+            Console.WriteLine($"Lets go. Your number is {answer} ?");
+            Console.Write("Enter bools: ");
+            int bull = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Enter cows: ");
+            int cow = Convert.ToInt32(Console.ReadLine());
 
-            Console.ReadLine();
+            if (bull < 0 || bull > 4 || cow < 0 || cow > 4)
+            {
+                Console.WriteLine("Your digit must be: 1<= digit <=4 ");
+            }
+            else if (bull == 4 && cow == 0)
+            {
+                Console.WriteLine($"Game over! Your number is {answer}");
+            }
+
+
         }
 
         //Create list with all possible answers
@@ -42,6 +66,6 @@ namespace BullsAndCows
             string answer = answers[random];
             return answer;
         }
-
+        }
     }
 }
