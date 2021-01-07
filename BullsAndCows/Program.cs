@@ -10,11 +10,18 @@ namespace BullsAndCows
         {
             possibleAnswers = GetAllAnswers();
 
+            while (true)
+            {
+                var tuple = (bulls: 0, cows: 0);
+                string bulls = Console.ReadLine();
+                string cows = Console.ReadLine();
+                tuple = GetCountOfBullsAndCowsInTwoNumbers(bulls, cows);
+                Console.WriteLine($"bulls: {tuple.bulls}, cows: {tuple.cows}");
+            }
+            
 
-
-
-            StartGame();
-            Console.WriteLine();
+            //StartGame();
+            //Console.WriteLine();
 
             Console.ReadLine();
         }
@@ -57,9 +64,28 @@ namespace BullsAndCows
             int[] current = GetIntMass(currentAnswer);
             int[] possible = GetIntMass(answerFromPossibleMassive);
 
+            var tuple = (bulls: 0, cows: 0);
+
+            for(int i = 0; i < current.Length; i++)
+            {
+                if (current[i] == possible[i])
+                {
+                    tuple.bulls++;
+                }
+                else
+                {
+                    for (int k = 0; k < possible.Length; k++)
+                    {
+                        if (current[i] == possible[k])
+                        {
+                            tuple.cows++;
+                        }
+                    }
+                }
+            }
+
             
-            var result = (1, 3);
-            return result;
+            return tuple;
         }
 
         static int[] GetIntMass(string str)
@@ -97,6 +123,6 @@ namespace BullsAndCows
             string answer = answers[random];
             return answer;
         }
-        }
+        
     }
 }
