@@ -9,10 +9,11 @@ namespace BullsAndCows
         {
             List<string> possibleAnswers = GetAllAnswers();
 
-            int playerNumber;
+            string answer = GetOneAnswer(possibleAnswers);
 
 
-            Console.WriteLine("Hello World!");
+            Console.WriteLine(answer);
+
             Console.ReadLine();
         }
 
@@ -29,9 +30,18 @@ namespace BullsAndCows
                 {
                     answers.Add(i.ToString(fmd));
                 }
-                Console.WriteLine(i.ToString(fmd));
             }
             return answers;
         }
+
+        //get one answer from possible list
+        static string GetOneAnswer(List<string> answers)
+        {
+            Random rnd = new Random();
+            int random = rnd.Next(0, answers.Count);
+            string answer = answers[random];
+            return answer;
+        }
+
     }
 }
