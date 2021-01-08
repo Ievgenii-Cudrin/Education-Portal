@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Xml.Serialization;
+
+namespace DataAccessLayer.Entities
+{
+    [XmlType("Material")] // define Type
+    [XmlInclude(typeof(Video)), XmlInclude(typeof(Book)), XmlInclude(typeof(Article))]
+    public class Material
+    {
+        [XmlElement("MaterialID")]
+        public int Id { get; set; }
+
+        [XmlElement("Name")]
+        public string Name { get; set; }
+    }
+}

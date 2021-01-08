@@ -9,12 +9,15 @@ namespace DataAccessLayer.Repositories
 {
     public class EFUnitOfWork : IUnitOfWork
     {
-        private UserContext context;
+        private XmlSerializeContext context;
         private UserRepository userRepository;
+        private MaterialRepository materialRepository;
+        private CourseRepository courseRepository;
+        private SkillRepository skillRepository;
 
         public EFUnitOfWork()
         {
-            context = new UserContext();
+            context = new XmlSerializeContext();
         }
 
         public IRepository<User> Users
@@ -27,9 +30,34 @@ namespace DataAccessLayer.Repositories
             }
         }
 
-        public void Save()
+        public IRepository<Material> Materials
         {
-            context.Users.SaveChanges();
+            get
+            {
+                if (materialRepository == null)
+                    materialRepository = new MaterialRepository(context);
+                return materialRepository;
+            }
+        }
+
+        public IRepository<Skill> Skills
+        {
+            get
+            {
+                if (skillRepository == null)
+                    skillRepository = new SkillRepository(context);
+                return skillRepository;
+            }
+        }
+
+        public IRepository<Course> Courses
+        {
+            get
+            {
+                if (courseRepository == null)
+                    courseRepository = new CourseRepository(context);
+                return courseRepository;
+            }
         }
     }
 }
