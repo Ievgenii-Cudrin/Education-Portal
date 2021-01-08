@@ -8,6 +8,7 @@ namespace BullsAndCows
         static List<string> possibleAnswers = GetAllAnswers();
         static void Main(string[] args)
         {
+            //try to resolve conflicts
             possibleAnswers = GetAllAnswers();
 
             StartGame();
