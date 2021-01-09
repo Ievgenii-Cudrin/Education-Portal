@@ -9,7 +9,7 @@ namespace EducationPortalConsoleApp.Branch
     {
         public static void StartApplication()
         {
-            ProgramConsoleMessageHelper.ShowTextWithEntityToSelect();
+            ProgramConsoleMessageHelper.ShowTextForLoginOrRegistration();
 
             string userChoice = Console.ReadLine();
 
