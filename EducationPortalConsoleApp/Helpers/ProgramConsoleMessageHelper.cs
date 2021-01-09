@@ -4,8 +4,15 @@ using System.Text;
 
 namespace EducationPortalConsoleApp.Helpers
 {
-    public static class ProgramServiceConsoleMessageHelper
+    public static class ProgramConsoleMessageHelper
     {
+        public static void ShowTextForLoginOrRegistration()
+        {
+            Console.WriteLine($"Hi, dear user. Please, make your choice: " +
+            $"\n1.Login" +
+            $"\n2.Registration"
+            );
+        }
         public static void ShowTextWithEntityToSelect()
         {
             Console.WriteLine($"Hi, dear user. Please, make your choice: " +
