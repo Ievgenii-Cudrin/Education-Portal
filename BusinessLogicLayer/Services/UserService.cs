@@ -43,83 +43,80 @@ namespace EducationPortalConsoleApp.Services
             //        Console.WriteLine("Default case");
             //        break;
             //}
+        }
 
-            bool CreateUser(string name, string password, string email, string phoneNumber)
+        public bool CreateUser(string name, string password, string email, string phoneNumber)
+        {
+            bool success = true;
+            User user = null;
+            if (name != null && password != null && email != null && phoneNumber != null)
             {
-                bool success = false;
-                User user = null;
-                if (name != null && password != null && email != null && phoneNumber != null)
+                user = new User()
                 {
-                    user = new User()
-                    {
-                        Name = name,
-                        Password = password,
-                        Email = email,
-                        PhoneNumber = phoneNumber
-                    };
-                }
-                if (user != null)
-                {
-                    _uow.Users.Create(user);
-                    success = true;
-                }
-                else
-                {
-                    success = false;
-                }
-                return success;
-                
-                //StartWorkWithUser();
+                    Name = name,
+                    Password = password,
+                    Email = email,
+                    PhoneNumber = phoneNumber
+                };
             }
 
-            void UpdateUser()
+            if (user != null)
+                _uow.Users.Create(user);
+            else
+                success = false;
+
+            return success;
+
+            //StartWorkWithUser();
+        }
+
+        void UpdateUser()
+        {
+            Console.Write($"Enter user ID to update: ");
+            int id = Convert.ToInt32(Console.ReadLine());
+
+            User user = _uow.Users.Get(id);
+            if (user == null)
             {
-                Console.Write($"Enter user ID to update: ");
-                int id = Convert.ToInt32(Console.ReadLine());
-
-                User user = _uow.Users.Get(id);
-                if (user == null)
-                {
-                    Console.WriteLine($"\nUser not found");
-                }
-                else
-                {
-                    //user.Name = GetDataHelper.GetNameFromUser();
-                    //user.Email = GetDataHelper.GetEmailFromUser();
-                    //user.PhoneNumber = GetDataHelper.GetPhoneNumberFromUser();
-
-                    _uow.Users.Update(user);
-                    Console.WriteLine("\nUser updated\n");
-                }
-                StartWorkWithUser();
-
+                Console.WriteLine($"\nUser not found");
             }
-
-            void ShowAllUsers()
+            else
             {
-                IEnumerable<User> users = _uow.Users.GetAll();
-                //UserConsoleMessageHelper.ShowObjects(users);
-                Console.WriteLine("");
-                StartWorkWithUser();
-            }
+                //user.Name = GetDataHelper.GetNameFromUser();
+                //user.Email = GetDataHelper.GetEmailFromUser();
+                //user.PhoneNumber = GetDataHelper.GetPhoneNumberFromUser();
 
-            void DeleteUser()
+                _uow.Users.Update(user);
+                Console.WriteLine("\nUser updated\n");
+            }
+            StartWorkWithUser();
+
+        }
+
+        void ShowAllUsers()
+        {
+            IEnumerable<User> users = _uow.Users.GetAll();
+            //UserConsoleMessageHelper.ShowObjects(users);
+            Console.WriteLine("");
+            StartWorkWithUser();
+        }
+
+        void DeleteUser()
+        {
+            Console.Write($"Enter user ID to delete: ");
+            int id = Convert.ToInt32(Console.ReadLine());
+
+            User user = _uow.Users.Get(id);
+            if (user == null)
             {
-                Console.Write($"Enter user ID to delete: ");
-                int id = Convert.ToInt32(Console.ReadLine());
-
-                User user = _uow.Users.Get(id);
-                if (user == null)
-                {
-                    Console.WriteLine($"\nUser not found\n");
-                }
-                else
-                {
-                    _uow.Users.Delete(Convert.ToInt32(id));
-                    Console.WriteLine("User deleted");
-                }
-                StartWorkWithUser();
+                Console.WriteLine($"\nUser not found\n");
             }
+            else
+            {
+                _uow.Users.Delete(Convert.ToInt32(id));
+                Console.WriteLine("User deleted");
+            }
+            StartWorkWithUser();
         }
     }
 }
