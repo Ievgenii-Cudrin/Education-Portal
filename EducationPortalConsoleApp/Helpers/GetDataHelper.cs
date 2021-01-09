@@ -10,44 +10,59 @@ namespace EducationPortalConsoleApp.Helpers
     {
         public static string GetPhoneNumberFromUser()
         {
-        EnterPhoneNumber:
-            Console.WriteLine($"Enter phone number (e.g. 099-933-92-10 or 0999339210): ");
-            string phoneNumber = Console.ReadLine();
-
-            if (!Regex.IsMatch(phoneNumber, @"^\(?([0-9]{3})\)?[-.●]?([0-9]{3})[-.●]?([0-9]{4})$", RegexOptions.IgnoreCase))
+            string phoneNumber;
+            bool valdiPhoneNumber = false;
+            do
             {
-                Console.WriteLine("Incorrect phone number. Please, try again!");
-                goto EnterPhoneNumber;
+                Console.WriteLine($"Enter phone number (e.g. 099-933-92-10 or 0999339210): ");
+                phoneNumber = Console.ReadLine();
+
+                valdiPhoneNumber = Regex.IsMatch(phoneNumber, @"^\(?([0-9]{3})\)?[-.●]?([0-9]{3})[-.●]?([0-9]{4})$", RegexOptions.IgnoreCase);
+                if (!valdiPhoneNumber)
+                {
+                    Console.WriteLine("Incorrect phone number. Please, try again!");
+                }
             }
+            while (!valdiPhoneNumber);
+            
             return phoneNumber;
         }
 
         public static string GetEmailFromUser()
         {
-        EnterEmail:
-            Console.WriteLine($"Enter email: ");
-            string email = Console.ReadLine();
-
-            //check this expression
-            if (!Regex.IsMatch(email, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase))
+            string email;
+            bool validEmail = true;
+            do
             {
-                Console.WriteLine("Incorrect email. Please, try again!");
-                goto EnterEmail;
+                Console.WriteLine($"Enter email: ");
+                email = Console.ReadLine();
+                validEmail = Regex.IsMatch(email, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase);
+                //check this expression
+                if (!validEmail)
+                {
+                    Console.WriteLine("Incorrect email. Please, try again!");
+                }
             }
+            while (!validEmail);
+            
             return email;
         }
 
         public static string GetNameFromUser()
         {
-        EnterName:
-            Console.WriteLine($"Enter name: ");
-            string name = Console.ReadLine();
-
-            if (String.IsNullOrEmpty(name))
+            string name;
+            bool validName = true;
+            do
             {
-                Console.WriteLine("Name must not be empty. Please, try again!");
-                goto EnterName;
+                Console.WriteLine($"Enter name: ");
+                name = Console.ReadLine();
+                validName = String.IsNullOrEmpty(name);
+                if (validName)
+                {
+                    Console.WriteLine("Name must not be empty. Please, try again!");
+                }
             }
+            while (validName);
             return name;
         }
 
@@ -74,87 +89,119 @@ namespace EducationPortalConsoleApp.Helpers
 
         public static DateTime GetDateTimeFromUser()
         {
-            TrySetNewDate:
-            Console.WriteLine("Enter a date (e.g. 22.10.1987): ");
             DateTime userDateTime;
-            if (DateTime.TryParse(Console.ReadLine(), out userDateTime))
+            bool validDate = false;
+            do
             {
-                return userDateTime;
+                Console.WriteLine("Enter a date (e.g. 22.10.1987): ");
+
+                validDate = DateTime.TryParse(Console.ReadLine(), out userDateTime);
+                if (validDate)
+                {
+                    return userDateTime;
+                }
+                else
+                {
+                    Console.WriteLine("You have entered an incorrect value.");
+                }
             }
-            else
-            {
-                Console.WriteLine("You have entered an incorrect value.");
-                goto TrySetNewDate;
-            }
+            while (!validDate);
+
+            return userDateTime;
+            
         }
 
         public static string GetSiteAddressFromUser()
         {
-            EnterName:
-            Console.WriteLine($"Enter site (e.g. www.google.com): ");
-            string site = Console.ReadLine();
-            bool b = Regex.IsMatch(site, @"^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$", RegexOptions.IgnoreCase);
-            if (!b)
+            string site;
+            bool validSite;
+            do
             {
-                Console.WriteLine("Site address must not be empty. Please, try again!");
-                goto EnterName;
+                Console.WriteLine($"Enter site (e.g. www.google.com): ");
+                site = Console.ReadLine();
+                validSite = Regex.IsMatch(site, @"^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$", RegexOptions.IgnoreCase);
+                if (!validSite)
+                {
+                    Console.WriteLine("Site address must not be empty. Please, try again!");
+                }
             }
+            while (!validSite);
+            
             return site;
         }
 
         public static string GetAuthorNameFromUser()
         {
-            EnterAuthorName:
-            Console.WriteLine($"Enter author name: ");
-            string authorName = Console.ReadLine();
-
-            if (String.IsNullOrEmpty(authorName))
+            string authorName;
+            bool isNullOrEmpty;
+            do
             {
-                Console.WriteLine("Name must not be empty. Please, try again!");
-                goto EnterAuthorName;
+                Console.WriteLine($"Enter author name: ");
+                authorName = Console.ReadLine();
+                isNullOrEmpty = String.IsNullOrEmpty(authorName);
+                if (isNullOrEmpty)
+                {
+                    Console.WriteLine("Name must not be empty. Please, try again!");
+                }
             }
+            while (isNullOrEmpty);
+            
             return authorName;
         }
 
         public static int GetCountOfBookPages()
         {
-            EnterCountOfPages:
-            Console.WriteLine($"Enter count of book pages: ");
-            int countOfPages = Convert.ToInt32(Console.ReadLine());
-
-            if (countOfPages < 1)
+            int countOfPages = 0;
+            do
             {
-                Console.WriteLine("The number of book pages must be more than 1. Please, try again!");
-                goto EnterCountOfPages;
+                Console.WriteLine($"Enter count of book pages: ");
+                countOfPages = Convert.ToInt32(Console.ReadLine());
+
+                if (countOfPages < 1)
+                {
+                    Console.WriteLine("The number of book pages must be more than 1. Please, try again!");
+                }
             }
+            while (countOfPages < 1);
+            
             return countOfPages;
         }
 
         public static int GetVideoDuration()
         {
-            EnterCountOfPages:
-            Console.WriteLine($"Enter video duration in minutes: ");
-            int videoDuration = Convert.ToInt32(Console.ReadLine());
-
-            if (videoDuration < 1)
+            int videoDuration = 0;
+            do
             {
-                Console.WriteLine("Video duration in minutes must be more than 1. Please, try again!");
-                goto EnterCountOfPages;
+                Console.WriteLine($"Enter video duration in minutes: ");
+                videoDuration = Convert.ToInt32(Console.ReadLine());
+
+                if (videoDuration < 1)
+                {
+                    Console.WriteLine("Video duration in minutes must be more than 1. Please, try again!");
+                }
             }
+            while (videoDuration < 1);
+            
             return videoDuration;
         }
 
         public static string GetVideoQuality()
         {
-            EnterQuality:
-            Console.WriteLine($"Enter video quality: ");
-            string videoQuality = Console.ReadLine();
-
-            if (String.IsNullOrEmpty(videoQuality))
+            string videoQuality;
+            bool isNullOrEmpry;
+            do
             {
-                Console.WriteLine("Video quality must not be empty. Please, try again!");
-                goto EnterQuality;
+
+                Console.WriteLine($"Enter video quality: ");
+                videoQuality = Console.ReadLine();
+                isNullOrEmpry = String.IsNullOrEmpty(videoQuality);
+                if (isNullOrEmpry)
+                {
+                    Console.WriteLine("Video quality must not be empty. Please, try again!");
+                }
             }
+            while(isNullOrEmpry);
+            
             return videoQuality;
         }
     }
