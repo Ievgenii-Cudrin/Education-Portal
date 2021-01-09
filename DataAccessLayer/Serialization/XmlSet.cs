@@ -90,6 +90,7 @@ namespace DataAccessLayer.Serialization
             }
         }
 
+        //push to another class
         private int GenareteId()
         {
             FileInfo file = directory.GetFiles("*.xml").LastOrDefault();

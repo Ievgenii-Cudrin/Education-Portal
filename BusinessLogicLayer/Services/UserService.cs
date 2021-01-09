@@ -20,35 +20,56 @@ namespace EducationPortalConsoleApp.Services
         {
             //UserConsoleMessageHelper.ShowTextForChoice();
 
-            string userChoice = Console.ReadLine();
+            //string userChoice = Console.ReadLine();
 
-            switch (userChoice)
-            {
-                case "1":
-                    CreateUser();
-                    break;
-                case "2":
-                    UpdateUser();
-                    break;
-                case "3":
-                    ShowAllUsers();
-                    break;
-                case "4":
-                    DeleteUser();
-                    break;
-                case "5":
-                    ProgramService.SelectEntityToWork();
-                    break;
-                default:
-                    Console.WriteLine("Default case");
-                    break;
-            }
+            //switch (userChoice)
+            //{
+            //    case "1":
+            //        CreateUser();
+            //        break;
+            //    case "2":
+            //        UpdateUser();
+            //        break;
+            //    case "3":
+            //        ShowAllUsers();
+            //        break;
+            //    case "4":
+            //        DeleteUser();
+            //        break;
+            //    case "5":
+            //        ProgramService.SelectEntityToWork();
+            //        break;
+            //    default:
+            //        Console.WriteLine("Default case");
+            //        break;
+            //}
 
-            void CreateUser()
+            bool CreateUser(string name, string password, string email, string phoneNumber)
             {
-                _uow.Users.Create(UserInstanceCreator.UserCreator());
-                Console.WriteLine("User created successfully! You can continue. \n");
-                StartWorkWithUser();
+                bool success = false;
+                User user = null;
+                if (name != null && password != null && email != null && phoneNumber != null)
+                {
+                    user = new User()
+                    {
+                        Name = name,
+                        Password = password,
+                        Email = email,
+                        PhoneNumber = phoneNumber
+                    };
+                }
+                if (user != null)
+                {
+                    _uow.Users.Create(user);
+                    success = true;
+                }
+                else
+                {
+                    success = false;
+                }
+                return success;
+                
+                //StartWorkWithUser();
             }
 
             void UpdateUser()
