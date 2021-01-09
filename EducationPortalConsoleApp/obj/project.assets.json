@@ -2,6 +2,19 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v3.1": {
+      "BusinessLogicLayer/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "dependencies": {
+          "DataAccessLayer": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/BusinessLogicLayer.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/BusinessLogicLayer.dll": {}
+        }
+      },
       "DataAccessLayer/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
@@ -15,6 +28,11 @@
     }
   },
   "libraries": {
+    "BusinessLogicLayer/1.0.0": {
+      "type": "project",
+      "path": "../BusinessLogicLayer/BusinessLogicLayer.csproj",
+      "msbuildProject": "../BusinessLogicLayer/BusinessLogicLayer.csproj"
+    },
     "DataAccessLayer/1.0.0": {
       "type": "project",
       "path": "../DataAccessLayer/DataAccessLayer.csproj",
@@ -23,7 +41,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
-      "DataAccessLayer >= 1.0.0"
+      "BusinessLogicLayer >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -57,8 +75,8 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "E:\\Projects\\Education-Portal\\DataAccessLayer\\DataAccessLayer.csproj": {
-              "projectPath": "E:\\Projects\\Education-Portal\\DataAccessLayer\\DataAccessLayer.csproj"
+            "E:\\Projects\\Education-Portal\\BusinessLogicLayer\\BusinessLogicLayer.csproj": {
+              "projectPath": "E:\\Projects\\Education-Portal\\BusinessLogicLayer\\BusinessLogicLayer.csproj"
             }
           }
         }

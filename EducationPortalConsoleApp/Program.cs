@@ -1,8 +1,5 @@
-﻿using DataAccessLayer.Entities;
-using DataAccessLayer.Serialization;
-using EducationPortalConsoleApp.Services;
+﻿using EducationPortalConsoleApp.Services;
 using System;
-using System.Collections.Generic;
 
 namespace EducationPortalConsoleApp
 {
