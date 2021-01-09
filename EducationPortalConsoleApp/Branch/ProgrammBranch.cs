@@ -1,4 +1,5 @@
-﻿using EducationPortalConsoleApp.Helpers;
+﻿using EducationPortalConsoleApp.Controller;
+using EducationPortalConsoleApp.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,7 +17,7 @@ namespace EducationPortalConsoleApp.Branch
             switch (userChoice)
             {
                 case "1":
-                    new UserService().StartWorkWithUser();
+                    UserController.GetLoginAndPassword();
                     break;
                 case "2":
                     new MaterialService().StartWorkWithMaterial();
@@ -29,7 +30,7 @@ namespace EducationPortalConsoleApp.Branch
                 //    break;
                 default:
                     Console.WriteLine("Default case");
-                    SelectEntityToWork();
+                    //SelectEntityToWork();
                     break;
             }
         }

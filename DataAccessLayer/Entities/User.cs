@@ -15,6 +15,9 @@ namespace DataAccessLayer.Entities
         [XmlElement("Name")]
         public string Name { get; set; }
 
+        [XmlElement("Password")]
+        public string Password { get; set; }
+
         [XmlElement("PhoneNumber")]
         public string PhoneNumber { get; set; }
 
