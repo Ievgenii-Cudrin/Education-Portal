@@ -51,6 +51,27 @@ namespace EducationPortalConsoleApp.Helpers
             return name;
         }
 
+        public static string GetPasswordFromUser()
+        {
+            string password = "";
+            bool goodPassword;
+            do
+            {
+                Console.WriteLine($"Enter password: ");
+                password = Console.ReadLine();
+                Console.WriteLine($"Confirm password: ");
+                string confirmPassword = Console.ReadLine();
+
+                goodPassword = String.IsNullOrEmpty(password) && password != confirmPassword;
+                if (goodPassword)
+                {
+                    Console.WriteLine("Password must not be empty and passwords must match. Please, try again!");
+                }
+            }
+            while (!goodPassword);
+            return password;
+        }
+
         public static DateTime GetDateTimeFromUser()
         {
             TrySetNewDate:
