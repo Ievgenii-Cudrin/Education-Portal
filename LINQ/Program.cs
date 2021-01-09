@@ -111,7 +111,7 @@ namespace LINQ
 
 
 
-            8
+            //8
 
             string str = string.Join(",", customers.Select(customer => customer.Name));
             Console.WriteLine(str);

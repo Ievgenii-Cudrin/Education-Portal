@@ -69,16 +69,16 @@ namespace EducationPortalConsoleApp.Helpers
         public static string GetPasswordFromUser()
         {
             string password = "";
+            string confirmPassword = "";
             bool goodPassword;
             do
             {
                 Console.WriteLine($"Enter password: ");
                 password = Console.ReadLine();
                 Console.WriteLine($"Confirm password: ");
-                string confirmPassword = Console.ReadLine();
-
-                goodPassword = String.IsNullOrEmpty(password) && password != confirmPassword;
-                if (goodPassword)
+                confirmPassword = Console.ReadLine();
+                goodPassword = !String.IsNullOrEmpty(password) && password == confirmPassword;
+                if (!goodPassword)
                 {
                     Console.WriteLine("Password must not be empty and passwords must match. Please, try again!");
                 }
@@ -157,12 +157,12 @@ namespace EducationPortalConsoleApp.Helpers
                 Console.WriteLine($"Enter count of book pages: ");
                 countOfPages = Convert.ToInt32(Console.ReadLine());
 
-                if (countOfPages < 1)
+                if (countOfPages < 170)
                 {
-                    Console.WriteLine("The number of book pages must be more than 1. Please, try again!");
+                    Console.WriteLine("The number of book pages must be more than 170. Please, try again!");
                 }
             }
-            while (countOfPages < 1);
+            while (countOfPages < 170);
             
             return countOfPages;
         }

@@ -1,7 +1,6 @@
 ﻿using DataAccessLayer.Entities;
 using DataAccessLayer.Interfaces;
 using DataAccessLayer.Repositories;
-using EducationPortalConsoleApp.Helpers;
 using EducationPortalConsoleApp.InstanceCreator;
 using System;
 using System.Collections.Generic;
@@ -19,7 +18,7 @@ namespace EducationPortalConsoleApp.Services
 
         public void StartWorkWithMaterial()
         {
-            MaterialConsoleMessageHelper.ShowTextForChoiceCRUDMethod();
+            //MaterialConsoleMessageHelper.ShowTextForChoiceCRUDMethod();
 
             string userChoice = Console.ReadLine();
 
@@ -49,7 +48,7 @@ namespace EducationPortalConsoleApp.Services
 
         void CreateMaterial()
         {
-            MaterialConsoleMessageHelper.ShowTextForChoiceKindOfMaterial();
+            //MaterialConsoleMessageHelper.ShowTextForChoiceKindOfMaterial();
             string kindOfMaterial = Console.ReadLine();
             Material material;
             switch (kindOfMaterial)
@@ -113,12 +112,12 @@ namespace EducationPortalConsoleApp.Services
             IEnumerable<Material> materials = _uow.Materials.GetAll();
             foreach(var material in materials)
             {
-                if (material is Video)
-                    MaterialConsoleMessageHelper.ShowVideoInfo(material);
-                else if (material is Article)
-                    MaterialConsoleMessageHelper.ShowArticleInfo(material);
-                else
-                    MaterialConsoleMessageHelper.ShowBookInfo(material);
+                //if (material is Video)
+                    //MaterialConsoleMessageHelper.ShowVideoInfo(material);
+                //else if (material is Article)
+                    //MaterialConsoleMessageHelper.ShowArticleInfo(material);
+                //else
+                    //MaterialConsoleMessageHelper.ShowBookInfo(material);
             }
             Console.WriteLine("\n");
             StartWorkWithMaterial();
@@ -143,7 +142,7 @@ namespace EducationPortalConsoleApp.Services
 
         void ContinueAfterMaterialCreated()
         {
-            MaterialConsoleMessageHelper.MaterialCreated();
+            //MaterialConsoleMessageHelper.MaterialCreated();
             StartWorkWithMaterial();
         }
     }

@@ -14,3 +14,5 @@ E:\Projects\Education-Portal\EducationPortalConsoleApp\bin\Debug\netcoreapp3.1\D
 E:\Projects\Education-Portal\EducationPortalConsoleApp\bin\Debug\netcoreapp3.1\DataAccessLayer.pdb
 E:\Projects\Education-Portal\EducationPortalConsoleApp\obj\Debug\netcoreapp3.1\EducationPortalConsoleApp.csprojAssemblyReference.cache
 E:\Projects\Education-Portal\EducationPortalConsoleApp\obj\Debug\netcoreapp3.1\EducationPortalConsoleApp.csproj.CopyComplete
+E:\Projects\Education-Portal\EducationPortalConsoleApp\bin\Debug\netcoreapp3.1\BusinessLogicLayer.dll
+E:\Projects\Education-Portal\EducationPortalConsoleApp\bin\Debug\netcoreapp3.1\BusinessLogicLayer.pdb

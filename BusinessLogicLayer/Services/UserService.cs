@@ -1,7 +1,6 @@
 ﻿using DataAccessLayer.Entities;
 using DataAccessLayer.Interfaces;
 using DataAccessLayer.Repositories;
-using EducationPortalConsoleApp.Helpers;
 using EducationPortalConsoleApp.InstanceCreator;
 using System;
 using System.Collections.Generic;
@@ -19,7 +18,7 @@ namespace EducationPortalConsoleApp.Services
         }
         public void StartWorkWithUser()
         {
-            UserConsoleMessageHelper.ShowTextForChoice();
+            //UserConsoleMessageHelper.ShowTextForChoice();
 
             string userChoice = Console.ReadLine();
 
@@ -64,9 +63,9 @@ namespace EducationPortalConsoleApp.Services
                 }
                 else
                 {
-                    user.Name = GetDataHelper.GetNameFromUser();
-                    user.Email = GetDataHelper.GetEmailFromUser();
-                    user.PhoneNumber = GetDataHelper.GetPhoneNumberFromUser();
+                    //user.Name = GetDataHelper.GetNameFromUser();
+                    //user.Email = GetDataHelper.GetEmailFromUser();
+                    //user.PhoneNumber = GetDataHelper.GetPhoneNumberFromUser();
 
                     _uow.Users.Update(user);
                     Console.WriteLine("\nUser updated\n");
@@ -78,7 +77,7 @@ namespace EducationPortalConsoleApp.Services
             void ShowAllUsers()
             {
                 IEnumerable<User> users = _uow.Users.GetAll();
-                UserConsoleMessageHelper.ShowObjects(users);
+                //UserConsoleMessageHelper.ShowObjects(users);
                 Console.WriteLine("");
                 StartWorkWithUser();
             }

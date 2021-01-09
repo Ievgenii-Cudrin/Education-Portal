@@ -20,7 +20,7 @@ namespace EducationPortalConsoleApp.Branch
                     UserController.GetLoginAndPassword();
                     break;
                 case "2":
-                    new MaterialService().StartWorkWithMaterial();
+                    //new MaterialService().StartWorkWithMaterial();
                     break;
                 //case "3":
                 //    //ShowAllMaterials();
