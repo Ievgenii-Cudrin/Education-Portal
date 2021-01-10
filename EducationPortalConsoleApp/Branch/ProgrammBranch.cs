@@ -22,17 +22,32 @@ namespace EducationPortalConsoleApp.Branch
                 case "2":
                     new UserController().CreateNewUser();
                     break;
-                //case "3":
-                //    //ShowAllMaterials();
-                //    break;
-                //case "4":
-                //    //DeleteMaterial();
-                //    break;
                 default:
                     Console.WriteLine("Default case");
-                    //SelectEntityToWork();
+                    StartApplication();
                     break;
             }
+        }
+
+        public static void SelectStepForAuthorizedUser()
+        {
+            ProgramConsoleMessageHelper.ShowTextForFirstStepForAuthorizedUser();
+
+            //string userChoice = Console.ReadLine();
+
+            //switch (userChoice)
+            //{
+            //    case "1":
+            //        new UserController().VerifyLoginAndPassword();
+            //        break;
+            //    case "2":
+            //        new UserController().CreateNewUser();
+            //        break;
+            //    default:
+            //        Console.WriteLine("Default case");
+            //        StartApplication();
+            //        break;
+            //}
         }
     }
 }

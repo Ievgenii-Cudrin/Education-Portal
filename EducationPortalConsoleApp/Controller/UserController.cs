@@ -25,6 +25,8 @@ namespace EducationPortalConsoleApp.Controller
             if (validUser)
             {
                 Console.WriteLine("Authorization passed");
+                //TODO Add method to work with entity
+                ProgrammBranch.SelectStepForAuthorizedUser();
             }
             else
             {
@@ -33,7 +35,7 @@ namespace EducationPortalConsoleApp.Controller
             }
                 
 
-            //TODO Add method to work with entity
+            
         }
 
         public void CreateNewUser()
