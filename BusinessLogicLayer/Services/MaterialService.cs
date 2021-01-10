@@ -79,21 +79,23 @@ namespace EducationPortalConsoleApp.Services
             }
         }
 
-        public bool CreateVideo(string name, int quality, int duration, string link)
-        {
-            bool success = true;
-            if (name.Length > 0 && quality > 0 && duration > 1 && link != null)
-            {
-                newMaterial = new Video()
-                {
-                    Name = name,
-                    Quality = quality,
-                    Duration = duration,
-                    Link = link
-                };
-                uow.Materials.
-            }
-        }
+        //TODO ----
+
+        //public bool CreateVideo(string name, int quality, int duration, string link)
+        //{
+        //    bool success = true;
+        //    if (name.Length > 0 && quality > 0 && duration > 1 && link != null)
+        //    {
+        //        newMaterial = new Video()
+        //        {
+        //            Name = name,
+        //            Quality = quality,
+        //            Duration = duration,
+        //            Link = link
+        //        };
+        //        uow.Materials.
+        //    }
+        //}
 
         void UpdateMaterial()
         {
