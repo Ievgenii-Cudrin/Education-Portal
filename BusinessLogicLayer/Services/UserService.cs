@@ -13,7 +13,7 @@ namespace EducationPortalConsoleApp.Services
     {
         IUnitOfWork _uow;
         User authorizedUser;
-        public User AuthorizadUser
+        public User AuthorizdUser
         {
             get
             {

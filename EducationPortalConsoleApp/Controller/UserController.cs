@@ -20,13 +20,26 @@ namespace EducationPortalConsoleApp.Controller
             string name = GetDataHelper.GetNameFromUser();
             string password = GetDataHelper.GetPasswordFromUser();
 
-            bool validUser = ser
+            bool validUser = userService.VerifyUser(name, password);
+
+            if (validUser)
+            {
+                Console.WriteLine("Authorization passed");
+            }
+            else
+            {
+                Console.WriteLine("User with such data does not exist");
+                ProgrammBranch.StartApplication();
+            }
+                
+
+            //TODO Add method to work with entity
         }
 
         public void CreateNewUser()
         {
             string name = GetDataHelper.GetNameFromUser();
-            string password = GetDataHelper.GetPasswordFromUser();
+            string password = GetDataHelper.GetPasswordWithConfirmFromUser();
             string phoneNumber = GetDataHelper.GetPhoneNumberFromUser();
             string email = GetDataHelper.GetEmailFromUser();
 

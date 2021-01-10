@@ -66,7 +66,7 @@ namespace EducationPortalConsoleApp.Helpers
             return name;
         }
 
-        public static string GetPasswordFromUser()
+        public static string GetPasswordWithConfirmFromUser()
         {
             string password = "";
             string confirmPassword = "";
@@ -84,6 +84,24 @@ namespace EducationPortalConsoleApp.Helpers
                 }
             }
             while (!goodPassword);
+            return password;
+        }
+
+        public static string GetPasswordFromUser()
+        {
+            string password = "";
+            bool goodPassword;
+            do
+            {
+                Console.WriteLine($"Enter password: ");
+                password = Console.ReadLine();
+                goodPassword = String.IsNullOrEmpty(password);
+                if (goodPassword)
+                {
+                    Console.WriteLine("Password must not be empty and passwords must match. Please, try again!");
+                }
+            }
+            while (goodPassword);
             return password;
         }
 
