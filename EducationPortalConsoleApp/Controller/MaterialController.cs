@@ -22,15 +22,19 @@ namespace EducationPortalConsoleApp.Controller
         {
             MaterialConsoleMessageHelper.ShowTextForChoiceKindOfMaterial();
 
-            string kindOfMaterial = Console.ReadLine().ToLower();
+            string kindOfMaterial = Console.ReadLine();
 
             switch (kindOfMaterial)
             {
-                case "video":
+                case "1":
+                    CreateVideo();
                     break;
-                case "book":
+                case "2":
                     break;
-                case "article":
+                case "3":
+                    break;
+                case "4":
+                    programmBranch.SelectFirstStepForAuthorizedUser();
                     break;
                 default:
                     CreateNewMaterial();
@@ -39,6 +43,16 @@ namespace EducationPortalConsoleApp.Controller
             }
 
 
+        }
+
+        private void CreateVideo()
+        {
+            string name = GetDataHelper.GetNameFromUser();
+            int quality = GetDataHelper.GetVideoQuality();
+            int duration = GetDataHelper.GetVideoQuality();
+            string link = GetDataHelper.GetSiteAddressFromUser();
+
+            bool createVideo = materialService.CreateVideo(name, quality, duration, link);
         }
     }
 }

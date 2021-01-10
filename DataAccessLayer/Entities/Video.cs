@@ -12,7 +12,7 @@ namespace DataAccessLayer.Entities
         public string Link { get; set; }
 
         [XmlElement("Quality")]
-        public string Quality { get; set; }
+        public int Quality { get; set; }
 
         [XmlElement("Duration")]
         public int Duration { get; set; }

@@ -34,7 +34,7 @@ namespace EducationPortalConsoleApp.Branch
             }
         }
 
-        public void SelectStepForAuthorizedUser()
+        public void SelectFirstStepForAuthorizedUser()
         {
             ProgramConsoleMessageHelper.ShowTextForFirstStepForAuthorizedUser();
 
@@ -43,7 +43,8 @@ namespace EducationPortalConsoleApp.Branch
             switch (userChoice)
             {
                 case "1":
-                    materialController.Create
+                    //materialController.CreateNewMaterial();
+                    courseController.CreateNewCourse();
                     break;
                 case "2":
 

@@ -10,10 +10,11 @@ namespace EducationPortalConsoleApp.Services
 {
     public class MaterialService
     {
-        IUnitOfWork _uow;
+        IUnitOfWork uow;
+        Material newMaterial;
         public MaterialService()
         {
-            this._uow = new EFUnitOfWork();
+            this.uow = new EFUnitOfWork();
         }
 
         public void StartWorkWithMaterial()
@@ -55,17 +56,17 @@ namespace EducationPortalConsoleApp.Services
             {
                 case "1":
                     material = VideoInstanceCreator.VideoCreator();
-                    _uow.Materials.Create(material);
+                    uow.Materials.Create(material);
                     ContinueAfterMaterialCreated();
                     break;
                 case "2":
                     material = BookInstanceCreator.BookCreator();
-                    _uow.Materials.Create(material);
+                    uow.Materials.Create(material);
                     ContinueAfterMaterialCreated();
                     break;
                 case "3":
                     material = ArticleInstanceCreator.ArticleCreator();
-                    _uow.Materials.Create(material);
+                    uow.Materials.Create(material);
                     ContinueAfterMaterialCreated();
                     break;
                 case "4":
@@ -78,13 +79,29 @@ namespace EducationPortalConsoleApp.Services
             }
         }
 
+        public bool CreateVideo(string name, int quality, int duration, string link)
+        {
+            bool success = true;
+            if (name.Length > 0 && quality > 0 && duration > 1 && link != null)
+            {
+                newMaterial = new Video()
+                {
+                    Name = name,
+                    Quality = quality,
+                    Duration = duration,
+                    Link = link
+                };
+                uow.Materials.
+            }
+        }
+
         void UpdateMaterial()
         {
             //TODO finish this method
             Console.Write($"Enter material ID to update: ");
             int id = Convert.ToInt32(Console.ReadLine());
 
-            Material material = _uow.Materials.Get(id);
+            Material material = uow.Materials.Get(id);
             if (material == null)
             {
                 Console.WriteLine($"Material not found");
@@ -101,7 +118,7 @@ namespace EducationPortalConsoleApp.Services
                     material = BookInstanceCreator.BookCreator();
 
                 material.Id = id;
-                _uow.Materials.Update(material);
+                uow.Materials.Update(material);
                 Console.WriteLine("Material has been successfully updated");
                 StartWorkWithMaterial();
             }
@@ -109,7 +126,7 @@ namespace EducationPortalConsoleApp.Services
 
         void ShowAllMaterials()
         {
-            IEnumerable<Material> materials = _uow.Materials.GetAll();
+            IEnumerable<Material> materials = uow.Materials.GetAll();
             foreach(var material in materials)
             {
                 //if (material is Video)
@@ -131,11 +148,11 @@ namespace EducationPortalConsoleApp.Services
             Console.Write($"Enter material ID to delete: ");
             int id = Convert.ToInt32(Console.ReadLine());
 
-            Material material = _uow.Materials.Get(id);
+            Material material = uow.Materials.Get(id);
             if (material == null)
                 Console.WriteLine($"\nMaterial not found\n");
             else
-                _uow.Materials.Delete(Convert.ToInt32(material.Id));
+                uow.Materials.Delete(Convert.ToInt32(material.Id));
 
             StartWorkWithMaterial();
         }

@@ -28,7 +28,7 @@ namespace EducationPortalConsoleApp.Controller
             {
                 Console.WriteLine("Authorization passed");
                 //TODO Add method to work with entity
-                programmBranch.SelectStepForAuthorizedUser();
+                programmBranch.SelectFirstStepForAuthorizedUser();
             }
             else
             {

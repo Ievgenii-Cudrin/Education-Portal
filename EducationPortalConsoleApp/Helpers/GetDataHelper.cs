@@ -203,22 +203,22 @@ namespace EducationPortalConsoleApp.Helpers
             return videoDuration;
         }
 
-        public static string GetVideoQuality()
+        public static int GetVideoQuality()
         {
-            string videoQuality;
-            bool isNullOrEmpry;
+            int videoQuality;
+            bool validVideoQuality;
             do
             {
 
                 Console.WriteLine($"Enter video quality: ");
-                videoQuality = Console.ReadLine();
-                isNullOrEmpry = String.IsNullOrEmpty(videoQuality);
-                if (isNullOrEmpry)
+                videoQuality = Convert.ToInt32(Console.ReadLine());
+                validVideoQuality = videoQuality > 144 && videoQuality < 1080;
+                if (validVideoQuality)
                 {
-                    Console.WriteLine("Video quality must not be empty. Please, try again!");
+                    Console.WriteLine("video quality should be in the range from 144 to 1080. Please, try again!");
                 }
             }
-            while(isNullOrEmpry);
+            while(validVideoQuality);
             
             return videoQuality;
         }
