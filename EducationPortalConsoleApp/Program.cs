@@ -9,8 +9,7 @@ namespace EducationPortalConsoleApp
     {
         static void Main(string[] args)
         {
-
-            ProgrammBranch.StartApplication();
+            new ProgrammBranch().StartApplication();
 
             Console.ReadLine();
         }

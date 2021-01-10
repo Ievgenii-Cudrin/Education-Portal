@@ -9,11 +9,13 @@ namespace EducationPortalConsoleApp.Controller
 {
     public class UserController
     {
-        static UserService userService;
-        
+        UserService userService;
+        ProgrammBranch programmBranch;
+
         public UserController()
         {
             userService = new UserService();
+            programmBranch = new ProgrammBranch();
         }
         public void VerifyLoginAndPassword()
         {
@@ -26,12 +28,12 @@ namespace EducationPortalConsoleApp.Controller
             {
                 Console.WriteLine("Authorization passed");
                 //TODO Add method to work with entity
-                ProgrammBranch.SelectStepForAuthorizedUser();
+                programmBranch.SelectStepForAuthorizedUser();
             }
             else
             {
                 Console.WriteLine("User with such data does not exist");
-                ProgrammBranch.StartApplication();
+                programmBranch.StartApplication();
             }
                 
 
@@ -52,7 +54,7 @@ namespace EducationPortalConsoleApp.Controller
             else
                 Console.WriteLine("Somthing wrong");
 
-            ProgrammBranch.StartApplication();
+            programmBranch.StartApplication();
         }
     }
 }

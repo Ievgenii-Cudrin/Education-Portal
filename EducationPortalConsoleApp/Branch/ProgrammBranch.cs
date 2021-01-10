@@ -6,9 +6,14 @@ using System.Text;
 
 namespace EducationPortalConsoleApp.Branch
 {
-    public static class ProgrammBranch
+    public class ProgrammBranch
     {
-        public static void StartApplication()
+        //Add dependency injection
+        UserController userController = new UserController();
+        MaterialController materialController = new MaterialController();
+        CourseController courseController = new CourseController();
+        SkillController skillController = new SkillController();
+        public void StartApplication()
         {
             ProgramConsoleMessageHelper.ShowTextForLoginOrRegistration();
 
@@ -17,10 +22,10 @@ namespace EducationPortalConsoleApp.Branch
             switch (userChoice)
             {
                 case "1":
-                    new UserController().VerifyLoginAndPassword();
+                    userController.VerifyLoginAndPassword();
                     break;
                 case "2":
-                    new UserController().CreateNewUser();
+                    userController.CreateNewUser();
                     break;
                 default:
                     Console.WriteLine("Default case");
@@ -29,25 +34,37 @@ namespace EducationPortalConsoleApp.Branch
             }
         }
 
-        public static void SelectStepForAuthorizedUser()
+        public void SelectStepForAuthorizedUser()
         {
             ProgramConsoleMessageHelper.ShowTextForFirstStepForAuthorizedUser();
 
-            //string userChoice = Console.ReadLine();
+            string userChoice = Console.ReadLine();
 
-            //switch (userChoice)
-            //{
-            //    case "1":
-            //        new UserController().VerifyLoginAndPassword();
-            //        break;
-            //    case "2":
-            //        new UserController().CreateNewUser();
-            //        break;
-            //    default:
-            //        Console.WriteLine("Default case");
-            //        StartApplication();
-            //        break;
-            //}
+            switch (userChoice)
+            {
+                case "1":
+                    materialController.Create
+                    break;
+                case "2":
+
+                    break;
+                case "3":
+
+                    break;
+                case "4":
+
+                    break;
+                case "5":
+
+                    break;
+                case "6":
+                    StartApplication();
+                    break;
+                default:
+                    Console.WriteLine("Default case");
+                    StartApplication();
+                    break;
+            }
         }
     }
 }

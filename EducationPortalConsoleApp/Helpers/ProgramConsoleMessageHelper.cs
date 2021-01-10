@@ -30,8 +30,11 @@ namespace EducationPortalConsoleApp.Helpers
             $"\n2.See the list of available courses" +
             $"\n3.See the list of passed courses" +
             $"\n4.See the list of courses in progress" +
-            $"\n5.Select course to study"
+            $"\n5.Select course to study" +
+            $"\n6.Exit"
             );
+        }
+
         }
     }
 }

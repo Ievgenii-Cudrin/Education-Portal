@@ -7,7 +7,7 @@ namespace EducationPortalConsoleApp.Helpers
 {
     public static class MaterialConsoleMessageHelper
     {
-        public static void ShowTextForChoiceCRUDMethod()
+        internal static void ShowTextForChoiceCRUDMethod()
         {
             Console.WriteLine($"\nOkey. Make the next choice to continue: " +
             $"\n1.Add material" +
@@ -17,7 +17,7 @@ namespace EducationPortalConsoleApp.Helpers
             $"\n5.Return");
         }
 
-        public static void ShowTextForChoiceKindOfMaterial()
+        internal static void ShowTextForChoiceKindOfMaterial()
         {
             Console.WriteLine($"\nMake the next choice to continue: " +
             $"\n1.Add video" +
@@ -26,7 +26,7 @@ namespace EducationPortalConsoleApp.Helpers
             $"\n4.Return");
         }
 
-        public static void MaterialCreated()
+        internal static void MaterialCreated()
         {
             Console.WriteLine("Material successfully created." +
             $"\nSelect next choice" +
@@ -34,7 +34,7 @@ namespace EducationPortalConsoleApp.Helpers
         }
 
 
-        public static void ShowVideoInfo(Material video)
+            public static void ShowVideoInfo(Material video)
         {
             Video copyOfInputParametrVideo = (Video)video;
             Console.WriteLine($"Id: {copyOfInputParametrVideo.Id}");
