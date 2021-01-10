@@ -9,7 +9,7 @@ namespace EducationPortalConsoleApp.Services
         public static void SelectEntityToWork()
         {
             //TODO Console - 
-            //ProgramServiceConsoleMessageHelper.ShowTextWithEntityToSelect();
+            //ProgramConsoleMessageHelper.ShowTextWithEntityToSelect();
 
             string userChoice = Console.ReadLine();
 

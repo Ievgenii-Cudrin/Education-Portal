@@ -1,7 +1,7 @@
 ﻿using DataAccessLayer.Entities;
 using DataAccessLayer.Interfaces;
 using DataAccessLayer.Repositories;
-using EducationPortalConsoleApp.InstanceCreator;
+using System.Linq;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,6 +12,14 @@ namespace EducationPortalConsoleApp.Services
     public class UserService
     {
         IUnitOfWork _uow;
+        User authorizedUser;
+        public User AuthorizadUser
+        {
+            get
+            {
+                return authorizedUser;
+            }
+        }
         public UserService()
         {
             this._uow = new EFUnitOfWork();
@@ -68,6 +76,18 @@ namespace EducationPortalConsoleApp.Services
             return success;
 
             //StartWorkWithUser();
+        }
+
+        public bool VerifyUser(string name, string password)
+        {
+            User user = _uow.Users.GetAll().Where(x => x.Name == name && x.Password == password).FirstOrDefault();
+            if (user == null)
+                return false;
+            else
+            {
+                authorizedUser = user;
+                return true;
+            }
         }
 
         void UpdateUser()

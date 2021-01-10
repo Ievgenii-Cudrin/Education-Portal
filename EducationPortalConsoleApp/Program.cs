@@ -1,4 +1,5 @@
-﻿using EducationPortalConsoleApp.Helpers;
+﻿using EducationPortalConsoleApp.Branch;
+using EducationPortalConsoleApp.Helpers;
 using EducationPortalConsoleApp.Services;
 using System;
 
@@ -8,7 +9,8 @@ namespace EducationPortalConsoleApp
     {
         static void Main(string[] args)
         {
-            ProgramService.SelectEntityToWork();
+
+            ProgrammBranch.StartApplication();
 
             Console.ReadLine();
         }

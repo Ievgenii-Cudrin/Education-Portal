@@ -1,4 +1,5 @@
-﻿using EducationPortalConsoleApp.Helpers;
+﻿using EducationPortalConsoleApp.Branch;
+using EducationPortalConsoleApp.Helpers;
 using EducationPortalConsoleApp.Services;
 using System;
 using System.Collections.Generic;
@@ -8,29 +9,35 @@ namespace EducationPortalConsoleApp.Controller
 {
     public class UserController
     {
-        static UserService service;
+        static UserService userService;
+        
         public UserController()
         {
-            service = new UserService();
+            userService = new UserService();
         }
-        public static void GetLoginAndPassword()
+        public void VerifyLoginAndPassword()
         {
+            string name = GetDataHelper.GetNameFromUser();
+            string password = GetDataHelper.GetPasswordFromUser();
 
+            bool validUser = ser
         }
 
-        public static void CreateNewUser()
+        public void CreateNewUser()
         {
             string name = GetDataHelper.GetNameFromUser();
             string password = GetDataHelper.GetPasswordFromUser();
             string phoneNumber = GetDataHelper.GetPhoneNumberFromUser();
             string email = GetDataHelper.GetEmailFromUser();
 
-            bool createUser = service.CreateUser(name, password, email, phoneNumber);
+            bool createUser = userService.CreateUser(name, password, email, phoneNumber);
 
             if(createUser)
                 Console.WriteLine("User successfully created!");
             else
                 Console.WriteLine("Somthing wrong");
+
+            ProgrammBranch.StartApplication();
         }
     }
 }

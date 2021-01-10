@@ -17,10 +17,10 @@ namespace EducationPortalConsoleApp.Branch
             switch (userChoice)
             {
                 case "1":
-                    UserController.GetLoginAndPassword();
+                    new UserController().VerifyLoginAndPassword();
                     break;
                 case "2":
-                    //new MaterialService().StartWorkWithMaterial();
+                    new UserController().CreateNewUser();
                     break;
                 //case "3":
                 //    //ShowAllMaterials();
