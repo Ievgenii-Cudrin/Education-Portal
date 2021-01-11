@@ -63,13 +63,7 @@ namespace LINQ.Helpers
             var groups = customers.OrderBy(x => x.RegistrationDate.Month).GroupBy(x => x.RegistrationDate.Month).Select(x => x.OrderBy(k => k.Name));
             foreach(var group in groups)
             {
-                foreach(var customer in group)
-                {
-                    Console.WriteLine(customer.Name);
-                    Console.WriteLine(customer.RegistrationDate);
-                    Console.WriteLine("-");
-                }
-                Console.WriteLine("--------------");
+                group.OrderBy(x => x.RegistrationDate.Month).ToList().ForEach(x => { Console.WriteLine($"{x.Name} - {x.RegistrationDate}");});
             }
         }
 
@@ -78,7 +72,6 @@ namespace LINQ.Helpers
             string names = string.Join(",", customers.Select(customer => customer.Name));
             Console.WriteLine(names);
         }
-
 
         public static IEnumerable<Customer> ShowCustomerBySomeProperty()
         {
@@ -95,17 +88,18 @@ namespace LINQ.Helpers
             string propertyFromUser = Console.ReadLine();
             PropertyInfo prop = typeof(Customer).GetProperty(propertyFromUser);
             //get sorting type
-            Console.WriteLine("Ascending or descending (write A or D): ");
+            Console.WriteLine("Ascending or descending (write Asc or Desc): ");
             string sorting = Console.ReadLine();
 
-            if (sorting.ToLower() == "a")
+            if (sorting.ToLower() == "asc")
             {
                 return customers.OrderBy(x => prop.GetValue(x, null));
             }
-            else if (sorting.ToLower() == "d")
+            else if (sorting.ToLower() == "desc")
             {
                 return customers.OrderByDescending(x => prop.GetValue(x, null));
             }
+
             return null;
         }
     }
