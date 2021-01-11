@@ -70,18 +70,19 @@ namespace BullsAndCows
         {
             int[] current = GetIntMass(currentAnswer);
             int[] possible = GetIntMass(answerFromPossibleMassive);
-
             var tuple = (bulls: 0, cows: 0);
 
             //calculate bulls and cows in every string
             for(int i = 0; i < current.Length; i++)
             {
+                //if digits at the same position are equal we add bull
                 if (current[i] == possible[i])
                 {
                     tuple.bulls++;
                 }
                 else
                 {
+                    //if digits at the different position are equal we add cow
                     for (int k = 0; k < possible.Length; k++)
                     {
                         if (current[i] == possible[k])
@@ -91,7 +92,6 @@ namespace BullsAndCows
                     }
                 }
             }
-
             
             return tuple;
         }
@@ -100,10 +100,13 @@ namespace BullsAndCows
         {
             //Convert string to int[]
             int[] massOfNumbers = new int[str.Length];
+
+            //Convert string to int[]
             for (int i = 0; i < str.Length; i++)
             {
                 massOfNumbers[i] = Convert.ToInt32(str[i]);
             }
+
             return massOfNumbers;
         }
 
@@ -116,11 +119,14 @@ namespace BullsAndCows
             {
                 string fmd = "0000";
                 string fmt = i.ToString(fmd);
+
+                //character inequality check
                 if (fmt[0] != fmt[1] && fmt[0] != fmt[2] && fmt[0] != fmt[3] && fmt[1] != fmt[2] && fmt[1] != fmt[3] && fmt[2] != fmt[3])
                 {
                     answers.Add(i.ToString(fmd));
                 }
             }
+
             return answers;
         }
 
@@ -129,9 +135,9 @@ namespace BullsAndCows
         {
             Random rnd = new Random();
             int random = rnd.Next(0, answers.Count);
+            //get random variant and return it
             string answer = answers[random];
             return answer;
         }
-        
     }
 }
