@@ -16,5 +16,14 @@ namespace DataAccessLayer.Entities
 
         [XmlElement("Duration")]
         public int Duration { get; set; }
+
+        public override string ToString()
+        {
+            return $"Type: Video" +
+                $"\nName: {Name}" +
+                $"\nLink: {Link}" +
+                $"\nVideo quality: {Quality}" +
+                $"\nVideo duration: {Duration}";
+        }
     }
 }

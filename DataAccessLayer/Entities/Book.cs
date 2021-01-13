@@ -13,5 +13,13 @@ namespace DataAccessLayer.Entities
 
         [XmlElement("Author")]
         public string Author { get; set; }
+
+        public override string ToString()
+        {
+            return $"Type: Book" +
+                $"\nName: {Name}" +
+                $"\nCountOfPages: {CountOfPages}" +
+                $"\nAuthor: {Author}";
+        }
     }
 }

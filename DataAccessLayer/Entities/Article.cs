@@ -13,5 +13,13 @@ namespace DataAccessLayer.Entities
 
         [XmlElement("Site")]
         public string Site { get; set; }
+
+        public override string ToString()
+        {
+            return $"Type: Article" +
+                $"\nName: {Name}" +
+                $"\nPublicationDate: {PublicationDate}" +
+                $"\nSite: {Site}";
+        }
     }
 }

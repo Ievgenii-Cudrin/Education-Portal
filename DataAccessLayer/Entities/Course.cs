@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Xml.Serialization;
+using System.Linq;
 
 namespace DataAccessLayer.Entities
 {
@@ -11,6 +12,9 @@ namespace DataAccessLayer.Entities
     {
         [XmlElement("CourseID")]
         public int Id { get; set; }
+
+        [XmlElement("Name")]
+        public string Name { get; set; }
 
         [XmlElement("Description")]
         public string Description { get; set; }
@@ -22,5 +26,13 @@ namespace DataAccessLayer.Entities
         [XmlArray("MaterialArray")]
         [XmlArrayItem("MaterialObjekt")]
         public List<Material> Materials = new List<Material>();
+
+        public override string ToString()
+        {
+            return $"\nName: {Name}" +
+                $"\nDescription: {Description}" +
+                $"\nYou will acquire the following skills: { string.Join(",", Skills.Select(s => s.Name)) }" +
+                $"\nThe course contains the following list of materials: { string.Join(",", Materials.Select(x => x.Name))}";
+        }
     }
 }
