@@ -155,14 +155,5 @@ namespace EducationPortalConsoleApp.Services
                 Console.WriteLine($"\nMaterial not found\n");
             else
                 uow.Materials.Delete(Convert.ToInt32(material.Id));
-
-            StartWorkWithMaterial();
-        }
-
-        void ContinueAfterMaterialCreated()
-        {
-            //MaterialConsoleMessageHelper.MaterialCreated();
-            StartWorkWithMaterial();
-        }
     }
 }

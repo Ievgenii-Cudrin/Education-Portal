@@ -29,13 +29,19 @@ namespace EducationPortalConsoleApp.Services
 
         public bool CreateUser(string name, string password, string email, string phoneNumber)
         {
-            bool uniqueEmail = !uow.Users.GetAll().Any(x => x.Email.Equals(email));
+            //check email, may be we have this email
+            bool uniqueEmail = !uow.Users.GetAll().Any(x => x.Email.ToLower().Equals(email.ToLower()));
+            //if unique emaeil => create new user, otherwise user == null
             User user = uniqueEmail ? UserInstanceCreator.UserCreator(name, password, email, phoneNumber) : null;
 
             if (user != null)
+            {
                 uow.Users.Create(user);
+            }
             else
+            {
                 return false;
+            }
 
             return true;
         }
@@ -43,13 +49,17 @@ namespace EducationPortalConsoleApp.Services
         public bool VerifyUser(string name, string password)
         {
             User user = uow.Users.GetAll().Where(x => x.Name == name && x.Password == password).FirstOrDefault();
+
             if (user == null)
+            {
                 return false;
+            }
             else
             {
                 authorizedUser = user;
-                return true;
             }
+
+            return true;
         }
 
         public bool LogOut()
@@ -62,6 +72,7 @@ namespace EducationPortalConsoleApp.Services
         public bool UpdateUser(int id, string name, string password, string email, string phoneNumber)
         {
             User user = uow.Users.Get(id);
+
             if (user == null)
             {
                 return false;
@@ -73,8 +84,9 @@ namespace EducationPortalConsoleApp.Services
                 user.Email = email;
                 user.PhoneNumber = phoneNumber;
                 uow.Users.Update(user);
-                return true;
             }
+
+            return true;
         }
 
         public IEnumerable<string> GetAllUsers()
@@ -85,6 +97,7 @@ namespace EducationPortalConsoleApp.Services
         public bool DeleteUser(int id)
         {
             User user = uow.Users.Get(id);
+
             if (user == null)
             {
                 return false;
@@ -92,8 +105,9 @@ namespace EducationPortalConsoleApp.Services
             else
             {
                 uow.Users.Delete(Convert.ToInt32(id));
-                return true;
             }
+
+            return true;
         }
     }
 }
