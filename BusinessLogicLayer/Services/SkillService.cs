@@ -17,22 +17,28 @@ namespace BusinessLogicLayer.Services
             this.uow = new EFUnitOfWork();
         }
 
-        public bool CreateSkill(string name, string password, string email, string phoneNumber)
+        public bool CreateSkill(string name)
         {
+            //check for uniqueness
             bool uniqueSkill = uow.Skills.GetAll().Any(x => x.Name.ToLower().Equals(name.ToLower()));
             Skill skill = uniqueSkill ? SkillInstanceCreator.CreateSkill(name) : null;
 
             if (skill != null)
+            {
                 uow.Skills.Create(skill);
+            }
             else
+            {
                 return false;
+            }
 
             return true;
         }
 
-        public bool UpdateSkill(int id, string name)
+        public bool UpdateSkill(string name)
         {
-            Skill skill = uow.Skills.Get(id);
+            Skill skill = uow.Skills.GetAll().Where(x => x.Name.ToLower().Equals(name.ToLower())).FirstOrDefault();
+
             if (skill == null)
             {
                 return false;
@@ -41,8 +47,9 @@ namespace BusinessLogicLayer.Services
             {
                 skill.Name = name;
                 uow.Skills.Update(skill);
-                return true;
             }
+
+            return true;
         }
 
         public IEnumerable<string> GetAllUsers()
@@ -60,8 +67,9 @@ namespace BusinessLogicLayer.Services
             else
             {
                 uow.Skills.Delete(Convert.ToInt32(id));
-                return true;
             }
+
+            return true;
         }
     }
 }

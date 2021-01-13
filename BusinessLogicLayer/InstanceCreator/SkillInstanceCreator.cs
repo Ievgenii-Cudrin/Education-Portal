@@ -10,6 +10,7 @@ namespace BusinessLogicLayer.InstanceCreator
         public static Skill CreateSkill(string name)
         {
             Skill skill = null;
+
             if(name != null && name.Length > 2)
             {
                 skill = new Skill()
@@ -18,6 +19,7 @@ namespace BusinessLogicLayer.InstanceCreator
                     CountOfPoint = 0
                 };
             }
+
             return skill;
         }
     }

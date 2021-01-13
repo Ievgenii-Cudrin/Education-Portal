@@ -10,6 +10,7 @@ namespace EducationPortalConsoleApp.InstanceCreator
         public static User UserCreator(string name, string password, string email, string phoneNumber)
         {
             User user = null;
+
             if (name != null && password != null && email != null && phoneNumber != null)
             {
                 user = new User()
@@ -20,6 +21,7 @@ namespace EducationPortalConsoleApp.InstanceCreator
                     PhoneNumber = phoneNumber
                 };
             }
+
             return user == null ? null : user;
         }
     }
