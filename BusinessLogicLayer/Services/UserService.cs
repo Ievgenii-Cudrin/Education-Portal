@@ -21,6 +21,7 @@ namespace EducationPortalConsoleApp.Services
                 return authorizedUser;
             }
         }
+
         public UserService()
         {
             this.uow = new EFUnitOfWork();
