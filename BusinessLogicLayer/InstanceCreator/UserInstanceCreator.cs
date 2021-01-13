@@ -7,11 +7,20 @@ namespace EducationPortalConsoleApp.InstanceCreator
 {
     public static class UserInstanceCreator
     {
-        public static User UserCreator() => new User()
+        public static User UserCreator(string name, string password, string email, string phoneNumber)
         {
-            //Name = GetDataHelper.GetNameFromUser(),
-            //Email = GetDataHelper.GetEmailFromUser(),
-            //PhoneNumber = GetDataHelper.GetPhoneNumberFromUser()
-        };
+            User user = null;
+            if (name != null && password != null && email != null && phoneNumber != null)
+            {
+                user = new User()
+                {
+                    Name = name,
+                    Password = password,
+                    Email = email,
+                    PhoneNumber = phoneNumber
+                };
+            }
+            return user == null ? null : user;
+        }
     }
 }

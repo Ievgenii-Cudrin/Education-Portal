@@ -28,7 +28,7 @@ namespace EducationPortalConsoleApp.Services
         public bool CreateUser(string name, string password, string email, string phoneNumber)
         {
             bool success = true;
-            bool requredPassword = 
+            bool requredPassword = uow.Users.GetAll().Any(x => x.Email.Equals(email));
             User user = null;
             if (name != null && password != null && email != null && phoneNumber != null)
             {
@@ -51,7 +51,7 @@ namespace EducationPortalConsoleApp.Services
 
         public bool VerifyUser(string name, string password)
         {
-            User user = _uow.Users.GetAll().Where(x => x.Name == name && x.Password == password).FirstOrDefault();
+            User user = uow.Users.GetAll().Where(x => x.Name == name && x.Password == password).FirstOrDefault();
             if (user == null)
                 return false;
             else
@@ -61,12 +61,13 @@ namespace EducationPortalConsoleApp.Services
             }
         }
 
-        void UpdateUser()
+        void UpdateUser(int id, string name, string password, string email, string phoneNumber)
         {
+
             Console.Write($"Enter user ID to update: ");
             int id = Convert.ToInt32(Console.ReadLine());
 
-            User user = _uow.Users.Get(id);
+            User user = uow.Users.Get(id);
             if (user == null)
             {
                 Console.WriteLine($"\nUser not found");
@@ -77,19 +78,15 @@ namespace EducationPortalConsoleApp.Services
                 //user.Email = GetDataHelper.GetEmailFromUser();
                 //user.PhoneNumber = GetDataHelper.GetPhoneNumberFromUser();
 
-                _uow.Users.Update(user);
+                uow.Users.Update(user);
                 Console.WriteLine("\nUser updated\n");
             }
-            StartWorkWithUser();
-
         }
 
         void ShowAllUsers()
         {
-            IEnumerable<User> users = _uow.Users.GetAll();
-            //UserConsoleMessageHelper.ShowObjects(users);
+            IEnumerable<User> users = uow.Users.GetAll();
             Console.WriteLine("");
-            StartWorkWithUser();
         }
 
         void DeleteUser()
@@ -97,17 +94,16 @@ namespace EducationPortalConsoleApp.Services
             Console.Write($"Enter user ID to delete: ");
             int id = Convert.ToInt32(Console.ReadLine());
 
-            User user = _uow.Users.Get(id);
+            User user = uow.Users.Get(id);
             if (user == null)
             {
                 Console.WriteLine($"\nUser not found\n");
             }
             else
             {
-                _uow.Users.Delete(Convert.ToInt32(id));
+                uow.Users.Delete(Convert.ToInt32(id));
                 Console.WriteLine("User deleted");
             }
-            StartWorkWithUser();
         }
     }
 }
