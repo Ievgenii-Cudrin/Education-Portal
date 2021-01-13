@@ -11,9 +11,9 @@ namespace EducationPortalConsoleApp.Services
 {
     public class UserService
     {
-        IUnitOfWork _uow;
+        IUnitOfWork uow;
         User authorizedUser;
-        public User AuthorizdUser
+        public User AuthorizedUser
         {
             get
             {
@@ -22,12 +22,13 @@ namespace EducationPortalConsoleApp.Services
         }
         public UserService()
         {
-            this._uow = new EFUnitOfWork();
+            this.uow = new EFUnitOfWork();
         }
 
         public bool CreateUser(string name, string password, string email, string phoneNumber)
         {
             bool success = true;
+            bool requredPassword = 
             User user = null;
             if (name != null && password != null && email != null && phoneNumber != null)
             {
@@ -41,13 +42,11 @@ namespace EducationPortalConsoleApp.Services
             }
 
             if (user != null)
-                _uow.Users.Create(user);
+                uow.Users.Create(user);
             else
                 success = false;
 
             return success;
-
-            //StartWorkWithUser();
         }
 
         public bool VerifyUser(string name, string password)

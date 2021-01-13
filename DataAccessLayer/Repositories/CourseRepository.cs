@@ -9,34 +9,34 @@ namespace DataAccessLayer.Repositories
 {
     public class CourseRepository : IRepository<Course>
     {
-        private XmlSerializeContext _context;
+        private XmlSerializeContext context;
         public CourseRepository(XmlSerializeContext context)
         {
-            this._context = context;
+            this.context = context;
         }
         public void Create(Course item)
         {
-            _context.Courses.Add(item);
+            context.Courses.Add(item);
         }
 
         public void Delete(int id)
         {
-            _context.Courses.Delete(id);
+            context.Courses.Delete(id);
         }
 
         public Course Get(int id)
         {
-            return _context.Courses.Get(id);
+            return context.Courses.Get(id);
         }
 
         public IEnumerable<Course> GetAll()
         {
-            return _context.Courses.GetAll();
+            return context.Courses.GetAll();
         }
 
         public void Update(Course item)
         {
-            _context.Courses.UpdateObject(item);
+            context.Courses.UpdateObject(item);
         }
     }
 }
