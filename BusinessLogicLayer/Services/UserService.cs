@@ -51,7 +51,14 @@ namespace EducationPortalConsoleApp.Services
             }
         }
 
-        bool UpdateUser(int id, string name, string password, string email, string phoneNumber)
+        public bool LogOut()
+        {
+            //Think about this method
+            authorizedUser = null;
+            return true;
+        }
+
+        public bool UpdateUser(int id, string name, string password, string email, string phoneNumber)
         {
             User user = uow.Users.Get(id);
             if (user == null)
@@ -60,32 +67,31 @@ namespace EducationPortalConsoleApp.Services
             }
             else
             {
-
+                user.Name = name;
+                user.Password = password;
+                user.Email = email;
+                user.PhoneNumber = phoneNumber;
                 uow.Users.Update(user);
-                Console.WriteLine("\nUser updated\n");
+                return true;
             }
         }
 
-        void ShowAllUsers()
+        public IEnumerable<string> GetAllUsers()
         {
-            IEnumerable<User> users = uow.Users.GetAll();
-            Console.WriteLine("");
+            return uow.Users.GetAll().Select(n => n.Name);
         }
 
-        void DeleteUser()
+        public bool DeleteUser(int id)
         {
-            Console.Write($"Enter user ID to delete: ");
-            int id = Convert.ToInt32(Console.ReadLine());
-
             User user = uow.Users.Get(id);
             if (user == null)
             {
-                Console.WriteLine($"\nUser not found\n");
+                return false;
             }
             else
             {
                 uow.Users.Delete(Convert.ToInt32(id));
-                Console.WriteLine("User deleted");
+                return true;
             }
         }
     }
