@@ -67,5 +67,35 @@ namespace EducationPortalConsoleApp.Branch
                     break;
             }
         }
+
+        public static void StartWorkWithUser()
+        {
+            //UserConsoleMessageHelper.ShowTextForChoice();
+
+            //string userChoice = Console.ReadLine();
+
+            //switch (userChoice)
+            //{
+            //    case "1":
+            //        CreateUser();
+            //        break;
+            //    case "2":
+            //        UpdateUser();
+            //        break;
+            //    case "3":
+            //        ShowAllUsers();
+            //        break;
+            //    case "4":
+            //        DeleteUser();
+            //        break;
+            //    case "5":
+            //        ProgramService.SelectEntityToWork();
+            //        break;
+            //    default:
+            //        Console.WriteLine("Default case");
+            //        break;
+            //}
+        }
+
     }
 }

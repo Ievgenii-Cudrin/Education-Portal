@@ -30,8 +30,10 @@ namespace EducationPortalConsoleApp.Controller
                     CreateVideo();
                     break;
                 case "2":
+                    CreateArticle();
                     break;
                 case "3":
+                    CreateBook();
                     break;
                 case "4":
                     programmBranch.SelectFirstStepForAuthorizedUser();
@@ -39,10 +41,7 @@ namespace EducationPortalConsoleApp.Controller
                 default:
                     CreateNewMaterial();
                     break;
-
             }
-
-
         }
 
         private void CreateVideo()
@@ -53,6 +52,11 @@ namespace EducationPortalConsoleApp.Controller
             string link = GetDataHelper.GetSiteAddressFromUser();
 
             bool createVideo = materialService.CreateVideo(name, quality, duration, link);
+        }
+
+        private void CreateArticle()
+        {
+
         }
     }
 }

@@ -13,15 +13,15 @@ namespace EducationPortalConsoleApp.Helpers
             $"\n2.Registration"
             );
         }
-        internal static void ShowTextWithEntityToSelect()
-        {
-            Console.WriteLine($"Hi, dear user. Please, make your choice: " +
-            $"\n1.Operation with users" +
-            $"\n2.Operation with materials"
-            //$"\n3.Operation with courses" +
-            //$"\n4.Operation with skills"
-            );
-        }
+        //internal static void ShowTextWithEntityToSelect()
+        //{
+        //    Console.WriteLine($"Hi, dear user. Please, make your choice: " +
+        //    $"\n1.Operation with users" +
+        //    $"\n2.Operation with materials"
+        //    //$"\n3.Operation with courses" +
+        //    //$"\n4.Operation with skills"
+        //    );
+        //}
 
         internal static void ShowTextForFirstStepForAuthorizedUser()
         {
@@ -31,10 +31,8 @@ namespace EducationPortalConsoleApp.Helpers
             $"\n3.See the list of passed courses" +
             $"\n4.See the list of courses in progress" +
             $"\n5.Select course to study" +
-            $"\n6.Exit"
+            $"\n6.LogOut"
             );
-        }
-
         }
     }
 }

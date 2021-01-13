@@ -24,34 +24,6 @@ namespace EducationPortalConsoleApp.Services
         {
             this._uow = new EFUnitOfWork();
         }
-        public void StartWorkWithUser()
-        {
-            //UserConsoleMessageHelper.ShowTextForChoice();
-
-            //string userChoice = Console.ReadLine();
-
-            //switch (userChoice)
-            //{
-            //    case "1":
-            //        CreateUser();
-            //        break;
-            //    case "2":
-            //        UpdateUser();
-            //        break;
-            //    case "3":
-            //        ShowAllUsers();
-            //        break;
-            //    case "4":
-            //        DeleteUser();
-            //        break;
-            //    case "5":
-            //        ProgramService.SelectEntityToWork();
-            //        break;
-            //    default:
-            //        Console.WriteLine("Default case");
-            //        break;
-            //}
-        }
 
         public bool CreateUser(string name, string password, string email, string phoneNumber)
         {

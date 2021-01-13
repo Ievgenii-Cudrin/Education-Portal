@@ -111,7 +111,7 @@ namespace EducationPortalConsoleApp.Services
             }
             else
             {
-                //TODO
+                //TODO (Lisskov principe)
                 if (material is Video)
                     material = VideoInstanceCreator.VideoCreator();
                 else if (material is Article)
