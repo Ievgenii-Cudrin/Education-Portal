@@ -51,22 +51,15 @@ namespace EducationPortalConsoleApp.Services
             }
         }
 
-        void UpdateUser(int id, string name, string password, string email, string phoneNumber)
+        bool UpdateUser(int id, string name, string password, string email, string phoneNumber)
         {
-
-            Console.Write($"Enter user ID to update: ");
-            int id = Convert.ToInt32(Console.ReadLine());
-
             User user = uow.Users.Get(id);
             if (user == null)
             {
-                Console.WriteLine($"\nUser not found");
+                return false;
             }
             else
             {
-                //user.Name = GetDataHelper.GetNameFromUser();
-                //user.Email = GetDataHelper.GetEmailFromUser();
-                //user.PhoneNumber = GetDataHelper.GetPhoneNumberFromUser();
 
                 uow.Users.Update(user);
                 Console.WriteLine("\nUser updated\n");
