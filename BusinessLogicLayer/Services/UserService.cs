@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
+using EducationPortalConsoleApp.InstanceCreator;
 
 namespace EducationPortalConsoleApp.Services
 {
@@ -27,26 +28,15 @@ namespace EducationPortalConsoleApp.Services
 
         public bool CreateUser(string name, string password, string email, string phoneNumber)
         {
-            bool success = true;
-            bool requredPassword = uow.Users.GetAll().Any(x => x.Email.Equals(email));
-            User user = null;
-            if (name != null && password != null && email != null && phoneNumber != null)
-            {
-                user = new User()
-                {
-                    Name = name,
-                    Password = password,
-                    Email = email,
-                    PhoneNumber = phoneNumber
-                };
-            }
+            bool uniqueEmail = !uow.Users.GetAll().Any(x => x.Email.Equals(email));
+            User user = uniqueEmail ? UserInstanceCreator.UserCreator(name, password, email, phoneNumber) : null;
 
             if (user != null)
                 uow.Users.Create(user);
             else
-                success = false;
+                return false;
 
-            return success;
+            return true;
         }
 
         public bool VerifyUser(string name, string password)
