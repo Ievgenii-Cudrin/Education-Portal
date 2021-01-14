@@ -12,7 +12,7 @@ namespace EducationPortalConsoleApp.Services
 {
     public class UserService
     {
-        IUnitOfWork uow;
+        IRepository<User> repository;
         User authorizedUser;
         public User AuthorizedUser
         {
@@ -22,21 +22,21 @@ namespace EducationPortalConsoleApp.Services
             }
         }
 
-        public UserService()
+        public UserService(IRepository<User> repository)
         {
-            this.uow = new EFUnitOfWork();
+            this.repository = repository;
         }
 
         public bool CreateUser(string name, string password, string email, string phoneNumber)
         {
             //check email, may be we have this email
-            bool uniqueEmail = !uow.Users.GetAll().Any(x => x.Email.ToLower().Equals(email.ToLower()));
+            bool uniqueEmail = !repository.GetAll().Any(x => x.Email.ToLower().Equals(email.ToLower()));
             //if unique emaeil => create new user, otherwise user == null
             User user = uniqueEmail ? UserInstanceCreator.UserCreator(name, password, email, phoneNumber) : null;
 
             if (user != null)
             {
-                uow.Users.Create(user);
+                repository.Create(user);
             }
             else
             {
@@ -48,7 +48,7 @@ namespace EducationPortalConsoleApp.Services
 
         public bool VerifyUser(string name, string password)
         {
-            User user = uow.Users.GetAll().Where(x => x.Name == name && x.Password == password).FirstOrDefault();
+            User user = repository.GetAll().Where(x => x.Name == name && x.Password == password).FirstOrDefault();
 
             if (user == null)
             {
@@ -71,7 +71,7 @@ namespace EducationPortalConsoleApp.Services
 
         public bool UpdateUser(int id, string name, string password, string email, string phoneNumber)
         {
-            User user = uow.Users.Get(id);
+            User user = repository.Get(id);
 
             if (user == null)
             {
@@ -83,7 +83,7 @@ namespace EducationPortalConsoleApp.Services
                 user.Password = password;
                 user.Email = email;
                 user.PhoneNumber = phoneNumber;
-                uow.Users.Update(user);
+                repository.Update(user);
             }
 
             return true;
@@ -91,12 +91,12 @@ namespace EducationPortalConsoleApp.Services
 
         public IEnumerable<string> GetAllUsers()
         {
-            return uow.Users.GetAll().Select(n => n.Name);
+            return repository.GetAll().Select(n => n.Name);
         }
 
         public bool DeleteUser(int id)
         {
-            User user = uow.Users.Get(id);
+            User user = repository.Get(id);
 
             if (user == null)
             {
@@ -104,7 +104,7 @@ namespace EducationPortalConsoleApp.Services
             }
             else
             {
-                uow.Users.Delete(Convert.ToInt32(id));
+                repository.Delete(Convert.ToInt32(id));
             }
 
             return true;

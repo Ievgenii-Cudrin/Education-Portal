@@ -44,7 +44,6 @@ namespace EducationPortalConsoleApp.Services
                     Console.WriteLine("Default case");
                     break;
             }
-
         }
 
         void CreateMaterial()
