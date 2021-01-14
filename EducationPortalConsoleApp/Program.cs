@@ -1,4 +1,5 @@
-﻿using EducationPortalConsoleApp.Branch;
+﻿using DataAccessLayer.DependencyInjection;
+using EducationPortalConsoleApp.Branch;
 using EducationPortalConsoleApp.Helpers;
 using EducationPortalConsoleApp.Services;
 using System;
@@ -9,6 +10,7 @@ namespace EducationPortalConsoleApp
     {
         static void Main(string[] args)
         {
+            var provider = Startup.ConfigureService();
             new ProgrammBranch().StartApplication();
 
             Console.ReadLine();

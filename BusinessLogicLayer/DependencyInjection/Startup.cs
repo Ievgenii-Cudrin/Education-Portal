@@ -7,7 +7,7 @@ using System.Text;
 
 namespace BusinessLogicLayer.DependencyInjection
 {
-    public static class Startup
+    public static class StartupBll
     {
         public static IServiceProvider ConfigureService()
         {

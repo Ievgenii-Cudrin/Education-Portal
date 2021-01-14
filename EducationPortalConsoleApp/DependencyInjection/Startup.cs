@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using BusinessLogicLayer.DependencyInjection;
 
 namespace EducationPortalConsoleApp.DependencyInjection
 {
@@ -15,6 +16,8 @@ namespace EducationPortalConsoleApp.DependencyInjection
             var provider = new ServiceCollection()
                 .AddSingleton<IUserService, UserService>()
                 .BuildServiceProvider();
+
+            var bllProvider = StartupBll.ConfigureService();
 
             return provider;
         }

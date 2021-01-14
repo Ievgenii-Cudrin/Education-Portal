@@ -1,4 +1,5 @@
-﻿using EducationPortalConsoleApp.Branch;
+﻿using BusinessLogicLayer.Interfaces;
+using EducationPortalConsoleApp.Branch;
 using EducationPortalConsoleApp.Helpers;
 using EducationPortalConsoleApp.Services;
 using System;
@@ -9,12 +10,12 @@ namespace EducationPortalConsoleApp.Controller
 {
     public class UserController
     {
-        UserService userService;
+        IUserService userService;
         ProgrammBranch programmBranch;
 
-        public UserController()
+        public UserController(IUserService userService)
         {
-            userService = new UserService();
+            this.userService = userService;
             programmBranch = new ProgrammBranch();
         }
         public void VerifyLoginAndPassword()
