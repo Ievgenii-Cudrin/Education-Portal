@@ -11,7 +11,7 @@ namespace EducationPortalConsoleApp
         static void Main(string[] args)
         {
             var provider = Startup.ConfigureService();
-            new ProgrammBranch().StartApplication();
+            new IProgramBranch().StartApplication();
 
             Console.ReadLine();
         }

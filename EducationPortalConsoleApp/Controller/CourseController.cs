@@ -1,12 +1,13 @@
-﻿using System;
+﻿using EducationPortalConsoleApp.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace EducationPortalConsoleApp.Controller
 {
-    public static class CourseController
+    public class CourseController : ICourseController
     {
-        public static void CreateNewCourse()
+        public void CreateNewCourse()
         {
             //TODO Here
             //CourseService userService;

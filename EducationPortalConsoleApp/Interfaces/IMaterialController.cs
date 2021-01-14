@@ -4,10 +4,7 @@ using System.Text;
 
 namespace EducationPortalConsoleApp.Interfaces
 {
-    public interface IUserController
+    public interface IMaterialController
     {
-        public void CreateNewUser();
-
-        public void VerifyLoginAndPassword();
     }
 }

@@ -9,7 +9,7 @@ using System.Text;
 
 namespace EducationPortalConsoleApp.Controller
 {
-    public class UserController
+    public class UserController : IUserController
     {
         IUserService userService;
         IProgramBranch programmBranch;

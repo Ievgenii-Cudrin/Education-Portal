@@ -7,13 +7,21 @@ using System.Text;
 
 namespace EducationPortalConsoleApp.Branch
 {
-    public class ProgrammBranch : IProgramBranch
+    public class ProgramBranch : IProgramBranch
     {
         //Add dependency injection
-        UserController userController = new UserController();
-        MaterialController materialController = new MaterialController();
-        CourseController courseController = new CourseController();
-        SkillController skillController = new SkillController();
+        IUserController userController;
+        IMaterialController materialController;
+        ICourseController courseController;
+        ISkillController skillController;
+
+        public ProgramBranch(IUserController userController, IMaterialController materialController, ICourseController courseController, ISkillController skillController)
+        {
+            this.userController = userController;
+            this.materialController = materialController;
+            this.courseController = courseController;
+            this.skillController = skillController;
+        }
         public void StartApplication()
         {
             ProgramConsoleMessageHelper.ShowTextForLoginOrRegistration();
@@ -45,7 +53,7 @@ namespace EducationPortalConsoleApp.Branch
             {
                 case "1":
                     //materialController.CreateNewMaterial();
-                    courseController.CreateNewCourse();
+                    //courseController.CreateNewCourse();
                     break;
                 case "2":
 
