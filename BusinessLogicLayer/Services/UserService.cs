@@ -7,13 +7,15 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using EducationPortalConsoleApp.InstanceCreator;
+using BusinessLogicLayer.Interfaces;
 
 namespace EducationPortalConsoleApp.Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
         IRepository<User> repository;
         User authorizedUser;
+
         public User AuthorizedUser
         {
             get
