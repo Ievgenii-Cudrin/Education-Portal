@@ -1,4 +1,5 @@
 ﻿using BusinessLogicLayer.InstanceCreator;
+using BusinessLogicLayer.Interfaces;
 using DataAccessLayer.Entities;
 using DataAccessLayer.Interfaces;
 using DataAccessLayer.Repositories;
@@ -8,24 +9,24 @@ using System.Linq;
 
 namespace BusinessLogicLayer.Services
 {
-    public class SkillService
+    public class SkillService : ISkillService
     {
-        IUnitOfWork uow;
+        IRepository<Skill> repository;
 
-        public SkillService()
+        public SkillService(IRepository<Skill> repository)
         {
-            this.uow = new EFUnitOfWork();
+            this.repository = repository;
         }
 
         public bool CreateSkill(string name)
         {
             //check for uniqueness
-            bool uniqueSkill = uow.Skills.GetAll().Any(x => x.Name.ToLower().Equals(name.ToLower()));
+            bool uniqueSkill = repository.GetAll().Any(x => x.Name.ToLower().Equals(name.ToLower()));
             Skill skill = uniqueSkill ? SkillInstanceCreator.CreateSkill(name) : null;
 
             if (skill != null)
             {
-                uow.Skills.Create(skill);
+                repository.Create(skill);
             }
             else
             {
@@ -37,7 +38,7 @@ namespace BusinessLogicLayer.Services
 
         public bool UpdateSkill(string name)
         {
-            Skill skill = uow.Skills.GetAll().Where(x => x.Name.ToLower().Equals(name.ToLower())).FirstOrDefault();
+            Skill skill = repository.GetAll().Where(x => x.Name.ToLower().Equals(name.ToLower())).FirstOrDefault();
 
             if (skill == null)
             {
@@ -46,7 +47,7 @@ namespace BusinessLogicLayer.Services
             else
             {
                 skill.Name = name;
-                uow.Skills.Update(skill);
+                repository.Update(skill);
             }
 
             return true;
@@ -54,19 +55,19 @@ namespace BusinessLogicLayer.Services
 
         public IEnumerable<string> GetAllUsers()
         {
-            return uow.Skills.GetAll().Select(n => n.Name);
+            return repository.GetAll().Select(n => n.Name);
         }
 
         public bool DeleteUser(int id)
         {
-            Skill skill = uow.Skills.Get(id);
+            Skill skill = repository.Get(id);
             if (skill == null)
             {
                 return false;
             }
             else
             {
-                uow.Skills.Delete(Convert.ToInt32(id));
+                repository.Delete(Convert.ToInt32(id));
             }
 
             return true;

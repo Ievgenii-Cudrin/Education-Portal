@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BusinessLogicLayer.Interfaces
 {
-    public interface IUserService
+    public interface IUserService : IDeleteEntity
     {
         public bool CreateUser(string name, string password, string email, string phoneNumber);
 
@@ -15,7 +15,5 @@ namespace BusinessLogicLayer.Interfaces
         public bool UpdateUser(int id, string name, string password, string email, string phoneNumber);
 
         public IEnumerable<string> GetAllUsers();
-
-        public bool DeleteUser(int id);
     }
 }
