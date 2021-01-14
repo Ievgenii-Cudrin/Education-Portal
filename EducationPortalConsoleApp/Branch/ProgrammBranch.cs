@@ -1,12 +1,13 @@
 ﻿using EducationPortalConsoleApp.Controller;
 using EducationPortalConsoleApp.Helpers;
+using EducationPortalConsoleApp.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace EducationPortalConsoleApp.Branch
 {
-    public class ProgrammBranch
+    public class ProgrammBranch : IProgramBranch
     {
         //Add dependency injection
         UserController userController = new UserController();

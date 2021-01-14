@@ -1,6 +1,7 @@
 ﻿using BusinessLogicLayer.Interfaces;
 using EducationPortalConsoleApp.Branch;
 using EducationPortalConsoleApp.Helpers;
+using EducationPortalConsoleApp.Interfaces;
 using EducationPortalConsoleApp.Services;
 using System;
 using System.Collections.Generic;
@@ -11,12 +12,12 @@ namespace EducationPortalConsoleApp.Controller
     public class UserController
     {
         IUserService userService;
-        ProgrammBranch programmBranch;
+        IProgramBranch programmBranch;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, IProgramBranch programBranch)
         {
             this.userService = userService;
-            programmBranch = new ProgrammBranch();
+            this.programmBranch = programBranch;
         }
         public void VerifyLoginAndPassword()
         {
@@ -36,9 +37,6 @@ namespace EducationPortalConsoleApp.Controller
                 Console.WriteLine("User with such data does not exist");
                 programmBranch.StartApplication();
             }
-                
-
-            
         }
 
         public void CreateNewUser()
