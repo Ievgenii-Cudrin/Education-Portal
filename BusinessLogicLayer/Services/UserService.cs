@@ -96,7 +96,7 @@ namespace EducationPortalConsoleApp.Services
             return repository.GetAll().Select(n => n.Name);
         }
 
-        public bool DeleteUser(int id)
+        public bool Delete(int id)
         {
             User user = repository.Get(id);
 
