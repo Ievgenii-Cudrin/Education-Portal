@@ -58,7 +58,7 @@ namespace BusinessLogicLayer.Services
             return repository.GetAll().Select(n => n.Name);
         }
 
-        public bool DeleteUser(int id)
+        public bool Delete(int id)
         {
             Skill skill = repository.Get(id);
             if (skill == null)

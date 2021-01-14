@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.Entities;
+﻿using BusinessLogicLayer.Interfaces;
+using DataAccessLayer.Entities;
 using DataAccessLayer.Interfaces;
 using DataAccessLayer.Repositories;
 using EducationPortalConsoleApp.InstanceCreator;
@@ -8,7 +9,7 @@ using System.Text;
 
 namespace EducationPortalConsoleApp.Services
 {
-    public class MaterialService
+    public class MaterialService : IMaterialService
     {
         IUnitOfWork uow;
         Material newMaterial;
@@ -17,63 +18,9 @@ namespace EducationPortalConsoleApp.Services
             this.uow = new EFUnitOfWork();
         }
 
-        public void StartWorkWithMaterial()
-        {
-            //MaterialConsoleMessageHelper.ShowTextForChoiceCRUDMethod();
+        
 
-            string userChoice = Console.ReadLine();
-
-            switch (userChoice)
-            {
-                case "1":
-                    CreateMaterial();
-                    break;
-                case "2":
-                    UpdateMaterial();
-                    break;
-                case "3":
-                    ShowAllMaterials();
-                    break;
-                case "4":
-                    DeleteMaterial();
-                    break;
-                case "5":
-                    ProgramService.SelectEntityToWork();
-                    break;
-                default:
-                    Console.WriteLine("Default case");
-                    break;
-            }
-        }
-
-        void CreateMaterial()
-        {
-            //MaterialConsoleMessageHelper.ShowTextForChoiceKindOfMaterial();
-            string kindOfMaterial = Console.ReadLine();
-            Material material;
-            switch (kindOfMaterial)
-            {
-                case "1":
-                    material = VideoInstanceCreator.VideoCreator();
-                    uow.Materials.Create(material);
-                    break;
-                case "2":
-                    material = BookInstanceCreator.BookCreator();
-                    uow.Materials.Create(material);
-                    break;
-                case "3":
-                    material = ArticleInstanceCreator.ArticleCreator();
-                    uow.Materials.Create(material);
-                    break;
-                case "4":
-                    StartWorkWithMaterial();
-                    break;
-                default:
-                    Console.WriteLine("Default case. Please, try again!");
-                    CreateMaterial();
-                    break;
-            }
-        }
+        
 
         //TODO ----
 
@@ -103,7 +50,6 @@ namespace EducationPortalConsoleApp.Services
             if (material == null)
             {
                 Console.WriteLine($"Material not found");
-                StartWorkWithMaterial();
             }
             else
             {
@@ -118,7 +64,6 @@ namespace EducationPortalConsoleApp.Services
                 material.Id = id;
                 uow.Materials.Update(material);
                 Console.WriteLine("Material has been successfully updated");
-                StartWorkWithMaterial();
             }
         }
 
@@ -135,22 +80,23 @@ namespace EducationPortalConsoleApp.Services
                     //MaterialConsoleMessageHelper.ShowBookInfo(material);
             }
             Console.WriteLine("\n");
-            StartWorkWithMaterial();
             //MaterialConsoleMessageHelper.ShowObjects(users);
 
-            StartWorkWithMaterial();
         }
 
-        void DeleteMaterial()
+        public bool Delete(int id)
         {
-            Console.Write($"Enter material ID to delete: ");
-            int id = Convert.ToInt32(Console.ReadLine());
-
             Material material = uow.Materials.Get(id);
             if (material == null)
-                Console.WriteLine($"\nMaterial not found\n");
+            {
+                return false;
+            }
             else
+            {
                 uow.Materials.Delete(Convert.ToInt32(material.Id));
+            }
+
+            return true;
         }
     }
 }

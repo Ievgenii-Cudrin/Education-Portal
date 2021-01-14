@@ -4,8 +4,7 @@ using System.Text;
 
 namespace BusinessLogicLayer.Interfaces
 {
-    public interface IDeleteEntity
+    public interface ICourseService : IDeleteEntity
     {
-        public bool Delete(int id);
     }
 }
