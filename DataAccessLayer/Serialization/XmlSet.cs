@@ -8,10 +8,11 @@ using System.Xml.Linq;
 using System.Xml.Serialization;
 using System.Linq;
 using System.Text.RegularExpressions;
+using DataAccessLayer.Interfaces;
 
 namespace DataAccessLayer.Serialization
 {
-    public class XmlSet<T> where T : class  //XmlSerialization
+    public class XmlSet<T> : IXmlSet<T> where T : class  //XmlSerialization
     {
         Type type;
         XmlSerializer serializer;

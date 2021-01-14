@@ -57,17 +57,14 @@ namespace EducationPortalConsoleApp.Services
                 case "1":
                     material = VideoInstanceCreator.VideoCreator();
                     uow.Materials.Create(material);
-                    ContinueAfterMaterialCreated();
                     break;
                 case "2":
                     material = BookInstanceCreator.BookCreator();
                     uow.Materials.Create(material);
-                    ContinueAfterMaterialCreated();
                     break;
                 case "3":
                     material = ArticleInstanceCreator.ArticleCreator();
                     uow.Materials.Create(material);
-                    ContinueAfterMaterialCreated();
                     break;
                 case "4":
                     StartWorkWithMaterial();
@@ -155,5 +152,6 @@ namespace EducationPortalConsoleApp.Services
                 Console.WriteLine($"\nMaterial not found\n");
             else
                 uow.Materials.Delete(Convert.ToInt32(material.Id));
+        }
     }
 }
