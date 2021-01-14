@@ -16,6 +16,7 @@ namespace DataAccessLayer.DependencyInjection
             var provider = new ServiceCollection()
                 .AddSingleton(typeof(IXmlSet<>), typeof(XmlSet<>))
                 .AddSingleton(typeof(IXmlSerializeContext<>), typeof(XmlSerializationContextGeneric<>))
+                .AddSingleton(typeof(IRepository<>), typeof(Repository<>))
                 .BuildServiceProvider();
 
             return provider;

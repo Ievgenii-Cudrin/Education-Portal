@@ -12,12 +12,10 @@ namespace EducationPortalConsoleApp.Controller
     public class UserController : IUserController
     {
         IUserService userService;
-        IProgramBranch programmBranch;
 
-        public UserController(IUserService userService, IProgramBranch programBranch)
+        public UserController(IUserService userService)
         {
             this.userService = userService;
-            this.programmBranch = programBranch;
         }
         public void VerifyLoginAndPassword()
         {
@@ -30,12 +28,12 @@ namespace EducationPortalConsoleApp.Controller
             {
                 Console.WriteLine("Authorization passed");
                 //TODO Add method to work with entity
-                programmBranch.SelectFirstStepForAuthorizedUser();
+                ProgramBranch.SelectFirstStepForAuthorizedUser();
             }
             else
             {
                 Console.WriteLine("User with such data does not exist");
-                programmBranch.StartApplication();
+                ProgramBranch.StartApplication();
             }
         }
 
@@ -53,7 +51,7 @@ namespace EducationPortalConsoleApp.Controller
             else
                 Console.WriteLine("Somthing wrong");
 
-            programmBranch.StartApplication();
+            ProgramBranch.StartApplication();
         }
     }
 }

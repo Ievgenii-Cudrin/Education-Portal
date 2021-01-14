@@ -3,6 +3,7 @@ using BusinessLogicLayer.Interfaces;
 using DataAccessLayer.Entities;
 using DataAccessLayer.Interfaces;
 using DataAccessLayer.Repositories;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,18 +12,23 @@ namespace BusinessLogicLayer.Services
 {
     public class SkillService : ISkillService
     {
-        IRepository<Skill> repository;
+        IRepository<Skill> repository = ProviderServiceBLL.Provider.GetRequiredService<IRepository<Skill>>();
+        User authorizedUser;
 
-        public SkillService(IRepository<Skill> repository)
+        public User AuthorizedUser
         {
-            this.repository = repository;
+            get
+            {
+                return authorizedUser;
+            }
         }
 
         public bool CreateSkill(string name)
         {
-            //check for uniqueness
-            bool uniqueSkill = repository.GetAll().Any(x => x.Name.ToLower().Equals(name.ToLower()));
-            Skill skill = uniqueSkill ? SkillInstanceCreator.CreateSkill(name) : null;
+            //check email, may be we have this email
+            bool uniqueEmail = !repository.GetAll().Any(x => x.Name.ToLower().Equals(name.ToLower()));
+            //if unique emaeil => create new user, otherwise user == null
+            Skill skill = uniqueEmail ? SkillInstanceCreator.CreateSkill(name) : null;
 
             if (skill != null)
             {
@@ -36,9 +42,9 @@ namespace BusinessLogicLayer.Services
             return true;
         }
 
-        public bool UpdateSkill(string name)
+        public bool UpdateSkill(int id, string name)
         {
-            Skill skill = repository.GetAll().Where(x => x.Name.ToLower().Equals(name.ToLower())).FirstOrDefault();
+            Skill skill = repository.Get(id);
 
             if (skill == null)
             {
@@ -53,15 +59,16 @@ namespace BusinessLogicLayer.Services
             return true;
         }
 
-        public IEnumerable<string> GetAllUsers()
+        public IEnumerable<string> GetAllSkills()
         {
             return repository.GetAll().Select(n => n.Name);
         }
 
         public bool Delete(int id)
         {
-            Skill skill = repository.Get(id);
-            if (skill == null)
+            Skill user = repository.Get(id);
+
+            if (user == null)
             {
                 return false;
             }

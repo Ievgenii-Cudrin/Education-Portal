@@ -8,12 +8,15 @@ using System.Text;
 using System.Text.RegularExpressions;
 using EducationPortalConsoleApp.InstanceCreator;
 using BusinessLogicLayer.Interfaces;
+using BusinessLogicLayer.DependencyInjection;
+using BusinessLogicLayer.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace EducationPortalConsoleApp.Services
 {
     public class UserService : IUserService
     {
-        IRepository<User> repository;
+        IRepository<User> repository = ProviderServiceBLL.Provider.GetRequiredService<IRepository<User>>();
         User authorizedUser;
 
         public User AuthorizedUser
@@ -22,11 +25,6 @@ namespace EducationPortalConsoleApp.Services
             {
                 return authorizedUser;
             }
-        }
-
-        public UserService(IRepository<User> repository)
-        {
-            this.repository = repository;
         }
 
         public bool CreateUser(string name, string password, string email, string phoneNumber)

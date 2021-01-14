@@ -30,6 +30,7 @@ namespace DataAccessLayer.Serialization
             int id = GenareteId();
             typeof(T).GetProperty("Id").SetValue(objToXml, id);
             Directory.CreateDirectory($"{type.Name}");
+
             using(FileStream fs = new FileStream($"{type.Name}/{type.Name}{id}.xml", FileMode.Create))
             {
                 serializer.Serialize(fs, objToXml);
@@ -59,15 +60,14 @@ namespace DataAccessLayer.Serialization
         public T Get(int id)
         {
             T objectFromXml;
-            FileInfo file;
-
-            file = directory.GetFiles($"{type.Name}{id}.xml").FirstOrDefault();
+            FileInfo file= directory.GetFiles($"{type.Name}{id}.xml").FirstOrDefault();
             if (file != null)
             {
                 using (FileStream fs = new FileStream($"{type.Name}/{file.Name}", FileMode.Open))
                 {
                     objectFromXml = (T)serializer.Deserialize(fs);
                 }
+
                 return objectFromXml;
             };
             
@@ -77,10 +77,14 @@ namespace DataAccessLayer.Serialization
         public void Delete(int id)
         {
             FileInfo file = directory.GetFiles($"{type.Name}{id}.xml").FirstOrDefault();
-            if(file.Exists)
+            if (file.Exists)
+            {
                 file.Delete();
+            }
             else
+            {
                 Console.WriteLine("File note found");
+            }
         }
 
         public void UpdateObject(T objectToUpdate)
@@ -97,7 +101,9 @@ namespace DataAccessLayer.Serialization
             FileInfo file = directory.GetFiles("*.xml").LastOrDefault();
             int id = 0;
             if (file != null)
+            {
                 id = Convert.ToInt32(Regex.Match(file.Name, @"\d+").Value) + 1;
+            }
 
             return id;
         }

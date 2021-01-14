@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.Interfaces;
+﻿using DataAccessLayer.Entities;
+using DataAccessLayer.Interfaces;
 using DataAccessLayer.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -14,7 +15,7 @@ namespace BusinessLogicLayer.DependencyInjection
             var provider = new ServiceCollection()
                 .AddSingleton(typeof(IRepository<>), typeof(Repository<>))
                 .BuildServiceProvider();
-
+            var p = DataAccessLayer.DependencyInjection.Startup.ConfigureService();
             return provider;
         }
     }

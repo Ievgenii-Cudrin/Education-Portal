@@ -9,11 +9,10 @@ namespace DataAccessLayer.Repositories
     public class Repository<T> : IRepository<T> where T : class
     {
         IXmlSerializeContext<T> context;
-        IServiceProvider provider;
+
         public Repository(IXmlSerializeContext<T> context)
         {
             this.context = context;
-            provider = Startup.ConfigureService();
         }
         public void Create(T item)
         {

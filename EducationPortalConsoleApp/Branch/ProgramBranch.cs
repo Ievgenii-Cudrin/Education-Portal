@@ -1,28 +1,19 @@
 ﻿using EducationPortalConsoleApp.Controller;
+using EducationPortalConsoleApp.DependencyInjection;
 using EducationPortalConsoleApp.Helpers;
 using EducationPortalConsoleApp.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace EducationPortalConsoleApp.Branch
 {
-    public class ProgramBranch : IProgramBranch
+    public static class ProgramBranch
     {
-        //Add dependency injection
-        IUserController userController;
-        IMaterialController materialController;
-        ICourseController courseController;
-        ISkillController skillController;
+        static IUserController userController = ProviderServicePL.Provider.GetRequiredService<IUserController>();
 
-        public ProgramBranch(IUserController userController, IMaterialController materialController, ICourseController courseController, ISkillController skillController)
-        {
-            this.userController = userController;
-            this.materialController = materialController;
-            this.courseController = courseController;
-            this.skillController = skillController;
-        }
-        public void StartApplication()
+        public static void StartApplication()
         {
             ProgramConsoleMessageHelper.ShowTextForLoginOrRegistration();
 
@@ -43,7 +34,7 @@ namespace EducationPortalConsoleApp.Branch
             }
         }
 
-        public void SelectFirstStepForAuthorizedUser()
+        public static void SelectFirstStepForAuthorizedUser()
         {
             ProgramConsoleMessageHelper.ShowTextForFirstStepForAuthorizedUser();
 

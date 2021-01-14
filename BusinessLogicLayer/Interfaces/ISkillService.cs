@@ -8,8 +8,8 @@ namespace BusinessLogicLayer.Interfaces
     {
         public bool CreateSkill(string name);
 
-        public bool UpdateSkill(string name);
+        public bool UpdateSkill(int id, string name);
 
-        public IEnumerable<string> GetAllUsers();
+        public IEnumerable<string> GetAllSkills();
     }
 }

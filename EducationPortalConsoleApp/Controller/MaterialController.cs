@@ -11,14 +11,14 @@ namespace EducationPortalConsoleApp.Controller
 {
     public class MaterialController : IMaterialController
     {
-        IMaterialService materialService;
-        IProgramBranch programmBranch;
+        //IMaterialService materialService;
+        //IProgramBranch programmBranch;
 
-        public MaterialController(IMaterialService materialService, IProgramBranch programmBranch)
-        {
-            this.materialService = materialService;
-            this.programmBranch = programmBranch;
-        }
+        //public MaterialController(IMaterialService materialService, IProgramBranch programmBranch)
+        //{
+        //    this.materialService = materialService;
+        //    this.programmBranch = programmBranch;
+        //}
 
         public void CreateNewMaterial()
         {
@@ -38,7 +38,7 @@ namespace EducationPortalConsoleApp.Controller
                     //CreateBook();
                     break;
                 case "4":
-                    programmBranch.SelectFirstStepForAuthorizedUser();
+                    //programmBranch.SelectFirstStepForAuthorizedUser();
                     break;
                 default:
                     CreateNewMaterial();

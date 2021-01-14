@@ -1,17 +1,18 @@
-﻿using DataAccessLayer.DependencyInjection;
-using EducationPortalConsoleApp.Branch;
+﻿using EducationPortalConsoleApp.Branch;
 using EducationPortalConsoleApp.Helpers;
+using EducationPortalConsoleApp.Interfaces;
 using EducationPortalConsoleApp.Services;
+using Microsoft.Extensions.DependencyInjection;
+using EducationPortalConsoleApp.DependencyInjection;
 using System;
 
 namespace EducationPortalConsoleApp
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            var provider = Startup.ConfigureService();
-            new IProgramBranch().StartApplication();
+            ProgramBranch.StartApplication();
 
             Console.ReadLine();
         }

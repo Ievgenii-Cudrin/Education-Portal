@@ -9,6 +9,8 @@ using BusinessLogicLayer.DependencyInjection;
 using EducationPortalConsoleApp.Interfaces;
 using EducationPortalConsoleApp.Branch;
 using EducationPortalConsoleApp.Controller;
+using DataAccessLayer.Entities;
+using DataAccessLayer.DataContext;
 
 namespace EducationPortalConsoleApp.DependencyInjection
 {
@@ -18,7 +20,6 @@ namespace EducationPortalConsoleApp.DependencyInjection
         {
             var provider = new ServiceCollection()
                 .AddSingleton<IUserService, UserService>()
-                .AddSingleton<IProgramBranch, ProgramBranch>()
                 .AddSingleton<IMaterialController, MaterialController>()
                 .AddSingleton<IUserController, UserController>()
                 .AddSingleton<ICourseController, CourseController>()
@@ -26,7 +27,8 @@ namespace EducationPortalConsoleApp.DependencyInjection
                 .BuildServiceProvider();
 
             var bllProvider = StartupBll.ConfigureService();
-
+            var dalProvider = DataAccessLayer.DependencyInjection.Startup.ConfigureService();
+            var qq = new XmlSerializationContextGeneric<User>(dalProvider.GetRequiredService<IXmlSet<User>>());
             return provider;
         }
     }
