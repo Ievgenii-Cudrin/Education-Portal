@@ -21,11 +21,11 @@ namespace EducationPortalConsoleApp.Services
             //check name, may be we have this skill
             bool uniqueName = !repository.GetAll().Any(x => x.Name.ToLower().Equals(name.ToLower()));
             //if name is unique => create new skill, otherwise skill == null
-            Skill skill = uniqueName ? VideoInstanceCreator. .CreateSkill(name) : null;
+            Video video = uniqueName ? VideoInstanceCreator.CreateVideo(name, link, quality, duration) : null;
 
-            if (skill != null)
+            if (video != null)
             {
-                repository.Create(skill);
+                repository.Create(video);
             }
             else
             {
@@ -35,39 +35,118 @@ namespace EducationPortalConsoleApp.Services
             return true;
         }
 
-        public bool UpdateSkill(int id, string name)
+        public bool CreateArticle(string name, string site, DateTime publicationDate)
         {
-            Skill skill = repository.Get(id);
+            //check name, may be we have this skill
+            bool uniqueName = !repository.GetAll().Any(x => x.Name.ToLower().Equals(name.ToLower()));
+            //if name is unique => create new skill, otherwise skill == null
+            Article article = uniqueName ? ArticleInstanceCreator.CreateArticle(name, site, publicationDate) : null;
 
-            if (skill == null)
+            if (article != null)
             {
-                return false;
+                repository.Create(article);
             }
             else
             {
-                skill.Name = name;
-                repository.Update(skill);
+                return false;
             }
 
             return true;
         }
 
-        public IEnumerable<string> GetAllSkills()
+        public bool CreateBook(string name, string author, int countOfPages)
         {
-            return repository.GetAll().Select(n => n.Name);
+            //check name, may be we have this skill
+            bool uniqueName = !repository.GetAll().Any(x => x.Name.ToLower().Equals(name.ToLower()));
+            //if name is unique => create new skill, otherwise skill == null
+            Book book = uniqueName ? BookInstanceCreator.CreateBook(name, author, countOfPages) : null;
+
+            if (book != null)
+            {
+                repository.Create(book);
+            }
+            else
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool UpdateVideo(int id, string name, string link, int quality, int duration)
+        {
+            Video video = repository.Get(id) as Video;
+
+            if (video == null)
+            {
+                return false;
+            }
+            else
+            {
+                video.Name = name;
+                video.Link = link;
+                video.Quality = quality;
+                video.Duration = duration;
+                repository.Update(video);
+            }
+
+            return true;
+        }
+
+        public bool UpdateArticle(int id, string name, string site, DateTime publicationDate)
+        {
+            Article article = repository.Get(id) as Article;
+
+            if (article == null)
+            {
+                return false;
+            }
+            else
+            {
+                article.Name = name;
+                article.Site = site;
+                article.PublicationDate = publicationDate;
+                repository.Update(article);
+            }
+
+            return true;
+        }
+
+        public bool UpdateBook(int id, string name, string author, int countOfPages)
+        {
+            Book book = repository.Get(id) as Book;
+
+            if (book == null)
+            {
+                return false;
+            }
+            else
+            {
+                book.Name = name;
+                book.Author = author;
+                book.CountOfPages = countOfPages;
+                repository.Update(book);
+            }
+
+            return true;
+        }
+
+        public IEnumerable<string> GetAllMaterials()
+        {
+            return repository.GetAll().Select(n => n.ToString());
         }
 
         public bool Delete(int id)
         {
-            Skill user = repository.Get(id);
+            Material material = repository.Get(id);
 
-            if (user == null)
+            if (material == null)
             {
                 return false;
             }
             else
             {
-                repository.Delete(Convert.ToInt32(id));
+                repository.Delete(id);
             }
 
             return true;

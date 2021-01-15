@@ -4,11 +4,8 @@ using DataAccessLayer.Repositories;
 using System.Linq;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
 using EducationPortalConsoleApp.InstanceCreator;
 using BusinessLogicLayer.Interfaces;
-using BusinessLogicLayer.DependencyInjection;
 using BusinessLogicLayer.Services;
 using Microsoft.Extensions.DependencyInjection;
 
