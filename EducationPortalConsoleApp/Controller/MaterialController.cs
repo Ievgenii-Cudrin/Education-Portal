@@ -25,12 +25,29 @@ namespace EducationPortalConsoleApp.Controller
             int quality = GetDataHelper.GetVideoQuality();
             int duration = GetDataHelper.GetVideoQuality();
             string link = GetDataHelper.GetSiteAddressFromUser();
+            bool success = materialService.CreateVideo(name, link, quality, duration);
 
-            //bool createVideo = materialService.CreateVideo(name, quality, duration, link);
+            if (success)
+            {
+                Console.WriteLine("Video successfully created");
+            }
+            else
+            {
+                Console.WriteLine("Somthing wrong");
+            }
         }
 
         private void CreateArticle()
         {
+            string name = GetDataHelper.GetNameFromUser();
+            DateTime publicationDate = GetDataHelper.GetDateTimeFromUser();
+            string site = GetDataHelper.GetSiteAddressFromUser();
+            bool success = materialService.CreateArticle(name, site, publicationDate);
+
+            if (success)
+            {
+                Console.WriteLine();
+            }
 
         }
     }

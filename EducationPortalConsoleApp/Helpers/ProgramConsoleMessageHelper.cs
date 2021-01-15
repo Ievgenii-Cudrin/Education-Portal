@@ -6,6 +6,17 @@ namespace EducationPortalConsoleApp.Helpers
 {
     public static class ProgramConsoleMessageHelper
     {
+        internal static void ShowFunctionResult(bool success, string message)
+        {
+            if (success)
+            {
+                Console.WriteLine(message);
+            }
+            else
+            {
+                Console.WriteLine("Somthing wrong");
+            }
+        }
         internal static void ShowTextForLoginOrRegistration()
         {
             Console.WriteLine($"Hi, dear user. Please, make your choice: " +

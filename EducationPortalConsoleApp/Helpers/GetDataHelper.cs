@@ -13,7 +13,7 @@ namespace EducationPortalConsoleApp.Helpers
             bool valdiPhoneNumber = false;
             do
             {
-                Console.WriteLine($"Enter phone number (e.g. 099-933-92-10 or 0999339210): ");
+                Console.WriteLine($"Enter phone number (0999339210): ");
                 phoneNumber = Console.ReadLine();
 
                 valdiPhoneNumber = Regex.IsMatch(phoneNumber, @"^\(?([0-9]{3})\)?[-.●]?([0-9]{3})[-.●]?([0-9]{4})$", RegexOptions.IgnoreCase);
