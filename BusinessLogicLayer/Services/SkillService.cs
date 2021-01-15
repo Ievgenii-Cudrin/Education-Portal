@@ -13,7 +13,6 @@ namespace BusinessLogicLayer.Services
     public class SkillService : ISkillService
     {
         IRepository<Skill> repository = ProviderServiceBLL.Provider.GetRequiredService<IRepository<Skill>>();
-        User authorizedUser;
 
         public bool CreateSkill(string name)
         {
