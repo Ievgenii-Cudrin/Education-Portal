@@ -25,16 +25,10 @@ namespace EducationPortalConsoleApp.Controller
             int quality = GetDataHelper.GetVideoQuality();
             int duration = GetDataHelper.GetVideoQuality();
             string link = GetDataHelper.GetSiteAddressFromUser();
+            //Create video
             bool success = materialService.CreateVideo(name, link, quality, duration);
-
-            if (success)
-            {
-                Console.WriteLine("Video successfully created");
-            }
-            else
-            {
-                Console.WriteLine("Somthing wrong");
-            }
+            //Show result
+            ProgramConsoleMessageHelper.ShowFunctionResult(success, "Video successfully created");
         }
 
         private void CreateArticle()
@@ -42,13 +36,10 @@ namespace EducationPortalConsoleApp.Controller
             string name = GetDataHelper.GetNameFromUser();
             DateTime publicationDate = GetDataHelper.GetDateTimeFromUser();
             string site = GetDataHelper.GetSiteAddressFromUser();
+            //Create article
             bool success = materialService.CreateArticle(name, site, publicationDate);
-
-            if (success)
-            {
-                Console.WriteLine();
-            }
-
+            //Show result
+            ProgramConsoleMessageHelper.ShowFunctionResult(success, "Article successfully created");
         }
     }
 }

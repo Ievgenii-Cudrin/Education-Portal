@@ -17,6 +17,7 @@ namespace EducationPortalConsoleApp.Helpers
                 Console.WriteLine("Somthing wrong");
             }
         }
+
         internal static void ShowTextForLoginOrRegistration()
         {
             Console.WriteLine($"Hi, dear user. Please, make your choice: " +
@@ -25,6 +26,7 @@ namespace EducationPortalConsoleApp.Helpers
             $"\n3.Show all users"
             );
         }
+
         //internal static void ShowTextWithEntityToSelect()
         //{
         //    Console.WriteLine($"Hi, dear user. Please, make your choice: " +

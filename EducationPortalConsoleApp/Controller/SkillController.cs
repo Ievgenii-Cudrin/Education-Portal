@@ -20,47 +20,26 @@ namespace EducationPortalConsoleApp.Controller
         {
             string name = GetDataHelper.GetNameFromUser();
             bool success = skillService.CreateSkill(name);
+            ProgramConsoleMessageHelper.ShowFunctionResult(success, "Skill successfully created");
 
-            if (success)
-            {
-                Console.WriteLine("Skill successfully created");
-                //Add method to continue
-            }
-            else
-            {
-                Console.WriteLine("Somthing wrong");
-            }
+            //Add func to continue
         }
 
         public void UpdateSkill(int id)
         {
             string name = GetDataHelper.GetNameFromUser();
             bool success = skillService.UpdateSkill(id, name);
+            ProgramConsoleMessageHelper.ShowFunctionResult(success, "Skill successfully updated");
 
-            if (success)
-            {
-                Console.WriteLine("Skill successfully updated");
-                //Add method to continue
-            }
-            else
-            {
-                Console.WriteLine("Somthing wrong");
-            }
+            //Add continue
         }
 
         public void Delete(int id)
         {
             bool success = skillService.Delete(id);
+            ProgramConsoleMessageHelper.ShowFunctionResult(success, "Skill successfully deleted");
 
-            if (success)
-            {
-                Console.WriteLine("Skill successfully deleted");
-                //Add method to continue
-            }
-            else
-            {
-                Console.WriteLine("Somthing wrong");
-            }
+            //Add to continue
         }
     }
 }
