@@ -10,7 +10,8 @@ namespace EducationPortalConsoleApp.Helpers
         {
             Console.WriteLine($"Hi, dear user. Please, make your choice: " +
             $"\n1.Login" +
-            $"\n2.Registration"
+            $"\n2.Registration" +
+            $"\n3.Show all users"
             );
         }
         //internal static void ShowTextWithEntityToSelect()

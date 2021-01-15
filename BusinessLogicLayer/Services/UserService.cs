@@ -88,8 +88,6 @@ namespace EducationPortalConsoleApp.Services
 
         public Dictionary<int, string> GetAllUsers()
         {
-            IEnumerable<User> users = repository.GetAll();
-            var q = repository.GetAll().ToDictionary(x => x.Id, x => x.Name);
             return repository.GetAll().ToDictionary(x => x.Id, x => x.Name);
         }
 

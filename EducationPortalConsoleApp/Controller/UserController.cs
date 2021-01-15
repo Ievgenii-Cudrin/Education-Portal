@@ -63,7 +63,7 @@ namespace EducationPortalConsoleApp.Controller
 
             foreach (var user in users.ToArray())
             {
-                users[user.Key] = user.Value.Trim();
+                Console.WriteLine($"Id: {user.Key}, Name: {user.Value}");
             }
                 
         }

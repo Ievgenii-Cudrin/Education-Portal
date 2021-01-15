@@ -23,12 +23,15 @@ namespace EducationPortalConsoleApp.Branch
             {
                 case "1":
                     userController.VerifyLoginAndPassword();
+                    //TODO add user functional
                     break;
                 case "2":
                     userController.CreateNewUser();
+                    StartApplication();
                     break;
                 case "3":
                     userController.ShowAllUser();
+                    StartApplication();
                     break;
                 default:
                     Console.WriteLine("Default case");
