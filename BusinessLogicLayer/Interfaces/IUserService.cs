@@ -14,6 +14,6 @@ namespace BusinessLogicLayer.Interfaces
 
         public bool UpdateUser(int id, string name, string password, string email, string phoneNumber);
 
-        public IEnumerable<string> GetAllUsers();
+        public Dictionary<int, string> GetAllUsers();
     }
 }

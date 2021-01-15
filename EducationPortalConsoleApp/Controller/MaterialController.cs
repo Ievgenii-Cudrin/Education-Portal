@@ -11,41 +11,14 @@ namespace EducationPortalConsoleApp.Controller
 {
     public class MaterialController : IMaterialController
     {
-        //IMaterialService materialService;
-        //IProgramBranch programmBranch;
+        IMaterialService materialService;
 
-        //public MaterialController(IMaterialService materialService, IProgramBranch programmBranch)
-        //{
-        //    this.materialService = materialService;
-        //    this.programmBranch = programmBranch;
-        //}
-
-        public void CreateNewMaterial()
+        public MaterialController(IMaterialService materialService)
         {
-            MaterialConsoleMessageHelper.ShowTextForChoiceKindOfMaterial();
-
-            string kindOfMaterial = Console.ReadLine();
-
-            switch (kindOfMaterial)
-            {
-                case "1":
-                    CreateVideo();
-                    break;
-                case "2":
-                    CreateArticle();
-                    break;
-                case "3":
-                    //CreateBook();
-                    break;
-                case "4":
-                    //programmBranch.SelectFirstStepForAuthorizedUser();
-                    break;
-                default:
-                    CreateNewMaterial();
-                    break;
-            }
+            this.materialService = materialService;
         }
 
+        
         private void CreateVideo()
         {
             string name = GetDataHelper.GetNameFromUser();

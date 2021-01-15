@@ -27,6 +27,9 @@ namespace EducationPortalConsoleApp.Branch
                 case "2":
                     userController.CreateNewUser();
                     break;
+                case "3":
+                    userController.ShowAllUser();
+                    break;
                 default:
                     Console.WriteLine("Default case");
                     StartApplication();

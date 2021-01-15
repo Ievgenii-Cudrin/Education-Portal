@@ -9,5 +9,7 @@ namespace EducationPortalConsoleApp.Interfaces
         public void CreateNewUser();
 
         public void VerifyLoginAndPassword();
+
+        void ShowAllUser();
     }
 }

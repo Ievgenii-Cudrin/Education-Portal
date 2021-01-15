@@ -86,9 +86,11 @@ namespace EducationPortalConsoleApp.Services
             return true;
         }
 
-        public IEnumerable<string> GetAllUsers()
+        public Dictionary<int, string> GetAllUsers()
         {
-            return repository.GetAll().Select(n => n.Name);
+            IEnumerable<User> users = repository.GetAll();
+            var q = repository.GetAll().ToDictionary(x => x.Id, x => x.Name);
+            return repository.GetAll().ToDictionary(x => x.Id, x => x.Name);
         }
 
         public bool Delete(int id)
