@@ -15,19 +15,11 @@ namespace BusinessLogicLayer.Services
         IRepository<Skill> repository = ProviderServiceBLL.Provider.GetRequiredService<IRepository<Skill>>();
         User authorizedUser;
 
-        public User AuthorizedUser
-        {
-            get
-            {
-                return authorizedUser;
-            }
-        }
-
         public bool CreateSkill(string name)
         {
-            //check email, may be we have this email
+            //check name, may be we have this skill
             bool uniqueEmail = !repository.GetAll().Any(x => x.Name.ToLower().Equals(name.ToLower()));
-            //if unique emaeil => create new user, otherwise user == null
+            //if name is unique => create new skill, otherwise skill == null
             Skill skill = uniqueEmail ? SkillInstanceCreator.CreateSkill(name) : null;
 
             if (skill != null)
