@@ -7,11 +7,8 @@ namespace DataAccessLayer.Entities
 {
     [XmlType("Material")] // define Type
     [XmlInclude(typeof(Video)), XmlInclude(typeof(Book)), XmlInclude(typeof(Article))]
-    public class Material
+    public class Material : BaseEntity
     {
-        [XmlElement("MaterialID")]
-        public int Id { get; set; }
-
         [XmlElement("Name")]
         public string Name { get; set; }
     }

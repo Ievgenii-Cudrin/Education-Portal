@@ -6,11 +6,8 @@ using System.Xml.Serialization;
 namespace DataAccessLayer.Entities
 {
     [XmlType("Skill")]
-    public class Skill
+    public class Skill : BaseEntity
     {
-        [XmlElement("SkillID")]
-        public int Id { get; set; }
-
         [XmlElement("Name")]
         public string Name { get; set; }
 

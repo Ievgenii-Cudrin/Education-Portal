@@ -7,11 +7,8 @@ namespace DataAccessLayer.Entities
 {
     [XmlType("User")]
     [XmlInclude(typeof(Skill)), XmlInclude(typeof(Course))]
-    public class User
+    public class User : BaseEntity
     {
-        [XmlElement("UserID")]
-        public int Id { get; set; }
-
         [XmlElement("Name")]
         public string Name { get; set; }
 

@@ -8,11 +8,8 @@ namespace DataAccessLayer.Entities
 {
     [XmlType("Course")]
     [XmlInclude(typeof(Skill)), XmlInclude(typeof(Material))]
-    public class Course
+    public class Course : BaseEntity
     {
-        [XmlElement("CourseID")]
-        public int Id { get; set; }
-
         [XmlElement("Name")]
         public string Name { get; set; }
 
