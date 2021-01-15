@@ -19,7 +19,7 @@ namespace EducationPortalConsoleApp.Controller
         }
 
         
-        private void CreateVideo()
+        public void CreateVideo()
         {
             string name = GetDataHelper.GetNameFromUser();
             int quality = GetDataHelper.GetVideoQuality();
@@ -31,15 +31,62 @@ namespace EducationPortalConsoleApp.Controller
             //ProgramConsoleMessageHelper.ShowFunctionResult(success, "Video successfully created");
         }
 
-        private void CreateArticle()
+        public void CreateArticle()
         {
             string name = GetDataHelper.GetNameFromUser();
             DateTime publicationDate = GetDataHelper.GetDateTimeFromUser();
             string site = GetDataHelper.GetSiteAddressFromUser();
             //Create article
             bool success = materialService.CreateArticle(name, site, publicationDate);
+
             //Show result
-            //ProgramConsoleMessageHelper.ShowFunctionResult(success, "Article successfully created");
+            //ProgramConsoleMessageHelper.ShowFunctionResult(
+            //    success, 
+            //    "Article successfully created",
+            //    "",
+            //    Action,
+            //    Action
+            //    );
+        }
+
+        public void CreateBook()
+        {
+            string name = GetDataHelper.GetNameFromUser();
+            int countOfPages = GetDataHelper.GetCountOfBookPages();
+            string authorName = GetDataHelper.GetAuthorNameFromUser();
+            bool success = materialService.CreateBook(name, authorName, countOfPages);
+
+            //ProgramConsoleMessageHelper.ShowFunctionResult(
+            //    success,
+            //    "Book successfully created",
+            //    "Somthing wrong",
+            //    Action,
+            //    Action
+            //    );
+        }
+
+        public void UpdateMaterial(int id)
+        {
+            //ProgramConsoleMessageHelper.ShowFunctionResult(
+            //    success,
+            //    "Book successfully updated",
+            //    "Somthing wrong",
+            //    Action,
+            //    Action
+            //    );
+        }
+
+        public void DeleteMaterial(int id)
+        {
+            materialService.Delete(id);
+
+            //ProgramConsoleMessageHelper.ShowFunctionResult(
+            //    success,
+            //    "Book successfully deleted",
+            //    "Somthing wrong",
+            //    Action,
+            //    Action
+            //    );
         }
     }
 }

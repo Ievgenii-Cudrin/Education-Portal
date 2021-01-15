@@ -62,5 +62,10 @@ namespace EducationPortalConsoleApp.Controller
                 Console.WriteLine($"Id: {user.Key}, Name: {user.Value}");
             }
         }
+
+        public void UpdateUser(int id)
+        {
+            //TODO HERE
+        }
     }
 }
