@@ -28,7 +28,7 @@ namespace EducationPortalConsoleApp.Controller
             //Create video
             bool success = materialService.CreateVideo(name, link, quality, duration);
             //Show result
-            ProgramConsoleMessageHelper.ShowFunctionResult(success, "Video successfully created");
+            //ProgramConsoleMessageHelper.ShowFunctionResult(success, "Video successfully created");
         }
 
         private void CreateArticle()
@@ -39,7 +39,7 @@ namespace EducationPortalConsoleApp.Controller
             //Create article
             bool success = materialService.CreateArticle(name, site, publicationDate);
             //Show result
-            ProgramConsoleMessageHelper.ShowFunctionResult(success, "Article successfully created");
+            //ProgramConsoleMessageHelper.ShowFunctionResult(success, "Article successfully created");
         }
     }
 }

@@ -6,15 +6,17 @@ namespace EducationPortalConsoleApp.Helpers
 {
     public static class ProgramConsoleMessageHelper
     {
-        internal static void ShowFunctionResult(bool success, string message)
+        internal static void ShowFunctionResult(bool success, string messageSuccess, string messageForWrong, Action forSuccess, Action forWrong)
         {
             if (success)
             {
-                Console.WriteLine(message);
+                Console.WriteLine(messageSuccess);
+                forSuccess();
             }
             else
             {
-                Console.WriteLine("Somthing wrong");
+                Console.WriteLine(messageForWrong);
+                forWrong();
             }
         }
 
@@ -26,7 +28,6 @@ namespace EducationPortalConsoleApp.Helpers
             $"\n3.Show all users"
             );
         }
-
         //internal static void ShowTextWithEntityToSelect()
         //{
         //    Console.WriteLine($"Hi, dear user. Please, make your choice: " +

@@ -25,16 +25,13 @@ namespace EducationPortalConsoleApp.Controller
             //verify user
             bool validUser = userService.VerifyUser(name, password);
 
-            if (validUser)
-            {
-                Console.WriteLine("Authorization passed");
-                ProgramBranch.SelectFirstStepForAuthorizedUser();
-            }
-            else
-            {
-                Console.WriteLine("User with such data does not exist");
-                ProgramBranch.StartApplication();
-            }
+            ProgramConsoleMessageHelper
+                .ShowFunctionResult(validUser,
+                "Authorization passed",
+                "User with such data does not exist",
+                ProgramBranch.SelectFirstStepForAuthorizedUser,
+                ProgramBranch.StartApplication);
+            
         }
 
         public void CreateNewUser()
@@ -45,16 +42,15 @@ namespace EducationPortalConsoleApp.Controller
             string email = GetDataHelper.GetEmailFromUser();
             //Create new user, if not - false
             bool createUser = userService.CreateUser(name, password, email, phoneNumber);
-
-            if(createUser)
-            {
-                Console.WriteLine("User successfully created!");
-            }
-            else
-            {
-                Console.WriteLine("Something wrong");
-                ProgramBranch.StartApplication();
-            }
+            //Show result
+            ProgramConsoleMessageHelper.
+                ShowFunctionResult(
+                createUser,
+                "User successfully created!",
+                "Something wrong",
+                ProgramBranch.StartApplication,
+                ProgramBranch.StartApplication
+                );
         }
 
         public void ShowAllUser()
@@ -65,7 +61,6 @@ namespace EducationPortalConsoleApp.Controller
             {
                 Console.WriteLine($"Id: {user.Key}, Name: {user.Value}");
             }
-                
         }
     }
 }
