@@ -7,12 +7,23 @@ namespace EducationPortalConsoleApp.InstanceCreator
 {
     public static class VideoInstanceCreator
     {
-        public static Video VideoCreator() => new Video()
+        public static Video CreateVideo(string name, string link, int quality, int duration)
         {
-            //Name = GetDataHelper.GetNameFromUser(),
-            //Duration = GetDataHelper.GetVideoDuration(),
-            //Link = GetDataHelper.GetSiteAddressFromUser(),
-            //Quality = GetDataHelper.GetVideoQuality()
-        };
+            Video video = null;
+
+            if (name != null && link != null && quality != 0 && duration != 0)
+            {
+                video = new Video()
+                {
+                    Name = name,
+                    Link = link,
+                    Duration = duration,
+                    Quality = quality
+                    
+                };
+            }
+
+            return video == null ? null : video;
+        }
     }
 }

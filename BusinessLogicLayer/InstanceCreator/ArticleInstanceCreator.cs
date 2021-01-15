@@ -7,11 +7,21 @@ namespace EducationPortalConsoleApp.InstanceCreator
 {
     public static class ArticleInstanceCreator
     {
-        public static Article ArticleCreator() => new Article()
+        public static Article CreateArticle(string name, string site, DateTime publicationDate)
         {
-            //Name = GetDataHelper.GetNameFromUser(),
-            //PublicationDate = GetDataHelper.GetDateTimeFromUser(),
-            //Site = GetDataHelper.GetSiteAddressFromUser()
-        };
+            Article article = null;
+
+            if (name != null && site != null)
+            {
+                article = new Article()
+                {
+                    Name = name,
+                    Site = site,
+                    PublicationDate = publicationDate
+                };
+            }
+
+            return article == null ? null : article;
+        }
     }
 }

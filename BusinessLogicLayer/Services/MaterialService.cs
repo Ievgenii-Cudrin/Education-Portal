@@ -1,96 +1,76 @@
 ﻿using BusinessLogicLayer.Interfaces;
+using BusinessLogicLayer.Services;
 using DataAccessLayer.Entities;
 using DataAccessLayer.Interfaces;
 using DataAccessLayer.Repositories;
-using EducationPortalConsoleApp.InstanceCreator;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
+using EducationPortalConsoleApp.InstanceCreator;
 
 namespace EducationPortalConsoleApp.Services
 {
-    public class MaterialService// : IMaterialService
+    public class MaterialService : IMaterialService
     {
+        IRepository<Material> repository = ProviderServiceBLL.Provider.GetRequiredService<IRepository<Material>>();
 
-        
+        public bool CreateVideo(string name, string link, int quality, int duration)
+        {
+            //check name, may be we have this skill
+            bool uniqueName = !repository.GetAll().Any(x => x.Name.ToLower().Equals(name.ToLower()));
+            //if name is unique => create new skill, otherwise skill == null
+            Skill skill = uniqueName ? VideoInstanceCreator. .CreateSkill(name) : null;
 
-        
+            if (skill != null)
+            {
+                repository.Create(skill);
+            }
+            else
+            {
+                return false;
+            }
 
-        //TODO ----
+            return true;
+        }
 
-        //public bool CreateVideo(string name, int quality, int duration, string link)
-        //{
-        //    bool success = true;
-        //    if (name.Length > 0 && quality > 0 && duration > 1 && link != null)
-        //    {
-        //        newMaterial = new Video()
-        //        {
-        //            Name = name,
-        //            Quality = quality,
-        //            Duration = duration,
-        //            Link = link
-        //        };
-        //        uow.Materials.
-        //    }
-        //}
+        public bool UpdateSkill(int id, string name)
+        {
+            Skill skill = repository.Get(id);
 
-        //void UpdateMaterial()
-        //{
-        //    //TODO finish this method
-        //    Console.Write($"Enter material ID to update: ");
-        //    int id = Convert.ToInt32(Console.ReadLine());
+            if (skill == null)
+            {
+                return false;
+            }
+            else
+            {
+                skill.Name = name;
+                repository.Update(skill);
+            }
 
-        //    Material material = uow.Materials.Get(id);
-        //    if (material == null)
-        //    {
-        //        Console.WriteLine($"Material not found");
-        //    }
-        //    else
-        //    {
-        //        //TODO (Lisskov principe)
-        //        if (material is Video)
-        //            material = VideoInstanceCreator.VideoCreator();
-        //        else if (material is Article)
-        //            material = ArticleInstanceCreator.ArticleCreator();
-        //        else
-        //            material = BookInstanceCreator.BookCreator();
+            return true;
+        }
 
-        //        material.Id = id;
-        //        uow.Materials.Update(material);
-        //        Console.WriteLine("Material has been successfully updated");
-        //    }
-        //}
+        public IEnumerable<string> GetAllSkills()
+        {
+            return repository.GetAll().Select(n => n.Name);
+        }
 
-        //void ShowAllMaterials()
-        //{
-        //    IEnumerable<Material> materials = uow.Materials.GetAll();
-        //    foreach(var material in materials)
-        //    {
-        //        //if (material is Video)
-        //            //MaterialConsoleMessageHelper.ShowVideoInfo(material);
-        //        //else if (material is Article)
-        //            //MaterialConsoleMessageHelper.ShowArticleInfo(material);
-        //        //else
-        //            //MaterialConsoleMessageHelper.ShowBookInfo(material);
-        //    }
-        //    Console.WriteLine("\n");
-        //    //MaterialConsoleMessageHelper.ShowObjects(users);
+        public bool Delete(int id)
+        {
+            Skill user = repository.Get(id);
 
-        //}
+            if (user == null)
+            {
+                return false;
+            }
+            else
+            {
+                repository.Delete(Convert.ToInt32(id));
+            }
 
-        //public bool Delete(int id)
-        //{
-        //    Material material = uow.Materials.Get(id);
-        //    if (material == null)
-        //    {
-        //        return false;
-        //    }
-        //    else
-        //    {
-        //        uow.Materials.Delete(Convert.ToInt32(material.Id));
-        //    }
-
-        //    return true;
-        //}
+            return true;
+        }
     }
 }

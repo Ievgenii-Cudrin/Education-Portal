@@ -7,11 +7,21 @@ namespace EducationPortalConsoleApp.InstanceCreator
 {
     public static class BookInstanceCreator
     {
-        public static Book BookCreator() => new Book()
+        public static Book CreateBook(string name, string author, int countOfPages)
         {
-            //Name = GetDataHelper.GetNameFromUser(),
-            //Author = GetDataHelper.GetAuthorNameFromUser(),
-            //CountOfPages = GetDataHelper.GetCountOfBookPages()
-        };
+            Book book = null;
+
+            if (name != null && author != null && countOfPages != 0)
+            {
+                book = new Book()
+                {
+                    Name = name,
+                    Author = author,
+                    CountOfPages = countOfPages
+                };
+            }
+
+            return book == null ? null : book;
+        }
     }
 }

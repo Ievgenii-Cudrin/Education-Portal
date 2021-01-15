@@ -18,7 +18,9 @@ namespace EducationPortalConsoleApp.InstanceCreator
                     Name = name,
                     Password = password,
                     Email = email,
-                    PhoneNumber = phoneNumber
+                    PhoneNumber = phoneNumber,
+                    Courses = new List<Course>(),
+                    Skills = new List<Skill>()
                 };
             }
 

@@ -13,7 +13,6 @@ namespace BusinessLogicLayer.Services
     public class CourseService : ICourseService
     {
         IRepository<Course> repository = ProviderServiceBLL.Provider.GetRequiredService<IRepository<Course>>();
-        User authorizedUser;
 
         public bool CreateCourse(string name, string description)
         {
