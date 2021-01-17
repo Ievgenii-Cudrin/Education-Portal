@@ -3,12 +3,13 @@ using BusinessLogicLayer.Services;
 using DataAccessLayer.DataContext;
 using DataAccessLayer.Interfaces;
 using DataAccessLayer.Repositories;
-using DataAccessLayer.Serialization;
 using EducationPortalConsoleApp.Controller;
 using EducationPortalConsoleApp.Interfaces;
 using EducationPortalConsoleApp.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using XmlDataBase.Interfaces;
+using XmlDataBase.Serialization;
 
 namespace EducationPortalConsoleApp.DependencyInjection
 {

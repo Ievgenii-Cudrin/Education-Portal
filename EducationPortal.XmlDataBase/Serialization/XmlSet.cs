@@ -1,5 +1,4 @@
-﻿using DataAccessLayer.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -8,9 +7,9 @@ using System.Xml.Linq;
 using System.Xml.Serialization;
 using System.Linq;
 using System.Text.RegularExpressions;
-using DataAccessLayer.Interfaces;
+using XmlDataBase.Interfaces;
 
-namespace DataAccessLayer.Serialization
+namespace XmlDataBase.Serialization
 {
     public class XmlSet<T> : IXmlSet<T> where T : class  //XmlSerialization
     {
@@ -99,6 +98,7 @@ namespace DataAccessLayer.Serialization
         private int GenareteId()
         {
             FileInfo file = directory.GetFiles("*.xml").LastOrDefault();
+            var lastIndex = directory.GetFiles("*.xml").Select(x => Convert.ToInt32(Regex.Match(file.Name, @"\d+").Value));
             int id = 0;
             if (file != null)
             {

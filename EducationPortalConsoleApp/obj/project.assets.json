@@ -42,7 +42,6 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
         "dependencies": {
-          "EducationPortal.Domain": "1.0.0",
           "EducationPortal.XmlDataBase": "1.0.0",
           "Microsoft.Extensions.DependencyInjection": "5.0.1"
         },
