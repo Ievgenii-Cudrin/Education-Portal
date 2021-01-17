@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataAccessLayer.Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,10 +7,10 @@ namespace BusinessLogicLayer.Interfaces
 {
     public interface ISkillService : IDeleteEntity
     {
-        public bool CreateSkill(string name);
+        public bool CreateSkill(Skill skill);
 
-        public bool UpdateSkill(int id, string name);
+        public bool UpdateSkill(Skill skill);
 
-        public IEnumerable<string> GetAllSkills();
+        public IEnumerable<Skill> GetAllSkills();
     }
 }

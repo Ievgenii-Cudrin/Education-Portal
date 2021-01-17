@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataAccessLayer.Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,11 +7,11 @@ namespace BusinessLogicLayer.Interfaces
 {
     public interface ICourseService : IDeleteEntity
     {
-        public bool CreateCourse(string name, string description);
+        public bool CreateCourse(Course course);
 
-        public bool UpdateCourse(int id, string name, string description);
+        public bool UpdateCourse(Course course);
 
-        public IEnumerable<string> GetAllSkills();
+        public IEnumerable<Course> GetAllSkills();
 
 
     }

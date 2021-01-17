@@ -18,16 +18,15 @@ namespace BusinessLogicLayer.Services
             this.repository = repository;
         }
 
-        public bool CreateSkill(string name)
+        public bool CreateSkill(Skill skillToCreate)
         {
             //check name, may be we have this skill
-            bool uniqueEmail = !repository.GetAll().Any(x => x.Name.ToLower().Equals(name.ToLower()));
+            bool uniqueEmail = skillToCreate != null ? !repository.GetAll().Any(x => x.Name.ToLower().Equals(skillToCreate.Name.ToLower())) : false;
+            
             //if name is unique => create new skill, otherwise skill == null
-            Skill skill = uniqueEmail ? SkillInstanceCreator.CreateSkill(name) : null;
-
-            if (skill != null)
+            if (uniqueEmail)
             {
-                repository.Create(skill);
+                repository.Create(skillToCreate);
             }
             else
             {
@@ -37,7 +36,29 @@ namespace BusinessLogicLayer.Services
             return true;
         }
 
-        public bool UpdateSkill(int id, string name)
+        public bool UpdateSkill(Skill skillToUpdate)
+        {
+            Skill skill = repository.Get(skillToUpdate.Id);
+
+            if (skill == null)
+            {
+                return false;
+            }
+            else
+            {
+                skill.Name = skillToUpdate.Name;
+                repository.Update(skill);
+            }
+
+            return true;
+        }
+
+        public IEnumerable<Skill> GetAllSkills()
+        {
+            return repository.GetAll();
+        }
+
+        public bool Delete(int id)
         {
             Skill skill = repository.Get(id);
 
@@ -47,29 +68,7 @@ namespace BusinessLogicLayer.Services
             }
             else
             {
-                skill.Name = name;
-                repository.Update(skill);
-            }
-
-            return true;
-        }
-
-        public IEnumerable<string> GetAllSkills()
-        {
-            return repository.GetAll().Select(n => n.Name);
-        }
-
-        public bool Delete(int id)
-        {
-            Skill user = repository.Get(id);
-
-            if (user == null)
-            {
-                return false;
-            }
-            else
-            {
-                repository.Delete(Convert.ToInt32(id));
+                repository.Delete(id);
             }
 
             return true;

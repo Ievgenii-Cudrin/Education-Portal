@@ -20,13 +20,12 @@ namespace EducationPortalConsoleApp.Services
             this.repository = repository;
         }
 
-        public bool CreateVideo(string name, string link, int quality, int duration)
+        public bool CreateVideo(Video video)
         {
             //check name, may be we have this skill
-            bool uniqueName = !repository.GetAll().Any(x => x.Name.ToLower().Equals(name.ToLower()));
-            //if name is unique => create new skill, otherwise skill == null
-            Video video = uniqueName ? VideoInstanceCreator.CreateVideo(name, link, quality, duration) : null;
+            //bool uniqueName = video != null ? !repository.GetAll().Any(x => x.Name.ToLower().Equals(video.Name.ToLower())) : false;
 
+            //if name is unique => create new skill, otherwise skill == null
             if (video != null)
             {
                 repository.Create(video);
@@ -39,13 +38,8 @@ namespace EducationPortalConsoleApp.Services
             return true;
         }
 
-        public bool CreateArticle(string name, string site, DateTime publicationDate)
+        public bool CreateArticle(Article article)
         {
-            //check name, may be we have this skill
-            bool uniqueName = !repository.GetAll().Any(x => x.Name.ToLower().Equals(name.ToLower()));
-            //if name is unique => create new skill, otherwise skill == null
-            Article article = uniqueName ? ArticleInstanceCreator.CreateArticle(name, site, publicationDate) : null;
-
             if (article != null)
             {
                 repository.Create(article);
@@ -58,12 +52,12 @@ namespace EducationPortalConsoleApp.Services
             return true;
         }
 
-        public bool CreateBook(string name, string author, int countOfPages)
+        public bool CreateBook(Book book)
         {
             //check name, may be we have this skill
-            bool uniqueName = !repository.GetAll().Any(x => x.Name.ToLower().Equals(name.ToLower()));
+            //bool uniqueName = !repository.GetAll().Any(x => x.Name.ToLower().Equals(bookToCreate.Name.ToLower()));
             //if name is unique => create new skill, otherwise skill == null
-            Book book = uniqueName ? BookInstanceCreator.CreateBook(name, author, countOfPages) : null;
+            //Book book = uniqueName ? BookInstanceCreator.CreateBook(name, author, countOfPages) : null;
 
             if (book != null)
             {
@@ -77,9 +71,9 @@ namespace EducationPortalConsoleApp.Services
             return true;
         }
 
-        public bool UpdateVideo(int id, string name, string link, int quality, int duration)
+        public bool UpdateVideo(Video videoToUpdate)
         {
-            Video video = repository.Get(id) as Video;
+            Video video = repository.Get(videoToUpdate.Id) as Video;
 
             if (video == null)
             {
@@ -87,19 +81,19 @@ namespace EducationPortalConsoleApp.Services
             }
             else
             {
-                video.Name = name;
-                video.Link = link;
-                video.Quality = quality;
-                video.Duration = duration;
+                video.Name = videoToUpdate.Name;
+                video.Link = videoToUpdate.Link;
+                video.Quality = videoToUpdate.Quality;
+                video.Duration = videoToUpdate.Duration;
                 repository.Update(video);
             }
 
             return true;
         }
 
-        public bool UpdateArticle(int id, string name, string site, DateTime publicationDate)
+        public bool UpdateArticle(Article articleToUpdate)
         {
-            Article article = repository.Get(id) as Article;
+            Article article = repository.Get(articleToUpdate.Id) as Article;
 
             if (article == null)
             {
@@ -107,18 +101,18 @@ namespace EducationPortalConsoleApp.Services
             }
             else
             {
-                article.Name = name;
-                article.Site = site;
-                article.PublicationDate = publicationDate;
+                article.Name = articleToUpdate.Name;
+                article.Site = articleToUpdate.Site;
+                article.PublicationDate = articleToUpdate.PublicationDate;
                 repository.Update(article);
             }
 
             return true;
         }
 
-        public bool UpdateBook(int id, string name, string author, int countOfPages)
+        public bool UpdateBook(Book bookToUpdate)
         {
-            Book book = repository.Get(id) as Book;
+            Book book = repository.Get(bookToUpdate.Id) as Book;
 
             if (book == null)
             {
@@ -126,9 +120,9 @@ namespace EducationPortalConsoleApp.Services
             }
             else
             {
-                book.Name = name;
-                book.Author = author;
-                book.CountOfPages = countOfPages;
+                book.Name = bookToUpdate.Name;
+                book.Author = bookToUpdate.Author;
+                book.CountOfPages = bookToUpdate.CountOfPages;
                 repository.Update(book);
             }
 

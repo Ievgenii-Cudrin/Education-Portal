@@ -28,14 +28,13 @@ namespace EducationPortalConsoleApp.Services
             }
         }
 
-        public bool CreateUser(UserViewModel)
+        public bool CreateUser(User user)
         {
             //check email, may be we have this email
-            bool uniqueEmail = !repository.GetAll().Any(x => x.Email.ToLower().Equals(email.ToLower()));
+            bool uniqueEmail = user != null ? !repository.GetAll().Any(x => x.Email.ToLower().Equals(user.Email.ToLower())) : false;
+            
             //if unique emaeil => create new user, otherwise user == null
-            User user = uniqueEmail ? UserInstanceCreator.UserCreator(name, password, email, phoneNumber) : null;
-
-            if (user != null)
+            if (uniqueEmail)
             {
                 repository.Create(user);
             }
@@ -70,9 +69,9 @@ namespace EducationPortalConsoleApp.Services
             return true;
         }
 
-        public bool UpdateUser(int id, string name, string password, string email, string phoneNumber)
+        public bool UpdateUser(User userToUpdate)
         {
-            User user = repository.Get(id);
+            User user = repository.Get(userToUpdate.Id);
 
             if (user == null)
             {
@@ -80,19 +79,19 @@ namespace EducationPortalConsoleApp.Services
             }
             else
             {
-                user.Name = name;
-                user.Password = password;
-                user.Email = email;
-                user.PhoneNumber = phoneNumber;
+                user.Name = userToUpdate.Name;
+                user.Password = userToUpdate.Password;
+                user.Email = userToUpdate.Email;
+                user.PhoneNumber = userToUpdate.PhoneNumber;
                 repository.Update(user);
             }
 
             return true;
         }
 
-        public Dictionary<int, string> GetAllUsers()
+        public IEnumerable<User> GetAllUsers()
         {
-            return repository.GetAll().ToDictionary(x => x.Id, x => x.Name);
+            return repository.GetAll();
         }
 
         public bool Delete(int id)
@@ -105,7 +104,7 @@ namespace EducationPortalConsoleApp.Services
             }
             else
             {
-                repository.Delete(Convert.ToInt32(id));
+                repository.Delete(id);
             }
 
             return true;

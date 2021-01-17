@@ -1,4 +1,5 @@
 ﻿using BusinessLogicLayer.Interfaces;
+using DataAccessLayer.Entities;
 using EducationPortal.PL.InstanceCreator;
 using EducationPortal.PL.Models;
 using EducationPortalConsoleApp.Branch;
@@ -54,7 +55,7 @@ namespace EducationPortalConsoleApp.Controller
 
         public void ShowAllUser()
         {
-            Dictionary<int, string> users = userService.GetAllUsers();
+            IEnumerable<User> users = userService.GetAllUsers();
 
             foreach (var user in users.ToArray())
             {

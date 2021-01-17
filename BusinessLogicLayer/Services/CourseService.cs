@@ -18,16 +18,16 @@ namespace BusinessLogicLayer.Services
             this.repository = repository;
         }
 
-        public bool CreateCourse(string name, string description)
+        public bool CreateCourse(Course course)
         {
             //check name, may be we have this skill
-            bool uniqueName = !repository.GetAll().Any(x => x.Name.ToLower().Equals(name.ToLower()));
+            //bool uniqueName = !repository.GetAll().Any(x => x.Name.ToLower().Equals(name.ToLower()));
             //if name is unique => create new skill, otherwise skill == null
-            Course skill = uniqueName ? CourseInstanceCreator.CourseCreator(name, description) : null;
+            //Course skill = uniqueName ? CourseInstanceCreator.CourseCreator(name, description) : null;
 
-            if (skill != null)
+            if (course != null)
             {
-                repository.Create(skill);
+                repository.Create(course);
             }
             else
             {
@@ -37,9 +37,9 @@ namespace BusinessLogicLayer.Services
             return true;
         }
 
-        public bool UpdateCourse(int id, string name, string description)
+        public bool UpdateCourse(Course courseToUpdate)
         {
-            Course course = repository.Get(id);
+            Course course = repository.Get(courseToUpdate.Id);
 
             if (course == null)
             {
@@ -47,17 +47,17 @@ namespace BusinessLogicLayer.Services
             }
             else
             {
-                course.Name = name;
-                course.Description = description;
+                course.Name = courseToUpdate.Name;
+                course.Description = courseToUpdate.Description;
                 repository.Update(course);
             }
 
             return true;
         }
 
-        public IEnumerable<string> GetAllSkills()
+        public IEnumerable<Course> GetAllSkills()
         {
-            return repository.GetAll().Select(n => n.Name);
+            return repository.GetAll();
         }
 
         public bool Delete(int id)

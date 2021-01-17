@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataAccessLayer.Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,17 +7,17 @@ namespace BusinessLogicLayer.Interfaces
 {
     public interface IMaterialService : IDeleteEntity
     {
-        public bool CreateVideo(string name, string link, int quality, int duration);
+        public bool CreateVideo(Video video);
 
-        public bool CreateArticle(string name, string site, DateTime publicationDate);
+        public bool CreateArticle(Article article);
 
-        public bool CreateBook(string name, string author, int countOfPages);
+        public bool CreateBook(Book book);
 
-        public bool UpdateVideo(int id, string name, string link, int quality, int duration);
+        public bool UpdateVideo(Video video);
 
-        public bool UpdateArticle(int id, string name, string site, DateTime publicationDate);
+        public bool UpdateArticle(Article article);
 
-        public bool UpdateBook(int id, string name, string author, int countOfPages);
+        public bool UpdateBook(Book book);
 
         public IEnumerable<string> GetAllMaterials();
     }
