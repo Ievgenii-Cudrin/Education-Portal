@@ -19,7 +19,7 @@ namespace EducationPortalConsoleApp.Controller
         public void CreateSkill()
         {
             string name = GetDataHelper.GetNameFromUser();
-            bool success = skillService.CreateSkill(name);
+            //bool success = skillService.CreateSkill(name);
             //ProgramConsoleMessageHelper.ShowFunctionResult(success, "Skill successfully created");
 
             //Add func to continue
@@ -28,7 +28,7 @@ namespace EducationPortalConsoleApp.Controller
         public void UpdateSkill(int id)
         {
             string name = GetDataHelper.GetNameFromUser();
-            bool success = skillService.UpdateSkill(id, name);
+            //bool success = skillService.UpdateSkill(id, name);
 
             //Add method to do
             //ProgramConsoleMessageHelper.ShowFunctionResult(success, "Skill successfully updated", ()=> { }, () => { });

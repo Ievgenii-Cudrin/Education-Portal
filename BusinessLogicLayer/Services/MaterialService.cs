@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
-using EducationPortalConsoleApp.InstanceCreator;
 
 namespace EducationPortalConsoleApp.Services
 {
@@ -22,11 +21,14 @@ namespace EducationPortalConsoleApp.Services
 
         public bool CreateVideo(Video video)
         {
-            //check name, may be we have this skill
-            //bool uniqueName = video != null ? !repository.GetAll().Any(x => x.Name.ToLower().Equals(video.Name.ToLower())) : false;
+            //check name and link, may be we have this skill
+            bool uniqueVideo = video != null &&
+                !repository.GetAll().Select(x => x as Video).Any(x =>
+                x.Name.ToLower().Equals(video.Name.ToLower()) &&
+                x.Link == video.Link);
 
             //if name is unique => create new skill, otherwise skill == null
-            if (video != null)
+            if (uniqueVideo)
             {
                 repository.Create(video);
             }
@@ -40,7 +42,13 @@ namespace EducationPortalConsoleApp.Services
 
         public bool CreateArticle(Article article)
         {
-            if (article != null)
+            bool uniqueArticle = article != null &&
+                !repository.GetAll().Select(x => x as Article).Any(x =>
+                x.Name.ToLower().Equals(article.Name.ToLower()) &&
+                x.PublicationDate == article.PublicationDate &&
+                x.Site == article.Site);
+
+            if (uniqueArticle)
             {
                 repository.Create(article);
             }
@@ -54,12 +62,13 @@ namespace EducationPortalConsoleApp.Services
 
         public bool CreateBook(Book book)
         {
-            //check name, may be we have this skill
-            //bool uniqueName = !repository.GetAll().Any(x => x.Name.ToLower().Equals(bookToCreate.Name.ToLower()));
-            //if name is unique => create new skill, otherwise skill == null
-            //Book book = uniqueName ? BookInstanceCreator.CreateBook(name, author, countOfPages) : null;
+            bool uniqueBook = book != null &&
+                !repository.GetAll().Select(x => x as Book).Any(x =>
+                x.Name.ToLower().Equals(book.Name.ToLower()) &&
+                x.Author == book.Author &&
+                x.CountOfPages == book.CountOfPages);
 
-            if (book != null)
+            if (uniqueBook)
             {
                 repository.Create(book);
             }

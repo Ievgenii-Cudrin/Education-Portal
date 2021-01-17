@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
-using BusinessLogicLayer.InstanceCreator;
 
 namespace BusinessLogicLayer.Services
 {
@@ -21,11 +20,10 @@ namespace BusinessLogicLayer.Services
         public bool CreateCourse(Course course)
         {
             //check name, may be we have this skill
-            //bool uniqueName = !repository.GetAll().Any(x => x.Name.ToLower().Equals(name.ToLower()));
-            //if name is unique => create new skill, otherwise skill == null
-            //Course skill = uniqueName ? CourseInstanceCreator.CourseCreator(name, description) : null;
+            bool uniqueName = course != null ? !repository.GetAll().Any(x => x.Name.ToLower().Equals(course.Name.ToLower())) : false;
 
-            if (course != null)
+            //if name is unique => create new skill, otherwise skill == null
+            if (uniqueName)
             {
                 repository.Create(course);
             }

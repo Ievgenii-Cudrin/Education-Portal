@@ -4,7 +4,6 @@ using DataAccessLayer.Repositories;
 using System.Linq;
 using System;
 using System.Collections.Generic;
-using EducationPortalConsoleApp.InstanceCreator;
 using BusinessLogicLayer.Interfaces;
 using BusinessLogicLayer.Services;
 

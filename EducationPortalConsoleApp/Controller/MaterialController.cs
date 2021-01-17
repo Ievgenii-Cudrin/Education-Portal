@@ -26,7 +26,7 @@ namespace EducationPortalConsoleApp.Controller
             int duration = GetDataHelper.GetVideoQuality();
             string link = GetDataHelper.GetSiteAddressFromUser();
             //Create video
-            bool success = materialService.CreateVideo(name, link, quality, duration);
+            //bool success = materialService.CreateVideo(name, link, quality, duration);
             //Show result
             //ProgramConsoleMessageHelper.ShowFunctionResult(success, "Video successfully created");
         }
@@ -37,7 +37,7 @@ namespace EducationPortalConsoleApp.Controller
             DateTime publicationDate = GetDataHelper.GetDateTimeFromUser();
             string site = GetDataHelper.GetSiteAddressFromUser();
             //Create article
-            bool success = materialService.CreateArticle(name, site, publicationDate);
+            //bool success = materialService.CreateArticle(name, site, publicationDate);
 
             //Show result
             //ProgramConsoleMessageHelper.ShowFunctionResult(
@@ -54,7 +54,7 @@ namespace EducationPortalConsoleApp.Controller
             string name = GetDataHelper.GetNameFromUser();
             int countOfPages = GetDataHelper.GetCountOfBookPages();
             string authorName = GetDataHelper.GetAuthorNameFromUser();
-            bool success = materialService.CreateBook(name, authorName, countOfPages);
+            //bool success = materialService.CreateBook(name, authorName, countOfPages);
 
             //ProgramConsoleMessageHelper.ShowFunctionResult(
             //    success,
