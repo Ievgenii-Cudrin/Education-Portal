@@ -12,7 +12,12 @@ namespace BusinessLogicLayer.Services
 {
     public class SkillService : ISkillService
     {
-        IRepository<Skill> repository = ProviderServiceBLL.Provider.GetRequiredService<IRepository<Skill>>();
+        IRepository<Skill> repository;
+
+        public SkillService(IRepository<Skill> repository)
+        {
+            this.repository = repository;
+        }
 
         public bool CreateSkill(string name)
         {

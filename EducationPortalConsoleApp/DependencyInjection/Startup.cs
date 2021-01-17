@@ -1,16 +1,14 @@
 ﻿using BusinessLogicLayer.Interfaces;
+using BusinessLogicLayer.Services;
+using DataAccessLayer.DataContext;
 using DataAccessLayer.Interfaces;
+using DataAccessLayer.Repositories;
+using DataAccessLayer.Serialization;
+using EducationPortalConsoleApp.Controller;
+using EducationPortalConsoleApp.Interfaces;
 using EducationPortalConsoleApp.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using BusinessLogicLayer.DependencyInjection;
-using EducationPortalConsoleApp.Interfaces;
-using EducationPortalConsoleApp.Branch;
-using EducationPortalConsoleApp.Controller;
-using DataAccessLayer.Entities;
-using DataAccessLayer.DataContext;
 
 namespace EducationPortalConsoleApp.DependencyInjection
 {
@@ -19,16 +17,20 @@ namespace EducationPortalConsoleApp.DependencyInjection
         public static IServiceProvider ConfigureService()
         {
             var provider = new ServiceCollection()
-                .AddSingleton<IUserService, UserService>()
-                .AddSingleton<IMaterialController, MaterialController>()
-                .AddSingleton<IUserController, UserController>()
-                .AddSingleton<ICourseController, CourseController>()
-                .AddSingleton<ISkillController, SkillController>()
+                .AddSingleton(typeof(IXmlSet<>), typeof(XmlSet<>))
+                .AddSingleton(typeof(IXmlSerializeContext<>), typeof(XmlSerializationContextGeneric<>))
+                .AddTransient(typeof(IRepository<>), typeof(Repository<>))
+                .AddTransient<IUserService, UserService>()
+                .AddTransient<ICourseService, CourseService>()
+                .AddTransient<IMaterialService, MaterialService>()
+                .AddTransient<ISkillService, SkillService>()
+                .AddTransient<IMaterialController, MaterialController>()
+                .AddTransient<IUserController, UserController>()
+                .AddTransient<ICourseController, CourseController>()
+                .AddTransient<ISkillController, SkillController>()
                 .BuildServiceProvider();
 
-            var bllProvider = StartupBll.ConfigureService();
-            var dalProvider = DataAccessLayer.DependencyInjection.Startup.ConfigureService();
-            var qq = new XmlSerializationContextGeneric<User>(dalProvider.GetRequiredService<IXmlSet<User>>());
+            //var bllProvider = StartupBll.ConfigureService();
             return provider;
         }
     }

@@ -14,7 +14,12 @@ namespace EducationPortalConsoleApp.Services
 {
     public class MaterialService : IMaterialService
     {
-        IRepository<Material> repository = ProviderServiceBLL.Provider.GetRequiredService<IRepository<Material>>();
+        IRepository<Material> repository;
+
+        public MaterialService(IRepository<Material> repository)
+        {
+            this.repository = repository;
+        }
 
         public bool CreateVideo(string name, string link, int quality, int duration)
         {

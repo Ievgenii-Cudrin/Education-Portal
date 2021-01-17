@@ -12,7 +12,12 @@ namespace BusinessLogicLayer.Services
 {
     public class CourseService : ICourseService
     {
-        IRepository<Course> repository = ProviderServiceBLL.Provider.GetRequiredService<IRepository<Course>>();
+        IRepository<Course> repository;
+
+        public CourseService(IRepository<Course> repository)
+        {
+            this.repository = repository;
+        }
 
         public bool CreateCourse(string name, string description)
         {

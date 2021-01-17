@@ -13,8 +13,13 @@ namespace EducationPortalConsoleApp.Services
 {
     public class UserService : IUserService
     {
-        IRepository<User> repository = ProviderServiceBLL.Provider.GetRequiredService<IRepository<User>>();
+        IRepository<User> repository;
         User authorizedUser;
+
+        public UserService(IRepository<User> repository)
+        {
+            this.repository = repository;
+        }
 
         public User AuthorizedUser
         {
