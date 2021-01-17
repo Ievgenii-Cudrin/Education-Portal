@@ -1,4 +1,6 @@
 ﻿using BusinessLogicLayer.Interfaces;
+using EducationPortal.PL.InstanceCreator;
+using EducationPortal.PL.Models;
 using EducationPortalConsoleApp.Branch;
 using EducationPortalConsoleApp.Helpers;
 using EducationPortalConsoleApp.Interfaces;
@@ -36,10 +38,7 @@ namespace EducationPortalConsoleApp.Controller
 
         public void CreateNewUser()
         {
-            string name = GetDataHelper.GetNameFromUser();
-            string password = GetDataHelper.GetPasswordWithConfirmFromUser();
-            string phoneNumber = GetDataHelper.GetPhoneNumberFromUser();
-            string email = GetDataHelper.GetEmailFromUser();
+            UserViewModel user = UserVMInstanceCreator.CreateUser();
             //Create new user, if not - false
             bool createUser = userService.CreateUser(name, password, email, phoneNumber);
             //Show result

@@ -28,7 +28,7 @@ namespace EducationPortalConsoleApp.Services
             }
         }
 
-        public bool CreateUser(string name, string password, string email, string phoneNumber)
+        public bool CreateUser(UserViewModel)
         {
             //check email, may be we have this email
             bool uniqueEmail = !repository.GetAll().Any(x => x.Email.ToLower().Equals(email.ToLower()));
