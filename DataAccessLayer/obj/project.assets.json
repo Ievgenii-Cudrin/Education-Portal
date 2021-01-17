@@ -22,6 +22,26 @@
         "runtime": {
           "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {}
         }
+      },
+      "EducationPortal.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "compile": {
+          "bin/placeholder/EducationPortal.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/EducationPortal.Domain.dll": {}
+        }
+      },
+      "EducationPortal.XmlDataBase/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "compile": {
+          "bin/placeholder/EducationPortal.XmlDataBase.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/EducationPortal.XmlDataBase.dll": {}
+        }
       }
     }
   },
@@ -69,10 +89,22 @@
         "useSharedDesignerContext.txt",
         "version.txt"
       ]
+    },
+    "EducationPortal.Domain/1.0.0": {
+      "type": "project",
+      "path": "../EducationPortal.Domain/EducationPortal.Domain.csproj",
+      "msbuildProject": "../EducationPortal.Domain/EducationPortal.Domain.csproj"
+    },
+    "EducationPortal.XmlDataBase/1.0.0": {
+      "type": "project",
+      "path": "../EducationPortal.XmlDataBase/EducationPortal.XmlDataBase.csproj",
+      "msbuildProject": "../EducationPortal.XmlDataBase/EducationPortal.XmlDataBase.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
+      "EducationPortal.Domain >= 1.0.0",
+      "EducationPortal.XmlDataBase >= 1.0.0",
       "Microsoft.Extensions.DependencyInjection >= 5.0.1"
     ]
   },
@@ -83,9 +115,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Projects\\Education-Portal\\DataAccessLayer\\DataAccessLayer.csproj",
-      "projectName": "DataAccessLayer",
-      "projectPath": "E:\\Projects\\Education-Portal\\DataAccessLayer\\DataAccessLayer.csproj",
+      "projectUniqueName": "E:\\Projects\\Education-Portal\\DataAccessLayer\\EducationPortal.DAL.csproj",
+      "projectName": "EducationPortal.DAL",
+      "projectPath": "E:\\Projects\\Education-Portal\\DataAccessLayer\\EducationPortal.DAL.csproj",
       "packagesPath": "C:\\Users\\zhend\\.nuget\\packages\\",
       "outputPath": "E:\\Projects\\Education-Portal\\DataAccessLayer\\obj\\",
       "projectStyle": "PackageReference",
@@ -106,7 +138,14 @@
       "frameworks": {
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
-          "projectReferences": {}
+          "projectReferences": {
+            "E:\\Projects\\Education-Portal\\EducationPortal.Domain\\EducationPortal.Domain.csproj": {
+              "projectPath": "E:\\Projects\\Education-Portal\\EducationPortal.Domain\\EducationPortal.Domain.csproj"
+            },
+            "E:\\Projects\\Education-Portal\\EducationPortal.XmlDataBase\\EducationPortal.XmlDataBase.csproj": {
+              "projectPath": "E:\\Projects\\Education-Portal\\EducationPortal.XmlDataBase\\EducationPortal.XmlDataBase.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

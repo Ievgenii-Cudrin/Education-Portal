@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "i9dkYVntwa9DTUwb6jaraJP66evO4cLNJ6IqGtk7URvQy/MEc+BrvQDYb0eQpwIaERj9TWSptPI3BU8rN1Momw==",
+  "dgSpecHash": "2u/rX/kQfazyTCUef5zm9gVZfVhUYTqUQqssfFqB+8ZwWyw3PCU5y96pcyorCnbD9XWEQsz4fEvJtDFHGH6TFg==",
   "success": true,
-  "projectFilePath": "E:\\Projects\\Education-Portal\\EducationPortalConsoleApp\\EducationPortalConsoleApp.csproj",
+  "projectFilePath": "E:\\Projects\\Education-Portal\\EducationPortalConsoleApp\\EducationPortal.PL.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\zhend\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\5.0.1\\microsoft.extensions.dependencyinjection.5.0.1.nupkg.sha512",
     "C:\\Users\\zhend\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\5.0.0\\microsoft.extensions.dependencyinjection.abstractions.5.0.0.nupkg.sha512"

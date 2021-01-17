@@ -23,31 +23,54 @@
           "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {}
         }
       },
-      "BusinessLogicLayer/1.0.0": {
+      "EducationPortal.BLL/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
         "dependencies": {
-          "DataAccessLayer": "1.0.0",
+          "EducationPortal.DAL": "1.0.0",
+          "EducationPortal.Domain": "1.0.0",
           "Microsoft.Extensions.DependencyInjection": "5.0.1"
         },
         "compile": {
-          "bin/placeholder/BusinessLogicLayer.dll": {}
+          "bin/placeholder/EducationPortal.BLL.dll": {}
         },
         "runtime": {
-          "bin/placeholder/BusinessLogicLayer.dll": {}
+          "bin/placeholder/EducationPortal.BLL.dll": {}
         }
       },
-      "DataAccessLayer/1.0.0": {
+      "EducationPortal.DAL/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
         "dependencies": {
+          "EducationPortal.Domain": "1.0.0",
+          "EducationPortal.XmlDataBase": "1.0.0",
           "Microsoft.Extensions.DependencyInjection": "5.0.1"
         },
         "compile": {
-          "bin/placeholder/DataAccessLayer.dll": {}
+          "bin/placeholder/EducationPortal.DAL.dll": {}
         },
         "runtime": {
-          "bin/placeholder/DataAccessLayer.dll": {}
+          "bin/placeholder/EducationPortal.DAL.dll": {}
+        }
+      },
+      "EducationPortal.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "compile": {
+          "bin/placeholder/EducationPortal.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/EducationPortal.Domain.dll": {}
+        }
+      },
+      "EducationPortal.XmlDataBase/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "compile": {
+          "bin/placeholder/EducationPortal.XmlDataBase.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/EducationPortal.XmlDataBase.dll": {}
         }
       }
     }
@@ -97,20 +120,32 @@
         "version.txt"
       ]
     },
-    "BusinessLogicLayer/1.0.0": {
+    "EducationPortal.BLL/1.0.0": {
       "type": "project",
-      "path": "../BusinessLogicLayer/BusinessLogicLayer.csproj",
-      "msbuildProject": "../BusinessLogicLayer/BusinessLogicLayer.csproj"
+      "path": "../BusinessLogicLayer/EducationPortal.BLL.csproj",
+      "msbuildProject": "../BusinessLogicLayer/EducationPortal.BLL.csproj"
     },
-    "DataAccessLayer/1.0.0": {
+    "EducationPortal.DAL/1.0.0": {
       "type": "project",
-      "path": "../DataAccessLayer/DataAccessLayer.csproj",
-      "msbuildProject": "../DataAccessLayer/DataAccessLayer.csproj"
+      "path": "../DataAccessLayer/EducationPortal.DAL.csproj",
+      "msbuildProject": "../DataAccessLayer/EducationPortal.DAL.csproj"
+    },
+    "EducationPortal.Domain/1.0.0": {
+      "type": "project",
+      "path": "../EducationPortal.Domain/EducationPortal.Domain.csproj",
+      "msbuildProject": "../EducationPortal.Domain/EducationPortal.Domain.csproj"
+    },
+    "EducationPortal.XmlDataBase/1.0.0": {
+      "type": "project",
+      "path": "../EducationPortal.XmlDataBase/EducationPortal.XmlDataBase.csproj",
+      "msbuildProject": "../EducationPortal.XmlDataBase/EducationPortal.XmlDataBase.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
-      "BusinessLogicLayer >= 1.0.0",
+      "EducationPortal.BLL >= 1.0.0",
+      "EducationPortal.DAL >= 1.0.0",
+      "EducationPortal.XmlDataBase >= 1.0.0",
       "Microsoft.Extensions.DependencyInjection >= 5.0.1"
     ]
   },
@@ -121,9 +156,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Projects\\Education-Portal\\EducationPortalConsoleApp\\EducationPortalConsoleApp.csproj",
-      "projectName": "EducationPortalConsoleApp",
-      "projectPath": "E:\\Projects\\Education-Portal\\EducationPortalConsoleApp\\EducationPortalConsoleApp.csproj",
+      "projectUniqueName": "E:\\Projects\\Education-Portal\\EducationPortalConsoleApp\\EducationPortal.PL.csproj",
+      "projectName": "EducationPortal.PL",
+      "projectPath": "E:\\Projects\\Education-Portal\\EducationPortalConsoleApp\\EducationPortal.PL.csproj",
       "packagesPath": "C:\\Users\\zhend\\.nuget\\packages\\",
       "outputPath": "E:\\Projects\\Education-Portal\\EducationPortalConsoleApp\\obj\\",
       "projectStyle": "PackageReference",
@@ -145,8 +180,14 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "E:\\Projects\\Education-Portal\\BusinessLogicLayer\\BusinessLogicLayer.csproj": {
-              "projectPath": "E:\\Projects\\Education-Portal\\BusinessLogicLayer\\BusinessLogicLayer.csproj"
+            "E:\\Projects\\Education-Portal\\BusinessLogicLayer\\EducationPortal.BLL.csproj": {
+              "projectPath": "E:\\Projects\\Education-Portal\\BusinessLogicLayer\\EducationPortal.BLL.csproj"
+            },
+            "E:\\Projects\\Education-Portal\\DataAccessLayer\\EducationPortal.DAL.csproj": {
+              "projectPath": "E:\\Projects\\Education-Portal\\DataAccessLayer\\EducationPortal.DAL.csproj"
+            },
+            "E:\\Projects\\Education-Portal\\EducationPortal.XmlDataBase\\EducationPortal.XmlDataBase.csproj": {
+              "projectPath": "E:\\Projects\\Education-Portal\\EducationPortal.XmlDataBase\\EducationPortal.XmlDataBase.csproj"
             }
           }
         }

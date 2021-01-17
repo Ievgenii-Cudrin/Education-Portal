@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ZSE28NiYrR8b3gwrdx5CpXpgX0rN9Ne3qPcbQriKytdBWtUst6ME39bTOZe+bSvPA2M8IVLQTzc7HqTi0jVHYw==",
+  "dgSpecHash": "e229BkohbmPm65Ozs0ck9mvZN+sfHy0d4c//XdwO0nLv/6LVGavxM68EeOeRR43kJHmd1F1gQMipOde1AxI/kA==",
   "success": true,
-  "projectFilePath": "E:\\Projects\\Education-Portal\\DataAccessLayer\\DataAccessLayer.csproj",
+  "projectFilePath": "E:\\Projects\\Education-Portal\\DataAccessLayer\\EducationPortal.DAL.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\zhend\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\5.0.1\\microsoft.extensions.dependencyinjection.5.0.1.nupkg.sha512",
     "C:\\Users\\zhend\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\5.0.0\\microsoft.extensions.dependencyinjection.abstractions.5.0.0.nupkg.sha512"

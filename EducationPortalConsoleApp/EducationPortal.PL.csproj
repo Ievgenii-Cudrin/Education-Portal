@@ -10,7 +10,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BusinessLogicLayer\BusinessLogicLayer.csproj" />
+    <ProjectReference Include="..\BusinessLogicLayer\EducationPortal.BLL.csproj" />
+    <ProjectReference Include="..\DataAccessLayer\EducationPortal.DAL.csproj" />
+    <ProjectReference Include="..\EducationPortal.XmlDataBase\EducationPortal.XmlDataBase.csproj" />
   </ItemGroup>
 
 </Project>

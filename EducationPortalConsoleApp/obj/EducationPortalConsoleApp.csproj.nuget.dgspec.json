@@ -4,12 +4,12 @@
     "E:\\Projects\\Education-Portal\\EducationPortalConsoleApp\\EducationPortalConsoleApp.csproj": {}
   },
   "projects": {
-    "E:\\Projects\\Education-Portal\\BusinessLogicLayer\\BusinessLogicLayer.csproj": {
+    "E:\\Projects\\Education-Portal\\BusinessLogicLayer\\EducationPortal.BLL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Projects\\Education-Portal\\BusinessLogicLayer\\BusinessLogicLayer.csproj",
-        "projectName": "BusinessLogicLayer",
-        "projectPath": "E:\\Projects\\Education-Portal\\BusinessLogicLayer\\BusinessLogicLayer.csproj",
+        "projectUniqueName": "E:\\Projects\\Education-Portal\\BusinessLogicLayer\\EducationPortal.BLL.csproj",
+        "projectName": "EducationPortal.BLL",
+        "projectPath": "E:\\Projects\\Education-Portal\\BusinessLogicLayer\\EducationPortal.BLL.csproj",
         "packagesPath": "C:\\Users\\zhend\\.nuget\\packages\\",
         "outputPath": "E:\\Projects\\Education-Portal\\BusinessLogicLayer\\obj\\",
         "projectStyle": "PackageReference",
@@ -31,8 +31,8 @@
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "E:\\Projects\\Education-Portal\\DataAccessLayer\\DataAccessLayer.csproj": {
-                "projectPath": "E:\\Projects\\Education-Portal\\DataAccessLayer\\DataAccessLayer.csproj"
+              "E:\\Projects\\Education-Portal\\DataAccessLayer\\EducationPortal.DAL.csproj": {
+                "projectPath": "E:\\Projects\\Education-Portal\\DataAccessLayer\\EducationPortal.DAL.csproj"
               }
             }
           }
@@ -71,12 +71,12 @@
         }
       }
     },
-    "E:\\Projects\\Education-Portal\\DataAccessLayer\\DataAccessLayer.csproj": {
+    "E:\\Projects\\Education-Portal\\DataAccessLayer\\EducationPortal.DAL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Projects\\Education-Portal\\DataAccessLayer\\DataAccessLayer.csproj",
-        "projectName": "DataAccessLayer",
-        "projectPath": "E:\\Projects\\Education-Portal\\DataAccessLayer\\DataAccessLayer.csproj",
+        "projectUniqueName": "E:\\Projects\\Education-Portal\\DataAccessLayer\\EducationPortal.DAL.csproj",
+        "projectName": "EducationPortal.DAL",
+        "projectPath": "E:\\Projects\\Education-Portal\\DataAccessLayer\\EducationPortal.DAL.csproj",
         "packagesPath": "C:\\Users\\zhend\\.nuget\\packages\\",
         "outputPath": "E:\\Projects\\Education-Portal\\DataAccessLayer\\obj\\",
         "projectStyle": "PackageReference",
@@ -161,8 +161,8 @@
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "E:\\Projects\\Education-Portal\\BusinessLogicLayer\\BusinessLogicLayer.csproj": {
-                "projectPath": "E:\\Projects\\Education-Portal\\BusinessLogicLayer\\BusinessLogicLayer.csproj"
+              "E:\\Projects\\Education-Portal\\BusinessLogicLayer\\EducationPortal.BLL.csproj": {
+                "projectPath": "E:\\Projects\\Education-Portal\\BusinessLogicLayer\\EducationPortal.BLL.csproj"
               }
             }
           }
