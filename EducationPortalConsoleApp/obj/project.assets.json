@@ -28,8 +28,7 @@
         "framework": ".NETCoreApp,Version=v3.1",
         "dependencies": {
           "EducationPortal.DAL": "1.0.0",
-          "EducationPortal.Domain": "1.0.0",
-          "Microsoft.Extensions.DependencyInjection": "5.0.1"
+          "EducationPortal.Domain": "1.0.0"
         },
         "compile": {
           "bin/placeholder/EducationPortal.BLL.dll": {}
@@ -42,8 +41,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
         "dependencies": {
-          "EducationPortal.XmlDataBase": "1.0.0",
-          "Microsoft.Extensions.DependencyInjection": "5.0.1"
+          "EducationPortal.XmlDataBase": "1.0.0"
         },
         "compile": {
           "bin/placeholder/EducationPortal.DAL.dll": {}

@@ -3,7 +3,6 @@ using BusinessLogicLayer.Services;
 using DataAccessLayer.Entities;
 using DataAccessLayer.Interfaces;
 using DataAccessLayer.Repositories;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Text;

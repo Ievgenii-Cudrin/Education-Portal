@@ -97,15 +97,9 @@ namespace XmlDataBase.Serialization
         //push to another class
         private int GenareteId()
         {
-            FileInfo file = directory.GetFiles("*.xml").LastOrDefault();
-            var lastIndex = directory.GetFiles("*.xml").Select(x => Convert.ToInt32(Regex.Match(file.Name, @"\d+").Value));
-            int id = 0;
-            if (file != null)
-            {
-                id = Convert.ToInt32(Regex.Match(file.Name, @"\d+").Value) + 1;
-            }
-
-            return id;
+            int id = directory.GetFiles("*.xml").OrderBy(x => x.Name).Select(x => x.Name).Select(x => Convert.ToInt32(Regex.Match(x, @"\d+").Value)).Max();
+            
+            return ++id;
         }
     }
 }

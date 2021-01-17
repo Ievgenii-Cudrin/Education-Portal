@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using EducationPortalConsoleApp.InstanceCreator;
 using BusinessLogicLayer.Interfaces;
 using BusinessLogicLayer.Services;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace EducationPortalConsoleApp.Services
 {
