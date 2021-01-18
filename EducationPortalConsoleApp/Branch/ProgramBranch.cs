@@ -12,9 +12,11 @@ namespace EducationPortalConsoleApp.Branch
     public static class ProgramBranch
     {
         static IUserController userController = ProviderServicePL.Provider.GetRequiredService<IUserController>();
+        static ICourseController courseController = ProviderServicePL.Provider.GetRequiredService<ICourseController>();
 
         public static void StartApplication()
         {
+            Console.Clear();
             ProgramConsoleMessageHelper.ShowTextForLoginOrRegistration();
 
             string userChoice = Console.ReadLine();
@@ -22,15 +24,12 @@ namespace EducationPortalConsoleApp.Branch
             switch (userChoice)
             {
                 case "1":
+                    Console.Clear();
                     userController.VerifyLoginAndPassword();
-                    //TODO add user functional
                     break;
                 case "2":
+                    Console.Clear();
                     userController.CreateNewUser();
-                    StartApplication();
-                    break;
-                case "3":
-                    userController.ShowAllUser();
                     StartApplication();
                     break;
                 default:
@@ -42,6 +41,7 @@ namespace EducationPortalConsoleApp.Branch
 
         public static void SelectFirstStepForAuthorizedUser()
         {
+            Console.Clear();
             ProgramConsoleMessageHelper.ShowTextForFirstStepForAuthorizedUser();
 
             string userChoice = Console.ReadLine();
@@ -49,8 +49,7 @@ namespace EducationPortalConsoleApp.Branch
             switch (userChoice)
             {
                 case "1":
-                    //materialController.CreateNewMaterial();
-                    //courseController.CreateNewCourse();
+                    courseController.CreateNewCourse();
                     break;
                 case "2":
 
@@ -65,6 +64,11 @@ namespace EducationPortalConsoleApp.Branch
 
                     break;
                 case "6":
+                    userController.UpdateUser();
+                    break;
+                case "7":
+                    userController.LogOut();
+                    Console.Clear();
                     StartApplication();
                     break;
                 default:

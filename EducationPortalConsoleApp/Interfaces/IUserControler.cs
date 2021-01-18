@@ -11,5 +11,9 @@ namespace EducationPortalConsoleApp.Interfaces
         public void VerifyLoginAndPassword();
 
         void ShowAllUser();
+
+        public void UpdateUser();
+
+        public void LogOut();
     }
 }

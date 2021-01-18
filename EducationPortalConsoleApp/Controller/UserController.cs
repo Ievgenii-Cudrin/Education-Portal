@@ -40,6 +40,7 @@ namespace EducationPortalConsoleApp.Controller
 
         public void CreateNewUser()
         {
+            Console.Clear();
             UserViewModel user = UserVMInstanceCreator.CreateUser();
 
             var config = new MapperConfiguration(cfg => cfg.CreateMap<UserViewModel, User>());
@@ -66,9 +67,32 @@ namespace EducationPortalConsoleApp.Controller
             //TODO HERE
         }
 
-        public void UpdateUser(int id)
+        public void UpdateUser()
         {
             //TODO HERE
+            Console.Clear();
+            UserViewModel userToUpdate = UserVMInstanceCreator.CreateUser();
+
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<UserViewModel, User>());
+            var mapper = new Mapper(config);
+            // сопоставление
+            var userMap = mapper.Map<UserViewModel, User>(userToUpdate);
+            //Create new user, if not - false
+            bool updateUser = userService.UpdateUser(userMap);
+
+            ProgramConsoleMessageHelper.
+                ShowFunctionResult(
+                updateUser,
+                "User successfully updated!",
+                "Something wrong",
+                ProgramBranch.SelectFirstStepForAuthorizedUser,
+                ProgramBranch.SelectFirstStepForAuthorizedUser
+                );
+        }
+
+        public void LogOut()
+        {
+            userService.LogOut();
         }
     }
 }

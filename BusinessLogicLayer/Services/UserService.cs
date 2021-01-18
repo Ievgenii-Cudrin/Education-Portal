@@ -70,7 +70,7 @@ namespace EducationPortalConsoleApp.Services
 
         public bool UpdateUser(User userToUpdate)
         {
-            User user = repository.Get(userToUpdate.Id);
+            User user = repository.Get(authorizedUser.Id);
 
             if (user == null)
             {
