@@ -167,6 +167,25 @@ namespace EducationPortalConsoleApp.Helpers
             return authorName;
         }
 
+        public static string GetDescriptionForCourseFromUser()
+        {
+            string description;
+            bool isNullOrEmpty;
+            do
+            {
+                Console.WriteLine($"Enter description for course: ");
+                description = Console.ReadLine();
+                isNullOrEmpty = String.IsNullOrEmpty(description);
+                if (isNullOrEmpty)
+                {
+                    Console.WriteLine("Name must not be empty. Please, try again!");
+                }
+            }
+            while (isNullOrEmpty);
+
+            return description;
+        }
+
         public static int GetCountOfBookPages()
         {
             int countOfPages = 0;
