@@ -39,7 +39,7 @@ namespace XmlDataBase.Serialization
         public IEnumerable<T> GetAll()
         {
             List<T> users = new List<T>();
-
+            Directory.CreateDirectory($"{type.Name}");
             FileInfo[] files = directory.GetFiles("*.xml");
 
             if(files != null)
@@ -97,7 +97,15 @@ namespace XmlDataBase.Serialization
         //push to another class
         private int GenareteId()
         {
-            int id = directory.GetFiles("*.xml").OrderBy(x => x.Name).Select(x => x.Name).Select(x => Convert.ToInt32(Regex.Match(x, @"\d+").Value)).Max();
+            int id = 0;
+            try
+            {
+                id = directory.GetFiles("*.xml").OrderBy(x => x.Name).Select(x => x.Name).Select(x => Convert.ToInt32(Regex.Match(x, @"\d+").Value)).Max();
+            }
+            catch (Exception ex)
+            {
+                return id;
+            }
             
             return ++id;
         }

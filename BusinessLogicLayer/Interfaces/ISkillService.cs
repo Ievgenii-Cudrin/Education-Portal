@@ -9,6 +9,8 @@ namespace BusinessLogicLayer.Interfaces
     {
         public bool CreateSkill(Skill skill);
 
+        public Skill GetSkill(int id);
+
         public bool UpdateSkill(Skill skill);
 
         public IEnumerable<Skill> GetAllSkills();

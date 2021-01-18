@@ -13,6 +13,14 @@ namespace BusinessLogicLayer.Interfaces
 
         public IEnumerable<Course> GetAllSkills();
 
+        public bool AddVideoToCourse(int id, Video video);
+
+        public bool AddBookToCourse(int id, Book book);
+
+        public bool AddArticleToCourse(int id, Article article);
+
+        public bool AddSkillToCourse(int id, Skill skillToAdd);
+
 
     }
 }

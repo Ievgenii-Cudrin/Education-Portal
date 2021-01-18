@@ -72,5 +72,10 @@ namespace BusinessLogicLayer.Services
 
             return true;
         }
+
+        public Skill GetSkill(int id)
+        {
+            return repository.Get(id);
+        }
     }
 }

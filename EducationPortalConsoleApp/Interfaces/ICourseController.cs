@@ -6,5 +6,6 @@ namespace EducationPortalConsoleApp.Interfaces
 {
     public interface ICourseController
     {
+        public void CreateNewCourse();
     }
 }
