@@ -1,4 +1,8 @@
-﻿using BusinessLogicLayer.Interfaces;
+﻿using AutoMapper;
+using BusinessLogicLayer.Interfaces;
+using DataAccessLayer.Entities;
+using EducationPortal.PL.InstanceCreator;
+using EducationPortal.PL.Models;
 using EducationPortalConsoleApp.Branch;
 using EducationPortalConsoleApp.Helpers;
 using EducationPortalConsoleApp.Interfaces;
@@ -21,10 +25,15 @@ namespace EducationPortalConsoleApp.Controller
         
         public void CreateVideo()
         {
-            string name = GetDataHelper.GetNameFromUser();
-            int quality = GetDataHelper.GetVideoQuality();
-            int duration = GetDataHelper.GetVideoQuality();
-            string link = GetDataHelper.GetSiteAddressFromUser();
+            VideoViewModel video = VideoVMInstanceCreator.CreateVideo();
+
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<VideoViewModel, Video>());
+            var mapper = new Mapper(config);
+            // сопоставление
+            var videoMap = mapper.Map<VideoViewModel, Video>(video);
+
+            bool success = materialService.CreateVideo(videoMap);
+
             //Create video
             //bool success = materialService.CreateVideo(name, link, quality, duration);
             //Show result

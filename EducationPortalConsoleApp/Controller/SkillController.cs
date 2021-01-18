@@ -1,4 +1,8 @@
-﻿using BusinessLogicLayer.Interfaces;
+﻿using AutoMapper;
+using BusinessLogicLayer.Interfaces;
+using DataAccessLayer.Entities;
+using EducationPortal.PL.InstanceCreator;
+using EducationPortal.PL.Models;
 using EducationPortalConsoleApp.Helpers;
 using EducationPortalConsoleApp.Interfaces;
 using System;
@@ -18,11 +22,14 @@ namespace EducationPortalConsoleApp.Controller
 
         public void CreateSkill()
         {
-            string name = GetDataHelper.GetNameFromUser();
-            //bool success = skillService.CreateSkill(name);
-            //ProgramConsoleMessageHelper.ShowFunctionResult(success, "Skill successfully created");
+            SkillViewModel skill = SkillVMInstanceCreator.CreateSkill();
 
-            //Add func to continue
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<SkillViewModel, Skill>());
+            var mapper = new Mapper(config);
+            // сопоставление
+            var skillMap = mapper.Map<SkillViewModel, Skill>(skill);
+
+            bool success = skillService.CreateSkill(skillMap);
         }
 
         public void UpdateSkill(int id)

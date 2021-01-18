@@ -8,7 +8,7 @@ namespace EducationPortal.PL.InstanceCreator
 {
     public static class VideoVMInstanceCreator
     {
-        public static VideoViewModel CreateBook()
+        public static VideoViewModel CreateVideo()
         {
             VideoViewModel video = new VideoViewModel()
             {
