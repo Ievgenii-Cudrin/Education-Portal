@@ -47,7 +47,7 @@ namespace EducationPortalConsoleApp.Services
 
         public bool VerifyUser(string name, string password)
         {
-            User user = repository.GetAll().Where(x => x.Name == name && x.Password == password).FirstOrDefault();
+            User user = repository.GetAll().Where(x => x.Name.ToLower() == name.ToLower() && x.Password == password).FirstOrDefault();
 
             if (user == null)
             {
@@ -107,6 +107,21 @@ namespace EducationPortalConsoleApp.Services
             }
 
             return true;
+        }
+
+        public bool AddSkill(Skill skill)
+        {
+            User user = repository.Get(authorizedUser.Id);
+            if(user != null && skill != null)
+            {
+                user.Skills.Add(skill);
+                return true;
+            }
+            return false;
+        }
+        public IEnumerable<Skill> GetUserSkills()
+        {
+            return repository.Get(authorizedUser.Id).Skills;
         }
     }
 }

@@ -2,6 +2,7 @@
 using BusinessLogicLayer.Interfaces;
 using DataAccessLayer.Entities;
 using EducationPortal.PL.InstanceCreator;
+using EducationPortal.PL.Mapping;
 using EducationPortal.PL.Models;
 using EducationPortalConsoleApp.Branch;
 using EducationPortalConsoleApp.Helpers;
@@ -41,14 +42,10 @@ namespace EducationPortalConsoleApp.Controller
         public void CreateNewUser()
         {
             Console.Clear();
-            UserViewModel user = UserVMInstanceCreator.CreateUser();
+            UserViewModel userVM = UserVMInstanceCreator.CreateUser();
 
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<UserViewModel, User>());
-            var mapper = new Mapper(config);
-            // сопоставление
-            var userMap = mapper.Map<UserViewModel, User>(user);
             //Create new user, if not - false
-            bool createUser = userService.CreateUser(userMap);
+            bool createUser = userService.CreateUser(Mapping.CreateMapFromVMToDomain<UserViewModel, User>(userVM));
             //Show result
             ProgramConsoleMessageHelper.
                 ShowFunctionResult(

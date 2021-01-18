@@ -2,6 +2,7 @@
 using BusinessLogicLayer.Interfaces;
 using DataAccessLayer.Entities;
 using EducationPortal.PL.InstanceCreator;
+using EducationPortal.PL.Mapping;
 using EducationPortal.PL.Models;
 using EducationPortalConsoleApp.Branch;
 using EducationPortalConsoleApp.Helpers;
@@ -25,22 +26,21 @@ namespace EducationPortalConsoleApp.Controller
         {
             Console.Clear();
             CourseViewModel course = CourseVMInstanceCreator.CreateCourse();
+            List<MaterialViewModel> materials = new List<MaterialViewModel>();
+            List
+            //Create new course, if not - false
+            bool createCourse = courseService.CreateCourse(Mapping.CreateMapFromVMToDomain<CourseViewModel, Course>(course));
 
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<CourseViewModel, Course>());
-            var mapper = new Mapper(config);
-            // сопоставление
-            var userMap = mapper.Map<CourseViewModel, Course>(course);
-            //Create new user, if not - false
-            bool createUser = courseService.CreateCourse(userMap);
 
-            ProgramConsoleMessageHelper.
-                ShowFunctionResult(
-                createUser,
-                "Course successfully created!",
-                "Something wrong",
-                ProgramBranch.SelectFirstStepForAuthorizedUser,
-                ProgramBranch.SelectFirstStepForAuthorizedUser
-                );
+
+            //ProgramConsoleMessageHelper.
+            //    ShowFunctionResult(
+            //    createCourse,
+            //    "Course successfully created!",
+            //    "Something wrong",
+            //    ProgramBranch.SelectFirstStepForAuthorizedUser,
+            //    ProgramBranch.SelectFirstStepForAuthorizedUser
+            //    );
         }
     }
 }
