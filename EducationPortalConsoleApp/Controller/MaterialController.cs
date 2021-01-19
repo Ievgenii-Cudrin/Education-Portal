@@ -2,6 +2,7 @@
 using BusinessLogicLayer.Interfaces;
 using DataAccessLayer.Entities;
 using EducationPortal.PL.InstanceCreator;
+using EducationPortal.PL.Mapping;
 using EducationPortal.PL.Models;
 using EducationPortalConsoleApp.Branch;
 using EducationPortalConsoleApp.Helpers;
@@ -23,55 +24,55 @@ namespace EducationPortalConsoleApp.Controller
         }
 
         
-        public void CreateVideo()
+        public VideoViewModel CreateVideo()
         {
-            VideoViewModel video = VideoVMInstanceCreator.CreateVideo();
-
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<VideoViewModel, Video>());
-            var mapper = new Mapper(config);
-            // сопоставление
-            var videoMap = mapper.Map<VideoViewModel, Video>(video);
+            VideoViewModel videoVM = VideoVMInstanceCreator.CreateVideo();
+            var videoMap = Mapping.CreateMapFromVMToDomain<VideoViewModel, Video>(videoVM);
 
             bool success = materialService.CreateVideo(videoMap);
 
-            //Create video
-            //bool success = materialService.CreateVideo(name, link, quality, duration);
-            //Show result
-            //ProgramConsoleMessageHelper.ShowFunctionResult(success, "Video successfully created");
+            if (success)
+            {
+                return videoVM;
+            }
+            else
+            {
+                return null;
+            }
         }
 
-        public void CreateArticle()
+        public ArticleViewModel CreateArticle()
         {
-            string name = GetDataHelper.GetNameFromUser();
-            DateTime publicationDate = GetDataHelper.GetDateTimeFromUser();
-            string site = GetDataHelper.GetSiteAddressFromUser();
-            //Create article
-            //bool success = materialService.CreateArticle(name, site, publicationDate);
+            ArticleViewModel articleVM = ArticleVMInstanceCreator.CreateArticle();
+            var articleMap = Mapping.CreateMapFromVMToDomain<ArticleViewModel, Article>(articleVM);
 
-            //Show result
-            //ProgramConsoleMessageHelper.ShowFunctionResult(
-            //    success, 
-            //    "Article successfully created",
-            //    "",
-            //    Action,
-            //    Action
-            //    );
+            bool success = materialService.CreateArticle(articleMap);
+
+            if (success)
+            {
+                return articleVM;
+            }
+            else
+            {
+                return null;
+            }
         }
 
-        public void CreateBook()
+        public BookViewModel CreateBook()
         {
-            string name = GetDataHelper.GetNameFromUser();
-            int countOfPages = GetDataHelper.GetCountOfBookPages();
-            string authorName = GetDataHelper.GetAuthorNameFromUser();
-            //bool success = materialService.CreateBook(name, authorName, countOfPages);
+            BookViewModel bookVM = BookVMInstanceCreator.CreateBook();
+            var bookMap = Mapping.CreateMapFromVMToDomain<BookViewModel, Book>(bookVM);
 
-            //ProgramConsoleMessageHelper.ShowFunctionResult(
-            //    success,
-            //    "Book successfully created",
-            //    "Somthing wrong",
-            //    Action,
-            //    Action
-            //    );
+            bool success = materialService.CreateBook(bookMap);
+
+            if (success)
+            {
+                return bookVM;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public void UpdateMaterial(int id)
