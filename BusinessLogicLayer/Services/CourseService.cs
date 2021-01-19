@@ -18,6 +18,7 @@ namespace BusinessLogicLayer.Services
         {
             this.courseRepository = repository;
             this.materialService = materialService;
+            this.skillService = skillService;
         }
 
         public bool CreateCourse(Course course)
@@ -38,49 +39,18 @@ namespace BusinessLogicLayer.Services
             return true;
         }
 
-        public bool AddVideoToCourse(int id, Video video)
+        public bool AddMaterialToCourse(int id, Material material)
         {
-            bool success = materialService.CreateVideo(video);
-            if (success)
-            {
-                Course course = courseRepository.Get(id);
-                course.Materials.Add(video);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+            Course course = courseRepository.Get(id);
 
-        public bool AddBookToCourse(int id, Book book)
-        {
-            bool success = materialService.CreateBook(book);
-            if (success)
+            if (course != null && material != null)
             {
-                Course course = courseRepository.Get(id);
-                course.Materials.Add(book);
+                course.Materials.Add(material);
+                courseRepository.Update(course);
                 return true;
             }
-            else
-            {
-                return false;
-            }
-        }
 
-        public bool AddArticleToCourse(int id, Article article)
-        {
-            bool success = materialService.CreateArticle(article);
-            if (success)
-            {
-                Course course = courseRepository.Get(id);
-                course.Materials.Add(article);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return false;
         }
 
         public bool AddSkillToCourse(int id, Skill skillToAdd)
@@ -88,7 +58,7 @@ namespace BusinessLogicLayer.Services
             bool skillExists = skillService.CreateSkill(skillToAdd);
             Course course = courseRepository.Get(id);
 
-            if(course != null)
+            if(course != null && skillExists)
             {
                 course.Skills.Add(skillToAdd);
                 return true;
@@ -115,7 +85,7 @@ namespace BusinessLogicLayer.Services
             return true;
         }
 
-        public IEnumerable<Course> GetAllSkills()
+        public IEnumerable<Course> GetAllCourses()
         {
             return courseRepository.GetAll();
         }

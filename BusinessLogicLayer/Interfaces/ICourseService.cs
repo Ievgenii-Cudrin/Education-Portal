@@ -11,13 +11,9 @@ namespace BusinessLogicLayer.Interfaces
 
         public bool UpdateCourse(Course course);
 
-        public IEnumerable<Course> GetAllSkills();
+        public IEnumerable<Course> GetAllCourses();
 
-        public bool AddVideoToCourse(int id, Video video);
-
-        public bool AddBookToCourse(int id, Book book);
-
-        public bool AddArticleToCourse(int id, Article article);
+        public bool AddMaterialToCourse(int id, Material material);
 
         public bool AddSkillToCourse(int id, Skill skillToAdd);
 

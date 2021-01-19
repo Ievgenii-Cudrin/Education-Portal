@@ -24,16 +24,16 @@ namespace EducationPortalConsoleApp.Controller
         }
 
         
-        public VideoViewModel CreateVideo()
+        public Material CreateVideo()
         {
-            VideoViewModel videoVM = VideoVMInstanceCreator.CreateVideo();
-            var videoMap = Mapping.CreateMapFromVMToDomain<VideoViewModel, Video>(videoVM);
+            VideoViewModel materialVM = VideoVMInstanceCreator.CreateVideo();
+            var videoMap = Mapping.CreateMapFromVMToDomainWithIncludeVideoType<MaterialViewModel, Material, VideoViewModel, Video>(materialVM);
 
-            bool success = materialService.CreateVideo(videoMap);
+            bool success = materialService.CreateVideo(Mapping.CreateMapFromVMToDomain<VideoViewModel, Video>(materialVM));
 
             if (success)
             {
-                return videoVM;
+                return videoMap;
             }
             else
             {
@@ -41,16 +41,16 @@ namespace EducationPortalConsoleApp.Controller
             }
         }
 
-        public ArticleViewModel CreateArticle()
+        public Material CreateArticle()
         {
             ArticleViewModel articleVM = ArticleVMInstanceCreator.CreateArticle();
-            var articleMap = Mapping.CreateMapFromVMToDomain<ArticleViewModel, Article>(articleVM);
+            var articleMap = Mapping.CreateMapFromVMToDomainWithIncludeVideoType<MaterialViewModel, Material, ArticleViewModel, Article>(articleVM);
 
-            bool success = materialService.CreateArticle(articleMap);
+            bool success = materialService.CreateArticle(Mapping.CreateMapFromVMToDomain<ArticleViewModel, Article>(articleVM));
 
             if (success)
             {
-                return articleVM;
+                return articleMap;
             }
             else
             {
@@ -58,32 +58,21 @@ namespace EducationPortalConsoleApp.Controller
             }
         }
 
-        public BookViewModel CreateBook()
+        public Material CreateBook()
         {
             BookViewModel bookVM = BookVMInstanceCreator.CreateBook();
-            var bookMap = Mapping.CreateMapFromVMToDomain<BookViewModel, Book>(bookVM);
+            var bookMap = Mapping.CreateMapFromVMToDomainWithIncludeVideoType<MaterialViewModel, Material, BookViewModel, Book>(bookVM);
 
-            bool success = materialService.CreateBook(bookMap);
+            bool success = materialService.CreateBook(Mapping.CreateMapFromVMToDomain<BookViewModel, Book>(bookVM));
 
             if (success)
             {
-                return bookVM;
+                return bookMap;
             }
             else
             {
                 return null;
             }
-        }
-
-        public void UpdateMaterial(int id)
-        {
-            //ProgramConsoleMessageHelper.ShowFunctionResult(
-            //    success,
-            //    "Book successfully updated",
-            //    "Somthing wrong",
-            //    Action,
-            //    Action
-            //    );
         }
 
         public void DeleteMaterial(int id)

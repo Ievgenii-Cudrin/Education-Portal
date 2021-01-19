@@ -1,4 +1,6 @@
-﻿using EducationPortalConsoleApp.Controller;
+﻿using DataAccessLayer.Entities;
+using EducationPortal.PL.Models;
+using EducationPortalConsoleApp.Controller;
 using EducationPortalConsoleApp.DependencyInjection;
 using EducationPortalConsoleApp.Helpers;
 using EducationPortalConsoleApp.Interfaces;
@@ -13,6 +15,7 @@ namespace EducationPortalConsoleApp.Branch
     {
         static IUserController userController = ProviderServicePL.Provider.GetRequiredService<IUserController>();
         static ICourseController courseController = ProviderServicePL.Provider.GetRequiredService<ICourseController>();
+        static IMaterialController materialController = ProviderServicePL.Provider.GetRequiredService<IMaterialController>();
 
         public static void StartApplication()
         {
@@ -105,6 +108,32 @@ namespace EducationPortalConsoleApp.Branch
             //        Console.WriteLine("Default case");
             //        break;
             //}
+        }
+
+        public static Material SelectMaterialForAddToCourse()
+        {
+            Console.Clear();
+            MaterialConsoleMessageHelper.ShowTextForChoiceKindOfMaterialForAddToCourse();
+
+            string userChoice = Console.ReadLine();
+
+            switch (userChoice)
+            {
+                case "1":
+                    //Video
+                    return materialController.CreateVideo();
+                case "2":
+                    //
+                    return materialController.CreateBook();
+                case "3":
+                    //Article
+                    return materialController.CreateArticle();
+                default:
+                    Console.WriteLine("Default case");
+                    SelectMaterialForAddToCourse();
+                    break;
+            }
+            return null;
         }
 
     }

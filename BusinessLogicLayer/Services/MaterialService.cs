@@ -21,9 +21,12 @@ namespace EducationPortalConsoleApp.Services
 
         public bool CreateVideo(Video video)
         {
+            var videos = repository.GetAll().Where(x => x is Video).ToList();
+
+            int c = videos.Count;
             //check name and link, may be we have this skill
             bool uniqueVideo = video != null &&
-                !repository.GetAll().Select(x => x as Video).Any(x =>
+                !repository.GetAll().Where(x => x is Video).Cast<Video>().Any(x =>
                 x.Name.ToLower().Equals(video.Name.ToLower()) &&
                 x.Link == video.Link);
 
@@ -43,7 +46,7 @@ namespace EducationPortalConsoleApp.Services
         public bool CreateArticle(Article article)
         {
             bool uniqueArticle = article != null &&
-                !repository.GetAll().Select(x => x as Article).Any(x =>
+                !repository.GetAll().Where(x => x is Article).Cast<Article>().Any(x =>
                 x.Name.ToLower().Equals(article.Name.ToLower()) &&
                 x.PublicationDate == article.PublicationDate &&
                 x.Site == article.Site);
@@ -63,7 +66,7 @@ namespace EducationPortalConsoleApp.Services
         public bool CreateBook(Book book)
         {
             bool uniqueBook = book != null &&
-                !repository.GetAll().Select(x => x as Book).Any(x =>
+                !repository.GetAll().Where(x => x is Book).Cast<Book>().Any(x =>
                 x.Name.ToLower().Equals(book.Name.ToLower()) &&
                 x.Author == book.Author &&
                 x.CountOfPages == book.CountOfPages);

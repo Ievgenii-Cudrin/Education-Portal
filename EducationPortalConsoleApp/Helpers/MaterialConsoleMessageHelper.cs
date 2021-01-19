@@ -17,9 +17,9 @@ namespace EducationPortalConsoleApp.Helpers
             $"\n5.Return");
         }
 
-        internal static void ShowTextForChoiceKindOfMaterial()
+        internal static void ShowTextForChoiceKindOfMaterialForAddToCourse()
         {
-            Console.WriteLine($"\nMake the next choice to continue: " +
+            Console.WriteLine($"\nPlease, add material to your course: " +
             $"\n1.Add video" +
             $"\n2.Add book" +
             $"\n3.Add article" +
