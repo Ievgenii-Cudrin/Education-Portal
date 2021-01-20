@@ -23,7 +23,8 @@ namespace EducationPortalConsoleApp.Helpers
             $"\n1.Add video" +
             $"\n2.Add book" +
             $"\n3.Add article" +
-            $"\n4.Return");
+            $"\n4.Add material from exist" +
+            $"\n5.Return");
         }
 
         internal static void MaterialCreated()

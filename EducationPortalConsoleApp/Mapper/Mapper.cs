@@ -30,5 +30,37 @@ namespace EducationPortal.PL.Mapping
 
             return domainAfterMapping;
         }
+
+        public static List<N> CreateListMap<T, N>(List<T> list)
+        {
+            var configuration = new MapperConfiguration(cfg => cfg.CreateMap<T, N>());
+            var mapper = new Mapper(configuration);
+            List<N> listDest = mapper.Map<List<T>, List<N>>(list);
+
+            return listDest;
+        }
+
+        public static List<MV> CreateMapFromVMToDomainWithIncludeMaterialType<MD, MV, VD, VV, AD, AV, BD, BV>(List<MD> viewModelType) where VD : MD where AD : MD where BD : MD where VV : MV where AV : MV where BV : MV
+        {
+            var configuration = new MapperConfiguration(cfg => {
+                cfg.CreateMap<MD, MV>()
+                    .Include<VD, VV>()
+                    .Include<AD, AV>()
+                    .Include<BD, BV>(); 
+                //cfg.CreateMap<VD, VV>();
+                //cfg.CreateMap<MD, MV>()
+                //    .Include<AD, AV>();
+                //cfg.CreateMap<AD, AV>();
+                //cfg.CreateMap<MD, MV>()
+                //    .Include<BD, BV>();
+                cfg.CreateMap<BD, BV>();
+                cfg.CreateMap<VD, VV>();
+                cfg.CreateMap<AD, AV>();
+            });
+            var mapper = new Mapper(configuration);
+            var domainAfterMapping = mapper.Map<List<MD>, List<MV>>(viewModelType);
+
+            return domainAfterMapping;
+        }
     }
 }

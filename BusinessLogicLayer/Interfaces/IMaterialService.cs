@@ -19,6 +19,8 @@ namespace BusinessLogicLayer.Interfaces
 
         public bool UpdateBook(Book book);
 
-        public IEnumerable<string> GetAllMaterials();
+        public IEnumerable<Material> GetAllMaterials();
+
+        public Material GetMaterial(int id);
     }
 }

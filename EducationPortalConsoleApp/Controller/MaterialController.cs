@@ -10,7 +10,7 @@ using EducationPortalConsoleApp.Interfaces;
 using EducationPortalConsoleApp.Services;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace EducationPortalConsoleApp.Controller
 {
@@ -73,6 +73,31 @@ namespace EducationPortalConsoleApp.Controller
             {
                 return null;
             }
+        }
+
+        public Material GetMaterialFromAllMaterials()
+        {
+            List<MaterialViewModel> materialsVM2 = Mapping.CreateListMap<Material, MaterialViewModel>(materialService.GetAllMaterials().ToList());
+            //MD, MV, VD, VV, AD, AV, BD, BV
+            List<MaterialViewModel> materialsVM1 = Mapping.CreateMapFromVMToDomainWithIncludeMaterialType<Material, MaterialViewModel, Video, VideoViewModel, Article, ArticleViewModel, Book, BookViewModel>(materialService.GetAllMaterials().ToList());
+            foreach (var materialVM in materialsVM1)
+            {
+                Console.WriteLine($"Id: {materialVM.Id}, {materialVM.ToString()}\n");
+            }
+            Console.Write("\nEnter material id: ");
+            int id;
+            try
+            {
+                id = Convert.ToInt32(Console.ReadLine());
+            }
+            catch(Exception ex)
+            {
+                id = 0;
+                Console.WriteLine("Invalid value");
+                GetMaterialFromAllMaterials();
+            }
+
+            return materialService.GetMaterial(id);
         }
 
         public void DeleteMaterial(int id)

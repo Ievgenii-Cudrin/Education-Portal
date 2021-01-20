@@ -141,9 +141,9 @@ namespace EducationPortalConsoleApp.Services
             return true;
         }
 
-        public IEnumerable<string> GetAllMaterials()
+        public IEnumerable<Material> GetAllMaterials()
         {
-            return repository.GetAll().Select(n => n.ToString());
+            return repository.GetAll();
         }
 
         public bool Delete(int id)
@@ -160,6 +160,21 @@ namespace EducationPortalConsoleApp.Services
             }
 
             return true;
+        }
+
+        public Material GetMaterial(int id)
+        {
+            Material material;
+            try
+            {
+                material = repository.Get(id);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
+            return material;
         }
     }
 }

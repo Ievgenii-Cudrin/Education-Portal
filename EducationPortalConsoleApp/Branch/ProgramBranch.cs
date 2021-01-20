@@ -128,6 +128,9 @@ namespace EducationPortalConsoleApp.Branch
                 case "3":
                     //Article
                     return materialController.CreateArticle();
+                case "4":
+                    //Article
+                    return materialController.GetMaterialFromAllMaterials();
                 default:
                     Console.WriteLine("Default case");
                     SelectMaterialForAddToCourse();

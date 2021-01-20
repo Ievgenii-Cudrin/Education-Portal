@@ -15,5 +15,7 @@ namespace EducationPortalConsoleApp.Interfaces
         public Material CreateBook();
 
         public void DeleteMaterial(int id);
+
+        public Material GetMaterialFromAllMaterials();
     }
 }
