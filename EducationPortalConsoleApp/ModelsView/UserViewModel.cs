@@ -15,6 +15,8 @@ namespace EducationPortal.PL.Models
 
         public List<SkillViewModel> Skills = new List<SkillViewModel>();
 
-        public List<SkillViewModel> Courses = new List<SkillViewModel>();
+        public List<CourseViewModel> CoursesInProgress = new List<CourseViewModel>();
+
+        public List<CourseViewModel> CoursesPassed = new List<CourseViewModel>();
     }
 }

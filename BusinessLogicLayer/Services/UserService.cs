@@ -11,12 +11,14 @@ namespace EducationPortalConsoleApp.Services
 {
     public class UserService : IUserService
     {
-        IRepository<User> repository;
+        IRepository<User> userRepository;
+        IRepository<Course> courseRepository;
         User authorizedUser;
 
-        public UserService(IRepository<User> repository)
+        public UserService(IRepository<User> repository, IRepository<Course> courseRepository)
         {
-            this.repository = repository;
+            this.userRepository = repository;
+            this.courseRepository = courseRepository;
         }
 
         public User AuthorizedUser
@@ -30,12 +32,12 @@ namespace EducationPortalConsoleApp.Services
         public bool CreateUser(User user)
         {
             //check email, may be we have this email
-            bool uniqueEmail = user != null ? !repository.GetAll().Any(x => x.Email.ToLower().Equals(user.Email.ToLower())) : false;
+            bool uniqueEmail = user != null ? !userRepository.GetAll().Any(x => x.Email.ToLower().Equals(user.Email.ToLower())) : false;
             
             //if unique emaeil => create new user, otherwise user == null
             if (uniqueEmail)
             {
-                repository.Create(user);
+                userRepository.Create(user);
             }
             else
             {
@@ -47,7 +49,7 @@ namespace EducationPortalConsoleApp.Services
 
         public bool VerifyUser(string name, string password)
         {
-            User user = repository.GetAll().Where(x => x.Name.ToLower() == name.ToLower() && x.Password == password).FirstOrDefault();
+            User user = userRepository.GetAll().Where(x => x.Name.ToLower() == name.ToLower() && x.Password == password).FirstOrDefault();
 
             if (user == null)
             {
@@ -70,7 +72,7 @@ namespace EducationPortalConsoleApp.Services
 
         public bool UpdateUser(User userToUpdate)
         {
-            User user = repository.Get(authorizedUser.Id);
+            User user = userRepository.Get(authorizedUser.Id);
 
             if (user == null)
             {
@@ -82,7 +84,7 @@ namespace EducationPortalConsoleApp.Services
                 user.Password = userToUpdate.Password;
                 user.Email = userToUpdate.Email;
                 user.PhoneNumber = userToUpdate.PhoneNumber;
-                repository.Update(user);
+                userRepository.Update(user);
             }
 
             return true;
@@ -90,12 +92,12 @@ namespace EducationPortalConsoleApp.Services
 
         public IEnumerable<User> GetAllUsers()
         {
-            return repository.GetAll();
+            return userRepository.GetAll();
         }
 
         public bool Delete(int id)
         {
-            User user = repository.Get(id);
+            User user = userRepository.Get(id);
 
             if (user == null)
             {
@@ -103,7 +105,7 @@ namespace EducationPortalConsoleApp.Services
             }
             else
             {
-                repository.Delete(id);
+                userRepository.Delete(id);
             }
 
             return true;
@@ -111,7 +113,7 @@ namespace EducationPortalConsoleApp.Services
 
         public bool AddSkill(Skill skill)
         {
-            User user = repository.Get(authorizedUser.Id);
+            User user = userRepository.Get(authorizedUser.Id);
             if(user != null && skill != null)
             {
                 user.Skills.Add(skill);
@@ -121,7 +123,52 @@ namespace EducationPortalConsoleApp.Services
         }
         public IEnumerable<Skill> GetUserSkills()
         {
-            return repository.Get(authorizedUser.Id).Skills;
+            return userRepository.Get(authorizedUser.Id).Skills;
+        }
+
+        public bool AddCourseInProgress(int id)
+        {
+            Course course = courseRepository.Get(id);
+            if (course != null)
+            {
+                authorizedUser.CoursesInProgress.Add(course);
+                userRepository.Update(authorizedUser);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool DeleteCourseFromProgress(int id)
+        {
+            Course course = courseRepository.Get(id);
+            if (course != null)
+            {
+                authorizedUser.CoursesInProgress.Remove(course);
+                userRepository.Update(authorizedUser);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool AddCourseToPassed(int id)
+        {
+            Course course = courseRepository.Get(id);
+            if (course != null)
+            {
+                authorizedUser.CoursesPassed.Add(course);
+                userRepository.Update(authorizedUser);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

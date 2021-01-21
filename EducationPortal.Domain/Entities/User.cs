@@ -25,9 +25,14 @@ namespace DataAccessLayer.Entities
         [XmlArrayItem("SkillObjekt")]
         public List<Skill> Skills = new List<Skill>();
 
-        [XmlArray("CourseArray")]
-        [XmlArrayItem("SkillObjekt")]
-        public List<Course> Courses = new List<Course>();
+        [XmlArray("PassedCoursesArray")]
+        [XmlArrayItem("PassedCourseObjekt")]
+        public List<Course> CoursesPassed = new List<Course>();
+
+
+        [XmlArray("InProgressCoursesArray")]
+        [XmlArrayItem("InProgressCourseObjekt")]
+        public List<Course> CoursesInProgress = new List<Course>();
 
         public User() { }
     }
