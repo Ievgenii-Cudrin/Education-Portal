@@ -6,5 +6,6 @@ namespace EducationPortal.PL.Interfaces
 {
     public interface IPassCourseController
     {
+        public void StartPassCourse();
     }
 }

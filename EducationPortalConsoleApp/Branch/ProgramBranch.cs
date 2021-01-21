@@ -57,7 +57,7 @@ namespace EducationPortalConsoleApp.Branch
                     courseController.CreateNewCourse();
                     break;
                 case "2":
-                    //passCourseController
+                    passCourseController.StartPassCourse();
                     break;
                 case "3":
 

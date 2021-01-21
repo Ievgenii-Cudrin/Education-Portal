@@ -114,7 +114,7 @@ namespace EducationPortalConsoleApp.Controller
 
         public List<MaterialViewModel> GetAllMaterialVMAfterMappingFromMaterialDomain()
         {
-            return Mapping.CreateMapFromVMToDomainWithIncludeMaterialType<Material, MaterialViewModel, Video, VideoViewModel, Article, ArticleViewModel, Book, BookViewModel>(materialService.GetAllMaterials().ToList());
+            return Mapping.CreateListMapFromVMToDomainWithIncludeMaterialType<Material, MaterialViewModel, Video, VideoViewModel, Article, ArticleViewModel, Book, BookViewModel>(materialService.GetAllMaterials().ToList());
         }
     }
 }

@@ -15,7 +15,7 @@ namespace EducationPortal.PL.Controller
         ICourseService courseService;
         IMaterialController materialController;
 
-        public void PassCourse(ICourseService courseService, IMaterialController materialController)
+        public PassCourseController(ICourseService courseService, IMaterialController materialController)
         {
             this.courseService = courseService;
             this.materialController = materialController;
@@ -23,9 +23,32 @@ namespace EducationPortal.PL.Controller
 
         public void StartPassCourse()
         {
-            List<MaterialViewModel> materialsVM1 = materialController.GetAllMaterialVMAfterMappingFromMaterialDomain();
-            
-            List<CourseViewModel> coursesListVM = Mapping.Mapping.CreateListMap<Course, CourseViewModel>(courseService.GetAllCourses().ToList());
+            List<Course> c = courseService.GetAllCourses().ToList();
+            List<CourseViewModel> coursesListVM = Mapping.Mapping.CreateListMapFromVMToDomainWithIncludeLsitType<Course, CourseViewModel, Material, MaterialViewModel, Skill, SkillViewModel>(courseService.GetAllCourses().ToList());
+
+            foreach(var course in coursesListVM)
+            {
+                course.Materials = Mapping.Mapping.CreateListMapFromVMToDomainWithIncludeMaterialType<Material, MaterialViewModel, Video, VideoViewModel, Article, ArticleViewModel, Book, BookViewModel>(courseService.GetMaterialsFromCourse(course.Id));
+                course.Skills = Mapping.Mapping.CreateListMap<Skill, SkillViewModel>(courseService.GetSkillsFromCourse(course.Id));
+            }
+
+            foreach(var course in coursesListVM)
+            {
+                Console.WriteLine($"\n№ {course.Id} - {course.Name}");
+                Console.WriteLine("This course includes such materials:");
+
+                foreach(var material in course.Materials)
+                {
+                    Console.WriteLine(material.ToString());
+                }
+
+                Console.WriteLine("After completing this course, you will receive such skills: \n");
+                
+                foreach(var skill in course.Skills)
+                {
+                    Console.WriteLine($"№ {skill.Id} - {skill.Name}");
+                }
+            }
         }
     }
 }

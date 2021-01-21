@@ -40,7 +40,7 @@ namespace EducationPortal.PL.Mapping
             return listDest;
         }
 
-        public static List<MV> CreateMapFromVMToDomainWithIncludeMaterialType<MD, MV, VD, VV, AD, AV, BD, BV>(List<MD> viewModelType) where VD : MD where AD : MD where BD : MD where VV : MV where AV : MV where BV : MV
+        public static List<MV> CreateListMapFromVMToDomainWithIncludeMaterialType<MD, MV, VD, VV, AD, AV, BD, BV>(List<MD> viewModelType) where VD : MD where AD : MD where BD : MD where VV : MV where AV : MV where BV : MV
         {
             var configuration = new MapperConfiguration(cfg => {
                 cfg.CreateMap<MD, MV>()
@@ -53,6 +53,19 @@ namespace EducationPortal.PL.Mapping
             });
             var mapper = new Mapper(configuration);
             var domainAfterMapping = mapper.Map<List<MD>, List<MV>>(viewModelType);
+
+            return domainAfterMapping;
+        }
+
+        public static List<CV> CreateListMapFromVMToDomainWithIncludeLsitType<CD, CV, MD, MV, SD, SV>(List<CD> viewModelType)
+        {
+            var configuration = new MapperConfiguration(cfg => {
+                cfg.CreateMap<CD, CV>();
+                cfg.CreateMap<List<MD>, List<MV>>();
+                cfg.CreateMap<List<SD>, List<SV>>();
+            });
+            var mapper = new Mapper(configuration);
+            var domainAfterMapping = mapper.Map<List<CD>, List<CV>>(viewModelType);
 
             return domainAfterMapping;
         }

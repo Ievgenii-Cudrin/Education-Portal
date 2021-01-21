@@ -60,6 +60,7 @@ namespace BusinessLogicLayer.Services
             if(course != null && skillExists)
             {
                 course.Skills.Add(skillToAdd);
+                courseRepository.Update(course);
                 return true;
             }
 
@@ -107,6 +108,7 @@ namespace BusinessLogicLayer.Services
 
         public List<Material> GetMaterialsFromCourse(int id)
         {
+            var c = courseRepository.Get(id);
             List<Material> materials= courseRepository.Get(id).Materials;
 
             if(materials != null)
