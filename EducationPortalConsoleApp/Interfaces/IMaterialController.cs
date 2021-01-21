@@ -17,5 +17,7 @@ namespace EducationPortalConsoleApp.Interfaces
         public void DeleteMaterial(int id);
 
         public Material GetMaterialFromAllMaterials();
+
+        public List<MaterialViewModel> GetAllMaterialVMAfterMappingFromMaterialDomain();
     }
 }

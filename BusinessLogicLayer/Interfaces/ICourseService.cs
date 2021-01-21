@@ -17,6 +17,8 @@ namespace BusinessLogicLayer.Interfaces
 
         public bool AddSkillToCourse(int id, Skill skillToAdd);
 
+        public List<Skill> GetSkillsFromCourse(int id);
 
+        public List<Material> GetMaterialsFromCourse(int id);
     }
 }

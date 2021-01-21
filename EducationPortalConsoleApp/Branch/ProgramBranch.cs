@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer.Entities;
+using EducationPortal.PL.Interfaces;
 using EducationPortal.PL.Models;
 using EducationPortalConsoleApp.Controller;
 using EducationPortalConsoleApp.DependencyInjection;
@@ -16,6 +17,7 @@ namespace EducationPortalConsoleApp.Branch
         static IUserController userController = ProviderServicePL.Provider.GetRequiredService<IUserController>();
         static ICourseController courseController = ProviderServicePL.Provider.GetRequiredService<ICourseController>();
         static IMaterialController materialController = ProviderServicePL.Provider.GetRequiredService<IMaterialController>();
+        static IPassCourseController passCourseController = ProviderServicePL.Provider.GetRequiredService<IPassCourseController>();
 
         public static void StartApplication()
         {
@@ -55,7 +57,7 @@ namespace EducationPortalConsoleApp.Branch
                     courseController.CreateNewCourse();
                     break;
                 case "2":
-
+                    //passCourseController
                     break;
                 case "3":
 
@@ -79,35 +81,6 @@ namespace EducationPortalConsoleApp.Branch
                     StartApplication();
                     break;
             }
-        }
-
-        public static void StartWorkWithUser()
-        {
-            //UserConsoleMessageHelper.ShowTextForChoice();
-
-            //string userChoice = Console.ReadLine();
-
-            //switch (userChoice)
-            //{
-            //    case "1":
-            //        CreateUser();
-            //        break;
-            //    case "2":
-            //        UpdateUser();
-            //        break;
-            //    case "3":
-            //        ShowAllUsers();
-            //        break;
-            //    case "4":
-            //        DeleteUser();
-            //        break;
-            //    case "5":
-            //        ProgramService.SelectEntityToWork();
-            //        break;
-            //    default:
-            //        Console.WriteLine("Default case");
-            //        break;
-            //}
         }
 
         public static Material SelectMaterialForAddToCourse()

@@ -3,6 +3,8 @@ using BusinessLogicLayer.Services;
 using DataAccessLayer.DataContext;
 using DataAccessLayer.Interfaces;
 using DataAccessLayer.Repositories;
+using EducationPortal.PL.Controller;
+using EducationPortal.PL.Interfaces;
 using EducationPortalConsoleApp.Controller;
 using EducationPortalConsoleApp.Interfaces;
 using EducationPortalConsoleApp.Services;
@@ -29,6 +31,7 @@ namespace EducationPortalConsoleApp.DependencyInjection
                 .AddTransient<IUserController, UserController>()
                 .AddTransient<ICourseController, CourseController>()
                 .AddTransient<ISkillController, SkillController>()
+                .AddTransient<IPassCourseController, PassCourseController>()
                 .BuildServiceProvider();
 
             //var bllProvider = StartupBll.ConfigureService();

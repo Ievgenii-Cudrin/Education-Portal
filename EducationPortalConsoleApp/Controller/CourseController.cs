@@ -31,15 +31,20 @@ namespace EducationPortalConsoleApp.Controller
                 int courseId = courseService.GetAllCourses().Where(x => x.Name == courseVM.Name).FirstOrDefault().Id;
                 string userChoice = String.Empty;
 
+                //transfer to another method
                 do
                 {
                     Material materialDomain = ProgramBranch.SelectMaterialForAddToCourse();
-                    courseService.AddMaterialToCourse(courseId, materialDomain);
+                    if(!courseService.AddMaterialToCourse(courseId, materialDomain))
+                    {
+                        Console.WriteLine("Material exist in course");
+                    }
                     Console.WriteLine("Do you want to add more material (Enter YES)?");
                     userChoice = Console.ReadLine();
                 }
                 while (userChoice.ToLower() == "yes");
 
+                //transfer to another method
                 do
                 {
                     Console.WriteLine("Add skill to ypur course: ");

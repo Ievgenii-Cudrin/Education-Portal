@@ -42,8 +42,7 @@ namespace BusinessLogicLayer.Services
         public bool AddMaterialToCourse(int id, Material material)
         {
             Course course = courseRepository.Get(id);
-
-            if (course != null && material != null)
+            if (course != null && material != null && !course.Materials.Any(x => x.Id == material.Id))
             {
                 course.Materials.Add(material);
                 courseRepository.Update(course);
@@ -104,6 +103,33 @@ namespace BusinessLogicLayer.Services
             }
 
             return true;
+        }
+
+        public List<Material> GetMaterialsFromCourse(int id)
+        {
+            List<Material> materials= courseRepository.Get(id).Materials;
+
+            if(materials != null)
+            {
+                return materials;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public List<Skill> GetSkillsFromCourse(int id)
+        {
+            List<Skill> skills= courseRepository.Get(id).Skills;
+            if (skills != null)
+            {
+                return skills;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

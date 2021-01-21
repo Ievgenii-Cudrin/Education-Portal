@@ -47,12 +47,6 @@ namespace EducationPortal.PL.Mapping
                     .Include<VD, VV>()
                     .Include<AD, AV>()
                     .Include<BD, BV>(); 
-                //cfg.CreateMap<VD, VV>();
-                //cfg.CreateMap<MD, MV>()
-                //    .Include<AD, AV>();
-                //cfg.CreateMap<AD, AV>();
-                //cfg.CreateMap<MD, MV>()
-                //    .Include<BD, BV>();
                 cfg.CreateMap<BD, BV>();
                 cfg.CreateMap<VD, VV>();
                 cfg.CreateMap<AD, AV>();
