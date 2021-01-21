@@ -13,7 +13,7 @@ namespace EducationPortalConsoleApp.Services
     {
         IRepository<User> userRepository;
         IRepository<Course> courseRepository;
-        User authorizedUser;
+        static User authorizedUser;
 
         public UserService(IRepository<User> repository, IRepository<Course> courseRepository)
         {
@@ -118,7 +118,7 @@ namespace EducationPortalConsoleApp.Services
                 return false;
             }
 
-            bool skillExistInUser = authorizedUser.Skills.Any(x => x.Name == skill.Name);
+            bool skillExistInUser = authorizedUser.Skills.Any(x => x.Name.ToLower() == skill.Name.ToLower());
 
             if (!skillExistInUser)
             {
@@ -130,7 +130,7 @@ namespace EducationPortalConsoleApp.Services
             {
                 foreach(var skillUser in authorizedUser.Skills)
                 {
-                    if(skillUser.Id == skill.Id)
+                    if(skillUser.Name == skill.Name)
                     {
                         skillUser.CountOfPoint++;
                     }
@@ -164,7 +164,7 @@ namespace EducationPortalConsoleApp.Services
             Course course = courseRepository.Get(id);
             if (course != null)
             {
-                authorizedUser.CoursesInProgress.Remove(course);
+                authorizedUser.CoursesInProgress.RemoveAll(x => x.Id == id);
                 userRepository.Update(authorizedUser);
                 return true;
             }

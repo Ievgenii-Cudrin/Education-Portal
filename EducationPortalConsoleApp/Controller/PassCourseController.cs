@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace EducationPortal.PL.Controller
 {
@@ -43,6 +44,7 @@ namespace EducationPortal.PL.Controller
 
             if(courseInProgress != null)
             {
+                Console.Clear();
                 userService.AddCourseInProgress(courseInProgress.Id);
                 Console.WriteLine("Let's start studying the materials." + 
                     "\n After reading, put + in front of the material." + 
@@ -71,6 +73,7 @@ namespace EducationPortal.PL.Controller
                         userService.AddSkill(Mapping.Mapping.CreateMapFromVMToDomain<SkillViewModel, Skill>(skill));
                     }
                     Console.WriteLine($"Congratulations, you have successfully completed the course {courseInProgress.Name}");
+                    Thread.Sleep(4000);
                     ProgramBranch.SelectFirstStepForAuthorizedUser();
                 }
             }

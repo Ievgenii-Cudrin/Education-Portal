@@ -8,6 +8,7 @@ using System.Xml.Serialization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using XmlDataBase.Interfaces;
+using System.Threading;
 
 namespace XmlDataBase.Serialization
 {
@@ -88,7 +89,9 @@ namespace XmlDataBase.Serialization
 
         public void UpdateObject(T objectToUpdate)
         {
-            using (FileStream fs = new FileStream($"{type.Name}/{type.Name}{typeof(T).GetProperty("Id").GetValue(objectToUpdate)}.xml", FileMode.Open))
+            //Delete(Convert.ToInt32(typeof(T).GetProperty("Id").GetValue(objectToUpdate)));
+            Thread.Sleep(200);
+            using (FileStream fs = new FileStream($"{type.Name}/{type.Name}{typeof(T).GetProperty("Id").GetValue(objectToUpdate)}.xml", FileMode.Create))
             {
                 serializer.Serialize(fs, objectToUpdate);
             }
