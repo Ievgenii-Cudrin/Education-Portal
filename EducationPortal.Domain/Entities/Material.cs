@@ -11,5 +11,8 @@ namespace DataAccessLayer.Entities
     {
         [XmlElement("Name")]
         public string Name { get; set; }
+
+        [XmlElement("IsPassed")]
+        public bool IsPassed { get; set; }
     }
 }

@@ -42,7 +42,8 @@ namespace BusinessLogicLayer.Services
         public bool AddMaterialToCourse(int id, Material material)
         {
             Course course = courseRepository.Get(id);
-            if (course != null && material != null && !course.Materials.Any(x => x.Id == material.Id))
+
+            if (course != null && material != null && !course.Materials.Any(x => x.Name.ToLower() == material.Name.ToLower()))
             {
                 course.Materials.Add(material);
                 courseRepository.Update(course);

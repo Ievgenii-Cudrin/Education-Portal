@@ -45,6 +45,7 @@ namespace EducationPortalConsoleApp.Services
 
         public bool CreateArticle(Article article)
         {
+            List<Article> art = repository.GetAll().Where(x => x is Article).Cast<Article>().ToList();
             bool uniqueArticle = article != null &&
                 !repository.GetAll().Where(x => x is Article).Cast<Article>().Any(x =>
                 x.Name.ToLower().Equals(article.Name.ToLower()) &&

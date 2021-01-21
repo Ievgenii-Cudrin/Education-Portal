@@ -2,6 +2,7 @@
 using DataAccessLayer.Entities;
 using EducationPortal.PL.Interfaces;
 using EducationPortal.PL.Models;
+using EducationPortalConsoleApp.Branch;
 using EducationPortalConsoleApp.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -23,30 +24,56 @@ namespace EducationPortal.PL.Controller
 
         public void StartPassCourse()
         {
-            List<Course> c = courseService.GetAllCourses().ToList();
+            //1
             List<CourseViewModel> coursesListVM = Mapping.Mapping.CreateListMapFromVMToDomainWithIncludeLsitType<Course, CourseViewModel, Material, MaterialViewModel, Skill, SkillViewModel>(courseService.GetAllCourses().ToList());
 
-            foreach(var course in coursesListVM)
+            foreach (var course in coursesListVM)
             {
                 course.Materials = Mapping.Mapping.CreateListMapFromVMToDomainWithIncludeMaterialType<Material, MaterialViewModel, Video, VideoViewModel, Article, ArticleViewModel, Book, BookViewModel>(courseService.GetMaterialsFromCourse(course.Id));
                 course.Skills = Mapping.Mapping.CreateListMap<Skill, SkillViewModel>(courseService.GetSkillsFromCourse(course.Id));
             }
 
-            foreach(var course in coursesListVM)
+            ShowCoursesToPass(coursesListVM);
+
+            //2
+            int courseIdToPass = GetIdFromUserToPassCourse();
+
+            
+        }
+
+        public static int GetIdFromUserToPassCourse()
+        {
+            int id;
+            Console.WriteLine("Please, enter course to pass");
+            try
+            {
+                return id = Convert.ToInt32(Console.ReadLine());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Invalid data + {ex.Message}");
+                ProgramBranch.SelectFirstStepForAuthorizedUser();
+            }
+            return -1;
+        }
+
+        public void ShowCoursesToPass(List<CourseViewModel> coursesListVM)
+        {
+            foreach (var course in coursesListVM)
             {
                 Console.WriteLine($"\n№ {course.Id} - {course.Name}");
                 Console.WriteLine("This course includes such materials:");
 
-                foreach(var material in course.Materials)
+                foreach (var material in course.Materials)
                 {
                     Console.WriteLine(material.ToString());
                 }
 
                 Console.WriteLine("After completing this course, you will receive such skills: \n");
-                
-                foreach(var skill in course.Skills)
+
+                foreach (var skill in course.Skills)
                 {
-                    Console.WriteLine($"№ {skill.Id} - {skill.Name}");
+                    Console.WriteLine($"{skill.Name}");
                 }
             }
         }
