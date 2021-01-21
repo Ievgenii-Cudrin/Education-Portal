@@ -113,13 +113,31 @@ namespace EducationPortalConsoleApp.Services
 
         public bool AddSkill(Skill skill)
         {
-            User user = userRepository.Get(authorizedUser.Id);
-            if(user != null && skill != null)
+            if(skill == null)
             {
-                user.Skills.Add(skill);
+                return false;
+            }
+
+            bool skillExistInUser = authorizedUser.Skills.Any(x => x.Name == skill.Name);
+
+            if (!skillExistInUser)
+            {
+                authorizedUser.Skills.Add(skill);
+                userRepository.Update(authorizedUser);
                 return true;
             }
-            return false;
+            else
+            {
+                foreach(var skillUser in authorizedUser.Skills)
+                {
+                    if(skillUser.Id == skill.Id)
+                    {
+                        skillUser.CountOfPoint++;
+                    }
+                }
+                userRepository.Update(authorizedUser);
+                return true;
+            }
         }
         public IEnumerable<Skill> GetUserSkills()
         {

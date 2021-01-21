@@ -15,11 +15,13 @@ namespace EducationPortal.PL.Controller
     {
         ICourseService courseService;
         IMaterialController materialController;
+        IUserService userService;
 
-        public PassCourseController(ICourseService courseService, IMaterialController materialController)
+        public PassCourseController(ICourseService courseService, IMaterialController materialController, IUserService userService)
         {
             this.courseService = courseService;
             this.materialController = materialController;
+            this.userService = userService;
         }
 
         public void StartPassCourse()
@@ -37,6 +39,41 @@ namespace EducationPortal.PL.Controller
 
             //2
             int courseIdToPass = GetIdFromUserToPassCourse();
+            CourseViewModel courseInProgress = coursesListVM.Where(x => x.Id == courseIdToPass).FirstOrDefault();
+
+            if(courseInProgress != null)
+            {
+                userService.AddCourseInProgress(courseInProgress.Id);
+                Console.WriteLine("Let's start studying the materials." + 
+                    "\n After reading, put + in front of the material." + 
+                    "\n Any other value will not count the passage of the material \n");
+
+                foreach(var material in courseInProgress.Materials)
+                {
+                    Console.WriteLine(material.ToString());
+                    Console.Write("\nHas the material been studied (Enter +)?" );
+                    string learnMaterial = Console.ReadLine();
+
+                    if(learnMaterial == "+")
+                    {
+                        material.IsPassed = true;
+                    }
+                }
+
+                bool allMaterialsPassed = courseInProgress.Materials.All(x => x.IsPassed = true);
+
+                if (allMaterialsPassed)
+                {
+                    userService.AddCourseToPassed(courseInProgress.Id);
+                    userService.DeleteCourseFromProgress(courseInProgress.Id);
+                    foreach(var skill in courseInProgress.Skills)
+                    {
+                        userService.AddSkill(Mapping.Mapping.CreateMapFromVMToDomain<SkillViewModel, Skill>(skill));
+                    }
+                    Console.WriteLine($"Congratulations, you have successfully completed the course {courseInProgress.Name}");
+                    ProgramBranch.SelectFirstStepForAuthorizedUser();
+                }
+            }
 
             
         }

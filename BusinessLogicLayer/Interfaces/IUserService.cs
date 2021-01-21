@@ -22,5 +22,7 @@ namespace BusinessLogicLayer.Interfaces
         public bool DeleteCourseFromProgress(int id);
 
         public bool AddCourseToPassed(int id);
+
+        public bool AddSkill(Skill skill);
     }
 }
