@@ -16,5 +16,11 @@ namespace BusinessLogicLayer.Interfaces
         public bool UpdateUser(User user);
 
         public IEnumerable<User> GetAllUsers();
+
+        public bool AddCourseInProgress(int id);
+
+        public bool DeleteCourseFromProgress(int id);
+
+        public bool AddCourseToPassed(int id);
     }
 }
