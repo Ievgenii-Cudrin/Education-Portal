@@ -217,5 +217,19 @@ namespace EducationPortalConsoleApp.Services
         {
             return authorizedUser.CoursesInProgress.Where(x => x.Id == id).FirstOrDefault().Skills.ToList();
         }
+
+        public List<Course> GetAvailableCoursesForUser()
+        {
+            return courseRepository.GetAll().Except(authorizedUser.CoursesPassed, new CourseComparer()).ToList();
+        }
+
+        public void UpdateCourseInProgress(int courseInProgressNotFinishId, List<Material> updatedMaterials)
+        {
+            if(updatedMaterials != null)
+            {
+                authorizedUser.CoursesInProgress.Where(x => x.Id == courseInProgressNotFinishId).FirstOrDefault().Materials = updatedMaterials;
+                userRepository.Update(authorizedUser);
+            }
+        }
     }
 }

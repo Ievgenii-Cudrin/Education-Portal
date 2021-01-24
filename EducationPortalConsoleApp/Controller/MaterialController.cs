@@ -78,7 +78,7 @@ namespace EducationPortalConsoleApp.Controller
         public Material GetMaterialFromAllMaterials()
         {
             //MD, MV, VD, VV, AD, AV, BD, BV
-            List<MaterialViewModel> materialsVM1 = GetAllMaterialVMAfterMappingFromMaterialDomain();
+            List<MaterialViewModel> materialsVM1 = GetAllMaterialVMAfterMappingFromMaterialDomain(materialService.GetAllMaterials().ToList());
             foreach (var materialVM in materialsVM1)
             {
                 Console.WriteLine($"Id: {materialVM.Id}, {materialVM.ToString()}\n");
@@ -112,9 +112,9 @@ namespace EducationPortalConsoleApp.Controller
             //    );
         }
 
-        public List<MaterialViewModel> GetAllMaterialVMAfterMappingFromMaterialDomain()
+        public List<MaterialViewModel> GetAllMaterialVMAfterMappingFromMaterialDomain(List<Material> materialsListDomain)
         {
-            return Mapping.CreateListMapFromVMToDomainWithIncludeMaterialType<Material, MaterialViewModel, Video, VideoViewModel, Article, ArticleViewModel, Book, BookViewModel>(materialService.GetAllMaterials().ToList());
+            return Mapping.CreateListMapFromVMToDomainWithIncludeMaterialType<Material, MaterialViewModel, Video, VideoViewModel, Article, ArticleViewModel, Book, BookViewModel>(materialsListDomain);
         }
     }
 }

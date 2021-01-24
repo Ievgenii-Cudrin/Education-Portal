@@ -31,6 +31,10 @@ namespace BusinessLogicLayer.Interfaces
 
         public List<Material> GetMaterialsFromCourseInProgress(int id);
 
-        public List<Material> GetSkillsFromCourseInProgress(int id);
+        public List<Skill> GetSkillsFromCourseInProgress(int id);
+
+        public List<Course> GetAvailableCoursesForUser();
+
+        public void UpdateCourseInProgress(int courseInProgressNotFinishId, List<Material> updatedMaterials);
     }
 }

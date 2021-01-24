@@ -7,5 +7,7 @@ namespace EducationPortal.PL.Interfaces
     public interface IPassCourseController
     {
         public void StartPassCourse();
+
+        public void StartPassingCourseFromProgressList();
     }
 }

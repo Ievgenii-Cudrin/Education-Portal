@@ -60,7 +60,7 @@ namespace EducationPortalConsoleApp.Branch
                     passCourseController.StartPassCourse();
                     break;
                 case "3":
-
+                    passCourseController.StartPassingCourseFromProgressList();
                     break;
                 case "4":
 

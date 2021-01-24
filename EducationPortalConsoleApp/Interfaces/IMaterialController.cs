@@ -18,6 +18,6 @@ namespace EducationPortalConsoleApp.Interfaces
 
         public Material GetMaterialFromAllMaterials();
 
-        public List<MaterialViewModel> GetAllMaterialVMAfterMappingFromMaterialDomain();
+        public List<MaterialViewModel> GetAllMaterialVMAfterMappingFromMaterialDomain(List<Material> materialsListDomain);
     }
 }
