@@ -11,6 +11,7 @@ using EducationPortalConsoleApp.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace EducationPortalConsoleApp.Controller
 {
@@ -30,13 +31,16 @@ namespace EducationPortalConsoleApp.Controller
             //verify user
             bool validUser = userService.VerifyUser(name, password);
 
-            ProgramConsoleMessageHelper
-                .ShowFunctionResult(validUser,
-                "Authorization passed",
-                "User with such data does not exist",
-                ProgramBranch.SelectFirstStepForAuthorizedUser,
-                ProgramBranch.StartApplication);
-            
+            if (validUser)
+            {
+                ProgramBranch.SelectFirstStepForAuthorizedUser();
+            }
+            else
+            {
+                Console.WriteLine("User with such data does not exist");
+                Thread.Sleep(4000);
+                ProgramBranch.StartApplication();
+            }
         }
 
         public void CreateNewUser()
@@ -44,6 +48,12 @@ namespace EducationPortalConsoleApp.Controller
             Console.Clear();
             UserViewModel userVM = UserVMInstanceCreator.CreateUser();
 
+            if(userService.GetAllUsers().Any(x => x.Email == userVM.Email))
+            {
+                Console.WriteLine("User with this email already exists!");
+                Thread.Sleep(4000);
+                ProgramBranch.StartApplication();
+            }
             //Create new user, if not - false
             bool createUser = userService.CreateUser(Mapping.CreateMapFromVMToDomain<UserViewModel, User>(userVM));
             //Show result

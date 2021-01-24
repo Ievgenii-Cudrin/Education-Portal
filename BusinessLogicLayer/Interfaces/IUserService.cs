@@ -24,5 +24,13 @@ namespace BusinessLogicLayer.Interfaces
         public bool AddCourseToPassed(int id);
 
         public bool AddSkill(Skill skill);
+
+        public bool UpdateValueOfPassMaterialInProgress(int courseId, int materialId);
+
+        public List<Course> GetListWithCoursesInProgress();
+
+        public List<Material> GetMaterialsFromCourseInProgress(int id);
+
+        public List<Material> GetSkillsFromCourseInProgress(int id);
     }
 }

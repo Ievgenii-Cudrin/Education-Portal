@@ -25,6 +25,17 @@ namespace EducationPortal.PL.Controller
             this.userService = userService;
         }
 
+        public void StartPassingCourseFromProgressList()
+        {
+            List<CourseViewModel> coursesListInProgressVM = Mapping.Mapping.CreateListMapFromVMToDomainWithIncludeLsitType<Course, CourseViewModel, Material, MaterialViewModel, Skill, SkillViewModel>(userService.GetListWithCoursesInProgress().ToList());
+
+            foreach (var course in coursesListInProgressVM)
+            {
+                course.Materials = Mapping.Mapping.CreateListMapFromVMToDomainWithIncludeMaterialType<Material, MaterialViewModel, Video, VideoViewModel, Article, ArticleViewModel, Book, BookViewModel>(courseService.GetMaterialsFromCourse(course.Id));
+                course.Skills = Mapping.Mapping.CreateListMap<Skill, SkillViewModel>(courseService.GetSkillsFromCourse(course.Id));
+            }
+        }
+
         public void StartPassCourse()
         {
             //1
@@ -40,6 +51,13 @@ namespace EducationPortal.PL.Controller
 
             //2
             int courseIdToPass = GetIdFromUserToPassCourse();
+            if(userService.GetListWithCoursesInProgress().Any(x => x.Id == courseIdToPass))
+            {
+                Console.WriteLine("You have already started this course");
+                Thread.Sleep(4000);
+                ProgramBranch.SelectFirstStepForAuthorizedUser();
+            }
+
             CourseViewModel courseInProgress = coursesListVM.Where(x => x.Id == courseIdToPass).FirstOrDefault();
 
             if(courseInProgress != null)
@@ -53,29 +71,37 @@ namespace EducationPortal.PL.Controller
                 foreach(var material in courseInProgress.Materials)
                 {
                     Console.WriteLine(material.ToString());
-                    Console.Write("\nHas the material been studied (Enter +)?" );
+                    Console.Write("\nHas the material been studied (Enter '+') or exit from studying course (Enter 'Exit')?" );
                     string learnMaterial = Console.ReadLine();
 
                     if(learnMaterial == "+")
                     {
                         material.IsPassed = true;
+                        userService.UpdateValueOfPassMaterialInProgress(courseIdToPass, material.Id);
+                    }
+                    else if(learnMaterial.ToLower() == "exit")
+                    {
+                        Console.WriteLine("Сourse not finished!");
+                        break;
                     }
                 }
 
-                bool allMaterialsPassed = courseInProgress.Materials.All(x => x.IsPassed = true);
+                bool allMaterialsPassed = courseInProgress.Materials.All(x => x.IsPassed == true);
 
                 if (allMaterialsPassed)
                 {
                     userService.AddCourseToPassed(courseInProgress.Id);
                     userService.DeleteCourseFromProgress(courseInProgress.Id);
+
                     foreach(var skill in courseInProgress.Skills)
                     {
                         userService.AddSkill(Mapping.Mapping.CreateMapFromVMToDomain<SkillViewModel, Skill>(skill));
                     }
+
                     Console.WriteLine($"Congratulations, you have successfully completed the course {courseInProgress.Name}");
                     Thread.Sleep(4000);
-                    ProgramBranch.SelectFirstStepForAuthorizedUser();
                 }
+                ProgramBranch.SelectFirstStepForAuthorizedUser();
             }
 
             
