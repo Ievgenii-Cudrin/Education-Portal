@@ -69,5 +69,18 @@ namespace EducationPortal.PL.Mapping
 
             return domainAfterMapping;
         }
+
+        public static CV CreateMapFromVMToDomainWithIncludeLsitType<CD, CV, MD, MV, SD, SV>(CD viewModelType)
+        {
+            var configuration = new MapperConfiguration(cfg => {
+                cfg.CreateMap<CD, CV>();
+                cfg.CreateMap<List<MD>, List<MV>>();
+                cfg.CreateMap<List<SD>, List<SV>>();
+            });
+            var mapper = new Mapper(configuration);
+            var domainAfterMapping = mapper.Map<CD, CV>(viewModelType);
+
+            return domainAfterMapping;
+        }
     }
 }

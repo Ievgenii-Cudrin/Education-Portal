@@ -48,31 +48,36 @@ namespace EducationPortal.PL.Controller
                 ShowMessageAndReturnToMainMenu("Invalid ID.");
             }
 
-            //get course to continue 
-
-
-            //TODO конвертировать в CourseViewModel для сохранения промежуточных тру фолс
+            //get course in progress
             var courseToProgressFromProcessList = userService.GetListWithCoursesInProgress().Where(x => x.Id == courseInProgressIdToPass).FirstOrDefault();
+            //mapping to course domain to course view model
+            CourseViewModel courseVMInProgress = Mapping.Mapping.CreateMapFromVMToDomainWithIncludeLsitType<Course, CourseViewModel, Material, MaterialViewModel, Skill, SkillViewModel>(courseToProgressFromProcessList);
+            //mapping materials in progogress
+            courseVMInProgress.Materials = materialController.GetAllMaterialVMAfterMappingFromMaterialDomain(userService.GetMaterialsFromCourseInProgress(courseVMInProgress.Id));
+            //mapping skills
+            courseVMInProgress.Skills = Mapping.Mapping.CreateListMap<Skill, SkillViewModel>(userService.GetSkillsFromCourseInProgress(courseVMInProgress.Id));
 
-            if(courseToProgressFromProcessList != null)
+            if(courseVMInProgress != null)
             {
                 Console.Clear();
 
-                List<MaterialViewModel> materials = materialController.GetAllMaterialVMAfterMappingFromMaterialDomain(courseToProgressFromProcessList.Materials.Select(x => x).Where(x => x.IsPassed == false).ToList());
+                //List<MaterialViewModel> materials = materialController.GetAllMaterialVMAfterMappingFromMaterialDomain(courseToProgressFromProcessList.Materials.Select(x => x).Where(x => x.IsPassed == false).ToList());
+                List<MaterialViewModel> materials = courseVMInProgress.Materials.Where(x => x.IsPassed == false).ToList();
                 //Add to method course from processing list, and materials from this course, which do not passed
-                PassingCourse(ref courseToProgressFromProcessList, materials);
+                PassingCourse(ref courseVMInProgress, materials);
                 //checking if all materials have been worked out
-                bool allMaterialsPassed = courseToProgressFromProcessList.Materials.All(x => x.IsPassed == true);
+                bool allMaterialsPassed = courseVMInProgress.Materials.All(x => x.IsPassed == true);
 
                 if (allMaterialsPassed)
                 {
                     //if all materials passed => add skills for user and add course to Passed list, delete course from processing list
-                    WorkAfterSuccessfullyPassingCourse(allMaterialsPassed, courseToProgressFromProcessList);
+                    WorkAfterSuccessfullyPassingCourse(allMaterialsPassed, courseVMInProgress);
                 }
                 else
                 {
+                    //update passed materials in course
                     userService.UpdateCourseInProgress(courseToProgressFromProcessList.Id,
-                        Mapping.Mapping.CreateListMapFromVMToDomainWithIncludeMaterialType<MaterialViewModel, Material, VideoViewModel, Video, ArticleViewModel, Article, BookViewModel, Book>(courseToProgressFromProcessList.Materials));
+                      Mapping.Mapping.CreateListMapFromVMToDomainWithIncludeMaterialType<MaterialViewModel, Material, VideoViewModel, Video, ArticleViewModel, Article, BookViewModel, Book>(courseVMInProgress.Materials));
                 }
                 
                 ProgramBranch.SelectFirstStepForAuthorizedUser();
