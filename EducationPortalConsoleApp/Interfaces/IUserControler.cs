@@ -19,5 +19,9 @@ namespace EducationPortalConsoleApp.Interfaces
         public void ShowAllPassedCourses();
 
         public void ShowAllUserSkills();
+
+        public void ShowAllCourseInProggres();
+
+        public void ShowUserInfo();
     }
 }

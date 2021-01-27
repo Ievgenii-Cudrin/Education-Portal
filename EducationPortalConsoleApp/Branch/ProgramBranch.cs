@@ -69,9 +69,12 @@ namespace EducationPortalConsoleApp.Branch
                     userController.ShowAllUserSkills();
                     break;
                 case "6":
-                    userController.UpdateUser();
+                    userController.ShowAllCourseInProggres();
                     break;
                 case "7":
+                    userController.ShowUserInfo();
+                    break;
+                case "8":
                     userController.LogOut();
                     Console.Clear();
                     StartApplication();

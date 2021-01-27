@@ -1,4 +1,5 @@
-﻿using EducationPortalConsoleApp.Branch;
+﻿using EducationPortal.PL.Models;
+using EducationPortalConsoleApp.Branch;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -41,6 +42,16 @@ namespace EducationPortalConsoleApp.Helpers
             $"\n7.My information" +
             $"\n8.LogOut"
             );
+        }
+
+        internal static void ShowCourseAndReturnMethod(List<CourseViewModel> courses)
+        {
+            if(courses.Count != 0)
+            {
+                UserConsoleMessageHelper.ShowInfoAboutCourses(courses);
+            }
+
+            ReturnMethod();
         }
 
         internal static void ReturnMethod()

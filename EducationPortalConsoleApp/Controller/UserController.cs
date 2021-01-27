@@ -105,15 +105,33 @@ namespace EducationPortalConsoleApp.Controller
         {
             List<CourseViewModel> passedCourses = Mapping.CreateListMapFromVMToDomainWithIncludeLsitType<Course, CourseViewModel, Material, MaterialViewModel, Skill, SkillViewModel>(userService.AuthorizedUser.CoursesPassed);
 
-            for(int i = 0; i < passedCourses.Count; i++)
+            if (passedCourses.Count == 0)
             {
-                Console.WriteLine($"{i+1}.Name - {passedCourses[i].Name}");
+                ShowMessageIfCountOfCourseListIsZero("Нou do not have passed courses");
             }
 
-            ProgramConsoleMessageHelper.ReturnMethod();
+            ProgramConsoleMessageHelper.ShowCourseAndReturnMethod(passedCourses);
         }
 
+        public void ShowAllCourseInProggres()
+        {
+            List<CourseViewModel> coursesInProgress = Mapping.CreateListMapFromVMToDomainWithIncludeLsitType<Course, CourseViewModel, Material, MaterialViewModel, Skill, SkillViewModel>(userService.AuthorizedUser.CoursesInProgress);
 
+            if(coursesInProgress.Count == 0)
+            {
+                ShowMessageIfCountOfCourseListIsZero("Нou do not have started courses");
+            }
+
+            ProgramConsoleMessageHelper.ShowCourseAndReturnMethod(coursesInProgress);
+        }
+
+        void ShowMessageIfCountOfCourseListIsZero(string message)
+        {
+            Console.WriteLine(message);
+            Thread.Sleep(4000);
+            ProgramBranch.SelectFirstStepForAuthorizedUser();
+        }
+        
         public void ShowAllUserSkills()
         {
             List<SkillViewModel> userSkills = Mapping.CreateListMap<Skill, SkillViewModel>(userService.GetAllUserSkills());
@@ -129,6 +147,16 @@ namespace EducationPortalConsoleApp.Controller
             {
                 Console.WriteLine($"{i+1}.{userSkills[i].Name}. Count of points - {userSkills[i].CountOfPoint}");
             }
+
+            ProgramConsoleMessageHelper.ReturnMethod();
+        }
+
+        public void ShowUserInfo()
+        {
+            Console.Clear();
+            Console.WriteLine($"Name - {userService.AuthorizedUser.Name}\n" +
+                $"Phone Number - {userService.AuthorizedUser.PhoneNumber}\n" +
+                $"Email - {userService.AuthorizedUser.Email}\n");
 
             ProgramConsoleMessageHelper.ReturnMethod();
         }
