@@ -63,10 +63,10 @@ namespace EducationPortalConsoleApp.Branch
                     passCourseController.StartPassingCourseFromProgressList();
                     break;
                 case "4":
-
+                    userController.ShowAllPassedCourses();
                     break;
                 case "5":
-
+                    userController.ShowAllUserSkills();
                     break;
                 case "6":
                     userController.UpdateUser();

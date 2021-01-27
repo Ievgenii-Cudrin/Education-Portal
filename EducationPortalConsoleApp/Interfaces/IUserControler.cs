@@ -15,5 +15,9 @@ namespace EducationPortalConsoleApp.Interfaces
         public void UpdateUser();
 
         public void LogOut();
+
+        public void ShowAllPassedCourses();
+
+        public void ShowAllUserSkills();
     }
 }

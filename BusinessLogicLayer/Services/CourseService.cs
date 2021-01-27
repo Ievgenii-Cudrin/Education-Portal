@@ -55,12 +55,13 @@ namespace BusinessLogicLayer.Services
 
         public bool AddSkillToCourse(int id, Skill skillToAdd)
         {
-            bool skillExists = skillService.CreateSkill(skillToAdd);
+            skillService.CreateSkill(skillToAdd);
+            Skill skill = skillService.GetSkillByName(skillToAdd.Name);
             Course course = courseRepository.Get(id);
 
-            if(course != null && skillExists)
+            if(course != null)
             {
-                course.Skills.Add(skillToAdd);
+                course.Skills.Add(skill);
                 courseRepository.Update(course);
                 return true;
             }
@@ -124,7 +125,9 @@ namespace BusinessLogicLayer.Services
 
         public List<Skill> GetSkillsFromCourse(int id)
         {
-            List<Skill> skills= courseRepository.Get(id).Skills;
+            var course = courseRepository.Get(id);
+            List<Skill> skills = course.Skills;
+
             if (skills != null)
             {
                 return skills;

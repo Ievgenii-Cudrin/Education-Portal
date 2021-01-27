@@ -37,5 +37,7 @@ namespace BusinessLogicLayer.Interfaces
         public List<Course> GetAvailableCoursesForUser();
 
         public void UpdateCourseInProgress(int courseInProgressNotFinishId, List<Material> updatedMaterials);
+
+        public List<Skill> GetAllUserSkills();
     }
 }

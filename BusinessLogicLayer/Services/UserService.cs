@@ -135,12 +135,14 @@ namespace EducationPortalConsoleApp.Services
                         skillUser.CountOfPoint++;
                     }
                 }
+
                 userRepository.Update(authorizedUser);
                 return true;
             }
         }
         public IEnumerable<Skill> GetUserSkills()
         {
+            var a = userRepository.Get(authorizedUser.Id).Skills;
             return userRepository.Get(authorizedUser.Id).Skills;
         }
 
@@ -197,7 +199,7 @@ namespace EducationPortalConsoleApp.Services
                 userRepository.Update(authorizedUser);
                 return true;
             }
-            catch(Exception ex)
+            catch
             {
                 return false;
             }
@@ -221,6 +223,11 @@ namespace EducationPortalConsoleApp.Services
         public List<Course> GetAvailableCoursesForUser()
         {
             return courseRepository.GetAll().Except(authorizedUser.CoursesPassed, new CourseComparer()).ToList();
+        }
+
+        public List<Skill> GetAllUserSkills()
+        {
+            return authorizedUser.Skills;
         }
 
         public void UpdateCourseInProgress(int courseInProgressNotFinishId, List<Material> updatedMaterials)

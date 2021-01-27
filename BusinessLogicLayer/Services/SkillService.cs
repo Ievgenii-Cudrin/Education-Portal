@@ -77,5 +77,10 @@ namespace BusinessLogicLayer.Services
         {
             return repository.Get(id);
         }
+
+        public Skill GetSkillByName(string name)
+        {
+            return repository.GetAll().Where(x => x.Name == name).FirstOrDefault();
+        }
     }
 }

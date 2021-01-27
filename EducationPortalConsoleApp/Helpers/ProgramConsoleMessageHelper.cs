@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EducationPortalConsoleApp.Branch;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -35,10 +36,32 @@ namespace EducationPortalConsoleApp.Helpers
             $"\n2 Pass the available course" +
             $"\n3 Сontinue the started course" +
             $"\n4.See the list of all passed courses" +
-            $"\n5.See the list of courses in progress" +
-            $"\n6.My information" +
-            $"\n7.LogOut"
+            $"\n5.See the list of your skills" +
+            $"\n6.See the list of courses in progress" +
+            $"\n7.My information" +
+            $"\n8.LogOut"
             );
+        }
+
+        internal static void ReturnMethod()
+        {
+            string userValue = String.Empty;
+
+            do
+            {
+                Console.Write("Enter '..' to return: ");
+                userValue = Console.ReadLine();
+
+                if (userValue == "..")
+                {
+                    ProgramBranch.SelectFirstStepForAuthorizedUser();
+                }
+                else
+                {
+                    Console.WriteLine("Invalid value");
+                }
+            }
+            while (userValue != "..");
         }
     }
 }

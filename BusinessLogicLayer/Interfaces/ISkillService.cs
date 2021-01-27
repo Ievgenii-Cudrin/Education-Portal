@@ -14,5 +14,7 @@ namespace BusinessLogicLayer.Interfaces
         public bool UpdateSkill(Skill skill);
 
         public IEnumerable<Skill> GetAllSkills();
+
+        public Skill GetSkillByName(string name);
     }
 }

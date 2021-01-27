@@ -47,7 +47,7 @@ namespace EducationPortalConsoleApp.Controller
                 //transfer to another method
                 do
                 {
-                    Console.WriteLine("Add skill to ypur course: ");
+                    Console.WriteLine("Add skill to your course: ");
                     var skillVM = SkillVMInstanceCreator.CreateSkill();
                     courseService.AddSkillToCourse(courseId, Mapping.CreateMapFromVMToDomain<SkillViewModel, Skill>(skillVM));
                     Console.WriteLine("Do you want to add one more skill (Enter YES)?");

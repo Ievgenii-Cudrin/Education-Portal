@@ -7,7 +7,6 @@ using EducationPortal.PL.Models;
 using EducationPortalConsoleApp.Branch;
 using EducationPortalConsoleApp.Helpers;
 using EducationPortalConsoleApp.Interfaces;
-using EducationPortalConsoleApp.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,7 +70,7 @@ namespace EducationPortalConsoleApp.Controller
         {
             IEnumerable<User> users = userService.GetAllUsers();
 
-            //TODO HERE
+            //TODO HERE ??
         }
 
         public void UpdateUser()
@@ -110,6 +109,28 @@ namespace EducationPortalConsoleApp.Controller
             {
                 Console.WriteLine($"{i+1}.Name - {passedCourses[i].Name}");
             }
+
+            ProgramConsoleMessageHelper.ReturnMethod();
+        }
+
+
+        public void ShowAllUserSkills()
+        {
+            List<SkillViewModel> userSkills = Mapping.CreateListMap<Skill, SkillViewModel>(userService.GetAllUserSkills());
+
+            if(userSkills == null)
+            {
+                Console.WriteLine("You don't have skills yet!");
+                Thread.Sleep(4000);
+                ProgramBranch.SelectFirstStepForAuthorizedUser();
+            }
+
+            for(int i = 0; i < userSkills.Count; i++)
+            {
+                Console.WriteLine($"{i+1}.{userSkills[i].Name}. Count of points - {userSkills[i].CountOfPoint}");
+            }
+
+            ProgramConsoleMessageHelper.ReturnMethod();
         }
     }
 }
