@@ -34,7 +34,6 @@ namespace EducationPortalConsoleApp.DependencyInjection
                 .AddTransient<IPassCourseController, PassCourseController>()
                 .BuildServiceProvider();
 
-            //var bllProvider = StartupBll.ConfigureService();
             return provider;
         }
     }

@@ -7,6 +7,7 @@ namespace BusinessLogicLayer.Interfaces
 {
     public interface IUserService : IDeleteEntity
     {
+        public User AuthorizedUser { get; }
         public bool CreateUser(User user);
 
         public bool VerifyUser(string name, string password);

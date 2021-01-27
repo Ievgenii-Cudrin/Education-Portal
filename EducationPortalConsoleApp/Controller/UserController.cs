@@ -101,5 +101,15 @@ namespace EducationPortalConsoleApp.Controller
         {
             userService.LogOut();
         }
+
+        public void ShowAllPassedCourses()
+        {
+            List<CourseViewModel> passedCourses = Mapping.CreateListMapFromVMToDomainWithIncludeLsitType<Course, CourseViewModel, Material, MaterialViewModel, Skill, SkillViewModel>(userService.AuthorizedUser.CoursesPassed);
+
+            for(int i = 0; i < passedCourses.Count; i++)
+            {
+                Console.WriteLine($"{i+1}.Name - {passedCourses[i].Name}");
+            }
+        }
     }
 }

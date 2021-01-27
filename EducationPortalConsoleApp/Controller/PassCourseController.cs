@@ -105,6 +105,11 @@ namespace EducationPortal.PL.Controller
                 ShowMessageAndReturnToMainMenu("You have already started this course");
             }
 
+            if(!coursesListVM.Any(x => x.Id == courseIdToPass))
+            {
+                ShowMessageAndReturnToMainMenu("Сourses with this id do not exist");
+            }
+
             //Greate course to continue passing
             CourseViewModel courseInProgress = coursesListVM.Where(x => x.Id == courseIdToPass).FirstOrDefault();
 

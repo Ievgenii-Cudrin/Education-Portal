@@ -62,17 +62,6 @@ namespace EducationPortalConsoleApp.Controller
                 Console.WriteLine("Course exist");
                 ProgramBranch.SelectFirstStepForAuthorizedUser();
             }
-
-
-
-            //ProgramConsoleMessageHelper.
-            //    ShowFunctionResult(
-            //    createCourse,
-            //    "Course successfully created!",
-            //    "Something wrong",
-            //    ProgramBranch.SelectFirstStepForAuthorizedUser,
-            //    ProgramBranch.SelectFirstStepForAuthorizedUser
-            //    );
         }
     }
 }

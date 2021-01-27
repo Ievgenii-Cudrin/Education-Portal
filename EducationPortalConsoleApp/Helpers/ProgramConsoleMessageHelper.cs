@@ -32,12 +32,11 @@ namespace EducationPortalConsoleApp.Helpers
         {
             Console.WriteLine($"Please, make your choice: " +
             $"\n1.Create course" +
-            $"\n2 Pass the course" +
+            $"\n2 Pass the available course" +
             $"\n3 Сontinue the started course" +
-            $"\n3.See a list of all available courses" +
-            $"\n4.See the list of courses in progress" +
-            $"\n5.Select course to study" +
-            $"\n6.Update information about user" +
+            $"\n4.See the list of all passed courses" +
+            $"\n5.See the list of courses in progress" +
+            $"\n6.My information" +
             $"\n7.LogOut"
             );
         }

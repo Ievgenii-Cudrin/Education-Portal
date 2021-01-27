@@ -99,22 +99,14 @@ namespace EducationPortalConsoleApp.Controller
             return materialService.GetMaterial(id);
         }
 
-        public void DeleteMaterial(int id)
-        {
-            materialService.Delete(id);
-
-            //ProgramConsoleMessageHelper.ShowFunctionResult(
-            //    success,
-            //    "Book successfully deleted",
-            //    "Somthing wrong",
-            //    Action,
-            //    Action
-            //    );
-        }
-
         public List<MaterialViewModel> GetAllMaterialVMAfterMappingFromMaterialDomain(List<Material> materialsListDomain)
         {
             return Mapping.CreateListMapFromVMToDomainWithIncludeMaterialType<Material, MaterialViewModel, Video, VideoViewModel, Article, ArticleViewModel, Book, BookViewModel>(materialsListDomain);
+        }
+
+        public void DeleteMaterial(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }
