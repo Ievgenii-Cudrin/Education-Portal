@@ -28,14 +28,16 @@ namespace XmlDataBase.Serialization
 
         public void Add(T objToXml)
         {
+            //Generate ID and add to object
             int id = GenareteId();
             typeof(T).GetProperty("Id").SetValue(objToXml, id);
-
+            //decode password
             string decodePassword = PasswordDecoder.DecodeToBase64String(typeof(T).GetProperty("Password").GetValue(objToXml).ToString());
             typeof(T).GetProperty("Password").SetValue(objToXml, decodePassword);
-
+            //Create directory if not exist
             Directory.CreateDirectory($"{type.Name}");
 
+            //add object to xml
             using(FileStream fs = new FileStream($"{type.Name}/{type.Name}{id}.xml", FileMode.Create))
             {
                 serializer.Serialize(fs, objToXml);
@@ -46,6 +48,7 @@ namespace XmlDataBase.Serialization
         {
             List<T> users = new List<T>();
             Directory.CreateDirectory($"{type.Name}");
+            //Get all xml files from our type directory
             FileInfo[] files = directory.GetFiles("*.xml");
 
             if(files != null)
@@ -54,7 +57,9 @@ namespace XmlDataBase.Serialization
                 {
                     using(FileStream fs = new FileStream(file.FullName, FileMode.Open))
                     {
+                        //deserialize object
                         T objFromXml = (T)serializer.Deserialize(fs);
+                        //encode password
                         string encodePassword = PasswordEncoder.EncodeToBase64String(typeof(T).GetProperty("Password").GetValue(objFromXml).ToString());
                         typeof(T).GetProperty("Password").SetValue(objFromXml, encodePassword);
                         users.Add(objFromXml);
@@ -68,12 +73,16 @@ namespace XmlDataBase.Serialization
         public T Get(int id)
         {
             T objectFromXml;
-            FileInfo file= directory.GetFiles($"{type.Name}{id}.xml").FirstOrDefault();
+            //get file by id
+            FileInfo file = directory.GetFiles($"{type.Name}{id}.xml").FirstOrDefault();
+
             if (file != null)
             {
                 using (FileStream fs = new FileStream($"{type.Name}/{file.Name}", FileMode.Open))
                 {
+                    //deserialize object
                     objectFromXml = (T)serializer.Deserialize(fs);
+                    //encode password
                     string encodePassword = PasswordEncoder.EncodeToBase64String(typeof(T).GetProperty("Password").GetValue(objectFromXml).ToString());
                     typeof(T).GetProperty("Password").SetValue(objectFromXml, encodePassword);
                 }
@@ -87,6 +96,7 @@ namespace XmlDataBase.Serialization
         public void Delete(int id)
         {
             FileInfo file = directory.GetFiles($"{type.Name}{id}.xml").FirstOrDefault();
+
             if (file.Exists)
             {
                 file.Delete();
@@ -99,12 +109,14 @@ namespace XmlDataBase.Serialization
 
         public void UpdateObject(T objectToUpdate)
         {
-            //Delete(Convert.ToInt32(typeof(T).GetProperty("Id").GetValue(objectToUpdate)));
             Thread.Sleep(200);
+
             using (FileStream fs = new FileStream($"{type.Name}/{type.Name}{typeof(T).GetProperty("Id").GetValue(objectToUpdate)}.xml", FileMode.Create))
             {
+                //decode password
                 string decodePassword = PasswordDecoder.DecodeToBase64String(typeof(T).GetProperty("Password").GetValue(objectToUpdate).ToString());
                 typeof(T).GetProperty("Password").SetValue(objectToUpdate, decodePassword);
+                //serialize
                 serializer.Serialize(fs, objectToUpdate);
             }
         }

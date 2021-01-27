@@ -232,12 +232,12 @@ namespace EducationPortalConsoleApp.Helpers
                 Console.WriteLine($"Enter video quality: ");
                 videoQuality = Convert.ToInt32(Console.ReadLine());
                 validVideoQuality = videoQuality > 144 && videoQuality < 1080;
-                if (validVideoQuality)
+                if (!validVideoQuality)
                 {
                     Console.WriteLine("video quality should be in the range from 144 to 1080. Please, try again!");
                 }
             }
-            while(validVideoQuality);
+            while(!validVideoQuality);
             
             return videoQuality;
         }

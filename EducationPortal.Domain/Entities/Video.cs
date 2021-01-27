@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EducationPortal.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml.Serialization;
@@ -12,7 +13,7 @@ namespace DataAccessLayer.Entities
         public string Link { get; set; }
 
         [XmlElement("Quality")]
-        public int Quality { get; set; }
+        public VideoQuality Quality { get; set; }
 
         [XmlElement("Duration")]
         public int Duration { get; set; }
