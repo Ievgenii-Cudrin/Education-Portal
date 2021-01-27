@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer.Interfaces;
+using EducationPortal.PL.EnumViewModel;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -222,19 +223,44 @@ namespace EducationPortalConsoleApp.Helpers
             return videoDuration;
         }
 
-        public static int GetVideoQuality()
+        public static VideoQualityViewModel GetVideoQuality()
         {
-            int videoQuality;
-            bool validVideoQuality;
+            VideoQualityViewModel videoQuality = VideoQualityViewModel.P360;
+            bool validVideoQuality = false;
             do
             {
+                Console.WriteLine($"Enter video quality (e. g. 144, 240, 360, 480, 720, 1080, 1440, 2160): ");
+                string qualityFromUser = Console.ReadLine();
 
-                Console.WriteLine($"Enter video quality: ");
-                videoQuality = Convert.ToInt32(Console.ReadLine());
-                validVideoQuality = videoQuality > 144 && videoQuality < 1080;
-                if (!validVideoQuality)
+                switch (qualityFromUser)
                 {
-                    Console.WriteLine("video quality should be in the range from 144 to 1080. Please, try again!");
+                    case ("144"):
+                        videoQuality = VideoQualityViewModel.P144;
+                        return videoQuality;
+                    case ("240"):
+                        videoQuality = VideoQualityViewModel.P240;
+                        return videoQuality;
+                    case ("360"):
+                        videoQuality = VideoQualityViewModel.P360;
+                        return videoQuality;
+                    case ("480"):
+                        videoQuality = VideoQualityViewModel.P480;
+                        return videoQuality;
+                    case ("720"):
+                        videoQuality = VideoQualityViewModel.P720;
+                        return videoQuality;
+                    case ("1080"):
+                        videoQuality = VideoQualityViewModel.P1080;
+                        return videoQuality;
+                    case ("1440"):
+                        videoQuality = VideoQualityViewModel.P1440;
+                        return videoQuality;
+                    case ("2160"):
+                        videoQuality = VideoQualityViewModel.P2160;
+                        return videoQuality;
+                    default:
+                        Console.WriteLine("Invalid video quality");
+                        break;
                 }
             }
             while(!validVideoQuality);
