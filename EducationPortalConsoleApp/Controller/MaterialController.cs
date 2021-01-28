@@ -26,9 +26,12 @@ namespace EducationPortalConsoleApp.Controller
         
         public Material CreateVideo()
         {
+            //create video
             VideoViewModel materialVM = VideoVMInstanceCreator.CreateVideo();
+            //mapping
             var videoMap = Mapping.CreateMapFromVMToDomainWithIncludeVideoType<MaterialViewModel, Material, VideoViewModel, Video>(materialVM);
 
+            //add video to db
             bool success = materialService.CreateVideo(Mapping.CreateMapFromVMToDomain<VideoViewModel, Video>(materialVM));
 
             if (success)
@@ -43,9 +46,12 @@ namespace EducationPortalConsoleApp.Controller
 
         public Material CreateArticle()
         {
+            //create article
             ArticleViewModel articleVM = ArticleVMInstanceCreator.CreateArticle();
+            //mapping
             var articleMap = Mapping.CreateMapFromVMToDomainWithIncludeVideoType<MaterialViewModel, Material, ArticleViewModel, Article>(articleVM);
 
+            //add article to db
             bool success = materialService.CreateArticle(Mapping.CreateMapFromVMToDomain<ArticleViewModel, Article>(articleVM));
 
             if (success)
@@ -60,9 +66,12 @@ namespace EducationPortalConsoleApp.Controller
 
         public Material CreateBook()
         {
+            //create book
             BookViewModel bookVM = BookVMInstanceCreator.CreateBook();
+            //mapping
             var bookMap = Mapping.CreateMapFromVMToDomainWithIncludeVideoType<MaterialViewModel, Material, BookViewModel, Book>(bookVM);
 
+            //add book to db
             bool success = materialService.CreateBook(Mapping.CreateMapFromVMToDomain<BookViewModel, Book>(bookVM));
 
             if (success)
@@ -77,22 +86,23 @@ namespace EducationPortalConsoleApp.Controller
 
         public Material GetMaterialFromAllMaterials()
         {
-            //MD, MV, VD, VV, AD, AV, BD, BV
+            //mapping from domain to viewmodel
             List<MaterialViewModel> materialsVM1 = GetAllMaterialVMAfterMappingFromMaterialDomain(materialService.GetAllMaterials().ToList());
-            foreach (var materialVM in materialsVM1)
-            {
-                Console.WriteLine($"Id: {materialVM.Id}, {materialVM.ToString()}\n");
-            }
+
+            //ShowMaterials
+            MaterialConsoleMessageHelper.ShowMaterial(materialsVM1);
+
             Console.Write("\nEnter material id: ");
             int id;
+
             try
             {
                 id = Convert.ToInt32(Console.ReadLine());
             }
-            catch(Exception ex)
+            catch
             {
                 id = 0;
-                Console.WriteLine($"Invalid value - {ex.Message}");
+                Console.WriteLine($"Invalid value");
                 GetMaterialFromAllMaterials();
             }
 

@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer.Entities;
+using EducationPortal.PL.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -62,6 +63,15 @@ namespace EducationPortalConsoleApp.Helpers
             Console.WriteLine($"Book author: {copyOfInputParametrBook.Author}");
             Console.WriteLine($"Count of book pages: {copyOfInputParametrBook.CountOfPages}");
             Console.WriteLine("---------------------------");
+        }
+
+        public static void ShowMaterial(List<MaterialViewModel> materialsVM1)
+        {
+            //ShowMaterials
+            foreach (var materialVM in materialsVM1)
+            {
+                Console.WriteLine($"Id: {materialVM.Id}, {materialVM.ToString()}\n");
+            }
         }
     }
 }

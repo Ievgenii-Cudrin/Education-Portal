@@ -22,46 +22,65 @@ namespace EducationPortalConsoleApp.Controller
         public void CreateNewCourse()
         {
             Console.Clear();
+            //Create course
             CourseViewModel courseVM = CourseVMInstanceCreator.CreateCourse();
+            //mapping to Domain model
             var courseDomain = Mapping.CreateMapFromVMToDomain<CourseViewModel, Course>(courseVM);
             bool success = courseService.CreateCourse(courseDomain);
 
             if (success)
             {
                 int courseId = courseService.GetAllCourses().Where(x => x.Name == courseVM.Name).FirstOrDefault().Id;
-                string userChoice = String.Empty;
-
-                //transfer to another method
-                do
-                {
-                    Material materialDomain = ProgramBranch.SelectMaterialForAddToCourse();
-                    if(!courseService.AddMaterialToCourse(courseId, materialDomain))
-                    {
-                        Console.WriteLine("Material exist in course");
-                    }
-                    Console.WriteLine("Do you want to add more material (Enter YES)?");
-                    userChoice = Console.ReadLine();
-                }
-                while (userChoice.ToLower() == "yes");
-
-                //transfer to another method
-                do
-                {
-                    Console.WriteLine("Add skill to your course: ");
-                    var skillVM = SkillVMInstanceCreator.CreateSkill();
-                    courseService.AddSkillToCourse(courseId, Mapping.CreateMapFromVMToDomain<SkillViewModel, Skill>(skillVM));
-                    Console.WriteLine("Do you want to add one more skill (Enter YES)?");
-                    userChoice = Console.ReadLine();
-                }
-                while (userChoice.ToLower() == "yes");
-
+                //Add materials to course
+                AddMaterialToCourse(courseId);
+                //Add skills to course
+                AddSkillsToCourse(courseId);
+                //go ro start menu
                 ProgramBranch.SelectFirstStepForAuthorizedUser();
             }
             else
             {
                 Console.WriteLine("Course exist");
+                //Go to start menu
                 ProgramBranch.SelectFirstStepForAuthorizedUser();
             }
+        }
+
+        private void AddMaterialToCourse(int courseId)
+        {
+            string userChoice = String.Empty;
+
+            do
+            {
+                Material materialDomain = ProgramBranch.SelectMaterialForAddToCourse();
+
+                //check, material exist in course, or no
+                if (!courseService.AddMaterialToCourse(courseId, materialDomain))
+                {
+                    Console.WriteLine("Material exist in course");
+                }
+
+                Console.WriteLine("Do you want to add more material (Enter YES)?");
+                userChoice = Console.ReadLine();
+            }
+            while (userChoice.ToLower() == "yes");
+        }
+
+        private void AddSkillsToCourse(int courseId)
+        {
+            string userChoice = String.Empty;
+
+            do
+            {
+                Console.WriteLine("Add skill to your course: ");
+                //create skill
+                var skillVM = SkillVMInstanceCreator.CreateSkill();
+                //add skill to course after mapping
+                courseService.AddSkillToCourse(courseId, Mapping.CreateMapFromVMToDomain<SkillViewModel, Skill>(skillVM));
+                Console.WriteLine("Do you want to add one more skill (Enter YES)?");
+                userChoice = Console.ReadLine();
+            }
+            while (userChoice.ToLower() == "yes");
         }
     }
 }

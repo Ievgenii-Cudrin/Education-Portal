@@ -25,6 +25,7 @@ namespace EducationPortalConsoleApp.Controller
 
         public void VerifyLoginAndPassword()
         {
+            //get data from user
             string name = GetDataHelper.GetNameFromUser();
             string password = GetDataHelper.GetPasswordFromUser();
             //verify user
@@ -45,14 +46,17 @@ namespace EducationPortalConsoleApp.Controller
         public void CreateNewUser()
         {
             Console.Clear();
+            //create user
             UserViewModel userVM = UserVMInstanceCreator.CreateUser();
 
+            //user data is valid?
             if(userService.GetAllUsers().Any(x => x.Email == userVM.Email))
             {
                 Console.WriteLine("User with this email already exists!");
                 Thread.Sleep(4000);
                 ProgramBranch.StartApplication();
             }
+
             //Create new user, if not - false
             bool createUser = userService.CreateUser(Mapping.CreateMapFromVMToDomain<UserViewModel, User>(userVM));
             //Show result
@@ -66,36 +70,6 @@ namespace EducationPortalConsoleApp.Controller
                 );
         }
 
-        public void ShowAllUser()
-        {
-            IEnumerable<User> users = userService.GetAllUsers();
-
-            //TODO HERE ??
-        }
-
-        public void UpdateUser()
-        {
-            //TODO HERE
-            Console.Clear();
-            UserViewModel userToUpdate = UserVMInstanceCreator.CreateUser();
-
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<UserViewModel, User>());
-            var mapper = new Mapper(config);
-            // сопоставление
-            var userMap = mapper.Map<UserViewModel, User>(userToUpdate);
-            //Create new user, if not - false
-            bool updateUser = userService.UpdateUser(userMap);
-
-            ProgramConsoleMessageHelper.
-                ShowFunctionResult(
-                updateUser,
-                "User successfully updated!",
-                "Something wrong",
-                ProgramBranch.SelectFirstStepForAuthorizedUser,
-                ProgramBranch.SelectFirstStepForAuthorizedUser
-                );
-        }
-
         public void LogOut()
         {
             userService.LogOut();
@@ -103,6 +77,7 @@ namespace EducationPortalConsoleApp.Controller
 
         public void ShowAllPassedCourses()
         {
+            //get all passed courses from bll and mapping
             List<CourseViewModel> passedCourses = Mapping.CreateListMapFromVMToDomainWithIncludeLsitType<Course, CourseViewModel, Material, MaterialViewModel, Skill, SkillViewModel>(userService.AuthorizedUser.CoursesPassed);
 
             if (passedCourses.Count == 0)
@@ -115,6 +90,7 @@ namespace EducationPortalConsoleApp.Controller
 
         public void ShowAllCourseInProggres()
         {
+            //get courses in progress from bll and mapping
             List<CourseViewModel> coursesInProgress = Mapping.CreateListMapFromVMToDomainWithIncludeLsitType<Course, CourseViewModel, Material, MaterialViewModel, Skill, SkillViewModel>(userService.AuthorizedUser.CoursesInProgress);
 
             if(coursesInProgress.Count == 0)
@@ -134,6 +110,8 @@ namespace EducationPortalConsoleApp.Controller
         
         public void ShowAllUserSkills()
         {
+            Console.Clear();
+            //get user skills from bll and mapping
             List<SkillViewModel> userSkills = Mapping.CreateListMap<Skill, SkillViewModel>(userService.GetAllUserSkills());
 
             if(userSkills == null)
@@ -143,6 +121,7 @@ namespace EducationPortalConsoleApp.Controller
                 ProgramBranch.SelectFirstStepForAuthorizedUser();
             }
 
+            //show skills
             for(int i = 0; i < userSkills.Count; i++)
             {
                 Console.WriteLine($"{i+1}.{userSkills[i].Name}. Count of points - {userSkills[i].CountOfPoint}");
@@ -154,6 +133,7 @@ namespace EducationPortalConsoleApp.Controller
         public void ShowUserInfo()
         {
             Console.Clear();
+            //show user info
             Console.WriteLine($"Name - {userService.AuthorizedUser.Name}\n" +
                 $"Phone Number - {userService.AuthorizedUser.PhoneNumber}\n" +
                 $"Email - {userService.AuthorizedUser.Email}\n");

@@ -2,6 +2,7 @@
 using BusinessLogicLayer.Interfaces;
 using DataAccessLayer.Entities;
 using EducationPortal.PL.InstanceCreator;
+using EducationPortal.PL.Mapping;
 using EducationPortal.PL.Models;
 using EducationPortalConsoleApp.Helpers;
 using EducationPortalConsoleApp.Interfaces;
@@ -23,30 +24,10 @@ namespace EducationPortalConsoleApp.Controller
         public void CreateSkill()
         {
             SkillViewModel skill = SkillVMInstanceCreator.CreateSkill();
-
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<SkillViewModel, Skill>());
-            var mapper = new Mapper(config);
-            // сопоставление
-            var skillMap = mapper.Map<SkillViewModel, Skill>(skill);
-
-            bool success = skillService.CreateSkill(skillMap);
-        }
-
-        public void UpdateSkill(int id)
-        {
-            string name = GetDataHelper.GetNameFromUser();
-            //bool success = skillService.UpdateSkill(id, name);
-
-            //Add method to do
-            //ProgramConsoleMessageHelper.ShowFunctionResult(success, "Skill successfully updated", ()=> { }, () => { });
-        }
-
-        public void Delete(int id)
-        {
-            bool success = skillService.Delete(id);
-
-            //add method to do
-            //ProgramConsoleMessageHelper.ShowFunctionResult(success, "Skill successfully deleted");
+            // mapping
+            var skillMap = Mapping.CreateMapFromVMToDomain<SkillViewModel, Skill>(skill);
+            //create skill
+            skillService.CreateSkill(skillMap);
         }
     }
 }
