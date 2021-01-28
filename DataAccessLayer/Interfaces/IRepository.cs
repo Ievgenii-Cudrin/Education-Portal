@@ -6,10 +6,14 @@ namespace DataAccessLayer.Interfaces
 {
     public interface IRepository<T> where T : class
     {
-        IEnumerable<T> GetAll();
-        T Get(int id);
-        void Create(T item);
-        void Update(T item);
-        void Delete(int id);
+        public IEnumerable<T> GetAll();
+
+        public T Get(int id);
+
+        public void Create(T item);
+
+        public void Update(T item);
+
+        public void Delete(int id);
     }
 }

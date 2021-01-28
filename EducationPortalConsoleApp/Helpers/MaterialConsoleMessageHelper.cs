@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer.Entities;
+using EducationPortal.PL.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,7 +8,7 @@ namespace EducationPortalConsoleApp.Helpers
 {
     public static class MaterialConsoleMessageHelper
     {
-        public static void ShowTextForChoiceCRUDMethod()
+        internal static void ShowTextForChoiceCRUDMethod()
         {
             Console.WriteLine($"\nOkey. Make the next choice to continue: " +
             $"\n1.Add material" +
@@ -17,16 +18,17 @@ namespace EducationPortalConsoleApp.Helpers
             $"\n5.Return");
         }
 
-        public static void ShowTextForChoiceKindOfMaterial()
+        internal static void ShowTextForChoiceKindOfMaterialForAddToCourse()
         {
-            Console.WriteLine($"\nMake the next choice to continue: " +
+            Console.WriteLine($"\nPlease, add material to your course: " +
             $"\n1.Add video" +
             $"\n2.Add book" +
             $"\n3.Add article" +
-            $"\n4.Return");
+            $"\n4.Add material from exist" +
+            $"\n5.Return");
         }
 
-        public static void MaterialCreated()
+        internal static void MaterialCreated()
         {
             Console.WriteLine("Material successfully created." +
             $"\nSelect next choice" +
@@ -34,7 +36,7 @@ namespace EducationPortalConsoleApp.Helpers
         }
 
 
-        public static void ShowVideoInfo(Material video)
+            public static void ShowVideoInfo(Material video)
         {
             Video copyOfInputParametrVideo = (Video)video;
             Console.WriteLine($"Id: {copyOfInputParametrVideo.Id}");
@@ -61,6 +63,15 @@ namespace EducationPortalConsoleApp.Helpers
             Console.WriteLine($"Book author: {copyOfInputParametrBook.Author}");
             Console.WriteLine($"Count of book pages: {copyOfInputParametrBook.CountOfPages}");
             Console.WriteLine("---------------------------");
+        }
+
+        public static void ShowMaterial(List<MaterialViewModel> materialsVM1)
+        {
+            //ShowMaterials
+            foreach (var materialVM in materialsVM1)
+            {
+                Console.WriteLine($"Id: {materialVM.Id}, {materialVM.ToString()}\n");
+            }
         }
     }
 }

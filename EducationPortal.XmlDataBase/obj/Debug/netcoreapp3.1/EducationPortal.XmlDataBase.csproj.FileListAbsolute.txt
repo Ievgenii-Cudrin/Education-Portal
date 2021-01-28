@@ -1,0 +1,9 @@
+E:\Projects\Education-Portal\EducationPortal.XmlDataBase\bin\Debug\netcoreapp3.1\EducationPortal.XmlDataBase.deps.json
+E:\Projects\Education-Portal\EducationPortal.XmlDataBase\bin\Debug\netcoreapp3.1\EducationPortal.XmlDataBase.dll
+E:\Projects\Education-Portal\EducationPortal.XmlDataBase\bin\Debug\netcoreapp3.1\EducationPortal.XmlDataBase.pdb
+E:\Projects\Education-Portal\EducationPortal.XmlDataBase\obj\Debug\netcoreapp3.1\EducationPortal.XmlDataBase.AssemblyInfoInputs.cache
+E:\Projects\Education-Portal\EducationPortal.XmlDataBase\obj\Debug\netcoreapp3.1\EducationPortal.XmlDataBase.AssemblyInfo.cs
+E:\Projects\Education-Portal\EducationPortal.XmlDataBase\obj\Debug\netcoreapp3.1\EducationPortal.XmlDataBase.csproj.CoreCompileInputs.cache
+E:\Projects\Education-Portal\EducationPortal.XmlDataBase\obj\Debug\netcoreapp3.1\EducationPortal.XmlDataBase.dll
+E:\Projects\Education-Portal\EducationPortal.XmlDataBase\obj\Debug\netcoreapp3.1\EducationPortal.XmlDataBase.pdb
+E:\Projects\Education-Portal\EducationPortal.XmlDataBase\obj\Debug\netcoreapp3.1\EducationPortal.XmlDataBase.csprojAssemblyReference.cache
