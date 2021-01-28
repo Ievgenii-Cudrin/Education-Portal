@@ -140,9 +140,9 @@ namespace EducationPortalConsoleApp.Services
                 return true;
             }
         }
+
         public IEnumerable<Skill> GetUserSkills()
         {
-            var a = userRepository.Get(authorizedUser.Id).Skills;
             return userRepository.Get(authorizedUser.Id).Skills;
         }
 

@@ -36,7 +36,7 @@ namespace DataAccessLayer.Repositories
 
         public void Update(T item)
         {
-            context.XmlSet.UpdateObject(item);
+            context.XmlSet.Update(item);
         }
     }
 }

@@ -1,16 +1,12 @@
-﻿using System;
+﻿using EducationPortal.XmlDataBase.Helpres;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
-using System.Xml;
-using System.Xml.Linq;
-using System.Xml.Serialization;
 using System.Linq;
 using System.Text.RegularExpressions;
-using XmlDataBase.Interfaces;
 using System.Threading;
-using EducationPortal.XmlDataBase.Helpres;
-using System.Reflection;
+using System.Xml.Serialization;
+using XmlDataBase.Interfaces;
 
 namespace XmlDataBase.Serialization
 {
@@ -32,14 +28,13 @@ namespace XmlDataBase.Serialization
         public void Add(T objToXml)
         {
             //Generate ID and add to object
-            int id = GenareteId();
+            int id = XmlMaker.GenareteId(directory);
             typeof(T).GetProperty("Id").SetValue(objToXml, id);
 
             //decode password
             if (objectHasPasswordProperty)
             {
-                string decodePassword = PasswordDecoder.DecodeToBase64String(typeof(T).GetProperty("Password").GetValue(objToXml).ToString());
-                typeof(T).GetProperty("Password").SetValue(objToXml, decodePassword);
+                XmlMaker.DecodePasswordAndSetToObject(ref objToXml);
             }
 
             //Create directory if not exist
@@ -59,23 +54,24 @@ namespace XmlDataBase.Serialization
             //Get all xml files from our type directory
             FileInfo[] files = directory.GetFiles("*.xml");
 
-            if(files != null)
+            if(files == null)
             {
-                foreach (var file in files)
+                return entities;
+            }
+
+            foreach (var file in files)
+            {
+                using (FileStream fs = new FileStream(file.FullName, FileMode.Open))
                 {
-                    using(FileStream fs = new FileStream(file.FullName, FileMode.Open))
+                    //deserialize object
+                    T objFromXml = (T)serializer.Deserialize(fs);
+
+                    if (objectHasPasswordProperty)
                     {
-                        //deserialize object
-                        T objFromXml = (T)serializer.Deserialize(fs);
-
-                        if (objectHasPasswordProperty)
-                        {
-                            string encodePassword = PasswordEncoder.EncodeToBase64String(typeof(T).GetProperty("Password").GetValue(objFromXml).ToString());
-                            typeof(T).GetProperty("Password").SetValue(objFromXml, encodePassword);
-                        }
-
-                        entities.Add(objFromXml);
+                        XmlMaker.EncodePasswordAndSetToObject(ref objFromXml);
                     }
+
+                    entities.Add(objFromXml);
                 }
             }
 
@@ -88,25 +84,25 @@ namespace XmlDataBase.Serialization
             //get file by id
             FileInfo file = directory.GetFiles($"{type.Name}{id}.xml").FirstOrDefault();
 
-            if (file != null)
+            if (file == null)
             {
-                using (FileStream fs = new FileStream($"{type.Name}/{file.Name}", FileMode.Open))
-                {
-                    //deserialize object
-                    objectFromXml = (T)serializer.Deserialize(fs);
-
-                    if (objectHasPasswordProperty)
-                    {
-                        //encode password
-                        string encodePassword = PasswordEncoder.EncodeToBase64String(typeof(T).GetProperty("Password").GetValue(objectFromXml).ToString());
-                        typeof(T).GetProperty("Password").SetValue(objectFromXml, encodePassword);
-                    }
-                }
-
-                return objectFromXml;
+                return null;
             };
-            
-            return null;
+
+            using (FileStream fs = new FileStream($"{type.Name}/{file.Name}", FileMode.Open))
+            {
+                //deserialize object
+                objectFromXml = (T)serializer.Deserialize(fs);
+
+                if (objectHasPasswordProperty)
+                {
+                    //encode password
+                    XmlMaker.EncodePasswordAndSetToObject(ref objectFromXml);
+                }
+            }
+
+            return objectFromXml;
+
         }
 
         public void Delete(int id)
@@ -123,7 +119,7 @@ namespace XmlDataBase.Serialization
             }
         }
 
-        public void UpdateObject(T objectToUpdate)
+        public void Update(T objectToUpdate)
         {
             Thread.Sleep(200);
 
@@ -132,29 +128,18 @@ namespace XmlDataBase.Serialization
                 if (objectHasPasswordProperty)
                 {
                     //decode password
-                    string decodePassword = PasswordDecoder.DecodeToBase64String(typeof(T).GetProperty("Password").GetValue(objectToUpdate).ToString());
-                    typeof(T).GetProperty("Password").SetValue(objectToUpdate, decodePassword);
+                    XmlMaker.DecodePasswordAndSetToObject(ref objectToUpdate);
                 }
                 
                 //serialize
                 serializer.Serialize(fs, objectToUpdate);
-            }
-        }
 
-        //push to another class
-        private int GenareteId()
-        {
-            int id = 0;
-            try
-            {
-                id = directory.GetFiles("*.xml").OrderBy(x => x.Name).Select(x => x.Name).Select(x => Convert.ToInt32(Regex.Match(x, @"\d+").Value)).Max();
+                if (objectHasPasswordProperty)
+                {
+                    //encode password
+                    XmlMaker.EncodePasswordAndSetToObject(ref objectToUpdate);
+                }
             }
-            catch
-            {
-                return id;
-            }
-            
-            return ++id;
         }
     }
 }

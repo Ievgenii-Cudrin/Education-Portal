@@ -14,6 +14,6 @@ namespace XmlDataBase.Interfaces
 
         public void Delete(int id);
 
-        public void UpdateObject(T objectToUpdate);
+        public void Update(T objectToUpdate);
     }
 }
