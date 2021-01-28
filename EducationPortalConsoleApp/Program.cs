@@ -10,8 +10,7 @@ namespace EducationPortalConsoleApp
     {
         static void Main(string[] args)
         {
-
-            new ProgramService().StartApp();
+            ProgramService.SelectEntityToWork();
 
             Console.ReadLine();
         }
