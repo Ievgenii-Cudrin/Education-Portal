@@ -9,9 +9,5 @@ namespace DataAccessLayer.Entities
     {
         [XmlElement("Id")]
         public int Id { get; set; }
-<<<<<<< HEAD
-=======
-
->>>>>>> main
     }
 }

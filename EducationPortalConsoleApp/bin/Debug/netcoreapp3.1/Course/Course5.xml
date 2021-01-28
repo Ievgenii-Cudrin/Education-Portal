@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<Course xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>5</Id>
+  <SkillArray>
+    <SkillObjekt>
+      <Id>8</Id>
+      <Name>dsfgs</Name>
+      <CountOfPoint>0</CountOfPoint>
+    </SkillObjekt>
+  </SkillArray>
+  <MaterialArray>
+    <MaterialObjekt xsi:type="Video">
+      <Id>3</Id>
+      <Name>etgb</Name>
+      <IsPassed>false</IsPassed>
+      <Link>u.ta</Link>
+      <Quality>P1080</Quality>
+      <Duration>32</Duration>
+    </MaterialObjekt>
+  </MaterialArray>
+  <Name>sdfasd</Name>
+  <Description>asdf</Description>
+</Course>
