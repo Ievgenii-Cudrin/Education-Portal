@@ -5,7 +5,11 @@
     <SkillObjekt>
       <Id>0</Id>
       <Name>c#</Name>
+<<<<<<< HEAD
       <CountOfPoint>3</CountOfPoint>
+=======
+      <CountOfPoint>2</CountOfPoint>
+>>>>>>> main
     </SkillObjekt>
     <SkillObjekt>
       <Id>5</Id>
@@ -22,11 +26,14 @@
       <Name>+</Name>
       <CountOfPoint>0</CountOfPoint>
     </SkillObjekt>
+<<<<<<< HEAD
     <SkillObjekt>
       <Id>4</Id>
       <Name>web api 2</Name>
       <CountOfPoint>0</CountOfPoint>
     </SkillObjekt>
+=======
+>>>>>>> main
   </SkillArray>
   <PassedCoursesArray>
     <PassedCourseObjekt>
@@ -166,6 +173,7 @@
       <Name>c# for people</Name>
       <Description>good course</Description>
     </PassedCourseObjekt>
+<<<<<<< HEAD
     <PassedCourseObjekt>
       <Id>4</Id>
       <SkillArray>
@@ -199,6 +207,8 @@
       <Name>qwert</Name>
       <Description>qwert</Description>
     </PassedCourseObjekt>
+=======
+>>>>>>> main
   </PassedCoursesArray>
   <InProgressCoursesArray />
   <Name>Oksa</Name>
