@@ -46,6 +46,7 @@ namespace EducationPortalConsoleApp.Services
         public bool CreateArticle(Article article)
         {
             List<Article> art = repository.GetAll().Where(x => x is Article).Cast<Article>().ToList();
+            //check, it is unique article in db
             bool uniqueArticle = article != null &&
                 !repository.GetAll().Where(x => x is Article).Cast<Article>().Any(x =>
                 x.Name.ToLower().Equals(article.Name.ToLower()) &&
@@ -66,6 +67,7 @@ namespace EducationPortalConsoleApp.Services
 
         public bool CreateBook(Book book)
         {
+            //check, it is unique book in db
             bool uniqueBook = book != null &&
                 !repository.GetAll().Where(x => x is Book).Cast<Book>().Any(x =>
                 x.Name.ToLower().Equals(book.Name.ToLower()) &&

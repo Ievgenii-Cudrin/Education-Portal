@@ -55,12 +55,16 @@ namespace BusinessLogicLayer.Services
 
         public bool AddSkillToCourse(int id, Skill skillToAdd)
         {
+            //create skill
             skillService.CreateSkill(skillToAdd);
+            //find this skill in db
             Skill skill = skillService.GetSkillByName(skillToAdd.Name);
+            //find course
             Course course = courseRepository.Get(id);
 
             if(course != null)
             {
+                //add skill and update
                 course.Skills.Add(skill);
                 courseRepository.Update(course);
                 return true;

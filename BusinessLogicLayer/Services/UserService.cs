@@ -195,6 +195,7 @@ namespace EducationPortalConsoleApp.Services
         {
             try
             {
+                //find course in progress list and find material from this course, set true
                 authorizedUser.CoursesInProgress.Where(x => x.Id == courseId).FirstOrDefault().Materials.Where(x => x.Id == materialId).FirstOrDefault().IsPassed = true;
                 userRepository.Update(authorizedUser);
                 return true;
