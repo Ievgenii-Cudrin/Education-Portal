@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<Course xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>1</Id>
+  <SkillArray>
+    <SkillObjekt>
+      <Id>0</Id>
+      <Name>c#</Name>
+      <CountOfPoint>0</CountOfPoint>
+    </SkillObjekt>
+  </SkillArray>
+  <MaterialArray>
+    <MaterialObjekt xsi:type="Video">
+      <Id>0</Id>
+      <Name>Incapsulation</Name>
+      <IsPassed>false</IsPassed>
+      <Link>youtube.com</Link>
+      <Quality>P360</Quality>
+      <Duration>65</Duration>
+    </MaterialObjekt>
+  </MaterialArray>
+  <Name>c# for people</Name>
+  <Description>good course</Description>
+</Course>

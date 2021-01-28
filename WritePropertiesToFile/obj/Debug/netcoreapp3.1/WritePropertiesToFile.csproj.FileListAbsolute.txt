@@ -1,0 +1,15 @@
+E:\Projects\Education-Portal\WritePropertiesToFile\bin\Debug\netcoreapp3.1\WritePropertiesToFile.exe
+E:\Projects\Education-Portal\WritePropertiesToFile\bin\Debug\netcoreapp3.1\WritePropertiesToFile.deps.json
+E:\Projects\Education-Portal\WritePropertiesToFile\bin\Debug\netcoreapp3.1\WritePropertiesToFile.runtimeconfig.json
+E:\Projects\Education-Portal\WritePropertiesToFile\bin\Debug\netcoreapp3.1\WritePropertiesToFile.runtimeconfig.dev.json
+E:\Projects\Education-Portal\WritePropertiesToFile\bin\Debug\netcoreapp3.1\WritePropertiesToFile.dll
+E:\Projects\Education-Portal\WritePropertiesToFile\bin\Debug\netcoreapp3.1\WritePropertiesToFile.pdb
+E:\Projects\Education-Portal\WritePropertiesToFile\bin\Debug\netcoreapp3.1\CsvHelper.dll
+E:\Projects\Education-Portal\WritePropertiesToFile\obj\Debug\netcoreapp3.1\WritePropertiesToFile.csprojAssemblyReference.cache
+E:\Projects\Education-Portal\WritePropertiesToFile\obj\Debug\netcoreapp3.1\WritePropertiesToFile.AssemblyInfoInputs.cache
+E:\Projects\Education-Portal\WritePropertiesToFile\obj\Debug\netcoreapp3.1\WritePropertiesToFile.AssemblyInfo.cs
+E:\Projects\Education-Portal\WritePropertiesToFile\obj\Debug\netcoreapp3.1\WritePropertiesToFile.csproj.CoreCompileInputs.cache
+E:\Projects\Education-Portal\WritePropertiesToFile\obj\Debug\netcoreapp3.1\WritePropertiesToFile.csproj.CopyComplete
+E:\Projects\Education-Portal\WritePropertiesToFile\obj\Debug\netcoreapp3.1\WritePropertiesToFile.dll
+E:\Projects\Education-Portal\WritePropertiesToFile\obj\Debug\netcoreapp3.1\WritePropertiesToFile.pdb
+E:\Projects\Education-Portal\WritePropertiesToFile\obj\Debug\netcoreapp3.1\WritePropertiesToFile.genruntimeconfig.cache

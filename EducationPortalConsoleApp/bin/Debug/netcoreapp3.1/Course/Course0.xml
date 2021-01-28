@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<Course xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>0</Id>
+  <SkillArray>
+    <SkillObjekt>
+      <Id>5</Id>
+      <Name>dfg</Name>
+      <CountOfPoint>0</CountOfPoint>
+    </SkillObjekt>
+    <SkillObjekt>
+      <Id>6</Id>
+      <Name>saf</Name>
+      <CountOfPoint>0</CountOfPoint>
+    </SkillObjekt>
+    <SkillObjekt>
+      <Id>7</Id>
+      <Name>+</Name>
+      <CountOfPoint>0</CountOfPoint>
+    </SkillObjekt>
+  </SkillArray>
+  <MaterialArray>
+    <MaterialObjekt xsi:type="Video">
+      <Id>0</Id>
+      <Name>ed</Name>
+      <IsPassed>false</IsPassed>
+      <Link>e.ya</Link>
+      <Quality>P240</Quality>
+      <Duration>32</Duration>
+    </MaterialObjekt>
+    <MaterialObjekt xsi:type="Book">
+      <Id>0</Id>
+      <Name>uj</Name>
+      <IsPassed>false</IsPassed>
+      <CountOfPages>180</CountOfPages>
+      <Author>uj</Author>
+    </MaterialObjekt>
+    <MaterialObjekt xsi:type="Video">
+      <Id>0</Id>
+      <Name>etgb</Name>
+      <IsPassed>false</IsPassed>
+      <Link>u.ta</Link>
+      <Quality>P1080</Quality>
+      <Duration>32</Duration>
+    </MaterialObjekt>
+    <MaterialObjekt xsi:type="Video">
+      <Id>0</Id>
+      <Name>eee</Name>
+      <IsPassed>false</IsPassed>
+      <Link>e.ua</Link>
+      <Quality>P240</Quality>
+      <Duration>23</Duration>
+    </MaterialObjekt>
+  </MaterialArray>
+  <Name>ed</Name>
+  <Description>ed</Description>
+</Course>

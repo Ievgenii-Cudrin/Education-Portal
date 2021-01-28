@@ -1,0 +1,12 @@
+E:\Projects\Education-Portal\BusinessLogicLayer\bin\Debug\netcoreapp3.1\BusinessLogicLayer.deps.json
+E:\Projects\Education-Portal\BusinessLogicLayer\bin\Debug\netcoreapp3.1\BusinessLogicLayer.dll
+E:\Projects\Education-Portal\BusinessLogicLayer\bin\Debug\netcoreapp3.1\BusinessLogicLayer.pdb
+E:\Projects\Education-Portal\BusinessLogicLayer\bin\Debug\netcoreapp3.1\DataAccessLayer.dll
+E:\Projects\Education-Portal\BusinessLogicLayer\bin\Debug\netcoreapp3.1\DataAccessLayer.pdb
+E:\Projects\Education-Portal\BusinessLogicLayer\obj\Debug\netcoreapp3.1\BusinessLogicLayer.csprojAssemblyReference.cache
+E:\Projects\Education-Portal\BusinessLogicLayer\obj\Debug\netcoreapp3.1\BusinessLogicLayer.AssemblyInfoInputs.cache
+E:\Projects\Education-Portal\BusinessLogicLayer\obj\Debug\netcoreapp3.1\BusinessLogicLayer.AssemblyInfo.cs
+E:\Projects\Education-Portal\BusinessLogicLayer\obj\Debug\netcoreapp3.1\BusinessLogicLayer.csproj.CoreCompileInputs.cache
+E:\Projects\Education-Portal\BusinessLogicLayer\obj\Debug\netcoreapp3.1\BusinessLogicLayer.csproj.CopyComplete
+E:\Projects\Education-Portal\BusinessLogicLayer\obj\Debug\netcoreapp3.1\BusinessLogicLayer.dll
+E:\Projects\Education-Portal\BusinessLogicLayer\obj\Debug\netcoreapp3.1\BusinessLogicLayer.pdb
