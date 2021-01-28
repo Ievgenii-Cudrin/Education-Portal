@@ -5,7 +5,7 @@
     <SkillObjekt>
       <Id>0</Id>
       <Name>c#</Name>
-      <CountOfPoint>1</CountOfPoint>
+      <CountOfPoint>2</CountOfPoint>
     </SkillObjekt>
     <SkillObjekt>
       <Id>5</Id>
@@ -138,6 +138,28 @@
       </MaterialArray>
       <Name>html&amp;css</Name>
       <Description>for old guys</Description>
+    </PassedCourseObjekt>
+    <PassedCourseObjekt>
+      <Id>1</Id>
+      <SkillArray>
+        <SkillObjekt>
+          <Id>0</Id>
+          <Name>c#</Name>
+          <CountOfPoint>0</CountOfPoint>
+        </SkillObjekt>
+      </SkillArray>
+      <MaterialArray>
+        <MaterialObjekt xsi:type="Video">
+          <Id>0</Id>
+          <Name>Incapsulation</Name>
+          <IsPassed>false</IsPassed>
+          <Link>youtube.com</Link>
+          <Quality>P360</Quality>
+          <Duration>65</Duration>
+        </MaterialObjekt>
+      </MaterialArray>
+      <Name>c# for people</Name>
+      <Description>good course</Description>
     </PassedCourseObjekt>
   </PassedCoursesArray>
   <InProgressCoursesArray />
