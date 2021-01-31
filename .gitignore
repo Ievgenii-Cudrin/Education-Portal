@@ -9,11 +9,11 @@
 *.user
 *.userosscache
 *.sln.docstates
-<<<<<<< HEAD
 *.pdb
 *.dll
 *.v2
 *.cache
+
 =======
 *.xml
 *.dll
