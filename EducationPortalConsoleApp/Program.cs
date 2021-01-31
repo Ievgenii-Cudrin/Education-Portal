@@ -1,17 +1,18 @@
-﻿using DataAccessLayer.Entities;
-using DataAccessLayer.Serialization;
+﻿using EducationPortalConsoleApp.Branch;
+using EducationPortalConsoleApp.Helpers;
+using EducationPortalConsoleApp.Interfaces;
 using EducationPortalConsoleApp.Services;
+using Microsoft.Extensions.DependencyInjection;
+using EducationPortalConsoleApp.DependencyInjection;
 using System;
-using System.Collections.Generic;
 
 namespace EducationPortalConsoleApp
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-
-            new ProgramService().StartApp();
+            ProgramBranch.StartApplication();
 
             Console.ReadLine();
         }

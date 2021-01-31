@@ -1,0 +1,13 @@
+E:\Projects\Education-Portal\LINQ\bin\Debug\netcoreapp3.1\LINQ.exe
+E:\Projects\Education-Portal\LINQ\bin\Debug\netcoreapp3.1\LINQ.deps.json
+E:\Projects\Education-Portal\LINQ\bin\Debug\netcoreapp3.1\LINQ.runtimeconfig.json
+E:\Projects\Education-Portal\LINQ\bin\Debug\netcoreapp3.1\LINQ.runtimeconfig.dev.json
+E:\Projects\Education-Portal\LINQ\bin\Debug\netcoreapp3.1\LINQ.dll
+E:\Projects\Education-Portal\LINQ\bin\Debug\netcoreapp3.1\LINQ.pdb
+E:\Projects\Education-Portal\LINQ\obj\Debug\netcoreapp3.1\LINQ.csprojAssemblyReference.cache
+E:\Projects\Education-Portal\LINQ\obj\Debug\netcoreapp3.1\LINQ.AssemblyInfoInputs.cache
+E:\Projects\Education-Portal\LINQ\obj\Debug\netcoreapp3.1\LINQ.AssemblyInfo.cs
+E:\Projects\Education-Portal\LINQ\obj\Debug\netcoreapp3.1\LINQ.csproj.CoreCompileInputs.cache
+E:\Projects\Education-Portal\LINQ\obj\Debug\netcoreapp3.1\LINQ.dll
+E:\Projects\Education-Portal\LINQ\obj\Debug\netcoreapp3.1\LINQ.pdb
+E:\Projects\Education-Portal\LINQ\obj\Debug\netcoreapp3.1\LINQ.genruntimeconfig.cache

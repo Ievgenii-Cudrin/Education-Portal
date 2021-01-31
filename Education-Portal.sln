@@ -3,13 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessLayer", "DataAccessLayer\DataAccessLayer.csproj", "{9B7C67B4-3171-494E-ABAB-796BEF77AD8D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducationPortal.DAL", "DataAccessLayer\EducationPortal.DAL.csproj", "{9B7C67B4-3171-494E-ABAB-796BEF77AD8D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducationPortalConsoleApp", "EducationPortalConsoleApp\EducationPortalConsoleApp.csproj", "{5B437A77-367F-4870-82D6-F7783796992F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducationPortal.PL", "EducationPortalConsoleApp\EducationPortal.PL.csproj", "{5B437A77-367F-4870-82D6-F7783796992F}"
 EndProject
+<<<<<<< HEAD
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLogicLayer", "BusinessLogicLayer\BusinessLogicLayer.csproj", "{0D1FC3EC-4AFB-4DFB-B9D1-DA840513C1BA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BullsAndCows", "BullsAndCows\BullsAndCows.csproj", "{9277B0D7-28DC-462D-A577-C991C6B55810}"
+=======
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducationPortal.BLL", "BusinessLogicLayer\EducationPortal.BLL.csproj", "{0D1FC3EC-4AFB-4DFB-B9D1-DA840513C1BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationPortal.Domain", "EducationPortal.Domain\EducationPortal.Domain.csproj", "{5B4236C0-F986-4454-BB20-8E0A5401A5D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationPortal.XmlDataBase", "EducationPortal.XmlDataBase\EducationPortal.XmlDataBase.csproj", "{3825B27B-1F69-4E8F-832E-9BA51335F32D}"
+>>>>>>> develop
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +37,21 @@ Global
 		{0D1FC3EC-4AFB-4DFB-B9D1-DA840513C1BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D1FC3EC-4AFB-4DFB-B9D1-DA840513C1BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D1FC3EC-4AFB-4DFB-B9D1-DA840513C1BA}.Release|Any CPU.Build.0 = Release|Any CPU
+<<<<<<< HEAD
 		{9277B0D7-28DC-462D-A577-C991C6B55810}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9277B0D7-28DC-462D-A577-C991C6B55810}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9277B0D7-28DC-462D-A577-C991C6B55810}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9277B0D7-28DC-462D-A577-C991C6B55810}.Release|Any CPU.Build.0 = Release|Any CPU
+=======
+		{5B4236C0-F986-4454-BB20-8E0A5401A5D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B4236C0-F986-4454-BB20-8E0A5401A5D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B4236C0-F986-4454-BB20-8E0A5401A5D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B4236C0-F986-4454-BB20-8E0A5401A5D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3825B27B-1F69-4E8F-832E-9BA51335F32D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3825B27B-1F69-4E8F-832E-9BA51335F32D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3825B27B-1F69-4E8F-832E-9BA51335F32D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3825B27B-1F69-4E8F-832E-9BA51335F32D}.Release|Any CPU.Build.0 = Release|Any CPU
+>>>>>>> develop
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

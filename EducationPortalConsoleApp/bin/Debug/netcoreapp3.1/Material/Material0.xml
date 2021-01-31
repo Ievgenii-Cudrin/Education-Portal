@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<Material xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="Video">
+  <Id>0</Id>
+  <Name>eee</Name>
+  <IsPassed>false</IsPassed>
+  <Link>e.ua</Link>
+  <Quality>P240</Quality>
+  <Duration>23</Duration>
+</Material>

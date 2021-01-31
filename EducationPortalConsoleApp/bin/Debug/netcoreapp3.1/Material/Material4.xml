@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<Material xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="Video">
+  <Id>4</Id>
+  <Name>Incapsulation</Name>
+  <IsPassed>false</IsPassed>
+  <Link>youtube.com</Link>
+  <Quality>P360</Quality>
+  <Duration>65</Duration>
+</Material>

@@ -115,9 +115,11 @@ namespace BullsAndCows
         {
             List<string> answers = new List<string>();
 
-            for(int i = 0; i < 10000; i++)
+            string fmd = "0000";
+
+            for (int i = 0; i < 10000; i++)
             {
-                string fmd = "0000";
+                
                 string fmt = i.ToString(fmd);
 
                 //character inequality check

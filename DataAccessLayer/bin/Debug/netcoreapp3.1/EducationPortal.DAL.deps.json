@@ -1,0 +1,36 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v3.1",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v3.1": {
+      "EducationPortal.DAL/1.0.0": {
+        "dependencies": {
+          "EducationPortal.XmlDataBase": "1.0.0"
+        },
+        "runtime": {
+          "EducationPortal.DAL.dll": {}
+        }
+      },
+      "EducationPortal.XmlDataBase/1.0.0": {
+        "runtime": {
+          "EducationPortal.XmlDataBase.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "EducationPortal.DAL/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "EducationPortal.XmlDataBase/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

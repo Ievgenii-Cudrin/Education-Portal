@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<User xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>0</Id>
+  <SkillArray>
+    <SkillObjekt>
+      <Id>0</Id>
+      <Name>c#</Name>
+      <CountOfPoint>0</CountOfPoint>
+    </SkillObjekt>
+    <SkillObjekt>
+      <Id>4</Id>
+      <Name>web api 2</Name>
+      <CountOfPoint>0</CountOfPoint>
+    </SkillObjekt>
+  </SkillArray>
+  <PassedCoursesArray>
+    <PassedCourseObjekt>
+      <Id>4</Id>
+      <SkillArray>
+        <SkillObjekt>
+          <Id>0</Id>
+          <Name>c#</Name>
+          <CountOfPoint>0</CountOfPoint>
+        </SkillObjekt>
+        <SkillObjekt>
+          <Id>4</Id>
+          <Name>web api 2</Name>
+          <CountOfPoint>0</CountOfPoint>
+        </SkillObjekt>
+      </SkillArray>
+      <MaterialArray>
+        <MaterialObjekt xsi:type="Book">
+          <Id>2</Id>
+          <Name>uj</Name>
+          <IsPassed>false</IsPassed>
+          <CountOfPages>180</CountOfPages>
+          <Author>uj</Author>
+        </MaterialObjekt>
+        <MaterialObjekt xsi:type="Article">
+          <Id>0</Id>
+          <Name>opa</Name>
+          <IsPassed>false</IsPassed>
+          <PublicationDate>1987-10-22T00:00:00</PublicationDate>
+          <Site>metanit.com</Site>
+        </MaterialObjekt>
+      </MaterialArray>
+      <Name>qwert</Name>
+      <Description>qwert</Description>
+    </PassedCourseObjekt>
+  </PassedCoursesArray>
+  <InProgressCoursesArray />
+  <Name>Oksa</Name>
+  <Password>MjcwOA==</Password>
+  <PhoneNumber>0999339210</PhoneNumber>
+  <Email>oksa@gmail.com</Email>
+</User>

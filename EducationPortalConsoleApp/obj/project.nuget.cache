@@ -1,8 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "N6tBRulonGLaC9uU/M9R2UpLQrGCHUI109K4yXO+Bz2E/BVe+R43E6SlbLqPW9by1rl9ywxdUxnrqsammW95Og==",
+  "dgSpecHash": "+j+XfDZeKaWvUoOedFtt60MVfHbTt/6ZYIC8Mp85HicyuDHHfusxTmzQsIEQlyXtd21uTurKP3OBZXBUwjTH4A==",
   "success": true,
-  "projectFilePath": "E:\\Projects\\Education-Portal\\EducationPortalConsoleApp\\EducationPortalConsoleApp.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "E:\\Projects\\Education-Portal\\EducationPortalConsoleApp\\EducationPortal.PL.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\zhend\\.nuget\\packages\\automapper\\10.1.1\\automapper.10.1.1.nupkg.sha512",
+    "C:\\Users\\zhend\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
+    "C:\\Users\\zhend\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\5.0.1\\microsoft.extensions.dependencyinjection.5.0.1.nupkg.sha512",
+    "C:\\Users\\zhend\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\5.0.0\\microsoft.extensions.dependencyinjection.abstractions.5.0.0.nupkg.sha512",
+    "C:\\Users\\zhend\\.nuget\\packages\\system.reflection.emit\\4.7.0\\system.reflection.emit.4.7.0.nupkg.sha512"
+  ],
   "logs": []
 }
