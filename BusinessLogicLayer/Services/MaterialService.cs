@@ -13,10 +13,11 @@ namespace EducationPortalConsoleApp.Services
     public class MaterialService : IMaterialService
     {
         IRepository<Material> repository;
-
+        List<Material> materialsFromDB;
         public MaterialService(IRepository<Material> repository)
         {
             this.repository = repository;
+            materialsFromDB = repository.GetAll().ToList();
         }
 
         public bool CreateVideo(Video video)
@@ -26,7 +27,7 @@ namespace EducationPortalConsoleApp.Services
             int c = videos.Count;
             //check name and link, may be we have this skill
             bool uniqueVideo = video != null &&
-                !repository.GetAll().Where(x => x is Video).Cast<Video>().Any(x =>
+                !materialsFromDB.Where(x => x is Video).Cast<Video>().Any(x =>
                 x.Name.ToLower().Equals(video.Name.ToLower()) &&
                 x.Link == video.Link);
             
@@ -38,7 +39,7 @@ namespace EducationPortalConsoleApp.Services
             List<Article> art = repository.GetAll().Where(x => x is Article).Cast<Article>().ToList();
             //check, it is unique article in db
             bool uniqueArticle = article != null &&
-                !repository.GetAll().Where(x => x is Article).Cast<Article>().Any(x =>
+                !materialsFromDB.Where(x => x is Article).Cast<Article>().Any(x =>
                 x.Name.ToLower().Equals(article.Name.ToLower()) &&
                 x.PublicationDate == article.PublicationDate &&
                 x.Site == article.Site);
@@ -50,7 +51,7 @@ namespace EducationPortalConsoleApp.Services
         {
             //check, it is unique book in db
             bool uniqueBook = book != null &&
-                !repository.GetAll().Where(x => x is Book).Cast<Book>().Any(x =>
+                !materialsFromDB.Where(x => x is Book).Cast<Book>().Any(x =>
                 x.Name.ToLower().Equals(book.Name.ToLower()) &&
                 x.Author == book.Author &&
                 x.CountOfPages == book.CountOfPages);
@@ -63,6 +64,7 @@ namespace EducationPortalConsoleApp.Services
             if (uniqueMaterial)
             {
                 repository.Create(material);
+                materialsFromDB.Add(material);
             }
             else
             {
