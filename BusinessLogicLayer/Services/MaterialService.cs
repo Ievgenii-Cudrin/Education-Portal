@@ -29,18 +29,8 @@ namespace EducationPortalConsoleApp.Services
                 !repository.GetAll().Where(x => x is Video).Cast<Video>().Any(x =>
                 x.Name.ToLower().Equals(video.Name.ToLower()) &&
                 x.Link == video.Link);
-
-            //if name is unique => create new skill, otherwise skill == null
-            if (uniqueVideo)
-            {
-                repository.Create(video);
-            }
-            else
-            {
-                return false;
-            }
-
-            return true;
+            
+            return SaveMaterialToDB(uniqueVideo, video);
         }
 
         public bool CreateArticle(Article article)
@@ -53,16 +43,7 @@ namespace EducationPortalConsoleApp.Services
                 x.PublicationDate == article.PublicationDate &&
                 x.Site == article.Site);
 
-            if (uniqueArticle)
-            {
-                repository.Create(article);
-            }
-            else
-            {
-                return false;
-            }
-
-            return true;
+            return SaveMaterialToDB(uniqueArticle, article);
         }
 
         public bool CreateBook(Book book)
@@ -74,9 +55,14 @@ namespace EducationPortalConsoleApp.Services
                 x.Author == book.Author &&
                 x.CountOfPages == book.CountOfPages);
 
-            if (uniqueBook)
+            return SaveMaterialToDB(uniqueBook, book);
+        }
+
+        private bool SaveMaterialToDB(bool uniqueMaterial, Material material)
+        {
+            if (uniqueMaterial)
             {
-                repository.Create(book);
+                repository.Create(material);
             }
             else
             {
