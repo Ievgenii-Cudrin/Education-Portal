@@ -36,7 +36,6 @@ namespace EducationPortalConsoleApp.Services
 
         public bool CreateArticle(Article article)
         {
-            List<Article> art = repository.GetAll().Where(x => x is Article).Cast<Article>().ToList();
             //check, it is unique article in db
             bool uniqueArticle = article != null &&
                 !materialsFromDB.Where(x => x is Article).Cast<Article>().Any(x =>
