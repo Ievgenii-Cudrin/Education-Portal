@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "VT6JIXXqCO8xsucsgus86zgENTrY+lKlqBviTSrBD59U7e9UO7EPe7lCUY304wF3mtM1ue6yh+MZMmpOTe7/0A==",
+  "dgSpecHash": "+UD2ktns8HLyd4wz2fbdb8QoR8Zp+hXSYX+TV4c2eI6OauDbrJgqLTS8fqEU0DhvulG/rKXCAcMz6IxnKAEvFQ==",
   "success": true,
   "projectFilePath": "E:\\Projects\\Education-Portal\\EducationPortalConsoleApp\\EducationPortal.PL.csproj",
   "expectedPackageFiles": [
@@ -8,6 +8,7 @@
     "C:\\Users\\zhend\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\zhend\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\5.0.1\\microsoft.extensions.dependencyinjection.5.0.1.nupkg.sha512",
     "C:\\Users\\zhend\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\5.0.0\\microsoft.extensions.dependencyinjection.abstractions.5.0.0.nupkg.sha512",
+    "C:\\Users\\zhend\\.nuget\\packages\\stylecop.analyzers\\1.1.118\\stylecop.analyzers.1.1.118.nupkg.sha512",
     "C:\\Users\\zhend\\.nuget\\packages\\system.reflection.emit\\4.7.0\\system.reflection.emit.4.7.0.nupkg.sha512"
   ],
   "logs": []

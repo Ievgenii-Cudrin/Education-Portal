@@ -1,19 +1,19 @@
-﻿using BusinessLogicLayer.Interfaces;
-using DataAccessLayer.Entities;
-using EducationPortal.PL.InstanceCreator;
-using EducationPortal.PL.Mapping;
-using EducationPortal.PL.Models;
-using EducationPortalConsoleApp.Interfaces;
-using System.Linq;
-using System;
-using EducationPortalConsoleApp.Branch;
-using Entities;
-
-namespace EducationPortalConsoleApp.Controller
+﻿namespace EducationPortalConsoleApp.Controller
 {
+    using System;
+    using System.Linq;
+    using BusinessLogicLayer.Interfaces;
+    using DataAccessLayer.Entities;
+    using EducationPortal.PL.InstanceCreator;
+    using EducationPortal.PL.Mapping;
+    using EducationPortal.PL.Models;
+    using EducationPortalConsoleApp.Branch;
+    using EducationPortalConsoleApp.Interfaces;
+    using Entities;
+
     public class CourseController : ICourseController
     {
-        ICourseService courseService;
+        private ICourseService courseService;
 
         public CourseController(ICourseService courseService)
         {
@@ -23,40 +23,45 @@ namespace EducationPortalConsoleApp.Controller
         public void CreateNewCourse()
         {
             Console.Clear();
-            //Create course
+
+            // Create course
             CourseViewModel courseVM = CourseVMInstanceCreator.CreateCourse();
-            //mapping to Domain model
+
+            // mapping to Domain model
             var courseDomain = Mapping.CreateMapFromVMToDomain<CourseViewModel, Course>(courseVM);
-            bool success = courseService.CreateCourse(courseDomain);
+            bool success = this.courseService.CreateCourse(courseDomain);
 
             if (success)
             {
-                int courseId = courseService.GetAllCourses().Where(x => x.Name == courseVM.Name).FirstOrDefault().Id;
-                //Add materials to course
-                AddMaterialToCourse(courseId);
-                //Add skills to course
-                AddSkillsToCourse(courseId);
-                //go ro start menu
+                int courseId = this.courseService.GetAllCourses().Where(x => x.Name == courseVM.Name).FirstOrDefault().Id;
+
+                // Add materials to course
+                this.AddMaterialToCourse(courseId);
+
+                // Add skills to course
+                this.AddSkillsToCourse(courseId);
+
+                // go ro start menu
                 ProgramBranch.SelectFirstStepForAuthorizedUser();
             }
             else
             {
                 Console.WriteLine("Course exist");
-                //Go to start menu
+
+                // Go to start menu
                 ProgramBranch.SelectFirstStepForAuthorizedUser();
             }
         }
 
         private void AddMaterialToCourse(int courseId)
         {
-            string userChoice = String.Empty;
-
+            string userChoice;
             do
             {
                 Material materialDomain = ProgramBranch.SelectMaterialForAddToCourse();
 
-                //check, material exist in course, or no
-                if (!courseService.AddMaterialToCourse(courseId, materialDomain))
+                // check, material exist in course, or no
+                if (!this.courseService.AddMaterialToCourse(courseId, materialDomain))
                 {
                     Console.WriteLine("Material exist in course");
                 }
@@ -69,15 +74,17 @@ namespace EducationPortalConsoleApp.Controller
 
         private void AddSkillsToCourse(int courseId)
         {
-            string userChoice = String.Empty;
+            string userChoice;
 
             do
             {
                 Console.WriteLine("Add skill to your course: ");
-                //create skill
+
+                // create skill
                 var skillVM = SkillVMInstanceCreator.CreateSkill();
-                //add skill to course after mapping
-                courseService.AddSkillToCourse(courseId, Mapping.CreateMapFromVMToDomain<SkillViewModel, Skill>(skillVM));
+
+                // add skill to course after mapping
+                this.courseService.AddSkillToCourse(courseId, Mapping.CreateMapFromVMToDomain<SkillViewModel, Skill>(skillVM));
                 Console.WriteLine("Do you want to add one more skill (Enter YES)?");
                 userChoice = Console.ReadLine();
             }

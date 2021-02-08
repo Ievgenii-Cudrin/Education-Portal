@@ -1,16 +1,14 @@
-﻿using BusinessLogicLayer.Interfaces;
-using DataAccessLayer.Entities;
-using DataAccessLayer.Interfaces;
-using DataAccessLayer.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace BusinessLogicLayer.Services
+﻿namespace BusinessLogicLayer.Services
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using BusinessLogicLayer.Interfaces;
+    using DataAccessLayer.Entities;
+    using DataAccessLayer.Interfaces;
+
     public class SkillService : ISkillService
     {
-        IRepository<Skill> repository;
+        private readonly IRepository<Skill> repository;
 
         public SkillService(IRepository<Skill> repository)
         {
@@ -19,13 +17,13 @@ namespace BusinessLogicLayer.Services
 
         public bool CreateSkill(Skill skillToCreate)
         {
-            //check name, may be we have this skill
-            bool uniqueEmail = skillToCreate != null ? !repository.GetAll().Any(x => x.Name.ToLower().Equals(skillToCreate.Name.ToLower())) : false;
-            
-            //if name is unique => create new skill, otherwise skill == null
+            // check name, may be we have this skill
+            bool uniqueEmail = skillToCreate != null && !this.repository.GetAll().Any(x => x.Name.ToLower().Equals(skillToCreate.Name.ToLower()));
+
+            // if name is unique => create new skill, otherwise skill == null
             if (uniqueEmail)
             {
-                repository.Create(skillToCreate);
+                this.repository.Create(skillToCreate);
             }
             else
             {
@@ -37,7 +35,7 @@ namespace BusinessLogicLayer.Services
 
         public bool UpdateSkill(Skill skillToUpdate)
         {
-            Skill skill = repository.Get(skillToUpdate.Id);
+            Skill skill = this.repository.Get(skillToUpdate.Id);
 
             if (skill == null)
             {
@@ -46,7 +44,7 @@ namespace BusinessLogicLayer.Services
             else
             {
                 skill.Name = skillToUpdate.Name;
-                repository.Update(skill);
+                this.repository.Update(skill);
             }
 
             return true;
@@ -54,12 +52,12 @@ namespace BusinessLogicLayer.Services
 
         public IEnumerable<Skill> GetAllSkills()
         {
-            return repository.GetAll();
+            return this.repository.GetAll();
         }
 
         public bool Delete(int id)
         {
-            Skill skill = repository.Get(id);
+            Skill skill = this.repository.Get(id);
 
             if (skill == null)
             {
@@ -67,7 +65,7 @@ namespace BusinessLogicLayer.Services
             }
             else
             {
-                repository.Delete(id);
+                this.repository.Delete(id);
             }
 
             return true;
@@ -75,12 +73,12 @@ namespace BusinessLogicLayer.Services
 
         public Skill GetSkill(int id)
         {
-            return repository.Get(id);
+            return this.repository.Get(id);
         }
 
         public Skill GetSkillByName(string name)
         {
-            return repository.GetAll().Where(x => x.Name == name).FirstOrDefault();
+            return this.repository.GetAll().Where(x => x.Name == name).FirstOrDefault();
         }
     }
 }

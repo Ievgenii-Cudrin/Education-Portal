@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducationPortal.DAL", "Data
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducationPortal.PL", "EducationPortalConsoleApp\EducationPortal.PL.csproj", "{5B437A77-367F-4870-82D6-F7783796992F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLogicLayer", "BusinessLogicLayer\BusinessLogicLayer.csproj", "{0D1FC3EC-4AFB-4DFB-B9D1-DA840513C1BA}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BullsAndCows", "BullsAndCows\BullsAndCows.csproj", "{9277B0D7-28DC-462D-A577-C991C6B55810}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducationPortal.BLL", "BusinessLogicLayer\EducationPortal.BLL.csproj", "{C66440C8-EABB-48C8-9305-E645889DDF96}"
@@ -31,10 +29,6 @@ Global
 		{5B437A77-367F-4870-82D6-F7783796992F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B437A77-367F-4870-82D6-F7783796992F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B437A77-367F-4870-82D6-F7783796992F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0D1FC3EC-4AFB-4DFB-B9D1-DA840513C1BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0D1FC3EC-4AFB-4DFB-B9D1-DA840513C1BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0D1FC3EC-4AFB-4DFB-B9D1-DA840513C1BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0D1FC3EC-4AFB-4DFB-B9D1-DA840513C1BA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9277B0D7-28DC-462D-A577-C991C6B55810}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9277B0D7-28DC-462D-A577-C991C6B55810}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9277B0D7-28DC-462D-A577-C991C6B55810}.Release|Any CPU.ActiveCfg = Release|Any CPU

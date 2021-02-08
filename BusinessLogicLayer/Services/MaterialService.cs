@@ -1,84 +1,64 @@
-﻿using BusinessLogicLayer.Interfaces;
-using BusinessLogicLayer.Services;
-using DataAccessLayer.Entities;
-using DataAccessLayer.Interfaces;
-using DataAccessLayer.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
-using Entities;
-
-namespace EducationPortalConsoleApp.Services
+﻿namespace EducationPortalConsoleApp.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using BusinessLogicLayer.Interfaces;
+    using DataAccessLayer.Interfaces;
+    using Entities;
+
     public class MaterialService : IMaterialService
     {
-        IRepository<Material> repository;
-        List<Material> materialsFromDB;
+        private readonly IRepository<Material> repository;
+        private readonly List<Material> materialsFromDB;
+
         public MaterialService(IRepository<Material> repository)
         {
             this.repository = repository;
-            materialsFromDB = repository.GetAll().ToList();
+            this.materialsFromDB = repository.GetAll().ToList();
         }
 
         public bool CreateVideo(Video video)
         {
-            var videos = repository.GetAll().Where(x => x is Video).ToList();
-
+            var videos = this.repository.GetAll().Where(x => x is Video).ToList();
             int c = videos.Count;
-            //check name and link, may be we have this skill
+
+            // check name and link, may be we have this skill
             bool uniqueVideo = video != null &&
-                !materialsFromDB.Where(x => x is Video).Cast<Video>().Any(x =>
+                !this.materialsFromDB.Where(x => x is Video).Cast<Video>().Any(x =>
                 x.Name.ToLower().Equals(video.Name.ToLower()) &&
                 x.Link == video.Link);
-            
-            return SaveMaterialToDB(uniqueVideo, video);
+
+            return this.SaveMaterialToDB(uniqueVideo, video);
         }
 
         public bool CreateArticle(Article article)
         {
-            //check, it is unique article in db
+            // check, it is unique article in db
             bool uniqueArticle = article != null &&
-                !materialsFromDB.Where(x => x is Article).Cast<Article>().Any(x =>
+                !this.materialsFromDB.Where(x => x is Article).Cast<Article>().Any(x =>
                 x.Name.ToLower().Equals(article.Name.ToLower()) &&
                 x.PublicationDate == article.PublicationDate &&
                 x.Site == article.Site);
 
-            return SaveMaterialToDB(uniqueArticle, article);
+            return this.SaveMaterialToDB(uniqueArticle, article);
         }
 
         public bool CreateBook(Book book)
         {
-            //check, it is unique book in db
+            // check, it is unique book in db
             bool uniqueBook = book != null &&
-                !materialsFromDB.Where(x => x is Book).Cast<Book>().Any(x =>
+                !this.materialsFromDB.Where(x => x is Book).Cast<Book>().Any(x =>
                 x.Name.ToLower().Equals(book.Name.ToLower()) &&
                 x.Author == book.Author &&
                 x.CountOfPages == book.CountOfPages);
 
-            return SaveMaterialToDB(uniqueBook, book);
-        }
-
-        private bool SaveMaterialToDB(bool uniqueMaterial, Material material)
-        {
-            if (uniqueMaterial)
-            {
-                repository.Create(material);
-                materialsFromDB.Add(material);
-            }
-            else
-            {
-                return false;
-            }
-
-            return true;
+            return this.SaveMaterialToDB(uniqueBook, book);
         }
 
         public bool UpdateVideo(Video videoToUpdate)
         {
-            Video video = repository.Get(videoToUpdate.Id) as Video;
-
-            if (video == null)
+            if (!(this.repository.Get(videoToUpdate.Id) is Video video))
             {
                 return false;
             }
@@ -88,7 +68,7 @@ namespace EducationPortalConsoleApp.Services
                 video.Link = videoToUpdate.Link;
                 video.Quality = videoToUpdate.Quality;
                 video.Duration = videoToUpdate.Duration;
-                repository.Update(video);
+                this.repository.Update(video);
             }
 
             return true;
@@ -96,9 +76,7 @@ namespace EducationPortalConsoleApp.Services
 
         public bool UpdateArticle(Article articleToUpdate)
         {
-            Article article = repository.Get(articleToUpdate.Id) as Article;
-
-            if (article == null)
+            if (!(this.repository.Get(articleToUpdate.Id) is Article article))
             {
                 return false;
             }
@@ -107,7 +85,7 @@ namespace EducationPortalConsoleApp.Services
                 article.Name = articleToUpdate.Name;
                 article.Site = articleToUpdate.Site;
                 article.PublicationDate = articleToUpdate.PublicationDate;
-                repository.Update(article);
+                this.repository.Update(article);
             }
 
             return true;
@@ -115,9 +93,7 @@ namespace EducationPortalConsoleApp.Services
 
         public bool UpdateBook(Book bookToUpdate)
         {
-            Book book = repository.Get(bookToUpdate.Id) as Book;
-
-            if (book == null)
+            if (!(this.repository.Get(bookToUpdate.Id) is Book book))
             {
                 return false;
             }
@@ -126,7 +102,7 @@ namespace EducationPortalConsoleApp.Services
                 book.Name = bookToUpdate.Name;
                 book.Author = bookToUpdate.Author;
                 book.CountOfPages = bookToUpdate.CountOfPages;
-                repository.Update(book);
+                this.repository.Update(book);
             }
 
             return true;
@@ -134,12 +110,12 @@ namespace EducationPortalConsoleApp.Services
 
         public IEnumerable<Material> GetAllMaterials()
         {
-            return repository.GetAll();
+            return this.repository.GetAll();
         }
 
         public bool Delete(int id)
         {
-            Material material = repository.Get(id);
+            Material material = this.repository.Get(id);
 
             if (material == null)
             {
@@ -147,7 +123,7 @@ namespace EducationPortalConsoleApp.Services
             }
             else
             {
-                repository.Delete(id);
+                this.repository.Delete(id);
             }
 
             return true;
@@ -156,16 +132,33 @@ namespace EducationPortalConsoleApp.Services
         public Material GetMaterial(int id)
         {
             Material material;
+
             try
             {
-                material = repository.Get(id);
+                material = this.repository.Get(id);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 return null;
             }
+
             return material;
+        }
+
+        private bool SaveMaterialToDB(bool uniqueMaterial, Material material)
+        {
+            if (uniqueMaterial)
+            {
+                this.repository.Create(material);
+                this.materialsFromDB.Add(material);
+            }
+            else
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

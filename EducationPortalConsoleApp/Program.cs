@@ -1,8 +1,8 @@
-﻿using EducationPortalConsoleApp.Branch;
-using System;
-
-namespace EducationPortalConsoleApp
+﻿namespace EducationPortalConsoleApp
 {
+    using System;
+    using EducationPortalConsoleApp.Branch;
+
     class Program
     {
         static void Main()
