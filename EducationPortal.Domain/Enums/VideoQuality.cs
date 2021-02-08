@@ -11,6 +11,11 @@ namespace EducationPortal.Domain.Enums
         /// <summary>
         /// Represents P360.
         /// </summary>
+        P240,
+
+        /// <summary>
+        /// Represents P360.
+        /// </summary>
         P360,
 
         /// <summary>
