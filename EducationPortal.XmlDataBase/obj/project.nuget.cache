@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "EeRpA+SgoB8n7/Ae6nI7AyPnz5Q8DfcFwCynlpzXXG/h1XfGxCDdZAB/yDHUYt07wGTU3uzLEXqokRKK2ZA9hg==",
+  "dgSpecHash": "Wk9SEuPf98f3lEMDAu1NmbyyGn3SXZ0YMAV03P/XMKImUZWFnka75rk25pwPBy+HUbivNwPdZ7q7fysjSmiERA==",
   "success": true,
   "projectFilePath": "E:\\Projects\\Education-Portal\\EducationPortal.XmlDataBase\\EducationPortal.XmlDataBase.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\zhend\\.nuget\\packages\\stylecop.analyzers\\1.1.118\\stylecop.analyzers.1.1.118.nupkg.sha512"
+  ],
   "logs": []
 }
