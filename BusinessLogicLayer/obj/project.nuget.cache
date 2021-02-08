@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "tXniZtU889kBxQCpQHXQ8U6MRV9KGYbUKLrN8RdY7Vtb/Ia0HgKb+YJgheWPrJ+Pw2YxLpfxIQkY+2LsZ0+9mQ==",
+  "dgSpecHash": "Hs86IHXvNycVQPU1PgXx62kaDxMy5yVA/EqV1XKvRA8niI1D+l99KJOk0WSA2TcqxJSlmlU1hN3/L01/YPqsUw==",
   "success": true,
   "projectFilePath": "E:\\Projects\\Education-Portal\\BusinessLogicLayer\\EducationPortal.BLL.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\zhend\\.nuget\\packages\\automapper\\10.1.1\\automapper.10.1.1.nupkg.sha512",
     "C:\\Users\\zhend\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
+    "C:\\Users\\zhend\\.nuget\\packages\\stylecop.analyzers\\1.1.118\\stylecop.analyzers.1.1.118.nupkg.sha512",
     "C:\\Users\\zhend\\.nuget\\packages\\system.reflection.emit\\4.7.0\\system.reflection.emit.4.7.0.nupkg.sha512"
   ],
   "logs": []
