@@ -23,14 +23,14 @@
 
         [XmlArray("SkillArray")]
         [XmlArrayItem("SkillObjekt")]
-        public List<Skill> Skills { get; set; }
+        public ICollection<Skill> Skills { get; set; }
 
         [XmlArray("PassedCoursesArray")]
         [XmlArrayItem("PassedCourseObjekt")]
-        public List<Course> CoursesPassed { get; set; }
+        public ICollection<Course> CoursesPassed { get; set; }
 
         [XmlArray("InProgressCoursesArray")]
         [XmlArrayItem("InProgressCourseObjekt")]
-        public List<Course> CoursesInProgress { get; set; }
+        public ICollection<Course> CoursesInProgress { get; set; }
     }
 }

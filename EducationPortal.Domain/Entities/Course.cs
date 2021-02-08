@@ -19,11 +19,11 @@
 
         [XmlArray("SkillArray")]
         [XmlArrayItem("SkillObjekt")]
-        public List<Skill> Skills { get; set; }
+        public ICollection<Skill> Skills { get; set; }
 
         [XmlArray("MaterialArray")]
         [XmlArrayItem("MaterialObjekt")]
-        public List<Material> Materials { get; set; }
+        public ICollection<Material> Materials { get; set; }
 
         public override string ToString()
         {
