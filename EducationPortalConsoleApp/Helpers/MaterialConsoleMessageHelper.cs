@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer.Entities;
 using EducationPortal.PL.Models;
+using Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -35,8 +36,7 @@ namespace EducationPortalConsoleApp.Helpers
             "\n");
         }
 
-
-            public static void ShowVideoInfo(Material video)
+        public static void ShowVideoInfo(Material video)
         {
             Video copyOfInputParametrVideo = (Video)video;
             Console.WriteLine($"Id: {copyOfInputParametrVideo.Id}");
@@ -45,6 +45,7 @@ namespace EducationPortalConsoleApp.Helpers
             Console.WriteLine($"Video quality: {copyOfInputParametrVideo.Quality}");
             Console.WriteLine("---------------------------");
         }
+
         public static void ShowArticleInfo(Material article)
         {
             Article copyOfInputParametrArtivle = (Article)article;

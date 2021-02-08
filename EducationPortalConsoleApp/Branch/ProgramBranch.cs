@@ -5,6 +5,7 @@ using EducationPortalConsoleApp.Controller;
 using EducationPortalConsoleApp.DependencyInjection;
 using EducationPortalConsoleApp.Helpers;
 using EducationPortalConsoleApp.Interfaces;
+using Entities;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;

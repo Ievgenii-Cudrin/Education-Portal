@@ -7,6 +7,7 @@ using EducationPortalConsoleApp.Interfaces;
 using System.Linq;
 using System;
 using EducationPortalConsoleApp.Branch;
+using Entities;
 
 namespace EducationPortalConsoleApp.Controller
 {

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using BusinessLogicLayer.Interfaces;
 using BusinessLogicLayer.Services;
+using Entities;
 
 namespace EducationPortalConsoleApp.Services
 {

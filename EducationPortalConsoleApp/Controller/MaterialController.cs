@@ -8,6 +8,7 @@ using EducationPortalConsoleApp.Branch;
 using EducationPortalConsoleApp.Helpers;
 using EducationPortalConsoleApp.Interfaces;
 using EducationPortalConsoleApp.Services;
+using Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -5,6 +5,7 @@ using EducationPortal.PL.Interfaces;
 using EducationPortal.PL.Models;
 using EducationPortalConsoleApp.Branch;
 using EducationPortalConsoleApp.Interfaces;
+using Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

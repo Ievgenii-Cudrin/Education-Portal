@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer.Entities;
 using EducationPortal.PL.Models;
+using Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;

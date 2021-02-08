@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using BusinessLogicLayer.Interfaces;
+﻿using BusinessLogicLayer.Interfaces;
 using DataAccessLayer.Entities;
 using EducationPortal.PL.InstanceCreator;
 using EducationPortal.PL.Mapping;
@@ -7,6 +6,7 @@ using EducationPortal.PL.Models;
 using EducationPortalConsoleApp.Branch;
 using EducationPortalConsoleApp.Helpers;
 using EducationPortalConsoleApp.Interfaces;
+using Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
