@@ -105,7 +105,7 @@
 
         public List<Material> GetMaterialsFromCourse(int id)
         {
-            List<Material> materials = this.courseRepository.Get(id).Materials;
+            List<Material> materials = this.courseRepository.Get(id).Materials.ToList();
 
             if (materials != null)
             {
@@ -120,7 +120,7 @@
         public List<Skill> GetSkillsFromCourse(int id)
         {
             var course = this.courseRepository.Get(id);
-            List<Skill> skills = course.Skills;
+            List<Skill> skills = course.Skills.ToList();
 
             if (skills != null)
             {

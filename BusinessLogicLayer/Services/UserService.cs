@@ -164,7 +164,7 @@
 
             if (course != null)
             {
-                authorizedUser.CoursesInProgress.RemoveAll(x => x.Id == id);
+                authorizedUser.CoursesInProgress.ToList().RemoveAll(x => x.Id == id);
                 this.userRepository.Update(authorizedUser);
                 return true;
             }
@@ -177,6 +177,7 @@
         public bool AddCourseToPassed(int id)
         {
             Course course = this.courseRepository.Get(id);
+
             if (course != null)
             {
                 authorizedUser.CoursesPassed.Add(course);
@@ -206,7 +207,7 @@
 
         public List<Course> GetListWithCoursesInProgress()
         {
-            return authorizedUser.CoursesInProgress;
+            return authorizedUser.CoursesInProgress.ToList();
         }
 
         public List<Material> GetMaterialsFromCourseInProgress(int id)
@@ -226,7 +227,7 @@
 
         public List<Skill> GetAllUserSkills()
         {
-            return authorizedUser.Skills;
+            return authorizedUser.Skills.ToList();
         }
 
         public void UpdateCourseInProgress(int courseInProgressNotFinishId, List<Material> updatedMaterials)
