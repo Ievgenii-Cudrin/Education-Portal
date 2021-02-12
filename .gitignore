@@ -342,3 +342,5 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+EducationPortal.DALSql/EducationPortal.DALSql.csproj
+Education-Portal.sln
