@@ -1,6 +1,8 @@
 ﻿namespace DataAccessLayer.Entities
 {
+    using global::Entities;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations.Schema;
     using System.Diagnostics.CodeAnalysis;
     using System.Xml.Serialization;
 
@@ -27,8 +29,11 @@
 
         [XmlArray("PassedCoursesArray")]
         [XmlArrayItem("PassedCourseObjekt")]
-        public ICollection<Course> CoursesPassed { get; set; }
+        public ICollection<Course> Courses { get; set; }
 
+        public ICollection<Material> Materials { get; set; }
+
+        [NotMapped]
         [XmlArray("InProgressCoursesArray")]
         [XmlArrayItem("InProgressCourseObjekt")]
         public ICollection<Course> CoursesInProgress { get; set; }
