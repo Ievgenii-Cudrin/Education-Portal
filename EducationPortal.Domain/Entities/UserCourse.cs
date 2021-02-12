@@ -1,8 +1,9 @@
 ﻿namespace EducationPortal.Domain.Entities
 {
     using DataAccessLayer.Entities;
+    using System.Collections.Generic;
 
-    public class UserCourse
+    public class UserCourse : BaseEntity
     {
         public int UserId { get; set; }
 
@@ -11,5 +12,9 @@
         public int CourseId { get; set; }
 
         public Course Course { get; set; }
+
+        public bool IsPassed { get; set; }
+
+        public ICollection<ShowCourseMaterial> ShowCourseMaterials { get; set; }
     }
 }
