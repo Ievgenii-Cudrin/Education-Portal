@@ -1,10 +1,9 @@
 ﻿namespace DataAccessLayer.Entities
 {
-    using global::Entities;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Diagnostics.CodeAnalysis;
     using System.Xml.Serialization;
+    using global::Entities;
 
     [XmlType("User")]
     [XmlInclude(typeof(Skill))]

@@ -25,6 +25,8 @@
         [XmlArrayItem("MaterialObjekt")]
         public ICollection<Material> Materials { get; set; }
 
+        public ICollection<User> Users { get; set; }
+
         public override string ToString()
         {
             return $"\nName: {this.Name}" +

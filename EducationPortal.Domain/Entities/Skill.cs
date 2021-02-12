@@ -1,7 +1,6 @@
 ﻿namespace DataAccessLayer.Entities
 {
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Xml.Serialization;
 
     [XmlType("Skill")]
