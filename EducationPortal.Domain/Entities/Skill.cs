@@ -1,5 +1,6 @@
 ﻿namespace DataAccessLayer.Entities
 {
+    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Xml.Serialization;
 
@@ -11,5 +12,9 @@
 
         [XmlElement("CountOfPoint")]
         public int CountOfPoint { get; set; }
+
+        public ICollection<Course> Courses { get; set; }
+
+        public ICollection<User> Users { get; set; }
     }
 }
