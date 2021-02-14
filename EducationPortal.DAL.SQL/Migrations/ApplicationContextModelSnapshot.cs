@@ -18,21 +18,6 @@ namespace EducationPortal.DAL.SQL.Migrations
                 .HasAnnotation("ProductVersion", "5.0.3")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("CourseSkill", b =>
-                {
-                    b.Property<int>("CoursesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SkillsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CoursesId", "SkillsId");
-
-                    b.HasIndex("SkillsId");
-
-                    b.ToTable("CourseSkill");
-                });
-
             modelBuilder.Entity("DataAccessLayer.Entities.Course", b =>
                 {
                     b.Property<int>("Id")
@@ -84,31 +69,16 @@ namespace EducationPortal.DAL.SQL.Migrations
                     b.ToTable("CourseSkills");
                 });
 
-            modelBuilder.Entity("CourseSkill", b =>
-                {
-                    b.HasOne("DataAccessLayer.Entities.Course", null)
-                        .WithMany()
-                        .HasForeignKey("CoursesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DataAccessLayer.Entities.Skill", null)
-                        .WithMany()
-                        .HasForeignKey("SkillsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("EducationPortal.Domain.Entities.CourseSkill", b =>
                 {
                     b.HasOne("DataAccessLayer.Entities.Course", "Course")
-                        .WithMany()
+                        .WithMany("CourseSkills")
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DataAccessLayer.Entities.Skill", "Skill")
-                        .WithMany()
+                        .WithMany("CourseSkills")
                         .HasForeignKey("SkillId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -116,6 +86,16 @@ namespace EducationPortal.DAL.SQL.Migrations
                     b.Navigation("Course");
 
                     b.Navigation("Skill");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Entities.Course", b =>
+                {
+                    b.Navigation("CourseSkills");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Entities.Skill", b =>
+                {
+                    b.Navigation("CourseSkills");
                 });
 #pragma warning restore 612, 618
         }

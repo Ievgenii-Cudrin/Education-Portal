@@ -52,6 +52,14 @@ namespace EducationPortal.DAL.SQL.DataContext
             public void Configure(EntityTypeBuilder<CourseSkill> builder)
             {
                 builder.ToTable("CourseSkills").HasKey(s => new { s.CourseId, s.SkillId });
+
+                builder.HasOne<Course>(c => c.Course)
+                    .WithMany(s => s.CourseSkills)
+                    .HasForeignKey(s => s.CourseId);
+
+                builder.HasOne<Skill>(s => s.Skill)
+                    .WithMany(s => s.CourseSkills)
+                    .HasForeignKey(s => s.SkillId);
             }
         }
     }
