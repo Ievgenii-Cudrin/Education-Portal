@@ -2,7 +2,7 @@
 {
     using global::Entities;
 
-    public class ShowCourseMaterial
+    public class UserCourseMaterial
     {
         public int UserCourseId { get; set; }
 
