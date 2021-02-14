@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<User xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SkillArray />
-  <CourseArray />
-  <Name>Jo</Name>
-  <PhoneNumber>321654</PhoneNumber>
-  <Email>jo@gmail.com</Email>
-</User>

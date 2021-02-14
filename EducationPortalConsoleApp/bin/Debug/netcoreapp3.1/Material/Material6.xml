@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<Material xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="Article">
-  <Id>6</Id>
-  <Name>opa</Name>
-  <IsPassed>false</IsPassed>
-  <PublicationDate>1987-10-22T00:00:00</PublicationDate>
-  <Site>metanit.com</Site>
-</Material>
