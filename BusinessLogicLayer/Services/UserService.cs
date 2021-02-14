@@ -1,13 +1,13 @@
-﻿namespace EducationPortalConsoleApp.Services
-{
-    using System.Collections.Generic;
-    using System.Linq;
-    using BusinessLogicLayer.Interfaces;
-    using DataAccessLayer.Entities;
-    using DataAccessLayer.Interfaces;
-    using EducationPortal.Domain.Comparers;
-    using Entities;
+﻿using System.Collections.Generic;
+using System.Linq;
+using BusinessLogicLayer.Interfaces;
+using DataAccessLayer.Entities;
+using DataAccessLayer.Interfaces;
+using EducationPortal.Domain.Comparers;
+using Entities;
 
+namespace EducationPortalConsoleApp.Services
+{
     public class UserService : IUserService
     {
         private static User authorizedUser;
@@ -31,7 +31,7 @@
         public bool CreateUser(User user)
         {
             bool uniqueEmail = user != null && !this.userRepository.GetAll().Any(x => x.Email.ToLower().Equals(user.Email.ToLower()));
-
+            
             if (uniqueEmail)
             {
                 this.userRepository.Create(user);

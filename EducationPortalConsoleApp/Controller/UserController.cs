@@ -94,7 +94,7 @@ namespace EducationPortalConsoleApp.Controller
         public void ShowAllCourseInProggres()
         {
             // get courses in progress from bll and mapping
-            List<CourseViewModel> coursesInProgress = Mapping.CreateListMapFromVMToDomainWithIncludeLsitType<Course, CourseViewModel, Material, MaterialViewModel, Skill, SkillViewModel>(this.userService.AuthorizedUser.CoursesInProgress);
+            List<CourseViewModel> coursesInProgress = Mapping.CreateListMapFromVMToDomainWithIncludeLsitType<Course, CourseViewModel, Material, MaterialViewModel, Skill, SkillViewModel>(this.userService.AuthorizedUser.CoursesInProgress.ToList());
 
             if (coursesInProgress.Count == 0)
             {

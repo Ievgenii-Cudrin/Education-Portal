@@ -36,5 +36,11 @@
         [XmlArray("InProgressCoursesArray")]
         [XmlArrayItem("InProgressCourseObjekt")]
         public ICollection<Course> CoursesInProgress { get; set; }
+
+        [XmlArray("PassedCoursesArray")]
+        [XmlArrayItem("PassedCourseObjekt")]
+        public List<Course> CoursesPassed = new List<Course>();
+
+        public User() { }
     }
 }
