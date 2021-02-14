@@ -10,6 +10,7 @@ namespace EducationPortal.DAL.SQL.DataContext
     public class ApplicationContext : DbContext
     {
         public DbSet<Skill> Skills { get; set; }
+        public DbSet<Course> Courses { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -19,6 +20,7 @@ namespace EducationPortal.DAL.SQL.DataContext
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new SkillConfiguration());
+            modelBuilder.ApplyConfiguration(new CourseConfiguration());
 
         }
 
@@ -27,6 +29,14 @@ namespace EducationPortal.DAL.SQL.DataContext
             public void Configure(EntityTypeBuilder<Skill> builder)
             {
                 builder.ToTable("Skills").HasKey(s => s.Id);
+            }
+        }
+
+        public class CourseConfiguration : IEntityTypeConfiguration<Course>
+        {
+            public void Configure(EntityTypeBuilder<Course> builder)
+            {
+                builder.ToTable("Courses").HasKey(s => s.Id);
             }
         }
     }
