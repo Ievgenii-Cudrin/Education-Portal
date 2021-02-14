@@ -1,9 +1,11 @@
 ﻿namespace DataAccessLayer.Entities
 {
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations.Schema;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Xml.Serialization;
+    using EducationPortal.Domain.Entities;
     using global::Entities;
 
     [XmlType("Course")]
@@ -17,15 +19,24 @@
         [XmlElement("Description")]
         public string Description { get; set; }
 
+        [NotMapped]
         [XmlArray("SkillArray")]
         [XmlArrayItem("SkillObjekt")]
         public ICollection<Skill> Skills { get; set; }
 
+        [NotMapped]
         [XmlArray("MaterialArray")]
         [XmlArrayItem("MaterialObjekt")]
         public ICollection<Material> Materials { get; set; }
 
-        public ICollection<User> Users { get; set; }
+        [XmlIgnore]
+        public ICollection<CourseSkill> CourseSkills { get; set; }
+
+        [XmlIgnore]
+        public ICollection<UserCourse> CourseUsers { get; set; }
+
+        [XmlIgnore]
+        public ICollection<CourseMaterial> CourseMaterials { get; set; }
 
         public override string ToString()
         {

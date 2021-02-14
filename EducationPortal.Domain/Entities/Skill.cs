@@ -1,6 +1,8 @@
 ﻿namespace DataAccessLayer.Entities
 {
+    using EducationPortal.Domain.Entities;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations.Schema;
     using System.Xml.Serialization;
 
     [XmlType("Skill")]
@@ -12,8 +14,10 @@
         [XmlElement("CountOfPoint")]
         public int CountOfPoint { get; set; }
 
-        public ICollection<Course> Courses { get; set; }
+        [XmlIgnore]
+        public ICollection<CourseSkill> CourseSkills { get; set; }
 
-        public ICollection<User> Users { get; set; }
+        [XmlIgnore]
+        public ICollection<UserSkill> UserSkills { get; set; }
     }
 }

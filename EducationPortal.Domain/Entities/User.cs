@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Xml.Serialization;
+    using EducationPortal.Domain.Entities;
     using global::Entities;
 
     [XmlType("User")]
@@ -22,24 +23,29 @@
         [XmlElement("Email")]
         public string Email { get; set; }
 
+        [NotMapped]
         [XmlArray("SkillArray")]
         [XmlArrayItem("SkillObjekt")]
         public ICollection<Skill> Skills { get; set; }
 
+        [NotMapped]
         [XmlArray("PassedCoursesArray")]
         [XmlArrayItem("PassedCourseObjekt")]
-        public ICollection<Course> Courses { get; set; }
-
-        public ICollection<Material> Materials { get; set; }
+        public ICollection<Course> CoursesPassed { get; set; }
 
         [NotMapped]
         [XmlArray("InProgressCoursesArray")]
         [XmlArrayItem("InProgressCourseObjekt")]
         public ICollection<Course> CoursesInProgress { get; set; }
 
-        [XmlArray("PassedCoursesArray")]
-        [XmlArrayItem("PassedCourseObjekt")]
-        public List<Course> CoursesPassed = new List<Course>();
+        [XmlIgnore]
+        public ICollection<UserSkill> UserSkills { get; set; }
+
+        [XmlIgnore]
+        public ICollection<UserCourse> UserCourses { get; set; }
+
+        [XmlIgnore]
+        public ICollection<UserMaterial> UserMaterials { get; set; }
 
         public User() { }
     }

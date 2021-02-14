@@ -15,6 +15,6 @@
 
         public bool IsPassed { get; set; }
 
-        public ICollection<ShowCourseMaterial> ShowCourseMaterials { get; set; }
+        public ICollection<UserCourseMaterial> UserCourseMaterials { get; set; }
     }
 }

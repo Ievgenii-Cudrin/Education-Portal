@@ -17,10 +17,13 @@
         [XmlElement("IsPassed")]
         public bool IsPassed { get; set; }
 
-        public ICollection<ShowCourseMaterial> ShowCourseMaterials { get; set; }
+        [XmlIgnore]
+        public ICollection<UserCourseMaterial> UserCourseMaterials { get; set; }
 
-        public ICollection<User> Users { get; set; }
+        [XmlIgnore]
+        public ICollection<UserMaterial> UserMaterials { get; set; }
 
-        public ICollection<Course> Courses { get; set; }
+        [XmlIgnore]
+        public ICollection<CourseMaterial> CourseMaterials { get; set; }
     }
 }
