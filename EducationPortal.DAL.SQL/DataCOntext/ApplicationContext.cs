@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer.Entities;
+using EducationPortal.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -10,7 +11,11 @@ namespace EducationPortal.DAL.SQL.DataContext
     public class ApplicationContext : DbContext
     {
         public DbSet<Skill> Skills { get; set; }
+
         public DbSet<Course> Courses { get; set; }
+
+        public DbSet<CourseSkill> CourseSkills { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -21,6 +26,7 @@ namespace EducationPortal.DAL.SQL.DataContext
         {
             modelBuilder.ApplyConfiguration(new SkillConfiguration());
             modelBuilder.ApplyConfiguration(new CourseConfiguration());
+            modelBuilder.ApplyConfiguration(new CourseSkillConfiguration());
 
         }
 
@@ -29,6 +35,7 @@ namespace EducationPortal.DAL.SQL.DataContext
             public void Configure(EntityTypeBuilder<Skill> builder)
             {
                 builder.ToTable("Skills").HasKey(s => s.Id);
+
             }
         }
 
@@ -37,6 +44,14 @@ namespace EducationPortal.DAL.SQL.DataContext
             public void Configure(EntityTypeBuilder<Course> builder)
             {
                 builder.ToTable("Courses").HasKey(s => s.Id);
+            }
+        }
+
+        public class CourseSkillConfiguration : IEntityTypeConfiguration<CourseSkill>
+        {
+            public void Configure(EntityTypeBuilder<CourseSkill> builder)
+            {
+                builder.ToTable("CourseSkills").HasKey(s => new { s.CourseId, s.SkillId });
             }
         }
     }
