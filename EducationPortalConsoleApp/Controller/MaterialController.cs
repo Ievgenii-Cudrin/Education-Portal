@@ -1,38 +1,35 @@
-﻿using AutoMapper;
-using BusinessLogicLayer.Interfaces;
-using DataAccessLayer.Entities;
-using EducationPortal.PL.InstanceCreator;
-using EducationPortal.PL.Mapping;
-using EducationPortal.PL.Models;
-using EducationPortalConsoleApp.Branch;
-using EducationPortalConsoleApp.Helpers;
-using EducationPortalConsoleApp.Interfaces;
-using EducationPortalConsoleApp.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace EducationPortalConsoleApp.Controller
+﻿namespace EducationPortalConsoleApp.Controller
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using BusinessLogicLayer.Interfaces;
+    using EducationPortal.PL.InstanceCreator;
+    using EducationPortal.PL.Mapping;
+    using EducationPortal.PL.Models;
+    using EducationPortalConsoleApp.Helpers;
+    using EducationPortalConsoleApp.Interfaces;
+    using Entities;
+
     public class MaterialController : IMaterialController
     {
-        IMaterialService materialService;
+        private readonly IMaterialService materialService;
 
         public MaterialController(IMaterialService materialService)
         {
             this.materialService = materialService;
         }
 
-        
         public Material CreateVideo()
         {
-            //create video
+            // create video
             VideoViewModel materialVM = VideoVMInstanceCreator.CreateVideo();
-            //mapping
+
+            // mapping
             var videoMap = Mapping.CreateMapFromVMToDomainWithIncludeVideoType<MaterialViewModel, Material, VideoViewModel, Video>(materialVM);
 
-            //add video to db
-            bool success = materialService.CreateVideo(Mapping.CreateMapFromVMToDomain<VideoViewModel, Video>(materialVM));
+            // add video to db
+            bool success = this.materialService.CreateVideo(Mapping.CreateMapFromVMToDomain<VideoViewModel, Video>(materialVM));
 
             if (success)
             {
@@ -46,13 +43,14 @@ namespace EducationPortalConsoleApp.Controller
 
         public Material CreateArticle()
         {
-            //create article
+            // create article
             ArticleViewModel articleVM = ArticleVMInstanceCreator.CreateArticle();
-            //mapping
+
+            // mapping
             var articleMap = Mapping.CreateMapFromVMToDomainWithIncludeVideoType<MaterialViewModel, Material, ArticleViewModel, Article>(articleVM);
 
-            //add article to db
-            bool success = materialService.CreateArticle(Mapping.CreateMapFromVMToDomain<ArticleViewModel, Article>(articleVM));
+            // add article to db
+            bool success = this.materialService.CreateArticle(Mapping.CreateMapFromVMToDomain<ArticleViewModel, Article>(articleVM));
 
             if (success)
             {
@@ -66,13 +64,14 @@ namespace EducationPortalConsoleApp.Controller
 
         public Material CreateBook()
         {
-            //create book
+            // create book
             BookViewModel bookVM = BookVMInstanceCreator.CreateBook();
-            //mapping
+
+            // mapping
             var bookMap = Mapping.CreateMapFromVMToDomainWithIncludeVideoType<MaterialViewModel, Material, BookViewModel, Book>(bookVM);
 
-            //add book to db
-            bool success = materialService.CreateBook(Mapping.CreateMapFromVMToDomain<BookViewModel, Book>(bookVM));
+            // add book to db
+            bool success = this.materialService.CreateBook(Mapping.CreateMapFromVMToDomain<BookViewModel, Book>(bookVM));
 
             if (success)
             {
@@ -86,12 +85,11 @@ namespace EducationPortalConsoleApp.Controller
 
         public Material GetMaterialFromAllMaterials()
         {
-            //mapping from domain to viewmodel
-            List<MaterialViewModel> materialsVM1 = GetAllMaterialVMAfterMappingFromMaterialDomain(materialService.GetAllMaterials().ToList());
+            // mapping from domain to viewmodel
+            List<MaterialViewModel> materialsVM1 = this.GetAllMaterialVMAfterMappingFromMaterialDomain(this.materialService.GetAllMaterials().ToList());
 
-            //ShowMaterials
+            // ShowMaterials
             MaterialConsoleMessageHelper.ShowMaterial(materialsVM1);
-
             Console.Write("\nEnter material id: ");
             int id;
 
@@ -103,10 +101,10 @@ namespace EducationPortalConsoleApp.Controller
             {
                 id = 0;
                 Console.WriteLine($"Invalid value");
-                GetMaterialFromAllMaterials();
+                this.GetMaterialFromAllMaterials();
             }
 
-            return materialService.GetMaterial(id);
+            return this.materialService.GetMaterial(id);
         }
 
         public List<MaterialViewModel> GetAllMaterialVMAfterMappingFromMaterialDomain(List<Material> materialsListDomain)

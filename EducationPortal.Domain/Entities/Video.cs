@@ -1,11 +1,9 @@
-﻿using EducationPortal.Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml.Serialization;
-
-namespace DataAccessLayer.Entities
+﻿namespace Entities
 {
+    using System.Diagnostics.CodeAnalysis;
+    using System.Xml.Serialization;
+    using EducationPortal.Domain.Enums;
+
     [XmlType("Video")]
     public class Video : Material
     {
@@ -21,10 +19,10 @@ namespace DataAccessLayer.Entities
         public override string ToString()
         {
             return $"Type: Video" +
-                $"\nName: {Name}" +
-                $"\nLink: {Link}" +
-                $"\nVideo quality: {Quality}" +
-                $"\nVideo duration: {Duration}";
+                $"\nName: {this.Name}" +
+                $"\nLink: {this.Link}" +
+                $"\nVideo quality: {this.Quality}" +
+                $"\nVideo duration: {this.Duration}";
         }
     }
 }

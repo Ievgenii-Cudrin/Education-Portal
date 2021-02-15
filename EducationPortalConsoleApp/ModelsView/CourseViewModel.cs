@@ -10,9 +10,8 @@ namespace EducationPortal.PL.Models
 
         public string Description { get; set; }
 
-        public List<SkillViewModel> Skills = new List<SkillViewModel>();
+        public List<SkillViewModel> Skills { get; set; }
 
-        public List<MaterialViewModel> Materials = new List<MaterialViewModel>();
-
+        public List<MaterialViewModel> Materials { get; set; }
     }
 }

@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml.Serialization;
-
-namespace DataAccessLayer.Entities
+﻿namespace Entities
 {
+    using System.Collections.Generic;
+    using System.Xml.Serialization;
+    using DataAccessLayer.Entities;
+    using EducationPortal.Domain.Entities;
+
     [XmlType("Material")] // define Type
-    [XmlInclude(typeof(Video)), XmlInclude(typeof(Book)), XmlInclude(typeof(Article))]
+    [XmlInclude(typeof(Video))]
+    [XmlInclude(typeof(Book))]
+    [XmlInclude(typeof(Article))]
     public class Material : BaseEntity
     {
         [XmlElement("Name")]
@@ -14,5 +16,14 @@ namespace DataAccessLayer.Entities
 
         [XmlElement("IsPassed")]
         public bool IsPassed { get; set; }
+
+        [XmlIgnore]
+        public ICollection<UserCourseMaterial> UserCourseMaterials { get; set; }
+
+        [XmlIgnore]
+        public ICollection<UserMaterial> UserMaterials { get; set; }
+
+        [XmlIgnore]
+        public ICollection<CourseMaterial> CourseMaterials { get; set; }
     }
 }

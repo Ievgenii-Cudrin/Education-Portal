@@ -1,11 +1,8 @@
-﻿using EducationPortal.PL.Models;
-using EducationPortalConsoleApp.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EducationPortal.PL.InstanceCreator
+﻿namespace EducationPortal.PL.InstanceCreator
 {
+    using EducationPortal.PL.Models;
+    using EducationPortalConsoleApp.Helpers;
+
     public static class VideoVMInstanceCreator
     {
         public static VideoViewModel CreateVideo()
@@ -15,7 +12,7 @@ namespace EducationPortal.PL.InstanceCreator
                 Name = GetDataHelper.GetNameFromUser(),
                 Link = GetDataHelper.GetSiteAddressFromUser(),
                 Duration = GetDataHelper.GetVideoDuration(),
-                Quality = GetDataHelper.GetVideoQuality()
+                Quality = GetDataHelper.GetVideoQuality(),
             };
 
             return video;

@@ -1,10 +1,8 @@
-﻿using DataAccessLayer.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BusinessLogicLayer.Interfaces
+﻿namespace BusinessLogicLayer.Interfaces
 {
+    using System.Collections.Generic;
+    using Entities;
+
     public interface IMaterialService : IDeleteEntity
     {
         public bool CreateVideo(Video video);

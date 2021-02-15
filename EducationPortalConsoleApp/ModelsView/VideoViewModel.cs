@@ -1,10 +1,7 @@
-﻿using EducationPortal.PL.EnumViewModel;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EducationPortal.PL.Models
+﻿namespace EducationPortal.PL.Models
 {
+    using EducationPortal.PL.EnumViewModel;
+
     public class VideoViewModel : MaterialViewModel
     {
         public string Link { get; set; }
@@ -16,10 +13,10 @@ namespace EducationPortal.PL.Models
         public override string ToString()
         {
             return $"Type: Video" +
-                $"\nName: {Name}" +
-                $"\nLink: {Link}" +
-                $"\nVideo quality: {Quality}" +
-                $"\nVideo duration: {Duration}";
+                $"\nName: {this.Name}" +
+                $"\nLink: {this.Link}" +
+                $"\nVideo quality: {this.Quality}" +
+                $"\nVideo duration: {this.Duration}";
         }
     }
 }

@@ -13,9 +13,9 @@ namespace EducationPortal.PL.Models
         public override string ToString()
         {
             return $"Type: Book" +
-                $"\nName: {Name}" +
-                $"\nCountOfPages: {CountOfPages}" +
-                $"\nAuthor: {Author}";
+                $"\nName: {this.Name}" +
+                $"\nCountOfPages: {this.CountOfPages}" +
+                $"\nAuthor: {this.Author}";
         }
     }
 }

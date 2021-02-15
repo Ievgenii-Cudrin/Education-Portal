@@ -1,11 +1,8 @@
-﻿using EducationPortal.PL.Models;
-using EducationPortalConsoleApp.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EducationPortal.PL.InstanceCreator
+﻿namespace EducationPortal.PL.InstanceCreator
 {
+    using EducationPortal.PL.Models;
+    using EducationPortalConsoleApp.Helpers;
+
     public static class BookVMInstanceCreator
     {
         public static BookViewModel CreateBook()
@@ -14,7 +11,7 @@ namespace EducationPortal.PL.InstanceCreator
             {
                 Name = GetDataHelper.GetNameFromUser(),
                 Author = GetDataHelper.GetAuthorNameFromUser(),
-                CountOfPages = GetDataHelper.GetCountOfBookPages()
+                CountOfPages = GetDataHelper.GetCountOfBookPages(),
             };
 
             return book;

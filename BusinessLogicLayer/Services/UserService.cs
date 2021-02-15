@@ -1,19 +1,18 @@
-﻿using DataAccessLayer.Entities;
-using DataAccessLayer.Interfaces;
-using DataAccessLayer.Repositories;
-using System.Linq;
-using System;
-using System.Collections.Generic;
-using BusinessLogicLayer.Interfaces;
-using BusinessLogicLayer.Services;
-
-namespace EducationPortalConsoleApp.Services
+﻿namespace EducationPortalConsoleApp.Services
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using BusinessLogicLayer.Interfaces;
+    using DataAccessLayer.Entities;
+    using DataAccessLayer.Interfaces;
+    using EducationPortal.Domain.Comparers;
+    using Entities;
+
     public class UserService : IUserService
     {
-        IRepository<User> userRepository;
-        IRepository<Course> courseRepository;
-        static User authorizedUser;
+        private static User authorizedUser;
+        private readonly IRepository<User> userRepository;
+        private readonly IRepository<Course> courseRepository;
 
         public UserService(IRepository<User> repository, IRepository<Course> courseRepository)
         {
@@ -31,13 +30,11 @@ namespace EducationPortalConsoleApp.Services
 
         public bool CreateUser(User user)
         {
-            //check email, may be we have this email
-            bool uniqueEmail = user != null ? !userRepository.GetAll().Any(x => x.Email.ToLower().Equals(user.Email.ToLower())) : false;
-            
-            //if unique emaeil => create new user, otherwise user == null
+            bool uniqueEmail = user != null && !this.userRepository.GetAll().Any(x => x.Email.ToLower().Equals(user.Email.ToLower()));
+
             if (uniqueEmail)
             {
-                userRepository.Create(user);
+                this.userRepository.Create(user);
             }
             else
             {
@@ -49,7 +46,7 @@ namespace EducationPortalConsoleApp.Services
 
         public bool VerifyUser(string name, string password)
         {
-            User user = userRepository.GetAll().Where(x => x.Name.ToLower() == name.ToLower() && x.Password == password).FirstOrDefault();
+            User user = this.userRepository.GetAll().Where(x => x.Name.ToLower() == name.ToLower() && x.Password == password).FirstOrDefault();
 
             if (user == null)
             {
@@ -65,14 +62,13 @@ namespace EducationPortalConsoleApp.Services
 
         public bool LogOut()
         {
-            //Think about this method
             authorizedUser = null;
             return true;
         }
 
         public bool UpdateUser(User userToUpdate)
         {
-            User user = userRepository.Get(authorizedUser.Id);
+            User user = this.userRepository.Get(authorizedUser.Id);
 
             if (user == null)
             {
@@ -84,7 +80,7 @@ namespace EducationPortalConsoleApp.Services
                 user.Password = userToUpdate.Password;
                 user.Email = userToUpdate.Email;
                 user.PhoneNumber = userToUpdate.PhoneNumber;
-                userRepository.Update(user);
+                this.userRepository.Update(user);
             }
 
             return true;
@@ -92,12 +88,12 @@ namespace EducationPortalConsoleApp.Services
 
         public IEnumerable<User> GetAllUsers()
         {
-            return userRepository.GetAll();
+            return this.userRepository.GetAll();
         }
 
         public bool Delete(int id)
         {
-            User user = userRepository.Get(id);
+            User user = this.userRepository.Get(id);
 
             if (user == null)
             {
@@ -105,7 +101,7 @@ namespace EducationPortalConsoleApp.Services
             }
             else
             {
-                userRepository.Delete(id);
+                this.userRepository.Delete(id);
             }
 
             return true;
@@ -113,7 +109,7 @@ namespace EducationPortalConsoleApp.Services
 
         public bool AddSkill(Skill skill)
         {
-            if(skill == null)
+            if (skill == null)
             {
                 return false;
             }
@@ -123,36 +119,37 @@ namespace EducationPortalConsoleApp.Services
             if (!skillExistInUser)
             {
                 authorizedUser.Skills.Add(skill);
-                userRepository.Update(authorizedUser);
+                this.userRepository.Update(authorizedUser);
                 return true;
             }
             else
             {
-                foreach(var skillUser in authorizedUser.Skills)
+                foreach (var skillUser in authorizedUser.Skills)
                 {
-                    if(skillUser.Name == skill.Name)
+                    if (skillUser.Name == skill.Name)
                     {
                         skillUser.CountOfPoint++;
                     }
                 }
 
-                userRepository.Update(authorizedUser);
+                this.userRepository.Update(authorizedUser);
                 return true;
             }
         }
 
         public IEnumerable<Skill> GetUserSkills()
         {
-            return userRepository.Get(authorizedUser.Id).Skills;
+            return this.userRepository.Get(authorizedUser.Id).Skills;
         }
 
         public bool AddCourseInProgress(int id)
         {
-            Course course = courseRepository.Get(id);
+            Course course = this.courseRepository.Get(id);
+
             if (course != null)
             {
                 authorizedUser.CoursesInProgress.Add(course);
-                userRepository.Update(authorizedUser);
+                this.userRepository.Update(authorizedUser);
                 return true;
             }
             else
@@ -163,11 +160,12 @@ namespace EducationPortalConsoleApp.Services
 
         public bool DeleteCourseFromProgress(int id)
         {
-            Course course = courseRepository.Get(id);
+            Course course = this.courseRepository.Get(id);
+
             if (course != null)
             {
-                authorizedUser.CoursesInProgress.RemoveAll(x => x.Id == id);
-                userRepository.Update(authorizedUser);
+                authorizedUser.CoursesInProgress.ToList().RemoveAll(x => x.Id == id);
+                this.userRepository.Update(authorizedUser);
                 return true;
             }
             else
@@ -178,11 +176,12 @@ namespace EducationPortalConsoleApp.Services
 
         public bool AddCourseToPassed(int id)
         {
-            Course course = courseRepository.Get(id);
+            Course course = this.courseRepository.Get(id);
+
             if (course != null)
             {
                 authorizedUser.CoursesPassed.Add(course);
-                userRepository.Update(authorizedUser);
+                this.userRepository.Update(authorizedUser);
                 return true;
             }
             else
@@ -195,9 +194,9 @@ namespace EducationPortalConsoleApp.Services
         {
             try
             {
-                //find course in progress list and find material from this course, set true
+                // find course in progress list and find material from this course, set true
                 authorizedUser.CoursesInProgress.Where(x => x.Id == courseId).FirstOrDefault().Materials.Where(x => x.Id == materialId).FirstOrDefault().IsPassed = true;
-                userRepository.Update(authorizedUser);
+                this.userRepository.Update(authorizedUser);
                 return true;
             }
             catch
@@ -208,7 +207,7 @@ namespace EducationPortalConsoleApp.Services
 
         public List<Course> GetListWithCoursesInProgress()
         {
-            return authorizedUser.CoursesInProgress;
+            return authorizedUser.CoursesInProgress.ToList();
         }
 
         public List<Material> GetMaterialsFromCourseInProgress(int id)
@@ -223,20 +222,20 @@ namespace EducationPortalConsoleApp.Services
 
         public List<Course> GetAvailableCoursesForUser()
         {
-            return courseRepository.GetAll().Except(authorizedUser.CoursesPassed, new CourseComparer()).ToList();
+            return this.courseRepository.GetAll().Except(authorizedUser.CoursesPassed, new CourseComparer()).ToList();
         }
 
         public List<Skill> GetAllUserSkills()
         {
-            return authorizedUser.Skills;
+            return authorizedUser.Skills.ToList();
         }
 
         public void UpdateCourseInProgress(int courseInProgressNotFinishId, List<Material> updatedMaterials)
         {
-            if(updatedMaterials != null)
+            if (updatedMaterials != null)
             {
                 authorizedUser.CoursesInProgress.Where(x => x.Id == courseInProgressNotFinishId).FirstOrDefault().Materials = updatedMaterials;
-                userRepository.Update(authorizedUser);
+                this.userRepository.Update(authorizedUser);
             }
         }
     }

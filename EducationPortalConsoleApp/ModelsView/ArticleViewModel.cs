@@ -13,9 +13,9 @@ namespace EducationPortal.PL.Models
         public override string ToString()
         {
             return $"Type: Article" +
-                $"\nName: {Name}" +
-                $"\nPublicationDate: {PublicationDate}" +
-                $"\nSite: {Site}";
+                $"\nName: {this.Name}" +
+                $"\nPublicationDate: {this.PublicationDate}" +
+                $"\nSite: {this.Site}";
         }
     }
 }
