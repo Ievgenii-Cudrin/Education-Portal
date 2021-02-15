@@ -1,11 +1,8 @@
-﻿using EducationPortal.PL.Models;
-using EducationPortalConsoleApp.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EducationPortal.PL.InstanceCreator
+﻿namespace EducationPortal.PL.InstanceCreator
 {
+    using EducationPortal.PL.Models;
+    using EducationPortalConsoleApp.Helpers;
+
     public static class UserVMInstanceCreator
     {
         public static UserViewModel CreateUser()
@@ -15,7 +12,7 @@ namespace EducationPortal.PL.InstanceCreator
                 Name = GetDataHelper.GetNameFromUser(),
                 Email = GetDataHelper.GetEmailFromUser(),
                 Password = GetDataHelper.GetPasswordWithConfirmFromUser(),
-                PhoneNumber = GetDataHelper.GetPhoneNumberFromUser()
+                PhoneNumber = GetDataHelper.GetPhoneNumberFromUser(),
             };
 
             return user;

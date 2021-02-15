@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DataAccessLayer.Interfaces
+﻿namespace DataAccessLayer.Interfaces
 {
-    public interface IRepository<T> where T : class
+    using System.Collections.Generic;
+
+    public interface IRepository<T>
+        where T : class
     {
         public IEnumerable<T> GetAll();
 

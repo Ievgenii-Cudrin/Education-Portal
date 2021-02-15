@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml.Serialization;
-
-namespace DataAccessLayer.Entities
+﻿namespace DataAccessLayer.Entities
 {
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Xml.Serialization;
+    using EducationPortal.Domain.Entities;
+    using global::Entities;
+
     [XmlType("User")]
-    [XmlInclude(typeof(Skill)), XmlInclude(typeof(Course))]
+    [XmlInclude(typeof(Skill))]
+    [XmlInclude(typeof(Course))]
     public class User : BaseEntity
     {
         [XmlElement("Name")]
@@ -21,18 +23,29 @@ namespace DataAccessLayer.Entities
         [XmlElement("Email")]
         public string Email { get; set; }
 
+        [NotMapped]
         [XmlArray("SkillArray")]
         [XmlArrayItem("SkillObjekt")]
-        public List<Skill> Skills = new List<Skill>();
+        public ICollection<Skill> Skills { get; set; }
 
+        [NotMapped]
         [XmlArray("PassedCoursesArray")]
         [XmlArrayItem("PassedCourseObjekt")]
-        public List<Course> CoursesPassed = new List<Course>();
+        public ICollection<Course> CoursesPassed { get; set; }
 
-
+        [NotMapped]
         [XmlArray("InProgressCoursesArray")]
         [XmlArrayItem("InProgressCourseObjekt")]
-        public List<Course> CoursesInProgress = new List<Course>();
+        public ICollection<Course> CoursesInProgress { get; set; }
+
+        [XmlIgnore]
+        public ICollection<UserSkill> UserSkills { get; set; }
+
+        [XmlIgnore]
+        public ICollection<UserCourse> UserCourses { get; set; }
+
+        [XmlIgnore]
+        public ICollection<UserMaterial> UserMaterials { get; set; }
 
         public User() { }
     }

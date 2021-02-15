@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EducationPortal.PL.EnumViewModel
+﻿namespace EducationPortal.PL.EnumViewModel
 {
     public enum VideoQualityViewModel
     {
@@ -13,6 +9,6 @@ namespace EducationPortal.PL.EnumViewModel
         P720,
         P1080,
         P1440,
-        P2160
+        P2160,
     }
 }

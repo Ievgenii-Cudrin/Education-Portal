@@ -1,10 +1,8 @@
-﻿using DataAccessLayer.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BusinessLogicLayer.Interfaces
+﻿namespace BusinessLogicLayer.Interfaces
 {
+    using System.Collections.Generic;
+    using DataAccessLayer.Entities;
+
     public interface ISkillService : IDeleteEntity
     {
         public bool CreateSkill(Skill skill);

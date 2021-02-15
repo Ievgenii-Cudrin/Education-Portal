@@ -1,25 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Xml.Serialization;
+using Entities;
 
-namespace DataAccessLayer.Entities
+[XmlType("Article")]
+public class Article : Material
 {
-    [XmlType("Article")]
-    public class Article : Material
+    [XmlElement("PublicationDate")]
+    public DateTime PublicationDate { get; set; }
+
+    [XmlElement("Site")]
+    public string Site { get; set; }
+
+    public override string ToString()
     {
-        [XmlElement("PublicationDate")]
-        public DateTime PublicationDate { get; set; }
-
-        [XmlElement("Site")]
-        public string Site { get; set; }
-
-        public override string ToString()
-        {
-            return $"Type: Article" +
-                $"\nName: {Name}" +
-                $"\nPublicationDate: {PublicationDate}" +
-                $"\nSite: {Site}";
-        }
+        return $"Type: Article" +
+            $"\nName: {this.Name}" +
+            $"\nPublicationDate: {this.PublicationDate}" +
+            $"\nSite: {this.Site}";
     }
 }

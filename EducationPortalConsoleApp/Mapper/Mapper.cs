@@ -1,84 +1,93 @@
-﻿using AutoMapper;
-using DataAccessLayer.Entities;
-using EducationPortal.PL.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EducationPortal.PL.Mapping
+﻿namespace EducationPortal.PL.Mapping
 {
+    using System.Collections.Generic;
+    using AutoMapper;
+
     public static class Mapping
     {
-        public static N CreateMapFromVMToDomain<T, N>(T viewModelType)
+        public static TN CreateMapFromVMToDomain<T, TN>(T viewModelType)
         {
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<T, N>());
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<T, TN>());
             var mapper = new Mapper(config);
-            var domainAfterMapping = mapper.Map<T, N>(viewModelType);
+            var domainAfterMapping = mapper.Map<T, TN>(viewModelType);
 
             return domainAfterMapping;
         }
 
-        public static N CreateMapFromVMToDomainWithIncludeVideoType<T, N, IT, IN>(T viewModelType) where IT : T where IN : N
+        public static TN CreateMapFromVMToDomainWithIncludeVideoType<T, TN, TIT, TIN>(T viewModelType)
+            where TIT : T
+            where TIN : TN
         {
-            var configuration = new MapperConfiguration(cfg => {
-                cfg.CreateMap<T, N>()
-                    .Include<IT, IN>();
-                cfg.CreateMap<IT, IN>();
+            var configuration = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<T, TN>()
+                    .Include<TIT, TIN>();
+                cfg.CreateMap<TIT, TIN>();
             });
             var mapper = new Mapper(configuration);
-            var domainAfterMapping = mapper.Map<T, N>(viewModelType);
+            var domainAfterMapping = mapper.Map<T, TN>(viewModelType);
 
             return domainAfterMapping;
         }
 
-        public static List<N> CreateListMap<T, N>(List<T> list)
+        public static List<TN> CreateListMap<T, TN>(List<T> list)
         {
-            var configuration = new MapperConfiguration(cfg => cfg.CreateMap<T, N>());
+            var configuration = new MapperConfiguration(cfg => cfg.CreateMap<T, TN>());
             var mapper = new Mapper(configuration);
-            List<N> listDest = mapper.Map<List<T>, List<N>>(list);
+            List<TN> listDest = mapper.Map<List<T>, List<TN>>(list);
 
             return listDest;
         }
 
-        public static List<MV> CreateListMapFromVMToDomainWithIncludeMaterialType<MD, MV, VD, VV, AD, AV, BD, BV>(List<MD> viewModelType) where VD : MD where AD : MD where BD : MD where VV : MV where AV : MV where BV : MV
+        public static List<TMV> CreateListMapFromVMToDomainWithIncludeMaterialType<TMD, TMV, TVD, TVV, TAD, TAV, TBD, TBV>(List<TMD> viewModelType)
+            where TVD : TMD
+            where TAD : TMD
+            where TBD : TMD
+            where TVV : TMV
+            where TAV : TMV
+            where TBV : TMV
         {
-            var configuration = new MapperConfiguration(cfg => {
-                cfg.CreateMap<MD, MV>()
-                    .Include<VD, VV>()
-                    .Include<AD, AV>()
-                    .Include<BD, BV>(); 
-                cfg.CreateMap<BD, BV>();
-                cfg.CreateMap<VD, VV>();
-                cfg.CreateMap<AD, AV>();
+            var configuration = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<TMD, TMV>()
+                    .Include<TVD, TVV>()
+                    .Include<TAD, TAV>()
+                    .Include<TBD, TBV>();
+                cfg.CreateMap<TBD, TBV>();
+                cfg.CreateMap<TVD, TVV>();
+                cfg.CreateMap<TAD, TAV>();
             });
             var mapper = new Mapper(configuration);
-            var domainAfterMapping = mapper.Map<List<MD>, List<MV>>(viewModelType);
+            var domainAfterMapping = mapper.Map<List<TMD>, List<TMV>>(viewModelType);
 
             return domainAfterMapping;
         }
 
-        public static List<CV> CreateListMapFromVMToDomainWithIncludeLsitType<CD, CV, MD, MV, SD, SV>(List<CD> viewModelType)
+        public static List<TCV> CreateListMapFromVMToDomainWithIncludeLsitType<TCD, TCV, TMD, TMV, TSD, TSV>(List<TCD> viewModelType)
         {
-            var configuration = new MapperConfiguration(cfg => {
-                cfg.CreateMap<CD, CV>();
-                cfg.CreateMap<List<MD>, List<MV>>();
-                cfg.CreateMap<List<SD>, List<SV>>();
+            var configuration = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<TCD, TCV>();
+                cfg.CreateMap<List<TMD>, List<TMV>>();
+                cfg.CreateMap<List<TSD>, List<TSV>>();
             });
+
             var mapper = new Mapper(configuration);
-            var domainAfterMapping = mapper.Map<List<CD>, List<CV>>(viewModelType);
+            var domainAfterMapping = mapper.Map<List<TCD>, List<TCV>>(viewModelType);
 
             return domainAfterMapping;
         }
 
-        public static CV CreateMapFromVMToDomainWithIncludeLsitType<CD, CV, MD, MV, SD, SV>(CD viewModelType)
+        public static TCV CreateMapFromVMToDomainWithIncludeLsitType<TCD, TCV, TMD, TMV, TSD, TSV>(TCD viewModelType)
         {
-            var configuration = new MapperConfiguration(cfg => {
-                cfg.CreateMap<CD, CV>();
-                cfg.CreateMap<List<MD>, List<MV>>();
-                cfg.CreateMap<List<SD>, List<SV>>();
+            var configuration = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<TCD, TCV>();
+                cfg.CreateMap<List<TMD>, List<TMV>>();
+                cfg.CreateMap<List<TSD>, List<TSV>>();
             });
             var mapper = new Mapper(configuration);
-            var domainAfterMapping = mapper.Map<CD, CV>(viewModelType);
+            var domainAfterMapping = mapper.Map<TCD, TCV>(viewModelType);
 
             return domainAfterMapping;
         }

@@ -1,13 +1,13 @@
-﻿using DataAccessLayer.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BusinessLogicLayer.Interfaces
+﻿namespace BusinessLogicLayer.Interfaces
 {
+    using System.Collections.Generic;
+    using DataAccessLayer.Entities;
+    using Entities;
+
     public interface IUserService : IDeleteEntity
     {
         public User AuthorizedUser { get; }
+
         public bool CreateUser(User user);
 
         public bool VerifyUser(string name, string password);

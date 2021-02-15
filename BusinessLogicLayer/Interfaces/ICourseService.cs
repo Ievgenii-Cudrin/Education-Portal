@@ -1,10 +1,9 @@
-﻿using DataAccessLayer.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BusinessLogicLayer.Interfaces
+﻿namespace BusinessLogicLayer.Interfaces
 {
+    using System.Collections.Generic;
+    using DataAccessLayer.Entities;
+    using Entities;
+
     public interface ICourseService : IDeleteEntity
     {
         public bool CreateCourse(Course course);

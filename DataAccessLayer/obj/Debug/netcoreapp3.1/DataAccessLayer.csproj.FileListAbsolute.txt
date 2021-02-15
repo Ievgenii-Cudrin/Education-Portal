@@ -1,9 +1,0 @@
-E:\Projects\Education-Portal\DataAccessLayer\bin\Debug\netcoreapp3.1\DataAccessLayer.deps.json
-E:\Projects\Education-Portal\DataAccessLayer\bin\Debug\netcoreapp3.1\DataAccessLayer.dll
-E:\Projects\Education-Portal\DataAccessLayer\bin\Debug\netcoreapp3.1\DataAccessLayer.pdb
-E:\Projects\Education-Portal\DataAccessLayer\obj\Debug\netcoreapp3.1\DataAccessLayer.csprojAssemblyReference.cache
-E:\Projects\Education-Portal\DataAccessLayer\obj\Debug\netcoreapp3.1\DataAccessLayer.AssemblyInfoInputs.cache
-E:\Projects\Education-Portal\DataAccessLayer\obj\Debug\netcoreapp3.1\DataAccessLayer.AssemblyInfo.cs
-E:\Projects\Education-Portal\DataAccessLayer\obj\Debug\netcoreapp3.1\DataAccessLayer.csproj.CoreCompileInputs.cache
-E:\Projects\Education-Portal\DataAccessLayer\obj\Debug\netcoreapp3.1\DataAccessLayer.dll
-E:\Projects\Education-Portal\DataAccessLayer\obj\Debug\netcoreapp3.1\DataAccessLayer.pdb

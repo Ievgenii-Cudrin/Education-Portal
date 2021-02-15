@@ -1,11 +1,9 @@
-﻿using DataAccessLayer.Entities;
-using EducationPortal.PL.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EducationPortalConsoleApp.Interfaces
+﻿namespace EducationPortalConsoleApp.Interfaces
 {
+    using System.Collections.Generic;
+    using EducationPortal.PL.Models;
+    using Entities;
+
     public interface IMaterialController
     {
         public Material CreateVideo();

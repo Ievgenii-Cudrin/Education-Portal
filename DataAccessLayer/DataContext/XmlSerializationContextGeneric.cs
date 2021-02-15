@@ -1,14 +1,11 @@
-﻿using DataAccessLayer.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using XmlDataBase.Interfaces;
-
-namespace DataAccessLayer.DataContext
+﻿namespace DataAccessLayer.DataContext
 {
-    public class XmlSerializationContextGeneric<T> : IXmlSerializeContext<T> where T : class
+    using XmlDataBase.Interfaces;
+
+    public class XmlSerializationContextGeneric<T> : IXmlSerializeContext<T>
+        where T : class
     {
-        IXmlSet<T> xmlSet;
+        private readonly IXmlSet<T> xmlSet;
 
         public XmlSerializationContextGeneric(IXmlSet<T> xmlSet)
         {
@@ -17,9 +14,7 @@ namespace DataAccessLayer.DataContext
 
         public IXmlSet<T> XmlSet
         {
-            get { return xmlSet; }
+            get { return this.xmlSet; }
         }
-
-        
     }
 }

@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml.Serialization;
-
-namespace DataAccessLayer.Entities
+﻿namespace Entities
 {
+    using System.Diagnostics.CodeAnalysis;
+    using System.Xml.Serialization;
+
     [XmlType("Book")]
     public class Book : Material
     {
@@ -17,9 +15,9 @@ namespace DataAccessLayer.Entities
         public override string ToString()
         {
             return $"Type: Book" +
-                $"\nName: {Name}" +
-                $"\nCountOfPages: {CountOfPages}" +
-                $"\nAuthor: {Author}";
+                $"\nName: {this.Name}" +
+                $"\nCountOfPages: {this.CountOfPages}" +
+                $"\nAuthor: {this.Author}";
         }
     }
 }

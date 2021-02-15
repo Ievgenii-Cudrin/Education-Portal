@@ -1,29 +1,23 @@
-﻿using DataAccessLayer.Entities;
-using EducationPortal.PL.Interfaces;
-using EducationPortal.PL.Models;
-using EducationPortalConsoleApp.Controller;
-using EducationPortalConsoleApp.DependencyInjection;
-using EducationPortalConsoleApp.Helpers;
-using EducationPortalConsoleApp.Interfaces;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EducationPortalConsoleApp.Branch
+﻿namespace EducationPortalConsoleApp.Branch
 {
+    using System;
+    using EducationPortal.PL.Interfaces;
+    using EducationPortalConsoleApp.Helpers;
+    using EducationPortalConsoleApp.Interfaces;
+    using Entities;
+    using Microsoft.Extensions.DependencyInjection;
+
     public static class ProgramBranch
     {
-        static IUserController userController = ProviderServicePL.Provider.GetRequiredService<IUserController>();
-        static ICourseController courseController = ProviderServicePL.Provider.GetRequiredService<ICourseController>();
-        static IMaterialController materialController = ProviderServicePL.Provider.GetRequiredService<IMaterialController>();
-        static IPassCourseController passCourseController = ProviderServicePL.Provider.GetRequiredService<IPassCourseController>();
+        private static IUserController userController = ProviderServicePL.Provider.GetRequiredService<IUserController>();
+        private static ICourseController courseController = ProviderServicePL.Provider.GetRequiredService<ICourseController>();
+        private static IMaterialController materialController = ProviderServicePL.Provider.GetRequiredService<IMaterialController>();
+        private static IPassCourseController passCourseController = ProviderServicePL.Provider.GetRequiredService<IPassCourseController>();
 
         public static void StartApplication()
         {
             Console.Clear();
             ProgramConsoleMessageHelper.ShowTextForLoginOrRegistration();
-
             string userChoice = Console.ReadLine();
 
             switch (userChoice)
@@ -96,24 +90,23 @@ namespace EducationPortalConsoleApp.Branch
             switch (userChoice)
             {
                 case "1":
-                    //Video
+                    // Video
                     return materialController.CreateVideo();
                 case "2":
-                    //
+                    // Book
                     return materialController.CreateBook();
                 case "3":
-                    //Article
+                    // Article
                     return materialController.CreateArticle();
                 case "4":
-                    //Article
                     return materialController.GetMaterialFromAllMaterials();
                 default:
                     Console.WriteLine("Default case");
                     SelectMaterialForAddToCourse();
                     break;
             }
+
             return null;
         }
-
     }
 }

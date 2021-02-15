@@ -1,11 +1,8 @@
-﻿using EducationPortal.PL.Models;
-using EducationPortalConsoleApp.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EducationPortal.PL.InstanceCreator
+﻿namespace EducationPortal.PL.InstanceCreator
 {
+    using EducationPortal.PL.Models;
+    using EducationPortalConsoleApp.Helpers;
+
     public static class ArticleVMInstanceCreator
     {
         public static ArticleViewModel CreateArticle()
@@ -14,7 +11,7 @@ namespace EducationPortal.PL.InstanceCreator
             {
                 Name = GetDataHelper.GetNameFromUser(),
                 PublicationDate = GetDataHelper.GetDateTimeFromUser(),
-                Site = GetDataHelper.GetSiteAddressFromUser()
+                Site = GetDataHelper.GetSiteAddressFromUser(),
             };
 
             return article;

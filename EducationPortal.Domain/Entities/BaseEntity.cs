@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml.Serialization;
-
-namespace DataAccessLayer.Entities
+﻿namespace DataAccessLayer.Entities
 {
+    using System.Xml.Serialization;
+
     public class BaseEntity
     {
         [XmlElement("Id")]
         public int Id { get; set; }
-
     }
 }
