@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EducationPortal.PL.Helpers
+﻿namespace EducationPortal.PL.Helpers
 {
+    using System;
+
     public static class PassCourseConsoleMessageHelper
     {
         public static void ShowInfoToStartPassingCourse()

@@ -1,11 +1,10 @@
-﻿using DataAccessLayer.Entities;
-using EducationPortal.PL.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EducationPortalConsoleApp.Helpers
+﻿namespace EducationPortalConsoleApp.Helpers
 {
+    using System;
+    using System.Collections.Generic;
+    using DataAccessLayer.Entities;
+    using EducationPortal.PL.Models;
+
     public class UserConsoleMessageHelper
     {
         public static void ShowTextForChoice()

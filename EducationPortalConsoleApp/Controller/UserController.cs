@@ -81,7 +81,7 @@ namespace EducationPortalConsoleApp.Controller
         public void ShowAllPassedCourses()
         {
             // get all passed courses from bll and mapping
-            List<CourseViewModel> passedCourses = Mapping.CreateListMapFromVMToDomainWithIncludeLsitType<Course, CourseViewModel, Material, MaterialViewModel, Skill, SkillViewModel>(this.userService.AuthorizedUser.CoursesPassed);
+            List<CourseViewModel> passedCourses = Mapping.CreateListMapFromVMToDomainWithIncludeLsitType<Course, CourseViewModel, Material, MaterialViewModel, Skill, SkillViewModel>(this.userService.AuthorizedUser.CoursesPassed.ToList());
 
             if (passedCourses.Count == 0)
             {

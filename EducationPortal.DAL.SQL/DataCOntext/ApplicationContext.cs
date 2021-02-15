@@ -1,14 +1,11 @@
-﻿using DataAccessLayer.Entities;
-using EducationPortal.Domain.Entities;
-using Entities;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EducationPortal.DAL.SQL.DataContext
+﻿namespace EducationPortal.DAL.SQL.DataContext
 {
+    using DataAccessLayer.Entities;
+    using EducationPortal.Domain.Entities;
+    using Entities;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
     public class ApplicationContext : DbContext
     {
         public DbSet<Skill> Skills { get; set; }

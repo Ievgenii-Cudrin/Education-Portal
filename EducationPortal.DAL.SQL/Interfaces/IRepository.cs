@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EducationPortal.DAL.SQL.Interfaces
+﻿namespace EducationPortal.DAL.SQL.Interfaces
 {
+    using System.Collections.Generic;
+
     public interface IRepository<T>
         where T : class
     {

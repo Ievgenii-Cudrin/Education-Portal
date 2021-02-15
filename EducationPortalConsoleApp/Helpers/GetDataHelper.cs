@@ -1,12 +1,12 @@
-﻿using DataAccessLayer.Interfaces;
-using EducationPortal.PL.EnumViewModel;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
-
-namespace EducationPortalConsoleApp.Helpers
+﻿namespace EducationPortalConsoleApp.Helpers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+    using System.Text.RegularExpressions;
+    using DataAccessLayer.Interfaces;
+    using EducationPortal.PL.EnumViewModel;
+
     public static class GetDataHelper
     {
         public static string GetPhoneNumberFromUser()
@@ -25,7 +25,7 @@ namespace EducationPortalConsoleApp.Helpers
                 }
             }
             while (!valdiPhoneNumber);
-            
+
             return phoneNumber;
         }
 
@@ -38,14 +38,15 @@ namespace EducationPortalConsoleApp.Helpers
                 Console.WriteLine($"Enter email: ");
                 email = Console.ReadLine();
                 validEmail = Regex.IsMatch(email, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase);
-                //check this expression
+
+                // check this expression
                 if (!validEmail)
                 {
                     Console.WriteLine("Incorrect email. Please, try again!");
                 }
             }
             while (!validEmail);
-            
+
             return email;
         }
 
@@ -57,7 +58,7 @@ namespace EducationPortalConsoleApp.Helpers
             {
                 Console.WriteLine($"Enter name: ");
                 name = Console.ReadLine();
-                validName = String.IsNullOrEmpty(name);
+                validName = string.IsNullOrEmpty(name);
                 if (validName)
                 {
                     Console.WriteLine("Name must not be empty. Please, try again!");
@@ -69,16 +70,17 @@ namespace EducationPortalConsoleApp.Helpers
 
         public static string GetPasswordWithConfirmFromUser()
         {
-            string password = "";
-            string confirmPassword = "";
+            string password = string.Empty;
+            string confirmPassword = string.Empty;
             bool goodPassword;
+
             do
             {
                 Console.WriteLine($"Enter password: ");
                 password = Console.ReadLine();
                 Console.WriteLine($"Confirm password: ");
                 confirmPassword = Console.ReadLine();
-                goodPassword = !String.IsNullOrEmpty(password) && password == confirmPassword;
+                goodPassword = !string.IsNullOrEmpty(password) && password == confirmPassword;
                 if (!goodPassword)
                 {
                     Console.WriteLine("Password must not be empty and passwords must match. Please, try again!");
@@ -90,13 +92,13 @@ namespace EducationPortalConsoleApp.Helpers
 
         public static string GetPasswordFromUser()
         {
-            string password = "";
+            string password = string.Empty;
             bool goodPassword;
             do
             {
                 Console.WriteLine($"Enter password: ");
                 password = Console.ReadLine();
-                goodPassword = String.IsNullOrEmpty(password);
+                goodPassword = string.IsNullOrEmpty(password);
                 if (goodPassword)
                 {
                     Console.WriteLine("Password must not be empty and passwords must match. Please, try again!");
@@ -127,7 +129,6 @@ namespace EducationPortalConsoleApp.Helpers
             while (!validDate);
 
             return userDateTime;
-            
         }
 
         public static string GetSiteAddressFromUser()
@@ -145,7 +146,7 @@ namespace EducationPortalConsoleApp.Helpers
                 }
             }
             while (!validSite);
-            
+
             return site;
         }
 
@@ -157,14 +158,14 @@ namespace EducationPortalConsoleApp.Helpers
             {
                 Console.WriteLine($"Enter author name: ");
                 authorName = Console.ReadLine();
-                isNullOrEmpty = String.IsNullOrEmpty(authorName);
+                isNullOrEmpty = string.IsNullOrEmpty(authorName);
                 if (isNullOrEmpty)
                 {
                     Console.WriteLine("Name must not be empty. Please, try again!");
                 }
             }
             while (isNullOrEmpty);
-            
+
             return authorName;
         }
 
@@ -176,7 +177,7 @@ namespace EducationPortalConsoleApp.Helpers
             {
                 Console.WriteLine($"Enter description for course: ");
                 description = Console.ReadLine();
-                isNullOrEmpty = String.IsNullOrEmpty(description);
+                isNullOrEmpty = string.IsNullOrEmpty(description);
                 if (isNullOrEmpty)
                 {
                     Console.WriteLine("Name must not be empty. Please, try again!");
@@ -201,7 +202,7 @@ namespace EducationPortalConsoleApp.Helpers
                 }
             }
             while (countOfPages < 170);
-            
+
             return countOfPages;
         }
 
@@ -219,7 +220,7 @@ namespace EducationPortalConsoleApp.Helpers
                 }
             }
             while (videoDuration < 1);
-            
+
             return videoDuration;
         }
 
@@ -234,28 +235,28 @@ namespace EducationPortalConsoleApp.Helpers
 
                 switch (qualityFromUser)
                 {
-                    case ("144"):
+                    case "144":
                         videoQuality = VideoQualityViewModel.P144;
                         return videoQuality;
-                    case ("240"):
+                    case "240":
                         videoQuality = VideoQualityViewModel.P240;
                         return videoQuality;
-                    case ("360"):
+                    case "360":
                         videoQuality = VideoQualityViewModel.P360;
                         return videoQuality;
-                    case ("480"):
+                    case "480":
                         videoQuality = VideoQualityViewModel.P480;
                         return videoQuality;
-                    case ("720"):
+                    case "720":
                         videoQuality = VideoQualityViewModel.P720;
                         return videoQuality;
-                    case ("1080"):
+                    case "1080":
                         videoQuality = VideoQualityViewModel.P1080;
                         return videoQuality;
-                    case ("1440"):
+                    case "1440":
                         videoQuality = VideoQualityViewModel.P1440;
                         return videoQuality;
-                    case ("2160"):
+                    case "2160":
                         videoQuality = VideoQualityViewModel.P2160;
                         return videoQuality;
                     default:
@@ -263,8 +264,8 @@ namespace EducationPortalConsoleApp.Helpers
                         break;
                 }
             }
-            while(!validVideoQuality);
-            
+            while (!validVideoQuality);
+
             return videoQuality;
         }
     }

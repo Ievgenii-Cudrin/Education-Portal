@@ -1,11 +1,8 @@
-﻿using EducationPortal.PL.Models;
-using EducationPortalConsoleApp.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EducationPortal.PL.InstanceCreator
+﻿namespace EducationPortal.PL.InstanceCreator
 {
+    using EducationPortal.PL.Models;
+    using EducationPortalConsoleApp.Helpers;
+
     public static class CourseVMInstanceCreator
     {
         public static CourseViewModel CreateCourse()
@@ -13,7 +10,7 @@ namespace EducationPortal.PL.InstanceCreator
             CourseViewModel user = new CourseViewModel()
             {
                 Name = GetDataHelper.GetNameFromUser(),
-                Description = GetDataHelper.GetDescriptionForCourseFromUser()
+                Description = GetDataHelper.GetDescriptionForCourseFromUser(),
             };
 
             return user;

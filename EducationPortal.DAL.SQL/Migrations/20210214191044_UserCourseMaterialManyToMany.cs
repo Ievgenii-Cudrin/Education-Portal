@@ -16,7 +16,7 @@ namespace EducationPortal.DAL.SQL.Migrations
                 columns: table => new
                 {
                     UserCourseId = table.Column<int>(type: "int", nullable: false),
-                    MaterialId = table.Column<int>(type: "int", nullable: false)
+                    MaterialId = table.Column<int>(type: "int", nullable: false),
                 },
                 constraints: table =>
                 {

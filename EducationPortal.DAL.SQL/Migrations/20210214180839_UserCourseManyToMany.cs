@@ -13,7 +13,7 @@ namespace EducationPortal.DAL.SQL.Migrations
                     Id = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     CourseId = table.Column<int>(type: "int", nullable: false),
-                    IsPassed = table.Column<bool>(type: "bit", nullable: false)
+                    IsPassed = table.Column<bool>(type: "bit", nullable: false),
                 },
                 constraints: table =>
                 {

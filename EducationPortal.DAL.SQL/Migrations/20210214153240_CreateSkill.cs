@@ -13,7 +13,7 @@ namespace EducationPortal.DAL.SQL.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CountOfPoint = table.Column<int>(type: "int", nullable: false)
+                    CountOfPoint = table.Column<int>(type: "int", nullable: false),
                 },
                 constraints: table =>
                 {

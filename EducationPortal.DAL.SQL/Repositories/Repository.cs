@@ -1,18 +1,17 @@
-﻿using EducationPortal.DAL.SQL.DataContext;
-using EducationPortal.DAL.SQL.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace EducationPortal.DAL.SQL.Repositories
+﻿namespace EducationPortal.DAL.SQL.Repositories
 {
-    public class Repository<T> : IRepository<T> where T : class
+    using System.Collections.Generic;
+    using System.Linq;
+    using EducationPortal.DAL.SQL.DataContext;
+    using EducationPortal.DAL.SQL.Interfaces;
+    using Microsoft.EntityFrameworkCore;
+
+    public class Repository<T> : IRepository<T>
+        where T : class
     {
         public void Create(T item)
         {
-            using(ApplicationContext db = new ApplicationContext())
+            using (ApplicationContext db = new ApplicationContext())
             {
                 db.Set<T>().Add(item);
                 db.SaveChanges();
@@ -21,11 +20,11 @@ namespace EducationPortal.DAL.SQL.Repositories
 
         public void Delete(int id)
         {
-            using(ApplicationContext db = new ApplicationContext())
+            using (ApplicationContext db = new ApplicationContext())
             {
                 var entity = db.Set<T>().Find(id);
 
-                if(entity != null)
+                if (entity != null)
                 {
                     db.Set<T>().Remove(entity);
                     db.SaveChanges();
@@ -35,7 +34,7 @@ namespace EducationPortal.DAL.SQL.Repositories
 
         public T Get(int id)
         {
-            using(ApplicationContext db = new ApplicationContext())
+            using (ApplicationContext db = new ApplicationContext())
             {
                 return db.Set<T>().Find(id);
             }
@@ -43,8 +42,8 @@ namespace EducationPortal.DAL.SQL.Repositories
 
         public List<T> GetAll()
         {
-            //think about this method
-            using(ApplicationContext db = new ApplicationContext())
+            // think about this method
+            using (ApplicationContext db = new ApplicationContext())
             {
                 return db.Set<T>().ToList();
             }
@@ -52,7 +51,7 @@ namespace EducationPortal.DAL.SQL.Repositories
 
         public void Update(T item)
         {
-            using(ApplicationContext db = new ApplicationContext())
+            using (ApplicationContext db = new ApplicationContext())
             {
                 db.Entry<T>(item).State = EntityState.Modified;
                 db.SaveChanges();
