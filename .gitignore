@@ -9,6 +9,20 @@
 *.user
 *.userosscache
 *.sln.docstates
+*.pdb
+*.dll
+*.v2
+*.cache
+*.json
+
+=======
+*.xml
+*.dll
+*.dtbcache.v2
+*.csprojAssemblyReference.cache
+*.AssemblyInfoInputs.cache
+*.AssemblyInfo.cs
+>>>>>>> eacfd219c4f413c72e9c7f67b2e32af7a8a74bf4
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -26,6 +40,9 @@ bld/
 [Bb]in/
 [Oo]bj/
 [Ll]og/
+
+bin/
+obj/
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
@@ -338,3 +355,4 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+*.cache
