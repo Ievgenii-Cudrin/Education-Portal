@@ -91,7 +91,6 @@ StyleCopReport.xml
 *.suo
 *.json
 *.v2
-*.csproj
 
 # Chutzpah Test files
 _Chutzpah*
@@ -344,4 +343,3 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 EducationPortal.DALSql/EducationPortal.DALSql.csproj
-Education-Portal.sln

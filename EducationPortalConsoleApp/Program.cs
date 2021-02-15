@@ -1,4 +1,4 @@
-﻿namespace EducationPortalConsoleApp
+namespace EducationPortalConsoleApp
 {
     using System;
     using EducationPortalConsoleApp.Branch;
