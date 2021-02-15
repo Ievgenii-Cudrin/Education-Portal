@@ -1,15 +1,13 @@
-﻿using EducationPortalConsoleApp.Branch;
-using EducationPortalConsoleApp.Helpers;
-using EducationPortalConsoleApp.Services;
-using System;
-
-namespace EducationPortalConsoleApp
+﻿namespace EducationPortalConsoleApp
 {
+    using System;
+    using EducationPortalConsoleApp.Branch;
+
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            new ProgrammBranch().StartApplication();
+            ProgramBranch.StartApplication();
 
             Console.ReadLine();
         }

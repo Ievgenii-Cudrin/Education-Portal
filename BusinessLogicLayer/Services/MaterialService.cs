@@ -1,168 +1,164 @@
-﻿using DataAccessLayer.Entities;
-using DataAccessLayer.Interfaces;
-using DataAccessLayer.Repositories;
-using EducationPortalConsoleApp.InstanceCreator;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EducationPortalConsoleApp.Services
+﻿namespace EducationPortalConsoleApp.Services
 {
-    public class MaterialService
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using BusinessLogicLayer.Interfaces;
+    using DataAccessLayer.Interfaces;
+    using Entities;
+
+    public class MaterialService : IMaterialService
     {
-        IUnitOfWork uow;
-        Material newMaterial;
-        public MaterialService()
+        private readonly IRepository<Material> repository;
+        private readonly List<Material> materialsFromDB;
+
+        public MaterialService(IRepository<Material> repository)
         {
-            this.uow = new EFUnitOfWork();
+            this.repository = repository;
+            this.materialsFromDB = repository.GetAll().ToList();
         }
 
-        public void StartWorkWithMaterial()
+        public bool CreateVideo(Video video)
         {
-            //MaterialConsoleMessageHelper.ShowTextForChoiceCRUDMethod();
+            var videos = this.repository.GetAll().Where(x => x is Video).ToList();
+            int c = videos.Count;
 
-            string userChoice = Console.ReadLine();
+            // check name and link, may be we have this skill
+            bool uniqueVideo = video != null &&
+                !this.materialsFromDB.Where(x => x is Video).Cast<Video>().Any(x =>
+                x.Name.ToLower().Equals(video.Name.ToLower()) &&
+                x.Link == video.Link);
 
-            switch (userChoice)
+            return this.SaveMaterialToDB(uniqueVideo, video);
+        }
+
+        public bool CreateArticle(Article article)
+        {
+            // check, it is unique article in db
+            bool uniqueArticle = article != null &&
+                !this.materialsFromDB.Where(x => x is Article).Cast<Article>().Any(x =>
+                x.Name.ToLower().Equals(article.Name.ToLower()) &&
+                x.PublicationDate == article.PublicationDate &&
+                x.Site == article.Site);
+
+            return this.SaveMaterialToDB(uniqueArticle, article);
+        }
+
+        public bool CreateBook(Book book)
+        {
+            // check, it is unique book in db
+            bool uniqueBook = book != null &&
+                !this.materialsFromDB.Where(x => x is Book).Cast<Book>().Any(x =>
+                x.Name.ToLower().Equals(book.Name.ToLower()) &&
+                x.Author == book.Author &&
+                x.CountOfPages == book.CountOfPages);
+
+            return this.SaveMaterialToDB(uniqueBook, book);
+        }
+
+        public bool UpdateVideo(Video videoToUpdate)
+        {
+            if (!(this.repository.Get(videoToUpdate.Id) is Video video))
             {
-                case "1":
-                    CreateMaterial();
-                    break;
-                case "2":
-                    UpdateMaterial();
-                    break;
-                case "3":
-                    ShowAllMaterials();
-                    break;
-                case "4":
-                    DeleteMaterial();
-                    break;
-                case "5":
-                    ProgramService.SelectEntityToWork();
-                    break;
-                default:
-                    Console.WriteLine("Default case");
-                    break;
+                return false;
+            }
+            else
+            {
+                video.Name = videoToUpdate.Name;
+                video.Link = videoToUpdate.Link;
+                video.Quality = videoToUpdate.Quality;
+                video.Duration = videoToUpdate.Duration;
+                this.repository.Update(video);
             }
 
+            return true;
         }
 
-        void CreateMaterial()
+        public bool UpdateArticle(Article articleToUpdate)
         {
-            //MaterialConsoleMessageHelper.ShowTextForChoiceKindOfMaterial();
-            string kindOfMaterial = Console.ReadLine();
+            if (!(this.repository.Get(articleToUpdate.Id) is Article article))
+            {
+                return false;
+            }
+            else
+            {
+                article.Name = articleToUpdate.Name;
+                article.Site = articleToUpdate.Site;
+                article.PublicationDate = articleToUpdate.PublicationDate;
+                this.repository.Update(article);
+            }
+
+            return true;
+        }
+
+        public bool UpdateBook(Book bookToUpdate)
+        {
+            if (!(this.repository.Get(bookToUpdate.Id) is Book book))
+            {
+                return false;
+            }
+            else
+            {
+                book.Name = bookToUpdate.Name;
+                book.Author = bookToUpdate.Author;
+                book.CountOfPages = bookToUpdate.CountOfPages;
+                this.repository.Update(book);
+            }
+
+            return true;
+        }
+
+        public IEnumerable<Material> GetAllMaterials()
+        {
+            return this.repository.GetAll();
+        }
+
+        public bool Delete(int id)
+        {
+            Material material = this.repository.Get(id);
+
+            if (material == null)
+            {
+                return false;
+            }
+            else
+            {
+                this.repository.Delete(id);
+            }
+
+            return true;
+        }
+
+        public Material GetMaterial(int id)
+        {
             Material material;
-            switch (kindOfMaterial)
+
+            try
             {
-                case "1":
-                    material = VideoInstanceCreator.VideoCreator();
-                    uow.Materials.Create(material);
-                    ContinueAfterMaterialCreated();
-                    break;
-                case "2":
-                    material = BookInstanceCreator.BookCreator();
-                    uow.Materials.Create(material);
-                    ContinueAfterMaterialCreated();
-                    break;
-                case "3":
-                    material = ArticleInstanceCreator.ArticleCreator();
-                    uow.Materials.Create(material);
-                    ContinueAfterMaterialCreated();
-                    break;
-                case "4":
-                    StartWorkWithMaterial();
-                    break;
-                default:
-                    Console.WriteLine("Default case. Please, try again!");
-                    CreateMaterial();
-                    break;
+                material = this.repository.Get(id);
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
+
+            return material;
         }
 
-        //TODO ----
-
-        //public bool CreateVideo(string name, int quality, int duration, string link)
-        //{
-        //    bool success = true;
-        //    if (name.Length > 0 && quality > 0 && duration > 1 && link != null)
-        //    {
-        //        newMaterial = new Video()
-        //        {
-        //            Name = name,
-        //            Quality = quality,
-        //            Duration = duration,
-        //            Link = link
-        //        };
-        //        uow.Materials.
-        //    }
-        //}
-
-        void UpdateMaterial()
+        private bool SaveMaterialToDB(bool uniqueMaterial, Material material)
         {
-            //TODO finish this method
-            Console.Write($"Enter material ID to update: ");
-            int id = Convert.ToInt32(Console.ReadLine());
-
-            Material material = uow.Materials.Get(id);
-            if (material == null)
+            if (uniqueMaterial)
             {
-                Console.WriteLine($"Material not found");
-                StartWorkWithMaterial();
+                this.repository.Create(material);
+                this.materialsFromDB.Add(material);
             }
             else
             {
-                //TODO
-                if (material is Video)
-                    material = VideoInstanceCreator.VideoCreator();
-                else if (material is Article)
-                    material = ArticleInstanceCreator.ArticleCreator();
-                else
-                    material = BookInstanceCreator.BookCreator();
-
-                material.Id = id;
-                uow.Materials.Update(material);
-                Console.WriteLine("Material has been successfully updated");
-                StartWorkWithMaterial();
+                return false;
             }
-        }
 
-        void ShowAllMaterials()
-        {
-            IEnumerable<Material> materials = uow.Materials.GetAll();
-            foreach(var material in materials)
-            {
-                //if (material is Video)
-                    //MaterialConsoleMessageHelper.ShowVideoInfo(material);
-                //else if (material is Article)
-                    //MaterialConsoleMessageHelper.ShowArticleInfo(material);
-                //else
-                    //MaterialConsoleMessageHelper.ShowBookInfo(material);
-            }
-            Console.WriteLine("\n");
-            StartWorkWithMaterial();
-            //MaterialConsoleMessageHelper.ShowObjects(users);
-
-            StartWorkWithMaterial();
-        }
-
-        void DeleteMaterial()
-        {
-            Console.Write($"Enter material ID to delete: ");
-            int id = Convert.ToInt32(Console.ReadLine());
-
-            Material material = uow.Materials.Get(id);
-            if (material == null)
-                Console.WriteLine($"\nMaterial not found\n");
-            else
-                uow.Materials.Delete(Convert.ToInt32(material.Id));
-
-            StartWorkWithMaterial();
-        }
-
-        void ContinueAfterMaterialCreated()
-        {
-            //MaterialConsoleMessageHelper.MaterialCreated();
-            StartWorkWithMaterial();
+            return true;
         }
     }
 }

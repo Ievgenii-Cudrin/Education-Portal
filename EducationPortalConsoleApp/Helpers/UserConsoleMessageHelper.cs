@@ -1,10 +1,10 @@
-﻿using DataAccessLayer.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EducationPortalConsoleApp.Helpers
+﻿namespace EducationPortalConsoleApp.Helpers
 {
+    using System;
+    using System.Collections.Generic;
+    using DataAccessLayer.Entities;
+    using EducationPortal.PL.Models;
+
     public class UserConsoleMessageHelper
     {
         public static void ShowTextForChoice()
@@ -26,6 +26,14 @@ namespace EducationPortalConsoleApp.Helpers
                 Console.WriteLine($"Email: {user.Email}");
                 Console.WriteLine($"Phone number: {user.PhoneNumber}");
                 Console.WriteLine("---------------------------");
+            }
+        }
+
+        public static void ShowInfoAboutCourses(List<CourseViewModel> courses)
+        {
+            for (int i = 0; i < courses.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}.Name - {courses[i].Name}");
             }
         }
     }
