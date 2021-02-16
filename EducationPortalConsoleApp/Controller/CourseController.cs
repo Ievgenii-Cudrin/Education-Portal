@@ -5,6 +5,7 @@
     using BusinessLogicLayer.Interfaces;
     using DataAccessLayer.Entities;
     using EducationPortal.PL.InstanceCreator;
+    using EducationPortal.PL.Interfaces;
     using EducationPortal.PL.Mapping;
     using EducationPortal.PL.Models;
     using EducationPortalConsoleApp.Branch;
@@ -14,10 +15,12 @@
     public class CourseController : ICourseController
     {
         private ICourseService courseService;
+        private IMapperService mapperService;
 
-        public CourseController(ICourseService courseService)
+        public CourseController(ICourseService courseService, IMapperService mapper)
         {
             this.courseService = courseService;
+            this.mapperService = mapper;
         }
 
         public void CreateNewCourse()
@@ -28,7 +31,7 @@
             CourseViewModel courseVM = CourseVMInstanceCreator.CreateCourse();
 
             // mapping to Domain model
-            var courseDomain = Mapping.CreateMapFromVMToDomain<CourseViewModel, Course>(courseVM);
+            var courseDomain = this.mapperService.CreateMapFromVMToDomain<CourseViewModel, Course>(courseVM);
             bool success = this.courseService.CreateCourse(courseDomain);
 
             if (success)
@@ -84,7 +87,7 @@
                 var skillVM = SkillVMInstanceCreator.CreateSkill();
 
                 // add skill to course after mapping
-                this.courseService.AddSkillToCourse(courseId, Mapping.CreateMapFromVMToDomain<SkillViewModel, Skill>(skillVM));
+                this.courseService.AddSkillToCourse(courseId, this.mapperService.CreateMapFromVMToDomain<SkillViewModel, Skill>(skillVM));
                 Console.WriteLine("Do you want to add one more skill (Enter YES)?");
                 userChoice = Console.ReadLine();
             }

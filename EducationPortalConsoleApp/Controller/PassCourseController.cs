@@ -18,12 +18,14 @@
         private readonly ICourseService courseService;
         private readonly IUserService userService;
         private readonly IMaterialController materialController;
+        private IMapperService mapperService;
 
-        public PassCourseController(ICourseService courseService, IUserService userService, IMaterialController materialController)
+        public PassCourseController(ICourseService courseService, IUserService userService, IMaterialController materialController, IMapperService mapper)
         {
             this.courseService = courseService;
             this.userService = userService;
             this.materialController = materialController;
+            this.mapperService = mapper;
         }
 
         public static int GetIdFromUserToPassCourse()
@@ -71,13 +73,13 @@
             var courseToProgressFromProcessList = this.userService.GetListWithCoursesInProgress().Where(x => x.Id == courseInProgressIdToPass).FirstOrDefault();
 
             // mapping to course domain to course view model
-            CourseViewModel courseVMInProgress = Mapping.Mapping.CreateMapFromVMToDomainWithIncludeLsitType<Course, CourseViewModel, Material, MaterialViewModel, Skill, SkillViewModel>(courseToProgressFromProcessList);
+            CourseViewModel courseVMInProgress = this.mapperService.CreateMapFromVMToDomainWithIncludeLsitType<Course, CourseViewModel, Material, MaterialViewModel, Skill, SkillViewModel>(courseToProgressFromProcessList);
 
             // mapping materials in progogress
             courseVMInProgress.Materials = this.materialController.GetAllMaterialVMAfterMappingFromMaterialDomain(this.userService.GetMaterialsFromCourseInProgress(courseVMInProgress.Id));
 
             // mapping skills
-            courseVMInProgress.Skills = Mapping.Mapping.CreateListMap<Skill, SkillViewModel>(this.userService.GetSkillsFromCourseInProgress(courseVMInProgress.Id));
+            courseVMInProgress.Skills = this.mapperService.CreateListMap<Skill, SkillViewModel>(this.userService.GetSkillsFromCourseInProgress(courseVMInProgress.Id));
 
             if (courseVMInProgress != null)
             {
@@ -101,7 +103,7 @@
                 {
                     // update passed materials in course
                     this.userService.UpdateCourseInProgress(
-                        courseToProgressFromProcessList.Id, Mapping.Mapping.CreateListMapFromVMToDomainWithIncludeMaterialType<MaterialViewModel, Material, VideoViewModel, Video, ArticleViewModel, Article, BookViewModel, Book>(courseVMInProgress.Materials));
+                        courseToProgressFromProcessList.Id, this.mapperService.CreateListMapFromVMToDomainWithIncludeMaterialType<MaterialViewModel, Material, VideoViewModel, Video, ArticleViewModel, Article, BookViewModel, Book>(courseVMInProgress.Materials));
                 }
 
                 ProgramBranch.SelectFirstStepForAuthorizedUser();
@@ -220,12 +222,12 @@
         private List<CourseViewModel> GetListOfCoursesFromServiceAfterMappingToVM(List<Course> courses)
         {
             // Mapping entity to view model, and mapping include entities lists
-            List<CourseViewModel> coursesListVM = Mapping.Mapping.CreateListMapFromVMToDomainWithIncludeLsitType<Course, CourseViewModel, Material, MaterialViewModel, Skill, SkillViewModel>(courses);
+            List<CourseViewModel> coursesListVM = this.mapperService.CreateListMapFromVMToDomainWithIncludeLsitType<Course, CourseViewModel, Material, MaterialViewModel, Skill, SkillViewModel>(courses);
 
             foreach (var course in coursesListVM)
             {
-                course.Materials = Mapping.Mapping.CreateListMapFromVMToDomainWithIncludeMaterialType<Material, MaterialViewModel, Video, VideoViewModel, Article, ArticleViewModel, Book, BookViewModel>(this.courseService.GetMaterialsFromCourse(course.Id));
-                course.Skills = Mapping.Mapping.CreateListMap<Skill, SkillViewModel>(this.courseService.GetSkillsFromCourse(course.Id));
+                course.Materials = this.mapperService.CreateListMapFromVMToDomainWithIncludeMaterialType<Material, MaterialViewModel, Video, VideoViewModel, Article, ArticleViewModel, Book, BookViewModel>(this.courseService.GetMaterialsFromCourse(course.Id));
+                course.Skills = this.mapperService.CreateListMap<Skill, SkillViewModel>(this.courseService.GetSkillsFromCourse(course.Id));
             }
 
             return coursesListVM;
@@ -244,7 +246,7 @@
                 // add skills to user
                 foreach (var skill in successfullyСompletedСourse.Skills)
                 {
-                    this.userService.AddSkill(Mapping.Mapping.CreateMapFromVMToDomain<SkillViewModel, Skill>(skill));
+                    this.userService.AddSkill(this.mapperService.CreateMapFromVMToDomain<SkillViewModel, Skill>(skill));
                 }
 
                 Console.WriteLine($"Congratulations, you have successfully completed the course {successfullyСompletedСourse.Name}");

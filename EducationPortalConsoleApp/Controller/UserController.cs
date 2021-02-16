@@ -8,6 +8,7 @@ namespace EducationPortalConsoleApp.Controller
     using BusinessLogicLayer.Interfaces;
     using DataAccessLayer.Entities;
     using EducationPortal.PL.InstanceCreator;
+    using EducationPortal.PL.Interfaces;
     using EducationPortal.PL.Mapping;
     using EducationPortal.PL.Models;
     using EducationPortalConsoleApp.Branch;
@@ -18,10 +19,12 @@ namespace EducationPortalConsoleApp.Controller
     public class UserController : IUserController
     {
         private IUserService userService;
+        private IMapperService mapperService;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, IMapperService mapper)
         {
             this.userService = userService;
+            this.mapperService = mapper;
         }
 
         public void VerifyLoginAndPassword()
@@ -60,7 +63,7 @@ namespace EducationPortalConsoleApp.Controller
             }
 
             // Create new user, if not - false
-            bool createUser = this.userService.CreateUser(Mapping.CreateMapFromVMToDomain<UserViewModel, User>(userVM));
+            bool createUser = this.userService.CreateUser(this.mapperService.CreateMapFromVMToDomain<UserViewModel, User>(userVM));
 
             // Show result
             ProgramConsoleMessageHelper.
@@ -81,7 +84,7 @@ namespace EducationPortalConsoleApp.Controller
         public void ShowAllPassedCourses()
         {
             // get all passed courses from bll and mapping
-            List<CourseViewModel> passedCourses = Mapping.CreateListMapFromVMToDomainWithIncludeLsitType<Course, CourseViewModel, Material, MaterialViewModel, Skill, SkillViewModel>(this.userService.AuthorizedUser.CoursesPassed.ToList());
+            List<CourseViewModel> passedCourses = this.mapperService.CreateListMapFromVMToDomainWithIncludeLsitType<Course, CourseViewModel, Material, MaterialViewModel, Skill, SkillViewModel>(this.userService.AuthorizedUser.CoursesPassed.ToList());
 
             if (passedCourses.Count == 0)
             {
@@ -94,7 +97,7 @@ namespace EducationPortalConsoleApp.Controller
         public void ShowAllCourseInProggres()
         {
             // get courses in progress from bll and mapping
-            List<CourseViewModel> coursesInProgress = Mapping.CreateListMapFromVMToDomainWithIncludeLsitType<Course, CourseViewModel, Material, MaterialViewModel, Skill, SkillViewModel>(this.userService.AuthorizedUser.CoursesInProgress.ToList());
+            List<CourseViewModel> coursesInProgress = this.mapperService.CreateListMapFromVMToDomainWithIncludeLsitType<Course, CourseViewModel, Material, MaterialViewModel, Skill, SkillViewModel>(this.userService.AuthorizedUser.CoursesInProgress.ToList());
 
             if (coursesInProgress.Count == 0)
             {
@@ -115,7 +118,7 @@ namespace EducationPortalConsoleApp.Controller
         {
             Console.Clear();
             // get user skills from bll and mapping
-            List<SkillViewModel> userSkills = Mapping.CreateListMap<Skill, SkillViewModel>(this.userService.GetAllUserSkills());
+            List<SkillViewModel> userSkills = this.mapperService.CreateListMap<Skill, SkillViewModel>(this.userService.GetAllUserSkills());
 
             if (userSkills == null)
             {

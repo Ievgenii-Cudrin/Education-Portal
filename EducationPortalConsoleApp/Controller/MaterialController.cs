@@ -5,6 +5,7 @@
     using System.Linq;
     using BusinessLogicLayer.Interfaces;
     using EducationPortal.PL.InstanceCreator;
+    using EducationPortal.PL.Interfaces;
     using EducationPortal.PL.Mapping;
     using EducationPortal.PL.Models;
     using EducationPortalConsoleApp.Helpers;
@@ -14,10 +15,12 @@
     public class MaterialController : IMaterialController
     {
         private readonly IMaterialService materialService;
+        private IMapperService mapperService;
 
-        public MaterialController(IMaterialService materialService)
+        public MaterialController(IMaterialService materialService, IMapperService mapper)
         {
             this.materialService = materialService;
+            this.mapperService = mapper;
         }
 
         public Material CreateVideo()
@@ -26,10 +29,10 @@
             VideoViewModel materialVM = VideoVMInstanceCreator.CreateVideo();
 
             // mapping
-            var videoMap = Mapping.CreateMapFromVMToDomainWithIncludeVideoType<MaterialViewModel, Material, VideoViewModel, Video>(materialVM);
+            var videoMap = this.mapperService.CreateMapFromVMToDomainWithIncludeVideoType<MaterialViewModel, Material, VideoViewModel, Video>(materialVM);
 
             // add video to db
-            bool success = this.materialService.CreateVideo(Mapping.CreateMapFromVMToDomain<VideoViewModel, Video>(materialVM));
+            bool success = this.materialService.CreateVideo(this.mapperService.CreateMapFromVMToDomain<VideoViewModel, Video>(materialVM));
 
             if (success)
             {
@@ -47,10 +50,10 @@
             ArticleViewModel articleVM = ArticleVMInstanceCreator.CreateArticle();
 
             // mapping
-            var articleMap = Mapping.CreateMapFromVMToDomainWithIncludeVideoType<MaterialViewModel, Material, ArticleViewModel, Article>(articleVM);
+            var articleMap = this.mapperService.CreateMapFromVMToDomainWithIncludeVideoType<MaterialViewModel, Material, ArticleViewModel, Article>(articleVM);
 
             // add article to db
-            bool success = this.materialService.CreateArticle(Mapping.CreateMapFromVMToDomain<ArticleViewModel, Article>(articleVM));
+            bool success = this.materialService.CreateArticle(this.mapperService.CreateMapFromVMToDomain<ArticleViewModel, Article>(articleVM));
 
             if (success)
             {
@@ -68,10 +71,10 @@
             BookViewModel bookVM = BookVMInstanceCreator.CreateBook();
 
             // mapping
-            var bookMap = Mapping.CreateMapFromVMToDomainWithIncludeVideoType<MaterialViewModel, Material, BookViewModel, Book>(bookVM);
+            var bookMap = this.mapperService.CreateMapFromVMToDomainWithIncludeVideoType<MaterialViewModel, Material, BookViewModel, Book>(bookVM);
 
             // add book to db
-            bool success = this.materialService.CreateBook(Mapping.CreateMapFromVMToDomain<BookViewModel, Book>(bookVM));
+            bool success = this.materialService.CreateBook(this.mapperService.CreateMapFromVMToDomain<BookViewModel, Book>(bookVM));
 
             if (success)
             {
@@ -109,7 +112,7 @@
 
         public List<MaterialViewModel> GetAllMaterialVMAfterMappingFromMaterialDomain(List<Material> materialsListDomain)
         {
-            return Mapping.CreateListMapFromVMToDomainWithIncludeMaterialType<Material, MaterialViewModel, Video, VideoViewModel, Article, ArticleViewModel, Book, BookViewModel>(materialsListDomain);
+            return this.mapperService.CreateListMapFromVMToDomainWithIncludeMaterialType<Material, MaterialViewModel, Video, VideoViewModel, Article, ArticleViewModel, Book, BookViewModel>(materialsListDomain);
         }
 
         public void DeleteMaterial(int id)
