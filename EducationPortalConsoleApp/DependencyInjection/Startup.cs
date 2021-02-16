@@ -5,7 +5,7 @@ namespace EducationPortalConsoleApp.DependencyInjection
     using BusinessLogicLayer.Interfaces;
     using BusinessLogicLayer.Services;
     using DataAccessLayer.DataContext;
-    //using DataAccessLayer.Interfaces;
+    using DataAccessLayer.Interfaces;
     using DataAccessLayer.Repositories;
     using EducationPortal.PL.Controller;
     using EducationPortal.PL.Interfaces;
@@ -25,7 +25,7 @@ namespace EducationPortalConsoleApp.DependencyInjection
             var provider = new ServiceCollection()
                 .AddSingleton(typeof(IXmlSet<>), typeof(XmlSet<>))
                 .AddSingleton(typeof(IXmlSerializeContext<>), typeof(XmlSerializationContextGeneric<>))
-                //.AddTransient(typeof(IRepository<>), typeof(Repository<>))
+                .AddTransient(typeof(IRepository<>), typeof(Repository<>))
                 //.AddTransient(typeof(IRepository)
                 .AddTransient<IUserService, UserService>()
                 .AddTransient<ICourseService, CourseService>()

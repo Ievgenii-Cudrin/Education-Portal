@@ -22,12 +22,12 @@
         [NotMapped]
         [XmlArray("SkillArray")]
         [XmlArrayItem("SkillObjekt")]
-        public ICollection<Skill> Skills { get; set; }
+        public List<Skill> Skills { get; set; }
 
         [NotMapped]
         [XmlArray("MaterialArray")]
         [XmlArrayItem("MaterialObjekt")]
-        public ICollection<Material> Materials { get; set; }
+        public List<Material> Materials { get; set; }
 
         [XmlIgnore]
         public ICollection<CourseSkill> CourseSkills { get; set; }

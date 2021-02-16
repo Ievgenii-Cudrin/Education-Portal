@@ -26,20 +26,20 @@
         [NotMapped]
         [XmlArray("SkillArray")]
         [XmlArrayItem("SkillObjekt")]
-        public ICollection<Skill> Skills { get; set; }
+        public List<Skill> Skills { get; set; }
 
         [NotMapped]
         [XmlArray("PassedCoursesArray")]
         [XmlArrayItem("PassedCourseObjekt")]
-        public ICollection<Course> CoursesPassed { get; set; }
+        public List<Course> CoursesPassed { get; set; }
 
         [NotMapped]
         [XmlArray("InProgressCoursesArray")]
         [XmlArrayItem("InProgressCourseObjekt")]
-        public ICollection<Course> CoursesInProgress { get; set; }
+        public List<Course> CoursesInProgress { get; set; }
 
         [XmlIgnore]
-        public ICollection<UserSkill> UserSkills { get; set; }
+        public List<UserSkill> UserSkills { get; set; }
 
         [XmlIgnore]
         public ICollection<UserCourse> UserCourses { get; set; }
