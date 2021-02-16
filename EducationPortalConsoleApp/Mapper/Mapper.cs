@@ -2,10 +2,11 @@
 {
     using System.Collections.Generic;
     using AutoMapper;
+    using EducationPortal.PL.Interfaces;
 
-    public static class Mapping
+    public class Mapping : IMapperService
     {
-        public static TN CreateMapFromVMToDomain<T, TN>(T viewModelType)
+        public TN CreateMapFromVMToDomain<T, TN>(T viewModelType)
         {
             var config = new MapperConfiguration(cfg => cfg.CreateMap<T, TN>());
             var mapper = new Mapper(config);
@@ -14,7 +15,7 @@
             return domainAfterMapping;
         }
 
-        public static TN CreateMapFromVMToDomainWithIncludeVideoType<T, TN, TIT, TIN>(T viewModelType)
+        public TN CreateMapFromVMToDomainWithIncludeVideoType<T, TN, TIT, TIN>(T viewModelType)
             where TIT : T
             where TIN : TN
         {
@@ -30,7 +31,7 @@
             return domainAfterMapping;
         }
 
-        public static List<TN> CreateListMap<T, TN>(List<T> list)
+        public List<TN> CreateListMap<T, TN>(List<T> list)
         {
             var configuration = new MapperConfiguration(cfg => cfg.CreateMap<T, TN>());
             var mapper = new Mapper(configuration);
@@ -39,7 +40,7 @@
             return listDest;
         }
 
-        public static List<TMV> CreateListMapFromVMToDomainWithIncludeMaterialType<TMD, TMV, TVD, TVV, TAD, TAV, TBD, TBV>(List<TMD> viewModelType)
+        public List<TMV> CreateListMapFromVMToDomainWithIncludeMaterialType<TMD, TMV, TVD, TVV, TAD, TAV, TBD, TBV>(List<TMD> viewModelType)
             where TVD : TMD
             where TAD : TMD
             where TBD : TMD
@@ -63,7 +64,7 @@
             return domainAfterMapping;
         }
 
-        public static List<TCV> CreateListMapFromVMToDomainWithIncludeLsitType<TCD, TCV, TMD, TMV, TSD, TSV>(List<TCD> viewModelType)
+        public List<TCV> CreateListMapFromVMToDomainWithIncludeLsitType<TCD, TCV, TMD, TMV, TSD, TSV>(List<TCD> viewModelType)
         {
             var configuration = new MapperConfiguration(cfg =>
             {
@@ -78,7 +79,7 @@
             return domainAfterMapping;
         }
 
-        public static TCV CreateMapFromVMToDomainWithIncludeLsitType<TCD, TCV, TMD, TMV, TSD, TSV>(TCD viewModelType)
+        public TCV CreateMapFromVMToDomainWithIncludeLsitType<TCD, TCV, TMD, TMV, TSD, TSV>(TCD viewModelType)
         {
             var configuration = new MapperConfiguration(cfg =>
             {

@@ -16,6 +16,7 @@ namespace EducationPortalConsoleApp.DependencyInjection
     using XmlDataBase.Interfaces;
     using XmlDataBase.Serialization;
     using EducationPortal.DAL.SQL;
+    using EducationPortal.PL.Mapping;
 
     public static class Startup
     {
@@ -35,6 +36,7 @@ namespace EducationPortalConsoleApp.DependencyInjection
                 .AddTransient<ICourseController, CourseController>()
                 .AddTransient<ISkillController, SkillController>()
                 .AddTransient<IPassCourseController, PassCourseController>()
+                .AddTransient<IMapperService, Mapping>()
                 .BuildServiceProvider();
 
             return provider;
