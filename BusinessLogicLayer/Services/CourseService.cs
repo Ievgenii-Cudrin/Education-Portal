@@ -24,7 +24,7 @@
 
             if (uniqueName)
             {
-                this.courseRepository.Create(course);
+                this.courseRepository.Add(course);
             }
             else
             {

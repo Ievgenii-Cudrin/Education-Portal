@@ -21,7 +21,6 @@
         public bool CreateVideo(Video video)
         {
             var videos = this.repository.GetAll().Where(x => x is Video).ToList();
-            int c = videos.Count;
 
             // check name and link, may be we have this skill
             bool uniqueVideo = video != null &&
@@ -150,7 +149,7 @@
         {
             if (uniqueMaterial)
             {
-                this.repository.Create(material);
+                this.repository.Add(material);
                 this.materialsFromDB.Add(material);
             }
             else

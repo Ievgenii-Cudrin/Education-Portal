@@ -34,7 +34,7 @@
 
             if (uniqueEmail)
             {
-                this.userRepository.Create(user);
+                this.userRepository.Add(user);
             }
             else
             {

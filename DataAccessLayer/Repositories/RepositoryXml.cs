@@ -1,6 +1,7 @@
 ﻿namespace DataAccessLayer.Repositories
 {
     using System.Collections.Generic;
+    using System.Linq;
     using DataAccessLayer.Interfaces;
     using XmlDataBase.Interfaces;
 
@@ -14,7 +15,7 @@
             this.context = context;
         }
 
-        public void Create(T item)
+        public void Add(T item)
         {
             this.context.XmlSet.Add(item);
         }
@@ -29,9 +30,9 @@
             return this.context.XmlSet.Get(id);
         }
 
-        public IEnumerable<T> GetAll()
+        public IList<T> GetAll()
         {
-            return this.context.XmlSet.GetAll();
+            return this.context.XmlSet.GetAll().ToList();
         }
 
         public void Update(T item)

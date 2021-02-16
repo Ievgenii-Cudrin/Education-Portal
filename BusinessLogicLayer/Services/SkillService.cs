@@ -23,7 +23,7 @@
             // if name is unique => create new skill, otherwise skill == null
             if (uniqueEmail)
             {
-                this.repository.Create(skillToCreate);
+                this.repository.Add(skillToCreate);
             }
             else
             {
