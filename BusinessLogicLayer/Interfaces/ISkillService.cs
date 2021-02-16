@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using DataAccessLayer.Entities;
 
-    public interface ISkillService : IDeleteEntity
+    public interface ISkillService
     {
         public bool CreateSkill(Skill skill);
 
@@ -14,5 +14,7 @@
         public IEnumerable<Skill> GetAllSkills();
 
         public Skill GetSkillByName(string name);
+
+        public bool Delete(int id);
     }
 }

@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using Entities;
 
-    public interface IMaterialService : IDeleteEntity
+    public interface IMaterialService
     {
         public bool CreateVideo(Video video);
 
@@ -20,5 +20,7 @@
         public IEnumerable<Material> GetAllMaterials();
 
         public Material GetMaterial(int id);
+
+        public bool Delete(int id);
     }
 }

@@ -4,7 +4,7 @@
     using DataAccessLayer.Entities;
     using Entities;
 
-    public interface ICourseService : IDeleteEntity
+    public interface ICourseService
     {
         public bool CreateCourse(Course course);
 
@@ -19,5 +19,7 @@
         public List<Skill> GetSkillsFromCourse(int id);
 
         public List<Material> GetMaterialsFromCourse(int id);
+
+        public bool Delete(int id);
     }
 }

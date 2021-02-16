@@ -4,7 +4,7 @@
     using DataAccessLayer.Entities;
     using Entities;
 
-    public interface IUserService : IDeleteEntity
+    public interface IUserService
     {
         public User AuthorizedUser { get; }
 
@@ -39,5 +39,7 @@
         public void UpdateCourseInProgress(int courseInProgressNotFinishId, List<Material> updatedMaterials);
 
         public List<Skill> GetAllUserSkills();
+
+        public bool Delete(int id);
     }
 }
