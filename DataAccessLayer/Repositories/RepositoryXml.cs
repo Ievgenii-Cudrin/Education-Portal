@@ -4,12 +4,12 @@
     using DataAccessLayer.Interfaces;
     using XmlDataBase.Interfaces;
 
-    public class Repository<T> : IRepository<T>
+    public class RepositoryXml<T> : IRepository<T>
         where T : class
     {
         private readonly IXmlSerializeContext<T> context;
 
-        public Repository(IXmlSerializeContext<T> context)
+        public RepositoryXml(IXmlSerializeContext<T> context)
         {
             this.context = context;
         }

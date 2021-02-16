@@ -25,7 +25,7 @@ namespace EducationPortalConsoleApp.DependencyInjection
             var provider = new ServiceCollection()
                 .AddSingleton(typeof(IXmlSet<>), typeof(XmlSet<>))
                 .AddSingleton(typeof(IXmlSerializeContext<>), typeof(XmlSerializationContextGeneric<>))
-                .AddTransient(typeof(IRepository<>), typeof(Repository<>))
+                .AddTransient(typeof(IRepository<>), typeof(RepositoryXml<>))
                 //.AddTransient(typeof(IRepository)
                 .AddTransient<IUserService, UserService>()
                 .AddTransient<ICourseService, CourseService>()
