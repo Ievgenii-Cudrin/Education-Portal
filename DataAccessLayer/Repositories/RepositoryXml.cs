@@ -56,7 +56,7 @@
                 .Select(selector).ToList();
         }
 
-        public IList<T> Get(Expression<Func<T, bool>> predicat, params Expression<Func<T, object>>[] includes)
+        public IList<T> Get(Expression<Func<T, bool>> predicat)
         {
             return this.context.XmlSet.GetAll()
                 .AsQueryable()

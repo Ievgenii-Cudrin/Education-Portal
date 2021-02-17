@@ -14,11 +14,6 @@
     {
         private readonly ApplicationContext dbContext = new ApplicationContext();
 
-        //public RepositorySql()
-        //{
-        //    this.dbContext = context;
-        //}
-
         public IList<T> GetAll()
         {
             return this.dbContext.Set<T>().ToList();
