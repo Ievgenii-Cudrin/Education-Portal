@@ -1,7 +1,9 @@
 ﻿namespace EducationPortalConsoleApp.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Linq.Expressions;
     using BusinessLogicLayer.Interfaces;
     using DataAccessLayer.Entities;
     using DataAccessLayer.Interfaces;
@@ -239,6 +241,11 @@
                 authorizedUser.CoursesInProgress.Where(x => x.Id == courseInProgressNotFinishId).FirstOrDefault().Materials = updatedMaterials;
                 this.userRepository.Update(authorizedUser);
             }
+        }
+
+        public bool ExistEmail(Expression<Func<User, bool>> predicat)
+        {
+            return this.userRepository.Exist(predicat);
         }
     }
 }
