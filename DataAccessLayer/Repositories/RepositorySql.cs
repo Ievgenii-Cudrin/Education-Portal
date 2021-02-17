@@ -12,12 +12,12 @@
     public class RepositorySql<T> : IRepository<T>
         where T : class
     {
-        private readonly ApplicationContext dbContext;
+        private readonly ApplicationContext dbContext = new ApplicationContext();
 
-        public RepositorySql(ApplicationContext context)
-        {
-            this.dbContext = context;
-        }
+        //public RepositorySql()
+        //{
+        //    this.dbContext = context;
+        //}
 
         public IList<T> GetAll()
         {

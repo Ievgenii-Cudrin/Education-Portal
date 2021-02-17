@@ -15,12 +15,12 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\BusinessLogicLayer\EducationPortal.BLL.csproj" />
     <ProjectReference Include="..\DataAccessLayer\EducationPortal.DAL.csproj" />
-    <ProjectReference Include="..\EducationPortal.DAL.SQL\EducationPortal.DAL.SQL.csproj" />
     <ProjectReference Include="..\EducationPortal.XmlDataBase\EducationPortal.XmlDataBase.csproj" />
   </ItemGroup>
 

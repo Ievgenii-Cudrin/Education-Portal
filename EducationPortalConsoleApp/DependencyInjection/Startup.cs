@@ -17,6 +17,9 @@ namespace EducationPortalConsoleApp.DependencyInjection
     using XmlDataBase.Serialization;
     using EducationPortal.DAL.SQL;
     using EducationPortal.PL.Mapping;
+    using EducationPortal.DAL.Repositories;
+    using EducationPortal.DAL.DataContext;
+    using Microsoft.EntityFrameworkCore;
 
     public static class Startup
     {
@@ -25,7 +28,8 @@ namespace EducationPortalConsoleApp.DependencyInjection
             var provider = new ServiceCollection()
                 .AddSingleton(typeof(IXmlSet<>), typeof(XmlSet<>))
                 .AddSingleton(typeof(IXmlSerializeContext<>), typeof(XmlSerializationContextGeneric<>))
-                .AddTransient(typeof(IRepository<>), typeof(RepositoryXml<>))
+                .AddTransient(typeof(IRepository<>), typeof(RepositoryXml<>)) 
+                .AddTransient(typeof(IRepository<>), typeof(RepositorySql<>))
                 .AddTransient<IUserService, UserService>()
                 .AddTransient<ICourseService, CourseService>()
                 .AddTransient<IMaterialService, MaterialService>()
