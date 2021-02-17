@@ -20,7 +20,13 @@
             this.userRepository = uRepo.FirstOrDefault(t => t.GetType() == typeof(RepositorySql<User>));
         }
 
-        public User AuthorizedUser => throw new NotImplementedException();
+        public User AuthorizedUser
+        {
+            get
+            {
+                return authorizedUser;
+            }
+        }
 
         public bool AddCourseInProgress(int id)
         {
@@ -64,11 +70,6 @@
             throw new NotImplementedException();
         }
 
-        public IEnumerable<User> GetAllUsers()
-        {
-            throw new NotImplementedException();
-        }
-
         public List<Skill> GetAllUserSkills()
         {
             throw new NotImplementedException();
@@ -96,7 +97,8 @@
 
         public bool LogOut()
         {
-            throw new NotImplementedException();
+            authorizedUser = null;
+            return true;
         }
 
         public void UpdateCourseInProgress(int courseInProgressNotFinishId, List<Material> updatedMaterials)
@@ -106,7 +108,15 @@
 
         public bool UpdateUser(User user)
         {
-            throw new NotImplementedException();
+            if (this.userRepository.Exist(x => x.Id == user.Id))
+            {
+                this.userRepository.Update(user);
+                this.userRepository.Save();
+                return true;
+            }
+
+            return false;
+
         }
 
         public bool UpdateValueOfPassMaterialInProgress(int courseId, int materialId)

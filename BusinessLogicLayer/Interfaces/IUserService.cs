@@ -18,8 +18,6 @@
 
         bool UpdateUser(User user);
 
-        IEnumerable<User> GetAllUsers();
-
         bool AddCourseInProgress(int id);
 
         bool DeleteCourseFromProgress(int id);
