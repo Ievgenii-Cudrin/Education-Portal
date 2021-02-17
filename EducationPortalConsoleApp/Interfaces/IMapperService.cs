@@ -1,18 +1,18 @@
-﻿using System.Collections.Generic;
-
-namespace EducationPortal.PL.Interfaces
+﻿namespace EducationPortal.PL.Interfaces
 {
+    using System.Collections.Generic;
+
     public interface IMapperService
     {
-        public TN CreateMapFromVMToDomain<T, TN>(T viewModelType);
+        TN CreateMapFromVMToDomain<T, TN>(T viewModelType);
 
-        public TN CreateMapFromVMToDomainWithIncludeVideoType<T, TN, TIT, TIN>(T viewModelType)
+        TN CreateMapFromVMToDomainWithIncludeVideoType<T, TN, TIT, TIN>(T viewModelType)
             where TIT : T
             where TIN : TN;
 
-        public List<TN> CreateListMap<T, TN>(List<T> list);
+        List<TN> CreateListMap<T, TN>(List<T> list);
 
-        public List<TMV> CreateListMapFromVMToDomainWithIncludeMaterialType<TMD, TMV, TVD, TVV, TAD, TAV, TBD, TBV>(List<TMD> viewModelType)
+        List<TMV> CreateListMapFromVMToDomainWithIncludeMaterialType<TMD, TMV, TVD, TVV, TAD, TAV, TBD, TBV>(List<TMD> viewModelType)
             where TVD : TMD
             where TAD : TMD
             where TBD : TMD
@@ -20,9 +20,9 @@ namespace EducationPortal.PL.Interfaces
             where TAV : TMV
             where TBV : TMV;
 
-        public List<TCV> CreateListMapFromVMToDomainWithIncludeLsitType<TCD, TCV, TMD, TMV, TSD, TSV>(List<TCD> viewModelType);
+        List<TCV> CreateListMapFromVMToDomainWithIncludeLsitType<TCD, TCV, TMD, TMV, TSD, TSV>(List<TCD> viewModelType);
 
-        public TCV CreateMapFromVMToDomainWithIncludeLsitType<TCD, TCV, TMD, TMV, TSD, TSV>(TCD viewModelType);
+        TCV CreateMapFromVMToDomainWithIncludeLsitType<TCD, TCV, TMD, TMV, TSD, TSV>(TCD viewModelType);
 
 
     }

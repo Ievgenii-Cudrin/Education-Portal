@@ -5,22 +5,22 @@
 
     public interface IMaterialService
     {
-        public bool CreateVideo(Video video);
+        bool CreateVideo(Video video);
 
-        public bool CreateArticle(Article article);
+        bool CreateArticle(Article article);
 
-        public bool CreateBook(Book book);
+        bool CreateBook(Book book);
 
-        public bool UpdateVideo(Video video);
+        bool UpdateVideo(Video video);
 
-        public bool UpdateArticle(Article article);
+        bool UpdateArticle(Article article);
 
-        public bool UpdateBook(Book book);
+        bool UpdateBook(Book book);
 
-        public IEnumerable<Material> GetAllMaterials();
+        IEnumerable<Material> GetAllMaterials();
 
-        public Material GetMaterial(int id);
+        Material GetMaterial(int id);
 
-        public bool Delete(int id);
+        bool Delete(int id);
     }
 }

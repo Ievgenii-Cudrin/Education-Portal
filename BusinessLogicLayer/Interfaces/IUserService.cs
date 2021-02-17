@@ -1,45 +1,49 @@
 ﻿namespace BusinessLogicLayer.Interfaces
 {
+    using System;
     using System.Collections.Generic;
+    using System.Linq.Expressions;
     using DataAccessLayer.Entities;
     using Entities;
 
     public interface IUserService
     {
-        public User AuthorizedUser { get; }
+        User AuthorizedUser { get; }
 
-        public bool CreateUser(User user);
+        bool CreateUser(User user);
 
-        public bool VerifyUser(string name, string password);
+        bool VerifyUser(string name, string password);
 
-        public bool LogOut();
+        bool LogOut();
 
-        public bool UpdateUser(User user);
+        bool UpdateUser(User user);
 
-        public IEnumerable<User> GetAllUsers();
+        IEnumerable<User> GetAllUsers();
 
-        public bool AddCourseInProgress(int id);
+        bool AddCourseInProgress(int id);
 
-        public bool DeleteCourseFromProgress(int id);
+        bool DeleteCourseFromProgress(int id);
 
-        public bool AddCourseToPassed(int id);
+        bool AddCourseToPassed(int id);
 
-        public bool AddSkill(Skill skill);
+        bool AddSkill(Skill skill);
 
-        public bool UpdateValueOfPassMaterialInProgress(int courseId, int materialId);
+        bool UpdateValueOfPassMaterialInProgress(int courseId, int materialId);
 
-        public List<Course> GetListWithCoursesInProgress();
+        List<Course> GetListWithCoursesInProgress();
 
-        public List<Material> GetMaterialsFromCourseInProgress(int id);
+        List<Material> GetMaterialsFromCourseInProgress(int id);
 
-        public List<Skill> GetSkillsFromCourseInProgress(int id);
+        List<Skill> GetSkillsFromCourseInProgress(int id);
 
-        public List<Course> GetAvailableCoursesForUser();
+        List<Course> GetAvailableCoursesForUser();
 
-        public void UpdateCourseInProgress(int courseInProgressNotFinishId, List<Material> updatedMaterials);
+        void UpdateCourseInProgress(int courseInProgressNotFinishId, List<Material> updatedMaterials);
 
-        public List<Skill> GetAllUserSkills();
+        List<Skill> GetAllUserSkills();
 
-        public bool Delete(int id);
+        public bool ExistEmail(Expression<Func<User, bool>> predicat);
+
+        bool Delete(int id);
     }
 }

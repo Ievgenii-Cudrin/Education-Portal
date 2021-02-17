@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EducationPortalConsoleApp.Interfaces
+﻿namespace EducationPortalConsoleApp.Interfaces
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
     public interface ISkillController
     {
-        public void CreateSkill();
+        void CreateSkill();
     }
 }

@@ -2,18 +2,18 @@
 {
     public interface IUserController
     {
-        public void CreateNewUser();
+        void CreateNewUser();
 
-        public void VerifyLoginAndPassword();
+        void VerifyLoginAndPassword();
 
-        public void LogOut();
+        void LogOut();
 
-        public void ShowAllPassedCourses();
+        void ShowAllPassedCourses();
 
-        public void ShowAllUserSkills();
+        void ShowAllUserSkills();
 
-        public void ShowAllCourseInProggres();
+        void ShowAllCourseInProggres();
 
-        public void ShowUserInfo();
+        void ShowUserInfo();
     }
 }

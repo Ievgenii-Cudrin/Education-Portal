@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EducationPortal.PL.Interfaces
+﻿namespace EducationPortal.PL.Interfaces
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
     public interface IPassCourseController
     {
-        public void StartPassCourse();
+        void StartPassCourse();
 
-        public void StartPassingCourseFromProgressList();
+        void StartPassingCourseFromProgressList();
     }
 }

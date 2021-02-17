@@ -6,20 +6,20 @@
 
     public interface ICourseService
     {
-        public bool CreateCourse(Course course);
+        bool CreateCourse(Course course);
 
-        public bool UpdateCourse(Course course);
+        bool UpdateCourse(Course course);
 
-        public IEnumerable<Course> GetAllCourses();
+        IEnumerable<Course> GetAllCourses();
 
-        public bool AddMaterialToCourse(int id, Material material);
+        bool AddMaterialToCourse(int id, Material material);
 
-        public bool AddSkillToCourse(int id, Skill skillToAdd);
+        bool AddSkillToCourse(int id, Skill skillToAdd);
 
-        public List<Skill> GetSkillsFromCourse(int id);
+        List<Skill> GetSkillsFromCourse(int id);
 
-        public List<Material> GetMaterialsFromCourse(int id);
+        List<Material> GetMaterialsFromCourse(int id);
 
-        public bool Delete(int id);
+        bool Delete(int id);
     }
 }

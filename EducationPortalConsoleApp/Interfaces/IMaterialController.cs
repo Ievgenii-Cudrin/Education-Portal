@@ -6,16 +6,16 @@
 
     public interface IMaterialController
     {
-        public Material CreateVideo();
+        Material CreateVideo();
 
-        public Material CreateArticle();
+        Material CreateArticle();
 
-        public Material CreateBook();
+        Material CreateBook();
 
-        public void DeleteMaterial(int id);
+        void DeleteMaterial(int id);
 
-        public Material GetMaterialFromAllMaterials();
+        Material GetMaterialFromAllMaterials();
 
-        public List<MaterialViewModel> GetAllMaterialVMAfterMappingFromMaterialDomain(List<Material> materialsListDomain);
+        List<MaterialViewModel> GetAllMaterialVMAfterMappingFromMaterialDomain(List<Material> materialsListDomain);
     }
 }
