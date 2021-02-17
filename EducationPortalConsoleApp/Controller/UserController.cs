@@ -53,9 +53,9 @@ namespace EducationPortalConsoleApp.Controller
             Console.Clear();
             // create user
             UserViewModel userVM = UserVMInstanceCreator.CreateUser();
-
+            var user = this.mapperService.CreateMapFromVMToDomain<UserViewModel, User>(userVM);
             // user data is valid?
-            if (this.userService.GetAllUsers().Any(x => x.Email == userVM.Email))
+            if (this.userService.ExistEmail(x => x.Email == user.Email))
             {
                 Console.WriteLine("User with this email already exists!");
                 Thread.Sleep(4000);
@@ -63,7 +63,7 @@ namespace EducationPortalConsoleApp.Controller
             }
 
             // Create new user, if not - false
-            bool createUser = this.userService.CreateUser(this.mapperService.CreateMapFromVMToDomain<UserViewModel, User>(userVM));
+            bool createUser = this.userService.CreateUser(user);
 
             // Show result
             ProgramConsoleMessageHelper.
