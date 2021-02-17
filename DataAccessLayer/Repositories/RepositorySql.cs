@@ -58,6 +58,12 @@
                         .Select(selector).ToList();
         }
 
+        public IList<T> Get(Expression<Func<T, bool>> predicat)
+        {
+            return this.dbContext.Set<T>()
+                        .Where(predicat).ToList();
+        }
+
         public IList<T> GetPage(PageInfo page)
         {
             var skip = page.Size * (page.Number - 1);

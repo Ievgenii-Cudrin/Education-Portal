@@ -37,7 +37,6 @@
         public IList<TResult> Get<TResult>(Expression<Func<T, TResult>> selector);
 
         public IList<T> Get(
-            Expression<Func<T, bool>> predicat,
-            params Expression<Func<T, object>>[] includes);
+            Expression<Func<T, bool>> predicat);
     }
 }
