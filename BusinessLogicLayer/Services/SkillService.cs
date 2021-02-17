@@ -5,14 +5,15 @@
     using BusinessLogicLayer.Interfaces;
     using DataAccessLayer.Entities;
     using DataAccessLayer.Interfaces;
+    using DataAccessLayer.Repositories;
 
     public class SkillService : ISkillService
     {
         private readonly IRepository<Skill> repository;
 
-        public SkillService(IRepository<Skill> repository)
+        public SkillService(IEnumerable<IRepository<Skill>> repository)
         {
-            this.repository = repository;
+            this.repository = repository.FirstOrDefault(t => t.GetType() == typeof(RepositoryXml<Skill>));
         }
 
         public bool CreateSkill(Skill skillToCreate)

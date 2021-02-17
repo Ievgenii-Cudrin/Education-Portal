@@ -5,6 +5,7 @@
     using System.Linq;
     using BusinessLogicLayer.Interfaces;
     using DataAccessLayer.Interfaces;
+    using DataAccessLayer.Repositories;
     using Entities;
 
     public class MaterialService : IMaterialService
@@ -12,9 +13,9 @@
         private readonly IRepository<Material> repository;
         private readonly List<Material> materialsFromDB;
 
-        public MaterialService(IRepository<Material> repository)
+        public MaterialService(IEnumerable<IRepository<Material>> repositories)
         {
-            this.repository = repository;
+            this.repository = repositories.FirstOrDefault(t => t.GetType() == typeof(RepositoryXml<Material>));
             this.materialsFromDB = repository.GetAll().ToList();
         }
 

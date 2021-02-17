@@ -5,6 +5,7 @@
     using BusinessLogicLayer.Interfaces;
     using DataAccessLayer.Entities;
     using DataAccessLayer.Interfaces;
+    using DataAccessLayer.Repositories;
     using Entities;
 
     public class CourseService : ICourseService
@@ -12,9 +13,9 @@
         private readonly IRepository<Course> courseRepository;
         private readonly ISkillService skillService;
 
-        public CourseService(IRepository<Course> repository, ISkillService skillService)
+        public CourseService(IEnumerable<IRepository<Course>> repositories, ISkillService skillService)
         {
-            this.courseRepository = repository;
+            this.courseRepository = repositories.FirstOrDefault(t => t.GetType() == typeof(RepositoryXml<Course>));
             this.skillService = skillService;
         }
 

@@ -5,6 +5,8 @@
     using BusinessLogicLayer.Interfaces;
     using DataAccessLayer.Entities;
     using DataAccessLayer.Interfaces;
+    using DataAccessLayer.Repositories;
+    using EducationPortal.DAL.Repositories;
     using EducationPortal.Domain.Comparers;
     using Entities;
 
@@ -14,10 +16,10 @@
         private readonly IRepository<User> userRepository;
         private readonly IRepository<Course> courseRepository;
 
-        public UserService(IRepository<User> repository, IRepository<Course> courseRepository)
+        public UserService(IEnumerable<IRepository<User>> uRepositories, IEnumerable<IRepository<Course>> courseRepositories)
         {
-            this.userRepository = repository;
-            this.courseRepository = courseRepository;
+            this.userRepository = uRepositories.FirstOrDefault(t => t.GetType() == typeof(RepositoryXml<User>));
+            this.courseRepository = courseRepositories.FirstOrDefault(t => t.GetType() == typeof(RepositoryXml<Course>));
         }
 
         public User AuthorizedUser
