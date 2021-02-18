@@ -5,10 +5,8 @@
     using System.Text;
     using DataAccessLayer.Entities;
 
-    public interface ILogInService
+    public interface IAuthorizedUser
     {
-        public bool LogIn(string email, string password);
-
-        public bool LogOut();
+        public User User { get; }
     }
 }

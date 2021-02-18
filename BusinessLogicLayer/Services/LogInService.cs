@@ -13,26 +13,12 @@
     public class LogInService : ILogInService
     {
         private IRepository<User> userRepository;
-        private IUserService userService;
-        private static User authorizedUser;
+        private WorkWithAuthorizedUser workWithAuthorizedUser;
 
-        public User AuthorizedUser
-        {
-            get
-            {
-                if (authorizedUser != null)
-                {
-                    return authorizedUser;
-                }
-
-                return null;
-            }
-        }
-
-        public LogInService(IEnumerable<IRepository<User>> uRepo, IUserService userServ)
+        public LogInService(IEnumerable<IRepository<User>> uRepo, WorkWithAuthorizedUser workWithAuthUser)
         {
             this.userRepository = uRepo.FirstOrDefault(t => t.GetType() == typeof(RepositorySql<User>));
-            this.userService = userServ;
+            this.workWithAuthorizedUser = workWithAuthUser;
         }
 
         public bool LogIn(string name, string password)
@@ -45,15 +31,14 @@
             }
             else
             {
-                authorizedUser = user;
+                this.workWithAuthorizedUser.SetUser(user);
+                return true;
             }
-
-            return true;
         }
 
         public bool LogOut()
         {
-            authorizedUser = null;
+            this.workWithAuthorizedUser.CleanUser();
             return true;
         }
     }

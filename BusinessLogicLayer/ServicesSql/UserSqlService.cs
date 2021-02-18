@@ -14,12 +14,12 @@
     public class UserSqlService : IUserService
     {
         private readonly IRepository<User> userRepository;
-        private ILogInService logInService;
+        private IAuthorizedUser authorizedUser;
 
-        public UserSqlService(IEnumerable<IRepository<User>> uRepo, ILogInService logInServ)
+        public UserSqlService(IEnumerable<IRepository<User>> uRepo, IAuthorizedUser authUser)
         {
             this.userRepository = uRepo.FirstOrDefault(t => t.GetType() == typeof(RepositorySql<User>));
-            this.logInService = logInServ;
+            this.authorizedUser = authUser;
         }
 
         public bool AddCourseInProgress(int id)
@@ -73,9 +73,9 @@
 
         public List<Skill> GetAllUserSkills()
         {
-            if (this.logInService.AuthorizedUser != null)
+            if (this.authorizedUser.User != null)
             {
-                return (List<Skill>)this.userRepository.Get<IList<Skill>>(x => x.Skills, x => x.Id == this.logInService.AuthorizedUser.Id);
+                return (List<Skill>)this.userRepository.Get<IList<Skill>>(x => x.Skills, x => x.Id == this.authorizedUser.User.Id);
             }
 
             return null;
