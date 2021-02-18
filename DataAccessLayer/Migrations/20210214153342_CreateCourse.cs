@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace EducationPortal.DAL.SQL.Migrations
+namespace EducationPortal.DAL.Migrations
 {
     public partial class CreateCourse : Migration
     {
