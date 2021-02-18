@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace EducationPortal.DAL.SQL.Migrations
+namespace EducationPortal.DAL.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
     [Migration("20210214153240_CreateSkill")]
