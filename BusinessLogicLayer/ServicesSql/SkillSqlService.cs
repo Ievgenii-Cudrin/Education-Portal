@@ -12,41 +12,43 @@
 
     public class SkillSqlService : ISkillService
     {
-        private readonly IRepository<Skill> repository;
+        private readonly IRepository<Skill> skillRepository;
 
         public SkillSqlService(IEnumerable<IRepository<Skill>> repository)
         {
-            this.repository = repository.FirstOrDefault(t => t.GetType() == typeof(RepositoryXml<Skill>));
+            this.skillRepository = repository.FirstOrDefault(t => t.GetType() == typeof(RepositoryXml<Skill>));
         }
 
-        public bool CreateSkill(Skill skill)
+        public void CreateSkill(Skill skill)
         {
-            throw new NotImplementedException();
+            bool uniqueSkill = skill != null && !this.skillRepository.Exist(x => x.Name.ToLower().Equals(skill.Name.ToLower()));
+
+            if (uniqueSkill)
+            {
+                this.skillRepository.Add(skill);
+                this.skillRepository.Save();
+            }
         }
 
-        public bool Delete(int id)
+        public void Delete(int id)
         {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Skill> GetAllSkills()
-        {
-            throw new NotImplementedException();
+            this.skillRepository.Delete(id);
+            this.skillRepository.Save();
         }
 
         public Skill GetSkill(int id)
         {
-            throw new NotImplementedException();
+            return this.skillRepository.Get(id);
         }
 
         public Skill GetSkillByName(string name)
         {
-            throw new NotImplementedException();
+            return this.skillRepository.Get(x => x.Name == name).FirstOrDefault();
         }
 
-        public bool UpdateSkill(Skill skill)
+        public void UpdateSkill(Skill skill)
         {
-            throw new NotImplementedException();
+            this.skillRepository.Update(skill);
         }
     }
 }
