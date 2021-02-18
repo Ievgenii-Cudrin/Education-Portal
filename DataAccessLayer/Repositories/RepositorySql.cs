@@ -12,7 +12,12 @@
     public class RepositorySql<T> : IRepository<T>
         where T : class
     {
-        private readonly ApplicationContext dbContext = new ApplicationContext();
+        private readonly ApplicationContext dbContext;
+
+        public RepositorySql(ApplicationContext context)
+        {
+            this.dbContext = context;
+        }
 
         public IList<T> GetAll()
         {
@@ -124,7 +129,6 @@
 
             if (entity != null)
             {
-
                 this.dbContext.Set<T>().Remove(entity);
             }
         }

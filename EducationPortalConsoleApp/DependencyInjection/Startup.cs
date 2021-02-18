@@ -15,25 +15,41 @@ namespace EducationPortalConsoleApp.DependencyInjection
     using Microsoft.Extensions.DependencyInjection;
     using XmlDataBase.Interfaces;
     using XmlDataBase.Serialization;
-    using EducationPortal.DAL.SQL;
     using EducationPortal.PL.Mapping;
     using EducationPortal.DAL.Repositories;
+    using EducationPortal.BLL.ServicesSql;
     using EducationPortal.DAL.DataContext;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using System.IO;
 
-    public static class Startup
+    public class Startup
     {
-        public static IServiceProvider ConfigureService()
+        static IConfiguration Configuration;
+
+        public Startup()
+        {
+            Configuration = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("Config.json", optional: false, reloadOnChange: true)
+            .Build();
+        }
+        public IServiceProvider ConfigureService()
         {
             var provider = new ServiceCollection()
                 .AddSingleton(typeof(IXmlSet<>), typeof(XmlSet<>))
                 .AddSingleton(typeof(IXmlSerializeContext<>), typeof(XmlSerializationContextGeneric<>))
-                .AddTransient(typeof(IRepository<>), typeof(RepositoryXml<>)) 
+                .AddTransient(typeof(IRepository<>), typeof(RepositoryXml<>))
                 .AddTransient(typeof(IRepository<>), typeof(RepositorySql<>))
-                .AddTransient<IUserService, UserService>()
-                .AddTransient<ICourseService, CourseService>()
-                .AddTransient<IMaterialService, MaterialService>()
-                .AddTransient<ISkillService, SkillService>()
+                .AddDbContext<ApplicationContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:UserDBConnection"]))
+                 //.AddTransient<IUserService, UserService>()
+                .AddTransient<IUserService, UserSqlService>()
+                //.AddTransient<ICourseService, CourseService>()
+                .AddTransient<ICourseService, CourseSqlService>()
+                //.AddTransient<IMaterialService, MaterialService>()
+                .AddTransient<IMaterialService, MaterialSqlService>()
+                //.AddTransient<ISkillService, SkillService>()
+                .AddTransient<ISkillService, SkillSqlService>()
                 .AddTransient<IMaterialController, MaterialController>()
                 .AddTransient<IUserController, UserController>()
                 .AddTransient<ICourseController, CourseController>()

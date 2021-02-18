@@ -2,7 +2,9 @@
 namespace EducationPortalConsoleApp.Helpers
 {
     using System;
+    using System.Configuration;
     using EducationPortalConsoleApp.DependencyInjection;
+    using Microsoft.Extensions.Configuration;
 
     public static class ProviderServicePL
     {
@@ -14,7 +16,7 @@ namespace EducationPortalConsoleApp.Helpers
             {
                 if (provider == null)
                 {
-                    provider = Startup.ConfigureService();
+                    provider = new Startup().ConfigureService();
                 }
 
                 return provider;
