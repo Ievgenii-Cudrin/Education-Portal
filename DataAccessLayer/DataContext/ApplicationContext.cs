@@ -51,6 +51,9 @@
             modelBuilder.ApplyConfiguration(new CourseMaterialConfiguration());
             modelBuilder.ApplyConfiguration(new UserCourseMaterialConfiguration());
 
+            modelBuilder.Entity<Article>().ToTable("Articles");
+            modelBuilder.Entity<Book>().ToTable("Books");
+            modelBuilder.Entity<Video>().ToTable("Videos");
         }
 
         class SkillConfiguration : IEntityTypeConfiguration<Skill>
