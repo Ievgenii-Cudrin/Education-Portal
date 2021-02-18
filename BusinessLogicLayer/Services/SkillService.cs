@@ -16,7 +16,7 @@
             this.repository = repository.FirstOrDefault(t => t.GetType() == typeof(RepositoryXml<Skill>));
         }
 
-        public bool CreateSkill(Skill skillToCreate)
+        public void CreateSkill(Skill skillToCreate)
         {
             // check name, may be we have this skill
             bool uniqueEmail = skillToCreate != null && !this.repository.GetAll().Any(x => x.Name.ToLower().Equals(skillToCreate.Name.ToLower()));
@@ -26,15 +26,9 @@
             {
                 this.repository.Add(skillToCreate);
             }
-            else
-            {
-                return false;
-            }
-
-            return true;
         }
 
-        public bool UpdateSkill(Skill skillToUpdate)
+        public void UpdateSkill(Skill skillToUpdate)
         {
             Skill skill = this.repository.Get(skillToUpdate.Id);
 
@@ -51,25 +45,14 @@
             return true;
         }
 
-        public IEnumerable<Skill> GetAllSkills()
-        {
-            return this.repository.GetAll();
-        }
-
-        public bool Delete(int id)
+        public void Delete(int id)
         {
             Skill skill = this.repository.Get(id);
 
-            if (skill == null)
-            {
-                return false;
-            }
-            else
+            if (skill != null)
             {
                 this.repository.Delete(id);
             }
-
-            return true;
         }
 
         public Skill GetSkill(int id)

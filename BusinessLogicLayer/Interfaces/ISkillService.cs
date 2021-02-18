@@ -5,16 +5,14 @@
 
     public interface ISkillService
     {
-        bool CreateSkill(Skill skill);
+        void CreateSkill(Skill skill);
 
         Skill GetSkill(int id);
 
-        bool UpdateSkill(Skill skill);
-
-        IEnumerable<Skill> GetAllSkills();
+        void UpdateSkill(Skill skill);
 
         Skill GetSkillByName(string name);
 
-        bool Delete(int id);
+        void Delete(int id);
     }
 }
