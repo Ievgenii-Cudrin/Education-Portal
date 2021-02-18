@@ -22,14 +22,16 @@ namespace EducationPortalConsoleApp.DependencyInjection
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using System.IO;
+    using EducationPortal.BLL.Services;
+    using EducationPortal.BLL.Interfaces;
 
     public class Startup
     {
-        static IConfiguration Configuration;
+        static IConfiguration configuration;
 
         public Startup()
         {
-            Configuration = new ConfigurationBuilder()
+            configuration = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("Config.json", optional: false, reloadOnChange: true)
             .Build();
@@ -41,7 +43,7 @@ namespace EducationPortalConsoleApp.DependencyInjection
                 .AddSingleton(typeof(IXmlSerializeContext<>), typeof(XmlSerializationContextGeneric<>))
                 .AddTransient(typeof(IRepository<>), typeof(RepositoryXml<>))
                 .AddTransient(typeof(IRepository<>), typeof(RepositorySql<>))
-                .AddDbContext<ApplicationContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:UserDBConnection"]))
+                .AddDbContext<ApplicationContext>(options => options.UseSqlServer(configuration["ConnectionStrings:UserDBConnection"]))
                  //.AddTransient<IUserService, UserService>()
                 .AddTransient<IUserService, UserSqlService>()
                 //.AddTransient<ICourseService, CourseService>()
@@ -49,6 +51,7 @@ namespace EducationPortalConsoleApp.DependencyInjection
                 //.AddTransient<IMaterialService, MaterialService>()
                 .AddTransient<IMaterialService, MaterialSqlService>()
                 //.AddTransient<ISkillService, SkillService>()
+                .AddTransient<ILogInService, LogInService>()
                 .AddTransient<ISkillService, SkillSqlService>()
                 .AddTransient<IMaterialController, MaterialController>()
                 .AddTransient<IUserController, UserController>()

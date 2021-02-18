@@ -8,13 +8,7 @@
 
     public interface IUserService
     {
-        User AuthorizedUser { get; }
-
         bool CreateUser(User user);
-
-        bool VerifyUser(string name, string password);
-
-        bool LogOut();
 
         bool UpdateUser(User user);
 
