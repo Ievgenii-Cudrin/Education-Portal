@@ -5,11 +5,7 @@
 
     public interface IMaterialService
     {
-        bool CreateVideo(Video video);
-
-        bool CreateArticle(Article article);
-
-        bool CreateBook(Book book);
+        Material CreateMaterial(Material material);
 
         bool UpdateVideo(Video video);
 

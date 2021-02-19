@@ -10,16 +10,14 @@
 
         bool UpdateCourse(Course course);
 
-        IEnumerable<Course> GetAllCourses();
+        bool AddMaterialToCourse(int courseId, Material material);
 
-        bool AddMaterialToCourse(int id, Material material);
+        bool AddSkillToCourse(int courseId, Skill skillToAdd);
 
-        bool AddSkillToCourse(int id, Skill skillToAdd);
+        List<Skill> GetSkillsFromCourse(int courseId);
 
-        List<Skill> GetSkillsFromCourse(int id);
+        List<Material> GetMaterialsFromCourse(int courseId);
 
-        List<Material> GetMaterialsFromCourse(int id);
-
-        bool Delete(int id);
+        bool Delete(int courseId);
     }
 }
