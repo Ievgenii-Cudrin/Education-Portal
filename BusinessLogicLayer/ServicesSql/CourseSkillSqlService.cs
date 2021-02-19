@@ -29,7 +29,9 @@
 
         public bool AddSkillToCourse(int courseId, int skillId)
         {
-            if (this.courseRepository.Exist(x => x.Id == courseId) && this.skillRepository.Exist(x => x.Id == skillId))
+            if (this.courseRepository.Exist(x => x.Id == courseId) &&
+                this.skillRepository.Exist(x => x.Id == skillId) &&
+                !this.courseSkillRepository.Exist(x => x.CourseId == courseId && x.SkillId == skillId))
             {
                 CourseSkill courseSkill = new CourseSkill()
                 {

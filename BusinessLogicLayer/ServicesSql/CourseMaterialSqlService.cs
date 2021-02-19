@@ -21,8 +21,7 @@
         public CourseMaterialSqlService(
             IEnumerable<IRepository<CourseMaterial>> courseMatRepository,
             IEnumerable<IRepository<Material>> materialRepo,
-            IEnumerable<IRepository<Course>> courseRepo
-            )
+            IEnumerable<IRepository<Course>> courseRepo)
         {
             this.courseMaterialRepository = courseMatRepository.FirstOrDefault(t => t.GetType() == typeof(RepositorySql<CourseMaterial>));
             this.courseRepository = courseRepo.FirstOrDefault(t => t.GetType() == typeof(RepositorySql<Course>));
@@ -31,7 +30,9 @@
 
         public bool AddMaterialToCourse(int courseId, int materialId)
         {
-            if (this.courseRepository.Exist(x => x.Id == courseId) && this.materialRepository.Exist(x => x.Id == materialId))
+            if (this.courseRepository.Exist(x => x.Id == courseId) &&
+                this.materialRepository.Exist(x => x.Id == materialId) &&
+                !this.courseMaterialRepository.Exist(x => x.CourseId == courseId && x.MaterialId == materialId))
             {
                 CourseMaterial courseMaterial = new CourseMaterial()
                 {
