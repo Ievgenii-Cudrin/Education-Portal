@@ -13,10 +13,14 @@
 
         bool UpdateBook(Book book);
 
-        IEnumerable<Material> GetAllMaterials();
+        IEnumerable<Material> GetAllExceptedMaterials(int courseId);
 
         Material GetMaterial(int id);
 
         bool Delete(int id);
+
+        bool ExistMaterial(int materialId);
+
+        IEnumerable<Material> GetAllNotPassedMaterialFromUser();
     }
 }
