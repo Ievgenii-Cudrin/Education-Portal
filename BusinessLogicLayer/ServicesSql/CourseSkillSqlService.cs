@@ -48,5 +48,10 @@
                 return false;
             }
         }
+
+        public List<Skill> GetAllSkillsFromCourse(int courseId)
+        {
+            return this.courseSkillRepository.Get<Skill>(x => x.Skill, x => x.CourseId == courseId).ToList();
+        }
     }
 }
