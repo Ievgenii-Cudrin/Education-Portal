@@ -29,14 +29,14 @@
             VideoViewModel materialVM = VideoVMInstanceCreator.CreateVideo();
 
             // mapping
-            var videoMap = this.mapperService.CreateMapFromVMToDomainWithIncludeVideoType<MaterialViewModel, Material, VideoViewModel, Video>(materialVM);
+            var videoAfterMap = this.mapperService.CreateMapFromVMToDomain<VideoViewModel, Video>(materialVM);
 
             // add video to db
-            bool success = this.materialService.CreateVideo(this.mapperService.CreateMapFromVMToDomain<VideoViewModel, Video>(materialVM));
+            var videoFromBll = this.materialService.CreateMaterial(videoAfterMap);
 
-            if (success)
+            if (videoFromBll != null)
             {
-                return videoMap;
+                return videoFromBll;
             }
             else
             {
@@ -50,14 +50,14 @@
             ArticleViewModel articleVM = ArticleVMInstanceCreator.CreateArticle();
 
             // mapping
-            var articleMap = this.mapperService.CreateMapFromVMToDomainWithIncludeVideoType<MaterialViewModel, Material, ArticleViewModel, Article>(articleVM);
+            var articleAfterMap = this.mapperService.CreateMapFromVMToDomain<ArticleViewModel, Article>(articleVM);
 
             // add article to db
-            bool success = this.materialService.CreateArticle(this.mapperService.CreateMapFromVMToDomain<ArticleViewModel, Article>(articleVM));
+            var articleFromBll = this.materialService.CreateMaterial(articleAfterMap);
 
-            if (success)
+            if (articleFromBll != null)
             {
-                return articleMap;
+                return articleFromBll;
             }
             else
             {
@@ -71,14 +71,14 @@
             BookViewModel bookVM = BookVMInstanceCreator.CreateBook();
 
             // mapping
-            var bookMap = this.mapperService.CreateMapFromVMToDomainWithIncludeVideoType<MaterialViewModel, Material, BookViewModel, Book>(bookVM);
+            var bookAfterMap = this.mapperService.CreateMapFromVMToDomain<BookViewModel, Book>(bookVM);
 
             // add book to db
-            bool success = this.materialService.CreateBook(this.mapperService.CreateMapFromVMToDomain<BookViewModel, Book>(bookVM));
+            var bookFromBll = this.materialService.CreateMaterial(bookAfterMap);
 
-            if (success)
+            if (bookFromBll != null)
             {
-                return bookMap;
+                return bookFromBll;
             }
             else
             {
@@ -86,10 +86,10 @@
             }
         }
 
-        public Material GetMaterialFromAllMaterials()
+        public Material GetMaterialFromAllMaterials(int courseId)
         {
             // mapping from domain to viewmodel
-            List<MaterialViewModel> materialsVM1 = this.GetAllMaterialVMAfterMappingFromMaterialDomain(this.materialService.GetAllMaterials().ToList());
+            List<MaterialViewModel> materialsVM1 = this.GetAllMaterialVMAfterMappingFromMaterialDomain(this.materialService.GetAllExceptedMaterials(courseId).ToList());
 
             // ShowMaterials
             MaterialConsoleMessageHelper.ShowMaterial(materialsVM1);
@@ -104,7 +104,7 @@
             {
                 id = 0;
                 Console.WriteLine($"Invalid value");
-                this.GetMaterialFromAllMaterials();
+                this.GetMaterialFromAllMaterials(courseId);
             }
 
             return this.materialService.GetMaterial(id);

@@ -14,7 +14,7 @@
 
         void DeleteMaterial(int id);
 
-        Material GetMaterialFromAllMaterials();
+        Material GetMaterialFromAllMaterials(int courseId);
 
         List<MaterialViewModel> GetAllMaterialVMAfterMappingFromMaterialDomain(List<Material> materialsListDomain);
     }
