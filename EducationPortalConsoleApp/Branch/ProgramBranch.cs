@@ -80,7 +80,7 @@
             }
         }
 
-        public static Material SelectMaterialForAddToCourse()
+        public static Material SelectMaterialForAddToCourse(int courseId)
         {
             Console.Clear();
             MaterialConsoleMessageHelper.ShowTextForChoiceKindOfMaterialForAddToCourse();
@@ -99,10 +99,10 @@
                     // Article
                     return materialController.CreateArticle();
                 case "4":
-                    return materialController.GetMaterialFromAllMaterials();
+                    return materialController.GetMaterialFromAllMaterials(courseId);
                 default:
                     Console.WriteLine("Default case");
-                    SelectMaterialForAddToCourse();
+                    SelectMaterialForAddToCourse(courseId);
                     break;
             }
 
