@@ -22,14 +22,17 @@ namespace EducationPortalConsoleApp.Controller
         private IUserService userService;
         private IMapperService mapperService;
         private ILogInService logInService;
+        private IAuthorizedUser authorizedUser;
 
         public UserController(IUserService userService,
             IMapperService mapper,
-            ILogInService logInServ)
+            ILogInService logInServ,
+            IAuthorizedUser authorizedUser)
         {
             this.userService = userService;
             this.mapperService = mapper;
             this.logInService = logInServ;
+            this.authorizedUser = authorizedUser;
         }
 
         public void VerifyLoginAndPassword()
@@ -88,28 +91,28 @@ namespace EducationPortalConsoleApp.Controller
 
         public void ShowAllPassedCourses()
         {
-            // get all passed courses from bll and mapping
-            //List<CourseViewModel> passedCourses = this.mapperService.CreateListMapFromVMToDomainWithIncludeLsitType<Course, CourseViewModel, Material, MaterialViewModel, Skill, SkillViewModel>(this.userService.AuthorizedUser.CoursesPassed.ToList());
+            //get all passed courses from bll and mapping
+            List<CourseViewModel> passedCourses = this.mapperService.CreateListMapFromVMToDomainWithIncludeLsitType<Course, CourseViewModel, Material, MaterialViewModel, Skill, SkillViewModel>(this.userService.GetAllPassedCourseFromUser());
 
-            //if (passedCourses.Count == 0)
-            //{
-            //    this.ShowMessageIfCountOfCourseListIsZero("Нou do not have passed courses");
-            //}
+            if (passedCourses.Count == 0)
+            {
+                this.ShowMessageIfCountOfCourseListIsZero("Нou do not have passed courses");
+            }
 
-            //ProgramConsoleMessageHelper.ShowCourseAndReturnMethod(passedCourses);
+            ProgramConsoleMessageHelper.ShowCourseAndReturnMethod(passedCourses);
         }
 
         public void ShowAllCourseInProggres()
         {
             // get courses in progress from bll and mapping
-            //List<CourseViewModel> coursesInProgress = this.mapperService.CreateListMapFromVMToDomainWithIncludeLsitType<Course, CourseViewModel, Material, MaterialViewModel, Skill, SkillViewModel>(this.userService.AuthorizedUser.CoursesInProgress.ToList());
+            List<CourseViewModel> coursesInProgress = this.mapperService.CreateListMapFromVMToDomainWithIncludeLsitType<Course, CourseViewModel, Material, MaterialViewModel, Skill, SkillViewModel>(this.userService.GetListWithCoursesInProgress());
 
-            //if (coursesInProgress.Count == 0)
-            //{
-            //    this.ShowMessageIfCountOfCourseListIsZero("Нou do not have started courses");
-            //}
+            if (coursesInProgress.Count == 0)
+            {
+                this.ShowMessageIfCountOfCourseListIsZero("Нou do not have started courses");
+            }
 
-            //ProgramConsoleMessageHelper.ShowCourseAndReturnMethod(coursesInProgress);
+            ProgramConsoleMessageHelper.ShowCourseAndReturnMethod(coursesInProgress);
         }
 
         private void ShowMessageIfCountOfCourseListIsZero(string message)
@@ -145,10 +148,10 @@ namespace EducationPortalConsoleApp.Controller
         {
             Console.Clear();
 
-            // show user info
-            //Console.WriteLine($"Name - {this.userService.AuthorizedUser.Name}\n" +
-            //    $"Phone Number - {this.userService.AuthorizedUser.PhoneNumber}\n" +
-            //    $"Email - {this.userService.AuthorizedUser.Email}\n");
+            //show user info
+            Console.WriteLine($"Name - {this.authorizedUser.User.Name}\n" +
+                $"Phone Number - {this.authorizedUser.User.PhoneNumber}\n" +
+                $"Email - {this.authorizedUser.User.Email}\n");
 
             ProgramConsoleMessageHelper.ReturnMethod();
         }
