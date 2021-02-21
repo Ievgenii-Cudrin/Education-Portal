@@ -8,7 +8,7 @@
     using DataAccessLayer.Repositories;
     using Entities;
 
-    public class MaterialService : IMaterialService
+    public class MaterialService// : IMaterialService
     {
         private readonly IRepository<Material> repository;
         private readonly List<Material> materialsFromDB;
@@ -108,7 +108,7 @@
             return true;
         }
 
-        public IEnumerable<Material> GetAllMaterials()
+        public IEnumerable<Material> GetAllExceptedMaterials()
         {
             return this.repository.GetAll();
         }
