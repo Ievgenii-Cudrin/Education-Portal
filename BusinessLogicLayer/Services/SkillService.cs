@@ -7,7 +7,7 @@
     using DataAccessLayer.Interfaces;
     using DataAccessLayer.Repositories;
 
-    public class SkillService : ISkillService
+    public class SkillService// : ISkillService
     {
         private readonly IRepository<Skill> repository;
 
@@ -16,33 +16,30 @@
             this.repository = repository.FirstOrDefault(t => t.GetType() == typeof(RepositoryXml<Skill>));
         }
 
-        public void CreateSkill(Skill skillToCreate)
+        public Skill CreateSkill(Skill skillToCreate)
         {
             // check name, may be we have this skill
-            bool uniqueEmail = skillToCreate != null && !this.repository.GetAll().Any(x => x.Name.ToLower().Equals(skillToCreate.Name.ToLower()));
+            Skill uniqueSkill = this.repository.GetAll().Where(x => x.Name.ToLower().Equals(skillToCreate.Name.ToLower())).FirstOrDefault();
 
             // if name is unique => create new skill, otherwise skill == null
-            if (uniqueEmail)
+            if (uniqueSkill == null)
             {
                 this.repository.Add(skillToCreate);
+                return skillToCreate;
             }
+
+            return uniqueSkill;
         }
 
         public void UpdateSkill(Skill skillToUpdate)
         {
             Skill skill = this.repository.Get(skillToUpdate.Id);
 
-            if (skill == null)
-            {
-                return false;
-            }
-            else
+            if (skill != null)
             {
                 skill.Name = skillToUpdate.Name;
                 this.repository.Update(skill);
             }
-
-            return true;
         }
 
         public void Delete(int id)
