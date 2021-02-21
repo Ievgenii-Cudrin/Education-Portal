@@ -6,17 +6,24 @@
     using DataAccessLayer.Entities;
     using DataAccessLayer.Interfaces;
     using DataAccessLayer.Repositories;
+    using EducationPortal.BLL.Interfaces;
+    using EducationPortal.Domain.Comparers;
     using Entities;
 
     public class CourseService : ICourseService
     {
         private readonly IRepository<Course> courseRepository;
         private readonly ISkillService skillService;
+        private ICourseComparerService courseComparer;
 
-        public CourseService(IEnumerable<IRepository<Course>> repositories, ISkillService skillService)
+        public CourseService(
+            IEnumerable<IRepository<Course>> repositories,
+            ISkillService skillService,
+            ICourseComparerService courseComparer)
         {
             this.courseRepository = repositories.FirstOrDefault(t => t.GetType() == typeof(RepositoryXml<Course>));
             this.skillService = skillService;
+            this.courseComparer = courseComparer;
         }
 
         public bool CreateCourse(Course course)
@@ -131,6 +138,16 @@
             {
                 return null;
             }
+        }
+
+        public bool ExistCourse(int courseId)
+        {
+            return this.courseRepository.GetAll().Any(x => x.Id == courseId);
+        }
+
+        public List<Course> AvailableCourses(List<Course> courses)
+        {
+            return this.courseRepository.Except(courses, this.courseComparer.CourseComparer).ToList();
         }
     }
 }
