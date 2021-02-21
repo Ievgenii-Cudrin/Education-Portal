@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using BusinessLogicLayer.Interfaces;
     using BusinessLogicLayer.Services;
     using DataAccessLayer.Entities;
     using DataAccessLayer.Interfaces;
@@ -15,39 +16,34 @@
     public class CourseMaterialSqlService : ICourseMaterialService
     {
         private readonly IRepository<CourseMaterial> courseMaterialRepository;
-        private readonly IRepository<Course> courseRepository;
-        private readonly IRepository<Material> materialRepository;
 
         public CourseMaterialSqlService(
-            IEnumerable<IRepository<CourseMaterial>> courseMatRepository,
-            IEnumerable<IRepository<Material>> materialRepo,
-            IEnumerable<IRepository<Course>> courseRepo)
+            IEnumerable<IRepository<CourseMaterial>> courseMatRepository)
         {
             this.courseMaterialRepository = courseMatRepository.FirstOrDefault(t => t.GetType() == typeof(RepositorySql<CourseMaterial>));
-            this.courseRepository = courseRepo.FirstOrDefault(t => t.GetType() == typeof(RepositorySql<Course>));
-            this.materialRepository = materialRepo.FirstOrDefault(t => t.GetType() == typeof(RepositorySql<Material>));
         }
 
         public bool AddMaterialToCourse(int courseId, int materialId)
         {
-            if (this.courseRepository.Exist(x => x.Id == courseId) &&
-                this.materialRepository.Exist(x => x.Id == materialId) &&
-                !this.courseMaterialRepository.Exist(x => x.CourseId == courseId && x.MaterialId == materialId))
-            {
-                CourseMaterial courseMaterial = new CourseMaterial()
-                {
-                    CourseId = courseId,
-                    MaterialId = materialId,
-                };
-
-                this.courseMaterialRepository.Add(courseMaterial);
-                this.courseMaterialRepository.Save();
-                return true;
-            }
-            else
+            if (this.courseMaterialRepository.Exist(x => x.CourseId == courseId && x.MaterialId == materialId))
             {
                 return false;
             }
+
+            CourseMaterial courseMaterial = new CourseMaterial()
+            {
+                CourseId = courseId,
+                MaterialId = materialId,
+            };
+
+            this.courseMaterialRepository.Add(courseMaterial);
+            this.courseMaterialRepository.Save();
+            return true;
+        }
+
+        public List<Material> GetAllMaterialsFromCourse(int courseId)
+        {
+            return this.courseMaterialRepository.Get<Material>(x => x.Material, x => x.CourseId == courseId).ToList();
         }
     }
 }
