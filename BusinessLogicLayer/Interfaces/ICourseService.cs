@@ -19,5 +19,9 @@
         List<Material> GetMaterialsFromCourse(int courseId);
 
         bool Delete(int courseId);
+
+        bool ExistCourse(int courseId);
+
+        List<Course> AvailableCourses(List<Course> courses);
     }
 }
