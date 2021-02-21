@@ -11,5 +11,7 @@
         public int MaterialId { get; set; }
 
         public Material Material { get; set; }
+
+        public bool IsPassed { get; set; }
     }
 }
