@@ -1,6 +1,7 @@
 ﻿namespace Entities
 {
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations.Schema;
     using System.Xml.Serialization;
     using DataAccessLayer.Entities;
     using EducationPortal.Domain.Entities;
@@ -14,6 +15,7 @@
         [XmlElement("Name")]
         public string Name { get; set; }
 
+        [NotMapped]
         [XmlElement("IsPassed")]
         public bool IsPassed { get; set; }
 
