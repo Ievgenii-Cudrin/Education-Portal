@@ -28,6 +28,11 @@
             this.context.XmlSet.Delete(id);
         }
 
+        public IList<T> Except(IList<T> list, IEqualityComparer<T> comparer)
+        {
+            return this.context.XmlSet.GetAll().Except(list, comparer).ToList();
+        }
+
         public bool Exist(Expression<Func<T, bool>> predicat)
         {
             return this.context.XmlSet.GetAll()
@@ -71,6 +76,11 @@
         public IList<T> GetAll(params Expression<Func<T, object>>[] includes)
         {
             return this.GetAll();
+        }
+
+        public T GetLastEntity<TOrderBy>(Expression<Func<T, TOrderBy>> orderBy)
+        {
+            return this.context.XmlSet.GetAll().AsQueryable().OrderBy(orderBy).Last();
         }
 
         public IList<T> GetPage(Expression<Func<T, bool>> predicat, PageInfo page)

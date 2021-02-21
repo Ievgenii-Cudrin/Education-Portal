@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
+    using DataAccessLayer.Entities;
     using DataAccessLayer.Interfaces;
     using EducationPortal.DAL.DataContext;
     using EducationPortal.Domain.Entities;
@@ -131,6 +132,16 @@
             {
                 this.dbContext.Set<T>().Remove(entity);
             }
+        }
+
+        public IList<T> Except(IList<T> list, IEqualityComparer<T> comparer)
+        {
+            return this.dbContext.Set<T>().ToList().Except(list, comparer).ToList();
+        }
+
+        public T GetLastEntity<TOrderBy>(Expression<Func<T, TOrderBy>> orderBy)
+        {
+            return this.dbContext.Set<T>().OrderBy(orderBy).Last();
         }
     }
 }

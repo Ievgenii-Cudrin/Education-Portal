@@ -36,7 +36,10 @@
 
         IList<TResult> Get<TResult>(Expression<Func<T, TResult>> selector);
 
-        IList<T> Get(
-            Expression<Func<T, bool>> predicat);
+        IList<T> Get(Expression<Func<T, bool>> predicat);
+
+        IList<T> Except(IList<T> list, IEqualityComparer<T> comparer);
+
+        T GetLastEntity<TOrderBy>(Expression<Func<T, TOrderBy>> orderBy);
     }
 }
