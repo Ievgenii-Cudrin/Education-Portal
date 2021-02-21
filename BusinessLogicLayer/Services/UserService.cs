@@ -18,15 +18,18 @@
         private readonly IRepository<User> userRepository;
         private readonly IRepository<Course> courseRepository;
         private IAuthorizedUser authorizedUser;
+        private ICourseComparerService courseComparer;
 
         public UserService(
             IEnumerable<IRepository<User>> uRepositories,
             IEnumerable<IRepository<Course>> courseRepositories,
-            IAuthorizedUser authUser)
+            IAuthorizedUser authUser,
+            ICourseComparerService courseComparer)
         {
             this.userRepository = uRepositories.FirstOrDefault(t => t.GetType() == typeof(RepositoryXml<User>));
             this.courseRepository = courseRepositories.FirstOrDefault(t => t.GetType() == typeof(RepositoryXml<Course>));
             this.authorizedUser = authUser;
+            this.courseComparer = courseComparer;
         }
 
         public bool CreateUser(User user)
@@ -137,28 +140,13 @@
             }
         }
 
-        public bool DeleteCourseFromProgress(int id)
-        {
-            Course course = this.courseRepository.Get(id);
-
-            if (course != null)
-            {
-                this.authorizedUser.User.CoursesInProgress.ToList().RemoveAll(x => x.Id == id);
-                this.userRepository.Update(this.authorizedUser.User);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
         public bool AddCourseToPassed(int id)
         {
             Course course = this.courseRepository.Get(id);
 
             if (course != null)
             {
+                this.authorizedUser.User.CoursesInProgress.ToList().RemoveAll(x => x.Id == id);
                 this.authorizedUser.User.CoursesPassed.Add(course);
                 this.userRepository.Update(this.authorizedUser.User);
                 return true;
@@ -201,7 +189,7 @@
 
         public List<Course> GetAvailableCoursesForUser()
         {
-            return this.courseRepository.GetAll().Except(this.authorizedUser.User.CoursesPassed, new CourseComparer()).ToList();
+            return this.courseRepository.GetAll().Except(this.authorizedUser.User.CoursesPassed, this.courseComparer.CourseComparer).ToList();
         }
 
         public List<Skill> GetAllUserSkills()
@@ -221,6 +209,11 @@
         public bool ExistEmail(Expression<Func<User, bool>> predicat)
         {
             return this.userRepository.Exist(predicat);
+        }
+
+        public List<Course> GetAllPassedCourseFromUser()
+        {
+            return this.authorizedUser.User.CoursesPassed.ToList();
         }
     }
 }

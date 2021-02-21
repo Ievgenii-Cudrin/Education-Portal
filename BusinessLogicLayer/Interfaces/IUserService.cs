@@ -14,8 +14,6 @@
 
         bool AddCourseInProgress(int id);
 
-        bool DeleteCourseFromProgress(int id);
-
         bool AddCourseToPassed(int id);
 
         bool AddSkill(Skill skill);
@@ -37,5 +35,7 @@
         public bool ExistEmail(Expression<Func<User, bool>> predicat);
 
         bool Delete(int id);
+
+        List<Course> GetAllPassedCourseFromUser();
     }
 }
