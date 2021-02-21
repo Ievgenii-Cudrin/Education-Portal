@@ -5,7 +5,7 @@
 
     public interface ISkillService
     {
-        void CreateSkill(Skill skill);
+        Skill CreateSkill(Skill skill);
 
         Skill GetSkill(int id);
 
@@ -14,5 +14,7 @@
         Skill GetSkillByName(string name);
 
         void Delete(int id);
+
+        bool ExistSkill(int skillId);
     }
 }

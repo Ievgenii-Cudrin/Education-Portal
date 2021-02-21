@@ -8,6 +8,7 @@
     using DataAccessLayer.Entities;
     using DataAccessLayer.Interfaces;
     using DataAccessLayer.Repositories;
+    using EducationPortal.DAL.Repositories;
     using Entities;
 
     public class SkillSqlService : ISkillService
@@ -16,18 +17,21 @@
 
         public SkillSqlService(IEnumerable<IRepository<Skill>> repository)
         {
-            this.skillRepository = repository.FirstOrDefault(t => t.GetType() == typeof(RepositoryXml<Skill>));
+            this.skillRepository = repository.FirstOrDefault(t => t.GetType() == typeof(RepositorySql<Skill>));
         }
 
-        public void CreateSkill(Skill skill)
+        public Skill CreateSkill(Skill skill)
         {
-            bool uniqueSkill = skill != null && !this.skillRepository.Exist(x => x.Name.ToLower().Equals(skill.Name.ToLower()));
+            Skill uniqueSkill = this.skillRepository.Get(x => x.Name.ToLower().Equals(skill.Name.ToLower())).FirstOrDefault();
 
-            if (uniqueSkill)
+            if (uniqueSkill == null)
             {
                 this.skillRepository.Add(skill);
                 this.skillRepository.Save();
+                return skill;
             }
+
+            return uniqueSkill;
         }
 
         public void Delete(int id)
@@ -49,6 +53,11 @@
         public void UpdateSkill(Skill skill)
         {
             this.skillRepository.Update(skill);
+        }
+
+        public bool ExistSkill(int skillId)
+        {
+            return this.skillRepository.Exist(x => x.Id == skillId);
         }
     }
 }
