@@ -19,13 +19,20 @@
         private readonly IUserService userService;
         private readonly IMaterialController materialController;
         private IMapperService mapperService;
+        private IMaterialService materialService;
 
-        public PassCourseController(ICourseService courseService, IUserService userService, IMaterialController materialController, IMapperService mapper)
+        public PassCourseController(
+            ICourseService courseService,
+            IUserService userService,
+            IMaterialController materialController,
+            IMapperService mapper,
+            IMaterialService materialService)
         {
             this.courseService = courseService;
             this.userService = userService;
             this.materialController = materialController;
             this.mapperService = mapper;
+            this.materialService = materialService;
         }
 
         public static int GetIdFromUserToPassCourse()
@@ -127,7 +134,7 @@
             int courseIdToPass = GetIdFromUserToPassCourse();
 
             // Check, may be we this course course already started
-            if (this.userService.GetListWithCoursesInProgress().Any(x => x.Id == courseIdToPass))
+            if (this.userService.GetListWithCoursesInProgress().Any(x => x.Id == courseIdToPass)) // transfer 
             {
                 this.ShowMessageAndReturnToMainMenu("You have already started this course");
             }
@@ -239,9 +246,6 @@
             {
                 // add course to Passed List
                 this.userService.AddCourseToPassed(successfullyСompletedСourse.Id);
-
-                // delete course from Progress List
-                this.userService.DeleteCourseFromProgress(successfullyСompletedСourse.Id);
 
                 // add skills to user
                 foreach (var skill in successfullyСompletedСourse.Skills)
