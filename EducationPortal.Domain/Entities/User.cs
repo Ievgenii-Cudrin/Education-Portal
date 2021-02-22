@@ -38,6 +38,11 @@
         [XmlArrayItem("InProgressCourseObjekt")]
         public List<Course> CoursesInProgress { get; set; }
 
+        [NotMapped]
+        [XmlArray("MaterialsArray")]
+        [XmlArrayItem("MaterialObjekt")]
+        public List<Material> PassedMaterials { get; set; }
+
         [XmlIgnore]
         public List<UserSkill> UserSkills { get; set; }
 

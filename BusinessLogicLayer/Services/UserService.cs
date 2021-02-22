@@ -19,17 +19,20 @@
         private readonly IRepository<Course> courseRepository;
         private IAuthorizedUser authorizedUser;
         private ICourseComparerService courseComparer;
+        private IMaterialService materialService;
 
         public UserService(
             IEnumerable<IRepository<User>> uRepositories,
             IEnumerable<IRepository<Course>> courseRepositories,
             IAuthorizedUser authUser,
-            ICourseComparerService courseComparer)
+            ICourseComparerService courseComparer,
+            IMaterialService materialService)
         {
             this.userRepository = uRepositories.FirstOrDefault(t => t.GetType() == typeof(RepositoryXml<User>));
             this.courseRepository = courseRepositories.FirstOrDefault(t => t.GetType() == typeof(RepositoryXml<Course>));
             this.authorizedUser = authUser;
             this.courseComparer = courseComparer;
+            this.materialService = materialService;
         }
 
         public bool CreateUser(User user)
@@ -164,6 +167,7 @@
                 // find course in progress list and find material from this course, set true
                 this.authorizedUser.User.CoursesInProgress.Where(x => x.Id == courseId).FirstOrDefault().Materials.Where(x => x.Id == materialId).FirstOrDefault().IsPassed = true;
                 this.userRepository.Update(this.authorizedUser.User);
+                this.authorizedUser.User.PassedMaterials.Add(this.materialService.GetMaterial(materialId));
                 return true;
             }
             catch
