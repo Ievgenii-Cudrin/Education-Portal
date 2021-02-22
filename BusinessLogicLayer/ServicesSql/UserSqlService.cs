@@ -24,7 +24,7 @@
         private ICourseSkillService courseSkillService;
 
         public UserSqlService(
-            IEnumerable<IRepository<User>> uRepo,
+            IRepository<User> uRepo,
             ICourseService courseService,
             IAuthorizedUser authUser,
             IUserCourseSqlService userCourseServ,
@@ -33,7 +33,7 @@
             IUserSkillSqlService userSkillSqlService,
             ICourseSkillService courseSkillService)
         {
-            this.userRepository = uRepo.FirstOrDefault(t => t.GetType() == typeof(RepositorySql<User>));
+            this.userRepository = uRepo;
             this.courseService = courseService;
             this.authorizedUser = authUser;
             this.userCourseService = userCourseServ;

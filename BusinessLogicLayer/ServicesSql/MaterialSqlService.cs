@@ -20,13 +20,13 @@
         private IMaterialComparerService materialComparer;
 
         public MaterialSqlService(
-            IEnumerable<IRepository<Material>> repository,
+            IRepository<Material> repository,
             IUserMaterialSqlService userMaterialService,
             IAuthorizedUser authorizedUser,
             ICourseMaterialService courseMaterialService,
             IMaterialComparerService materialComparer)
         {
-            this.materialRepository = repository.FirstOrDefault(t => t.GetType() == typeof(RepositorySql<Material>));
+            this.materialRepository = repository;
             this.userMaterialService = userMaterialService;
             this.authorizedUser = authorizedUser;
             this.courseMaterialService = courseMaterialService;

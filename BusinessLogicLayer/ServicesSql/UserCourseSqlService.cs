@@ -15,11 +15,10 @@
         private readonly IRepository<UserCourse> userCourseRepository;
         private IUserCourseMaterialSqlService userCourseMaterialSqlService;
 
-        public UserCourseSqlService(
-            IEnumerable<IRepository<UserCourse>> userCourseRepository,
+        public UserCourseSqlService(IRepository<UserCourse> userCourseRepository,
             IUserCourseMaterialSqlService userCourseMaterialSqlService)
         {
-            this.userCourseRepository = userCourseRepository.FirstOrDefault(t => t.GetType() == typeof(RepositorySql<UserCourse>));
+            this.userCourseRepository = userCourseRepository;
             this.userCourseMaterialSqlService = userCourseMaterialSqlService;
         }
 

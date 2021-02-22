@@ -25,14 +25,14 @@
 
 
         public CourseSqlService(
-            IEnumerable<IRepository<Course>> courseRepo,
+            IRepository<Course> courseRepo,
             ICourseMaterialService courseMaterialServ,
             ICourseSkillService courseSkillServ,
             IMaterialService materialService,
             ISkillService skillService,
             ICourseComparerService courseComparerService)
         {
-            this.courseRepository = courseRepo.FirstOrDefault(t => t.GetType() == typeof(RepositorySql<Course>));
+            this.courseRepository = courseRepo;
             this.courseMaterialService = courseMaterialServ;
             this.courseSkillService = courseSkillServ;
             this.materialService = materialService;

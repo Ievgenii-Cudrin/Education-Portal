@@ -15,9 +15,9 @@
     {
         private readonly IRepository<Skill> skillRepository;
 
-        public SkillSqlService(IEnumerable<IRepository<Skill>> repository)
+        public SkillSqlService(IRepository<Skill> repository)
         {
-            this.skillRepository = repository.FirstOrDefault(t => t.GetType() == typeof(RepositorySql<Skill>));
+            this.skillRepository = repository;
         }
 
         public Skill CreateSkill(Skill skill)

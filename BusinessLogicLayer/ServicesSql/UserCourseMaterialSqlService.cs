@@ -17,11 +17,10 @@
         private readonly IRepository<UserCourseMaterial> userCourseMaterialRepository;
         private ICourseMaterialService courseMaterialService;
 
-        public UserCourseMaterialSqlService(
-            IEnumerable<IRepository<UserCourseMaterial>> userCourseMaterialRepository,
+        public UserCourseMaterialSqlService(IRepository<UserCourseMaterial> userCourseMaterialRepository,
             ICourseMaterialService courseMaterialService)
         {
-            this.userCourseMaterialRepository = userCourseMaterialRepository.FirstOrDefault(t => t.GetType() == typeof(RepositorySql<UserCourseMaterial>));
+            this.userCourseMaterialRepository = userCourseMaterialRepository;
             this.courseMaterialService = courseMaterialService;
         }
 

@@ -17,10 +17,9 @@
     {
         private readonly IRepository<CourseMaterial> courseMaterialRepository;
 
-        public CourseMaterialSqlService(
-            IEnumerable<IRepository<CourseMaterial>> courseMatRepository)
+        public CourseMaterialSqlService(IRepository<CourseMaterial> courseMatRepository)
         {
-            this.courseMaterialRepository = courseMatRepository.FirstOrDefault(t => t.GetType() == typeof(RepositorySql<CourseMaterial>));
+            this.courseMaterialRepository = courseMatRepository;
         }
 
         public bool AddMaterialToCourse(int courseId, int materialId)

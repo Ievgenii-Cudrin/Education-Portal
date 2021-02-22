@@ -17,14 +17,14 @@
         private readonly IRepository<Skill> skillRepository;
 
         public CourseSkillSqlService(
-            IEnumerable<IRepository<CourseSkill>> courseSkillRepo,
-            IEnumerable<IRepository<Skill>> skillRepo,
-            IEnumerable<IRepository<Course>> courseRepo
+            IRepository<CourseSkill> courseSkillRepo,
+            IRepository<Skill> skillRepo,
+            IRepository<Course> courseRepo
             )
         {
-            this.courseSkillRepository = courseSkillRepo.FirstOrDefault(t => t.GetType() == typeof(RepositorySql<CourseSkill>));
-            this.courseRepository = courseRepo.FirstOrDefault(t => t.GetType() == typeof(RepositorySql<Course>));
-            this.skillRepository = skillRepo.FirstOrDefault(t => t.GetType() == typeof(RepositorySql<Skill>));
+            this.courseSkillRepository = courseSkillRepo;
+            this.courseRepository = courseRepo;
+            this.skillRepository = skillRepo;
         }
 
         public bool AddSkillToCourse(int courseId, int skillId)

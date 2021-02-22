@@ -14,10 +14,9 @@
     {
         private readonly IRepository<UserSkill> userSkillRepository;
 
-        public UserSkillSqlService(
-            IEnumerable<IRepository<UserSkill>> userSkillRepository)
+        public UserSkillSqlService(IRepository<UserSkill> userSkillRepository)
         {
-            this.userSkillRepository = userSkillRepository.FirstOrDefault(t => t.GetType() == typeof(RepositorySql<UserSkill>));
+            this.userSkillRepository = userSkillRepository;
         }
 
         public void AddSkillToUser(int userId, int skillId)
@@ -45,8 +44,6 @@
 
         public List<Skill> GetAllSkillInUser(int userId)
         {
-            var s = this.userSkillRepository.Get<Skill>(x => x.Skill, x => x.UserId == userId).ToList();
-            s.
             return this.userSkillRepository.Get<Skill>(x => x.Skill, x => x.UserId == userId).ToList();
         }
     }

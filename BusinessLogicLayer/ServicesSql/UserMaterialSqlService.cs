@@ -14,10 +14,9 @@
     {
         private readonly IRepository<UserMaterial> userMaterialRepository;
 
-        public UserMaterialSqlService(
-            IEnumerable<IRepository<UserMaterial>> userMaterialRepository)
+        public UserMaterialSqlService(IRepository<UserMaterial> userMaterialRepository)
         {
-            this.userMaterialRepository = userMaterialRepository.FirstOrDefault(t => t.GetType() == typeof(RepositorySql<UserMaterial>));
+            this.userMaterialRepository = userMaterialRepository;
         }
 
         public bool AddMaterialToUser(int userId, int materialId)
