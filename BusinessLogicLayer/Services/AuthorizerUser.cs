@@ -6,7 +6,7 @@
     using System.Collections.Generic;
     using System.Text;
 
-    public class AuthorizerUser : WorkWithAuthorizedUser
+    public class AuthorizerUser : IWorkWithAuthorizedUser
     {
         static User authorizedUser;
 

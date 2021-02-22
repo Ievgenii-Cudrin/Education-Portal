@@ -5,7 +5,7 @@
     using System.Text;
     using DataAccessLayer.Entities;
 
-    public interface WorkWithAuthorizedUser : IAuthorizedUser
+    public interface IWorkWithAuthorizedUser : IAuthorizedUser
     {
         public void SetUser(User user);
 
