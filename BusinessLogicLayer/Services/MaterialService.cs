@@ -4,61 +4,48 @@
     using System.Collections.Generic;
     using System.Linq;
     using BusinessLogicLayer.Interfaces;
+    using DataAccessLayer.Entities;
     using DataAccessLayer.Interfaces;
     using DataAccessLayer.Repositories;
+    using EducationPortal.BLL.Interfaces;
     using Entities;
 
-    public class MaterialService// : IMaterialService
+    public class MaterialService : IMaterialService
     {
-        private readonly IRepository<Material> repository;
+        private readonly IRepository<Material> materialRepository;
         private readonly List<Material> materialsFromDB;
+        private readonly IAuthorizedUser authorizedUser;
+        private readonly IMaterialComparerService materialComparerService;
+        private readonly ICourseService courseService;
 
-        public MaterialService(IEnumerable<IRepository<Material>> repositories)
+        public MaterialService(
+            IEnumerable<IRepository<Material>> repositories,
+            IAuthorizedUser authorizedUser,
+            IMaterialComparerService materialComparerService,
+            ICourseService courseService)
         {
-            this.repository = repositories.FirstOrDefault(t => t.GetType() == typeof(RepositoryXml<Material>));
-            this.materialsFromDB = repository.GetAll().ToList();
+            this.materialRepository = repositories.FirstOrDefault(t => t.GetType() == typeof(RepositoryXml<Material>));
+            this.materialsFromDB = materialRepository.GetAll().ToList();
+            this.authorizedUser = authorizedUser;
+            this.materialComparerService = materialComparerService;
+            this.courseService = courseService;
         }
 
-        public bool CreateVideo(Video video)
+        public Material CreateMaterial(Material material)
         {
-            var videos = this.repository.GetAll().Where(x => x is Video).ToList();
+            if (material != null && !this.materialRepository.Exist(x => x.Name == material.Name))
+            {
+                this.materialRepository.Add(material);
+                this.materialsFromDB.Add(material);
+                return material;
+            }
 
-            // check name and link, may be we have this skill
-            bool uniqueVideo = video != null &&
-                !this.materialsFromDB.Where(x => x is Video).Cast<Video>().Any(x =>
-                x.Name.ToLower().Equals(video.Name.ToLower()) &&
-                x.Link == video.Link);
-
-            return this.SaveMaterialToDB(uniqueVideo, video);
-        }
-
-        public bool CreateArticle(Article article)
-        {
-            // check, it is unique article in db
-            bool uniqueArticle = article != null &&
-                !this.materialsFromDB.Where(x => x is Article).Cast<Article>().Any(x =>
-                x.Name.ToLower().Equals(article.Name.ToLower()) &&
-                x.PublicationDate == article.PublicationDate &&
-                x.Site == article.Site);
-
-            return this.SaveMaterialToDB(uniqueArticle, article);
-        }
-
-        public bool CreateBook(Book book)
-        {
-            // check, it is unique book in db
-            bool uniqueBook = book != null &&
-                !this.materialsFromDB.Where(x => x is Book).Cast<Book>().Any(x =>
-                x.Name.ToLower().Equals(book.Name.ToLower()) &&
-                x.Author == book.Author &&
-                x.CountOfPages == book.CountOfPages);
-
-            return this.SaveMaterialToDB(uniqueBook, book);
+            return null;
         }
 
         public bool UpdateVideo(Video videoToUpdate)
         {
-            if (!(this.repository.Get(videoToUpdate.Id) is Video video))
+            if (!(this.materialRepository.Get(videoToUpdate.Id) is Video video))
             {
                 return false;
             }
@@ -68,7 +55,7 @@
                 video.Link = videoToUpdate.Link;
                 video.Quality = videoToUpdate.Quality;
                 video.Duration = videoToUpdate.Duration;
-                this.repository.Update(video);
+                this.materialRepository.Update(video);
             }
 
             return true;
@@ -76,7 +63,7 @@
 
         public bool UpdateArticle(Article articleToUpdate)
         {
-            if (!(this.repository.Get(articleToUpdate.Id) is Article article))
+            if (!(this.materialRepository.Get(articleToUpdate.Id) is Article article))
             {
                 return false;
             }
@@ -85,7 +72,7 @@
                 article.Name = articleToUpdate.Name;
                 article.Site = articleToUpdate.Site;
                 article.PublicationDate = articleToUpdate.PublicationDate;
-                this.repository.Update(article);
+                this.materialRepository.Update(article);
             }
 
             return true;
@@ -93,7 +80,7 @@
 
         public bool UpdateBook(Book bookToUpdate)
         {
-            if (!(this.repository.Get(bookToUpdate.Id) is Book book))
+            if (!(this.materialRepository.Get(bookToUpdate.Id) is Book book))
             {
                 return false;
             }
@@ -102,7 +89,7 @@
                 book.Name = bookToUpdate.Name;
                 book.Author = bookToUpdate.Author;
                 book.CountOfPages = bookToUpdate.CountOfPages;
-                this.repository.Update(book);
+                this.materialRepository.Update(book);
             }
 
             return true;
@@ -110,12 +97,12 @@
 
         public IEnumerable<Material> GetAllExceptedMaterials()
         {
-            return this.repository.GetAll();
+            return this.materialRepository.GetAll();
         }
 
         public bool Delete(int id)
         {
-            Material material = this.repository.Get(id);
+            Material material = this.materialRepository.Get(id);
 
             if (material == null)
             {
@@ -123,7 +110,7 @@
             }
             else
             {
-                this.repository.Delete(id);
+                this.materialRepository.Delete(id);
             }
 
             return true;
@@ -135,7 +122,7 @@
 
             try
             {
-                material = this.repository.Get(id);
+                material = this.materialRepository.Get(id);
             }
             catch (Exception ex)
             {
@@ -146,19 +133,19 @@
             return material;
         }
 
-        private bool SaveMaterialToDB(bool uniqueMaterial, Material material)
+        public IEnumerable<Material> GetAllExceptedMaterials(int courseId)
         {
-            if (uniqueMaterial)
-            {
-                this.repository.Add(material);
-                this.materialsFromDB.Add(material);
-            }
-            else
-            {
-                return false;
-            }
+            return this.materialRepository.Except(this.courseService.GetMaterialsFromCourse(courseId), this.materialComparerService.MaterialComparer);
+        }
 
-            return true;
+        public bool ExistMaterial(int materialId)
+        {
+            return this.materialRepository.Exist(x => x.Id == materialId);
+        }
+
+        public IEnumerable<Material> GetAllNotPassedMaterialFromUser()
+        {
+            return this.materialRepository.Except(this.authorizedUser.User.PassedMaterials, this.materialComparerService.MaterialComparer);
         }
     }
 }
