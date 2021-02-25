@@ -16,9 +16,9 @@
 
     public class CourseSqlService : ICourseService
     {
-        private readonly IRepository<Course> courseRepository;
-        private readonly ICourseMaterialService courseMaterialService;
-        private readonly ICourseSkillService courseSkillService;
+        private IRepository<Course> courseRepository;
+        private ICourseMaterialService courseMaterialService;
+        private ICourseSkillService courseSkillService;
         private IMaterialService materialService;
         private ISkillService skillService;
         private ICourseComparerService courseComparerService;
@@ -128,7 +128,12 @@
 
         public List<Course> AvailableCourses(List<Course> courses)
         {
-            return this.courseRepository.Except(courses, this.courseComparerService.CourseComparer).ToList();
+            if (courses != null)
+            {
+                return this.courseRepository.Except(courses, this.courseComparerService.CourseComparer).ToList();
+            }
+
+            return null;
         }
     }
 }
