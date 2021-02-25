@@ -48,5 +48,18 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             Assert.IsTrue(courseMatService.AddMaterialToCourse(2, 3));
         }
 
+        [TestMethod]
+        public void GetAllMaterialsFromCourse_ReturnListMaterials()
+        {
+            Mock<IRepository<CourseMaterial>> courseMaterialRepo = new Mock<IRepository<CourseMaterial>>();
+            courseMaterialRepo.Setup(db => db.Get<Material>(It.IsAny<Expression<Func<CourseMaterial, Material>>>(),
+                It.IsAny<Expression<Func<CourseMaterial, bool>>>())).Returns(new List<Material>());
+
+            CourseMaterialSqlService courseMaterialSqlService = new CourseMaterialSqlService(courseMaterialRepo.Object);
+            courseMaterialSqlService.GetAllMaterialsFromCourse(0);
+
+            courseMaterialRepo.Verify(x => x.Get<Material>(x => x.Material, x => x.CourseId == 0), Times.Once);
+        }
+
     }
 }
