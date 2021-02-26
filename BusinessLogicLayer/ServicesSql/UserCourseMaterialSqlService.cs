@@ -14,7 +14,7 @@
 
     public class UserCourseMaterialSqlService : IUserCourseMaterialSqlService
     {
-        private readonly IRepository<UserCourseMaterial> userCourseMaterialRepository;
+        private IRepository<UserCourseMaterial> userCourseMaterialRepository;
         private ICourseMaterialService courseMaterialService;
 
         public UserCourseMaterialSqlService(IRepository<UserCourseMaterial> userCourseMaterialRepository,
@@ -27,6 +27,11 @@
         public bool AddMaterialsToUserCourse(int userCourseId, int courseId)
         {
             List<Material> materialsFromCourse = this.courseMaterialService.GetAllMaterialsFromCourse(courseId);
+
+            if (materialsFromCourse == null)
+            {
+                return false;
+            }
 
             foreach (var material in materialsFromCourse)
             {

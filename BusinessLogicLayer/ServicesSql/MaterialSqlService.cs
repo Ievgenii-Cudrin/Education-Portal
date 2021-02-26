@@ -13,7 +13,7 @@
 
     public class MaterialSqlService : IMaterialService
     {
-        private readonly IRepository<Material> materialRepository;
+        private IRepository<Material> materialRepository;
         private IUserMaterialSqlService userMaterialService;
         private ICourseMaterialService courseMaterialService;
         private IAuthorizedUser authorizedUser;

@@ -12,7 +12,7 @@
 
     public class UserCourseSqlService : IUserCourseSqlService
     {
-        private readonly IRepository<UserCourse> userCourseRepository;
+        private IRepository<UserCourse> userCourseRepository;
         private IUserCourseMaterialSqlService userCourseMaterialSqlService;
 
         public UserCourseSqlService(IRepository<UserCourse> userCourseRepository,
@@ -24,8 +24,13 @@
 
         public void AddCourseToUser(int userId, int courseId)
         {
-            int id = this.userCourseRepository.GetLastEntity(x => x.Id).Id;
-            //HEREEEEE
+            int id = 0;
+
+            if (this.userCourseRepository.Exist(x => x.Id == 0))
+            {
+                id = this.userCourseRepository.GetLastEntity(x => x.Id).Id;
+            }
+
             UserCourse newUserCourse = new UserCourse()
             {
                 Id = ++id,
@@ -76,7 +81,6 @@
 
         public List<Course> GetAllPassedCourse(int userId)
         {
-            var b = this.userCourseRepository.Get<Course>(x => x.Course, x => x.UserId == userId && x.IsPassed == true).ToList();
             return this.userCourseRepository.Get<Course>(x => x.Course, x => x.UserId == userId && x.IsPassed == true).ToList();
         }
     }
