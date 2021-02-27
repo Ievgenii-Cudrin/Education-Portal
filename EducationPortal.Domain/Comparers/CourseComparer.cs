@@ -10,7 +10,7 @@
         {
             if (x != null && y != null)
             {
-                return x.Id == y.Id;
+                return x.Id == y.Id && x.Name.ToLower() == y.Name.ToLower();
             }
 
             return false;
