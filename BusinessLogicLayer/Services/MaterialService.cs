@@ -43,57 +43,57 @@
             return null;
         }
 
-        public bool UpdateVideo(Video videoToUpdate)
-        {
-            if (!(this.materialRepository.Get(videoToUpdate.Id) is Video video))
-            {
-                return false;
-            }
-            else
-            {
-                video.Name = videoToUpdate.Name;
-                video.Link = videoToUpdate.Link;
-                video.Quality = videoToUpdate.Quality;
-                video.Duration = videoToUpdate.Duration;
-                this.materialRepository.Update(video);
-            }
+        //public bool UpdateVideo(Video videoToUpdate)
+        //{
+        //    if (!(this.materialRepository.Get(videoToUpdate.Id) is Video video))
+        //    {
+        //        return false;
+        //    }
+        //    else
+        //    {
+        //        video.Name = videoToUpdate.Name;
+        //        video.Link = videoToUpdate.Link;
+        //        video.Quality = videoToUpdate.Quality;
+        //        video.Duration = videoToUpdate.Duration;
+        //        this.materialRepository.Update(video);
+        //    }
 
-            return true;
-        }
+        //    return true;
+        //}
 
-        public bool UpdateArticle(Article articleToUpdate)
-        {
-            if (!(this.materialRepository.Get(articleToUpdate.Id) is Article article))
-            {
-                return false;
-            }
-            else
-            {
-                article.Name = articleToUpdate.Name;
-                article.Site = articleToUpdate.Site;
-                article.PublicationDate = articleToUpdate.PublicationDate;
-                this.materialRepository.Update(article);
-            }
+        //public bool UpdateArticle(Article articleToUpdate)
+        //{
+        //    if (!(this.materialRepository.Get(articleToUpdate.Id) is Article article))
+        //    {
+        //        return false;
+        //    }
+        //    else
+        //    {
+        //        article.Name = articleToUpdate.Name;
+        //        article.Site = articleToUpdate.Site;
+        //        article.PublicationDate = articleToUpdate.PublicationDate;
+        //        this.materialRepository.Update(article);
+        //    }
 
-            return true;
-        }
+        //    return true;
+        //}
 
-        public bool UpdateBook(Book bookToUpdate)
-        {
-            if (!(this.materialRepository.Get(bookToUpdate.Id) is Book book))
-            {
-                return false;
-            }
-            else
-            {
-                book.Name = bookToUpdate.Name;
-                book.Author = bookToUpdate.Author;
-                book.CountOfPages = bookToUpdate.CountOfPages;
-                this.materialRepository.Update(book);
-            }
+        //public bool UpdateBook(Book bookToUpdate)
+        //{
+        //    if (!(this.materialRepository.Get(bookToUpdate.Id) is Book book))
+        //    {
+        //        return false;
+        //    }
+        //    else
+        //    {
+        //        book.Name = bookToUpdate.Name;
+        //        book.Author = bookToUpdate.Author;
+        //        book.CountOfPages = bookToUpdate.CountOfPages;
+        //        this.materialRepository.Update(book);
+        //    }
 
-            return true;
-        }
+        //    return true;
+        //}
 
         public IEnumerable<Material> GetAllExceptedMaterials()
         {

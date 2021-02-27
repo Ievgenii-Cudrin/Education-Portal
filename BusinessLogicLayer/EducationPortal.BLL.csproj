@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DataAccessLayer\EducationPortal.DAL.csproj" />
+    <ProjectReference Include="..\EducationPortal.DAL.XML\EducationPortal.DAL.XML.csproj" />
     <ProjectReference Include="..\EducationPortal.Domain\EducationPortal.Domain.csproj" />
   </ItemGroup>
 

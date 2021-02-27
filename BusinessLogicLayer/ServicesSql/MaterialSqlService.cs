@@ -77,21 +77,6 @@
             return null;
         }
 
-        public bool UpdateArticle(Article article)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool UpdateBook(Book book)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool UpdateVideo(Video video)
-        {
-            throw new NotImplementedException();
-        }
-
         public bool ExistMaterial(int materialId)
         {
             return this.materialRepository.Exist(x => x.Id == materialId);

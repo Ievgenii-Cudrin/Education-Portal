@@ -7,12 +7,6 @@
     {
         Material CreateMaterial(Material material);
 
-        bool UpdateVideo(Video video);
-
-        bool UpdateArticle(Article article);
-
-        bool UpdateBook(Book book);
-
         IEnumerable<Material> GetAllExceptedMaterials(int courseId);
 
         Material GetMaterial(int id);
