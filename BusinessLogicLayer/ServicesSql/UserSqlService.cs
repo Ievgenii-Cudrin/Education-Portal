@@ -14,7 +14,7 @@
 
     public class UserSqlService : IUserService
     {
-        private readonly IRepository<User> userRepository;
+        private IRepository<User> userRepository;
         private ICourseService courseService;
         private IAuthorizedUser authorizedUser;
         private IUserCourseSqlService userCourseService;
@@ -103,9 +103,8 @@
 
         public List<Skill> GetAllUserSkills()
         {
-            if (this.authorizedUser.User != null)
+            if (this.authorizedUser != null)
             {
-                List<Skill> sk = this.userSkillSqlService.GetAllSkillInUser(this.authorizedUser.User.Id);
                 return this.userSkillSqlService.GetAllSkillInUser(this.authorizedUser.User.Id);
             }
 
@@ -114,7 +113,7 @@
 
         public List<Course> GetAvailableCoursesForUser()
         {
-            if (this.authorizedUser.User != null)
+            if (this.authorizedUser != null)
             {
                 var coursesInProgressAndPassed = this.userCourseService.GetAllPassedAndProgressCoursesForUser(this.authorizedUser.User.Id);
                 return this.courseService.AvailableCourses(coursesInProgressAndPassed);
@@ -125,7 +124,7 @@
 
         public List<Course> GetListWithCoursesInProgress()
         {
-            if (this.authorizedUser.User != null)
+            if (this.authorizedUser != null)
             {
                 return this.userCourseService.GetAllCourseInProgress(this.authorizedUser.User.Id);
             }
@@ -156,7 +155,7 @@
 
         public void UpdateCourseInProgress(int courseInProgressNotFinishId, List<Material> updatedMaterials)
         {
-            //add logic
+            throw new NotImplementedException();
         }
 
         public bool UpdateUser(User user)
@@ -179,7 +178,7 @@
 
             if (success)
             {
-                //Add pass material to user
+                // Add pass material to user
                 this.userMaterialSqlService.AddMaterialToUser(this.authorizedUser.User.Id, materialId);
                 return true;
             }
@@ -194,7 +193,7 @@
 
         public List<Course> GetAllPassedCourseFromUser()
         {
-            if (this.authorizedUser.User != null)
+            if (this.authorizedUser != null)
             {
                 return this.userCourseService.GetAllPassedCourse(this.authorizedUser.User.Id);
             }
