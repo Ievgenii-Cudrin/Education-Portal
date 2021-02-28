@@ -15,13 +15,15 @@
         private readonly IRepository<CourseSkill> courseSkillRepository;
         private readonly IRepository<Course> courseRepository;
         private readonly IRepository<Skill> skillRepository;
+        private static IBLLLogger logger;
 
         public CourseSkillSqlService(
             IRepository<CourseSkill> courseSkillRepo,
             IRepository<Skill> skillRepo,
-            IRepository<Course> courseRepo
-            )
+            IRepository<Course> courseRepo,
+            IBLLLogger log)
         {
+            logger = log;
             this.courseSkillRepository = courseSkillRepo;
             this.courseRepository = courseRepo;
             this.skillRepository = skillRepo;
@@ -45,6 +47,7 @@
             }
             else
             {
+                logger.Logger.Debug("Skill dont add to course - " + DateTime.Now);
                 return false;
             }
         }
