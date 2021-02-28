@@ -147,17 +147,24 @@
         {
             Course course = this.courseRepository.Get(id);
 
-            if (course != null)
-            {
-                this.authorizedUser.User.CoursesInProgress.ToList().RemoveAll(x => x.Id == id);
-                this.authorizedUser.User.CoursesPassed.Add(course);
-                this.userRepository.Update(this.authorizedUser.User);
-                return true;
-            }
-            else
+            if (course == null)
             {
                 return false;
             }
+
+            var courseInProgress = this.authorizedUser.User.CoursesInProgress.Where(x => x.Id == id).ToList();
+
+            foreach (var cour in this.authorizedUser.User.CoursesInProgress.Where(x => x.Id == id).ToList())
+            {
+                if (cour.Id == id)
+                {
+                    this.authorizedUser.User.CoursesInProgress.Remove(cour);
+                }
+            }
+
+            this.authorizedUser.User.CoursesPassed.Add(course);
+            this.userRepository.Update(this.authorizedUser.User);
+            return true;
         }
 
         public bool UpdateValueOfPassMaterialInProgress(int courseId, int materialId)
