@@ -9,6 +9,7 @@
     using EducationPortal.DAL.DataContext;
     using EducationPortal.DAL.Interfaces;
     using EducationPortal.Domain.Entities;
+    using Microsoft.Data.SqlClient;
     using Microsoft.EntityFrameworkCore;
     using NLog;
 
@@ -30,9 +31,9 @@
             {
                 return this.dbContext.Set<T>().ToList();
             }
-            catch
+            catch(SqlException ex)
             {
-                logger.Logger.Error("Cant connect to DB - " + DateTime.Now);
+                logger.Logger.Error("Cant connect to DB - " + DateTime.Now + " " +ex.Message);
                 return null;
             }
         }
@@ -49,9 +50,9 @@
 
                 return result.ToList();
             }
-            catch
+            catch (SqlException ex)
             {
-                logger.Logger.Error("Cant connect to DB - " + DateTime.Now);
+                logger.Logger.Error("Cant connect to DB - " + DateTime.Now + " " + ex.Message);
                 return null;
             }
         }
@@ -70,9 +71,9 @@
 
                 return result.Where(predicat).ToList();
             }
-            catch
+            catch (SqlException ex)
             {
-                logger.Logger.Error("Cant connect to DB - " + DateTime.Now);
+                logger.Logger.Error("Cant connect to DB - " + DateTime.Now + " " + ex.Message);
                 return null;
             }
         }
@@ -84,9 +85,9 @@
                 return this.dbContext.Set<T>()
                         .Select(selector).ToList();
             }
-            catch
+            catch (SqlException ex)
             {
-                logger.Logger.Error("Cant connect to DB - " + DateTime.Now);
+                logger.Logger.Error("Cant connect to DB - " + DateTime.Now + " " + ex.Message);
                 return null;
             }
         }
@@ -101,9 +102,9 @@
                         .Where(predicat)
                         .Select(selector).ToList();
             }
-            catch
+            catch (SqlException ex)
             {
-                logger.Logger.Error("Cant connect to DB - " + DateTime.Now);
+                logger.Logger.Error("Cant connect to DB - " + DateTime.Now + " " + ex.Message);
                 return null;
             }
         }
@@ -115,9 +116,9 @@
                 return this.dbContext.Set<T>()
                         .Where(predicat).ToList();
             }
-            catch
+            catch (SqlException ex)
             {
-                logger.Logger.Error("Cant connect to DB - " + DateTime.Now);
+                logger.Logger.Error("Cant connect to DB - " + DateTime.Now + " " + ex.Message);
                 return null;
             }
         }
@@ -130,9 +131,9 @@
                 return this.dbContext.Set<T>()
                             .Skip(skip).Take(page.Size).ToList();
             }
-            catch
+            catch (SqlException ex)
             {
-                logger.Logger.Error("Cant connect to DB - " + DateTime.Now);
+                logger.Logger.Error("Cant connect to DB - " + DateTime.Now + " " + ex.Message);
                 return null;
             }
         }
@@ -148,9 +149,9 @@
                             .Where(predicat)
                             .Skip(skip).Take(page.Size).ToList();
             }
-            catch
+            catch (SqlException ex)
             {
-                logger.Logger.Error("Cant connect to DB - " + DateTime.Now);
+                logger.Logger.Error("Cant connect to DB - " + DateTime.Now + " " + ex.Message);
                 return null;
             }
         }
@@ -173,9 +174,9 @@
             {
                 return this.dbContext.Set<T>().Any(predicat);
             }
-            catch
+            catch (SqlException ex)
             {
-                logger.Logger.Error("Cant connect to DB - " + DateTime.Now);
+                logger.Logger.Error("Cant connect to DB - " + DateTime.Now + " " + ex.Message);
                 return false;
             }
         }
@@ -186,9 +187,9 @@
             {
                 this.dbContext.Set<T>().Add(entity);
             }
-            catch
+            catch (SqlException ex)
             {
-                logger.Logger.Error("Cant connect to DB - " + DateTime.Now);
+                logger.Logger.Error("Cant connect to DB - " + DateTime.Now + " " + ex.Message);
             }
         }
 
@@ -198,9 +199,9 @@
             {
                 this.dbContext.SaveChanges();
             }
-            catch
+            catch (SqlException ex)
             {
-                logger.Logger.Error("Cant connect to DB - " + DateTime.Now);
+                logger.Logger.Error("Cant connect to DB - " + DateTime.Now + " " + ex.Message);
             }
         }
 
@@ -210,9 +211,9 @@
             {
                 return this.dbContext.Set<T>().Find(id);
             }
-            catch
+            catch (SqlException ex)
             {
-                logger.Logger.Error("Cant connect to DB - " + DateTime.Now);
+                logger.Logger.Error("Cant connect to DB - " + DateTime.Now + " " + ex.Message);
                 return null;
             }
         }
@@ -223,9 +224,9 @@
             {
                 this.dbContext.Entry<T>(item).State = EntityState.Modified;
             }
-            catch
+            catch (SqlException ex)
             {
-                logger.Logger.Error("Cant connect to DB - " + DateTime.Now);
+                logger.Logger.Error("Cant connect to DB - " + DateTime.Now + " " + ex.Message);
             }
         }
 
@@ -240,9 +241,9 @@
                     this.dbContext.Set<T>().Remove(entity);
                 }
             }
-            catch
+            catch (SqlException ex)
             {
-                logger.Logger.Error("Cant connect to DB - " + DateTime.Now);
+                logger.Logger.Error("Cant connect to DB - " + DateTime.Now + " " + ex.Message);
             }
         }
 
@@ -252,9 +253,9 @@
             {
                 return this.dbContext.Set<T>().ToList().Except(list, comparer).ToList();
             }
-            catch
+            catch (SqlException ex)
             {
-                logger.Logger.Error("Cant connect to DB - " + DateTime.Now);
+                logger.Logger.Error("Cant connect to DB - " + DateTime.Now + " " + ex.Message);
                 return null;
             }
         }
@@ -265,9 +266,9 @@
             {
                 return this.dbContext.Set<T>().OrderBy(orderBy).Last();
             }
-            catch
+            catch (SqlException ex)
             {
-                logger.Logger.Error("Cant connect to DB - " + DateTime.Now);
+                logger.Logger.Error("Cant connect to DB - " + DateTime.Now + " " + ex.Message);
                 return null;
             }
         }
