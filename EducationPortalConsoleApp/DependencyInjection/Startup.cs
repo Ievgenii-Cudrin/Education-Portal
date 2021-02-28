@@ -26,6 +26,7 @@ namespace EducationPortalConsoleApp.DependencyInjection
     using EducationPortal.BLL.Interfaces;
     using EducationPortal.DAL.Interfaces;
     using EducationPortal.DAL.Loggers;
+    using EducationPortal.BLL.Loggers;
 
     public class Startup
     {
@@ -43,10 +44,12 @@ namespace EducationPortalConsoleApp.DependencyInjection
             var provider = new ServiceCollection()
                 .AddSingleton(typeof(IXmlSet<>), typeof(XmlSet<>))
                 .AddSingleton(typeof(IXmlSerializeContext<>), typeof(XmlSerializationContextGeneric<>))
+                // Repositories
                 //.AddTransient(typeof(IRepository<>), typeof(RepositoryXml<>))
                 .AddTransient(typeof(IRepository<>), typeof(RepositorySql<>))
                 .AddDbContext<ApplicationContext>(options => options.UseSqlServer(configuration["ConnectionStrings:UserDBConnection"]))
-                 //.AddTransient<IUserService, UserService>()
+                // Services
+                //.AddTransient<IUserService, UserService>()
                 .AddTransient<IUserService, UserSqlService>()
                 //.AddTransient<ICourseService, CourseService>()
                 .AddTransient<ICourseService, CourseSqlService>()
@@ -58,20 +61,23 @@ namespace EducationPortalConsoleApp.DependencyInjection
                 .AddScoped<IUserCourseSqlService, UserCourseSqlService>()
                 .AddTransient<ICourseMaterialService, CourseMaterialSqlService>()
                 .AddTransient<ICourseSkillService, CourseSkillSqlService>()
+                .AddTransient<IUserCourseMaterialSqlService, UserCourseMaterialSqlService>()
+                .AddTransient<IUserMaterialSqlService, UserMaterialSqlService>()
+                .AddTransient<IUserSkillSqlService, UserSkillSqlService>()
+                .AddTransient<IMaterialComparerService, MaterialComparerService>()
+                .AddTransient<ICourseComparerService, CourseComparerService>()
                 .AddTransient<IAuthorizedUser, AuthorizerUser>()
                 .AddTransient<IWorkWithAuthorizedUser, AuthorizerUser>()
+                //ConsoleControllers
                 .AddTransient<IMaterialController, MaterialController>()
                 .AddTransient<IUserController, UserController>()
                 .AddTransient<ICourseController, CourseController>()
                 .AddTransient<ISkillController, SkillController>()
                 .AddTransient<IPassCourseController, PassCourseController>()
                 .AddTransient<IMapperService, Mapping>()
-                .AddTransient<IUserCourseMaterialSqlService, UserCourseMaterialSqlService>()
-                .AddTransient<IUserMaterialSqlService, UserMaterialSqlService>()
-                .AddTransient<IUserSkillSqlService, UserSkillSqlService>()
-                .AddTransient<IMaterialComparerService, MaterialComparerService>()
-                .AddTransient<ICourseComparerService, CourseComparerService>()
+                //Loggers
                 .AddTransient<IDalSqlLogger, DalSqlNLogLogger>()
+                .AddTransient<IBLLLogger, BLLNlogLogger>()
                 .BuildServiceProvider();
 
             return provider;
