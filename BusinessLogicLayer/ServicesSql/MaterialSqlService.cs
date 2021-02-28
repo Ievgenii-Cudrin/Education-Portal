@@ -18,19 +18,22 @@
         private ICourseMaterialService courseMaterialService;
         private IAuthorizedUser authorizedUser;
         private IMaterialComparerService materialComparer;
+        private static IBLLLogger logger;
 
         public MaterialSqlService(
             IRepository<Material> repository,
             IUserMaterialSqlService userMaterialService,
             IAuthorizedUser authorizedUser,
             ICourseMaterialService courseMaterialService,
-            IMaterialComparerService materialComparer)
+            IMaterialComparerService materialComparer,
+            IBLLLogger log)
         {
             this.materialRepository = repository;
             this.userMaterialService = userMaterialService;
             this.authorizedUser = authorizedUser;
             this.courseMaterialService = courseMaterialService;
             this.materialComparer = materialComparer;
+            logger = log;
         }
 
         public Material CreateMaterial(Material material)
@@ -42,6 +45,7 @@
                 return material;
             }
 
+            logger.Logger.Debug("Material dont create - " + DateTime.Now);
             return null;
         }
 
@@ -54,6 +58,7 @@
                 return true;
             }
 
+            logger.Logger.Debug("Material dont delete - " + DateTime.Now);
             return false;
         }
 
@@ -74,6 +79,7 @@
                 return this.materialRepository.Get(x => x.Id == materialId).FirstOrDefault();
             }
 
+            logger.Logger.Debug("Material dont exist - " + DateTime.Now);
             return null;
         }
 

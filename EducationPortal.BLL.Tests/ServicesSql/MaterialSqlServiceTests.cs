@@ -6,6 +6,7 @@ using EducationPortal.Domain.Comparers;
 using Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -21,6 +22,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         private Mock<ICourseMaterialService> courseMaterialService;
         private Mock<IAuthorizedUser> authorizedUser;
         private Mock<IMaterialComparerService> materialComparer;
+        private Mock<IBLLLogger> logger;
 
         [TestInitialize]
         public void SetUp()
@@ -30,6 +32,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             this.courseMaterialService = new Mock<ICourseMaterialService>();
             this.authorizedUser = new Mock<IAuthorizedUser>();
             this.materialComparer = new Mock<IMaterialComparerService>();
+            this.logger = new Mock<IBLLLogger>();
         }
 
         #region CreateMaterial
@@ -37,10 +40,16 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void CreateMaterial_MaterialNull_Null()
         {
+            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             materialRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Material, bool>>>())).Returns(false);
 
-            MaterialSqlService materialSqlService = new MaterialSqlService(materialRepository.Object,
-                userMaterialService.Object, authorizedUser.Object, courseMaterialService.Object, materialComparer.Object);
+            MaterialSqlService materialSqlService = new MaterialSqlService(
+                materialRepository.Object,
+                userMaterialService.Object, 
+                authorizedUser.Object, 
+                courseMaterialService.Object, 
+                materialComparer.Object,
+                logger.Object);
 
             Material material = null;
 
@@ -50,10 +59,16 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void CreateMaterial_MaterialExist_Null()
         {
+            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             materialRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Material, bool>>>())).Returns(true);
 
-            MaterialSqlService materialSqlService = new MaterialSqlService(materialRepository.Object,
-                userMaterialService.Object, authorizedUser.Object, courseMaterialService.Object, materialComparer.Object);
+            MaterialSqlService materialSqlService = new MaterialSqlService(
+                materialRepository.Object,
+                userMaterialService.Object,
+                authorizedUser.Object,
+                courseMaterialService.Object,
+                materialComparer.Object,
+                logger.Object);
 
             Material material = new Material();
 
@@ -67,8 +82,13 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             materialRepository.Setup(db => db.Add(It.IsAny<Material>()));
             materialRepository.Setup(db => db.Save());
 
-            MaterialSqlService materialSqlService = new MaterialSqlService(materialRepository.Object,
-                userMaterialService.Object, authorizedUser.Object, courseMaterialService.Object, materialComparer.Object);
+            MaterialSqlService materialSqlService = new MaterialSqlService(
+                materialRepository.Object,
+                userMaterialService.Object,
+                authorizedUser.Object,
+                courseMaterialService.Object,
+                materialComparer.Object,
+                logger.Object);
 
             Material material = new Material();
             materialSqlService.CreateMaterial(material);
@@ -84,10 +104,16 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void Delete_MaterialNotExist_False()
         {
+            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             materialRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Material, bool>>>())).Returns(false);
 
-            MaterialSqlService materialSqlService = new MaterialSqlService(materialRepository.Object,
-                userMaterialService.Object, authorizedUser.Object, courseMaterialService.Object, materialComparer.Object);
+            MaterialSqlService materialSqlService = new MaterialSqlService(
+                materialRepository.Object,
+                userMaterialService.Object,
+                authorizedUser.Object,
+                courseMaterialService.Object,
+                materialComparer.Object,
+                logger.Object);
 
             Assert.IsFalse(materialSqlService.Delete(0));
         }
@@ -99,8 +125,13 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             materialRepository.Setup(db => db.Delete(It.IsAny<int>()));
             materialRepository.Setup(db => db.Save());
 
-            MaterialSqlService materialSqlService = new MaterialSqlService(materialRepository.Object,
-                userMaterialService.Object, authorizedUser.Object, courseMaterialService.Object, materialComparer.Object);
+            MaterialSqlService materialSqlService = new MaterialSqlService(
+                materialRepository.Object,
+                userMaterialService.Object,
+                authorizedUser.Object,
+                courseMaterialService.Object,
+                materialComparer.Object,
+                logger.Object);
 
             materialSqlService.Delete(0);
 
@@ -120,8 +151,13 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             courseMaterialService.Setup(db => db.GetAllMaterialsFromCourse(It.IsAny<int>())).Returns(new List<Material>());
             materialComparer.Setup(db => db.MaterialComparer);
 
-            MaterialSqlService materialSqlService = new MaterialSqlService(materialRepository.Object,
-                userMaterialService.Object, authorizedUser.Object, courseMaterialService.Object, materialComparer.Object);
+            MaterialSqlService materialSqlService = new MaterialSqlService(
+                materialRepository.Object,
+                userMaterialService.Object,
+                authorizedUser.Object,
+                courseMaterialService.Object,
+                materialComparer.Object,
+                logger.Object);
 
             materialSqlService.GetAllExceptedMaterials(0);
 
@@ -138,10 +174,16 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void GetMaterial_MaterialExist_Null()
         {
+            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             materialRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Material, bool>>>())).Returns(false);
 
-            MaterialSqlService materialSqlService = new MaterialSqlService(materialRepository.Object,
-                userMaterialService.Object, authorizedUser.Object, courseMaterialService.Object, materialComparer.Object);
+            MaterialSqlService materialSqlService = new MaterialSqlService(
+                materialRepository.Object,
+                userMaterialService.Object,
+                authorizedUser.Object,
+                courseMaterialService.Object,
+                materialComparer.Object,
+                logger.Object);
 
             Assert.IsNull(materialSqlService.GetMaterial(0));
         }
@@ -152,8 +194,13 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             materialRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Material, bool>>>())).Returns(true);
             materialRepository.Setup(db => db.Get(It.IsAny<Expression<Func<Material, bool>>>())).Returns(new List<Material>());
 
-            MaterialSqlService materialSqlService = new MaterialSqlService(materialRepository.Object,
-                userMaterialService.Object, authorizedUser.Object, courseMaterialService.Object, materialComparer.Object);
+            MaterialSqlService materialSqlService = new MaterialSqlService(
+                materialRepository.Object,
+                userMaterialService.Object,
+                authorizedUser.Object,
+                courseMaterialService.Object,
+                materialComparer.Object,
+                logger.Object);
 
             materialSqlService.GetMaterial(0);
 
@@ -169,8 +216,13 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         {
             materialRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Material, bool>>>())).Returns(true);
 
-            MaterialSqlService materialSqlService = new MaterialSqlService(materialRepository.Object,
-                userMaterialService.Object, authorizedUser.Object, courseMaterialService.Object, materialComparer.Object);
+            MaterialSqlService materialSqlService = new MaterialSqlService(
+                materialRepository.Object,
+                userMaterialService.Object,
+                authorizedUser.Object,
+                courseMaterialService.Object,
+                materialComparer.Object,
+                logger.Object);
 
             materialSqlService.ExistMaterial(0);
 
