@@ -6,6 +6,7 @@ using EducationPortal.BLL.ServicesSql;
 using EducationPortal.Domain.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -24,6 +25,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         private Mock<IUserMaterialSqlService> userMaterialSqlService;
         private Mock<IUserSkillSqlService> userSkillSqlService;
         private Mock<ICourseSkillService> courseSkillService;
+        private Mock<IBLLLogger> logger;
 
         [TestInitialize]
         public void SetUp()
@@ -36,6 +38,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             this.userMaterialSqlService = new Mock<IUserMaterialSqlService>();
             this.userSkillSqlService = new Mock<IUserSkillSqlService>();
             this.courseSkillService = new Mock<ICourseSkillService>();
+            this.logger = new Mock<IBLLLogger>();
         }
 
         #region AddCourseInProgress
@@ -43,6 +46,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void AddCourseInProgress_CourseNotExist_False()
         {
+            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             authorizedUser.Setup(db => db.User);
             courseService.Setup(db => db.ExistCourse(It.IsAny<int>())).Returns(false);
 
@@ -54,7 +58,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 userCourseMaterialSqlService.Object,
                 userMaterialSqlService.Object,
                 userSkillSqlService.Object,
-                courseSkillService.Object);
+                courseSkillService.Object,
+                logger.Object);
 
             Assert.IsFalse(userSqlService.AddCourseInProgress(It.IsAny<int>()));
         }
@@ -62,6 +67,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void AddCourseInProgress_AuthorizedUserNull_False()
         {
+            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             courseService.Setup(db => db.ExistCourse(It.IsAny<int>())).Returns(true);
 
             UserSqlService userSqlService = new UserSqlService(
@@ -72,7 +78,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 userCourseMaterialSqlService.Object,
                 userMaterialSqlService.Object,
                 userSkillSqlService.Object,
-                courseSkillService.Object);
+                courseSkillService.Object,
+                logger.Object);
 
             Assert.IsFalse(userSqlService.AddCourseInProgress(It.IsAny<int>()));
         }
@@ -80,6 +87,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void AddCourseInProgress_AuthorizedUserNullCourseNotExist_False()
         {
+            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             courseService.Setup(db => db.ExistCourse(It.IsAny<int>())).Returns(false);
 
             UserSqlService userSqlService = new UserSqlService(
@@ -90,7 +98,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 userCourseMaterialSqlService.Object,
                 userMaterialSqlService.Object,
                 userSkillSqlService.Object,
-                courseSkillService.Object);
+                courseSkillService.Object,
+                logger.Object);
 
             Assert.IsFalse(userSqlService.AddCourseInProgress(It.IsAny<int>()));
         }
@@ -110,7 +119,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 userCourseMaterialSqlService.Object,
                 userMaterialSqlService.Object,
                 userSkillSqlService.Object,
-                courseSkillService.Object);
+                courseSkillService.Object,
+                logger.Object);
 
             userSqlService.AddCourseInProgress(It.IsAny<int>());
 
@@ -129,14 +139,15 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             userCourseService.Setup(db => db.SetPassForUserCourse(It.IsAny<int>(), It.IsAny<int>()));
 
             UserSqlService userSqlService = new UserSqlService(
-               userRepository.Object,
-               courseService.Object,
-               authorizedUser.Object,
-               userCourseService.Object,
-               userCourseMaterialSqlService.Object,
-               userMaterialSqlService.Object,
-               userSkillSqlService.Object,
-               courseSkillService.Object);
+                userRepository.Object,
+                courseService.Object,
+                authorizedUser.Object,
+                userCourseService.Object,
+                userCourseMaterialSqlService.Object,
+                userMaterialSqlService.Object,
+                userSkillSqlService.Object,
+                courseSkillService.Object,
+                logger.Object);
 
             userSqlService.AddCourseToPassed(It.IsAny<int>());
 
@@ -151,15 +162,17 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void AddSkill_SkillNull_False()
         {
+            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             UserSqlService userSqlService = new UserSqlService(
-              userRepository.Object,
-              courseService.Object,
-              authorizedUser.Object,
-              userCourseService.Object,
-              userCourseMaterialSqlService.Object,
-              userMaterialSqlService.Object,
-              userSkillSqlService.Object,
-              courseSkillService.Object);
+                userRepository.Object,
+                courseService.Object,
+                authorizedUser.Object,
+                userCourseService.Object,
+                userCourseMaterialSqlService.Object,
+                userMaterialSqlService.Object,
+                userSkillSqlService.Object,
+                courseSkillService.Object,
+                logger.Object);
 
             Skill skill = null;
 
@@ -173,14 +186,15 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             userSkillSqlService.Setup(db => db.AddSkillToUser(It.IsAny<int>(), It.IsAny<int>()));
 
             UserSqlService userSqlService = new UserSqlService(
-              userRepository.Object,
-              courseService.Object,
-              authorizedUser.Object,
-              userCourseService.Object,
-              userCourseMaterialSqlService.Object,
-              userMaterialSqlService.Object,
-              userSkillSqlService.Object,
-              courseSkillService.Object);
+                userRepository.Object,
+                courseService.Object,
+                authorizedUser.Object,
+                userCourseService.Object,
+                userCourseMaterialSqlService.Object,
+                userMaterialSqlService.Object,
+                userSkillSqlService.Object,
+                courseSkillService.Object,
+                logger.Object);
 
             Skill skill = new Skill();
             userSqlService.AddSkill(skill);
@@ -196,17 +210,20 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void CreateUser_UserExist_False()
         {
+            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
+            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             userRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<User, bool>>>())).Returns(true);
 
             UserSqlService userSqlService = new UserSqlService(
-               userRepository.Object,
-               courseService.Object,
-               authorizedUser.Object,
-               userCourseService.Object,
-               userCourseMaterialSqlService.Object,
-               userMaterialSqlService.Object,
-               userSkillSqlService.Object,
-               courseSkillService.Object);
+                userRepository.Object,
+                courseService.Object,
+                authorizedUser.Object,
+                userCourseService.Object,
+                userCourseMaterialSqlService.Object,
+                userMaterialSqlService.Object,
+                userSkillSqlService.Object,
+                courseSkillService.Object,
+                logger.Object);
 
             User user = new User();
 
@@ -216,17 +233,19 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void CreateUser_UserNull_False()
         {
+            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             userRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<User, bool>>>())).Returns(false);
 
             UserSqlService userSqlService = new UserSqlService(
-               userRepository.Object,
-               courseService.Object,
-               authorizedUser.Object,
-               userCourseService.Object,
-               userCourseMaterialSqlService.Object,
-               userMaterialSqlService.Object,
-               userSkillSqlService.Object,
-               courseSkillService.Object);
+                userRepository.Object,
+                courseService.Object,
+                authorizedUser.Object,
+                userCourseService.Object,
+                userCourseMaterialSqlService.Object,
+                userMaterialSqlService.Object,
+                userSkillSqlService.Object,
+                courseSkillService.Object,
+                logger.Object);
 
             User user = null;
 
@@ -241,14 +260,15 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             userRepository.Setup(db => db.Save());
 
             UserSqlService userSqlService = new UserSqlService(
-               userRepository.Object,
-               courseService.Object,
-               authorizedUser.Object,
-               userCourseService.Object,
-               userCourseMaterialSqlService.Object,
-               userMaterialSqlService.Object,
-               userSkillSqlService.Object,
-               courseSkillService.Object);
+                userRepository.Object,
+                courseService.Object,
+                authorizedUser.Object,
+                userCourseService.Object,
+                userCourseMaterialSqlService.Object,
+                userMaterialSqlService.Object,
+                userSkillSqlService.Object,
+                courseSkillService.Object,
+                logger.Object);
 
             User user = new User();
             userSqlService.CreateUser(user);
@@ -265,17 +285,19 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void Delete_UserNotExist_False()
         {
+            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             userRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<User, bool>>>())).Returns(false);
 
             UserSqlService userSqlService = new UserSqlService(
-               userRepository.Object,
-               courseService.Object,
-               authorizedUser.Object,
-               userCourseService.Object,
-               userCourseMaterialSqlService.Object,
-               userMaterialSqlService.Object,
-               userSkillSqlService.Object,
-               courseSkillService.Object);
+                userRepository.Object,
+                courseService.Object,
+                authorizedUser.Object,
+                userCourseService.Object,
+                userCourseMaterialSqlService.Object,
+                userMaterialSqlService.Object,
+                userSkillSqlService.Object,
+                courseSkillService.Object,
+                logger.Object);
 
             Assert.IsFalse(userSqlService.Delete(It.IsAny<int>()));
         }
@@ -288,14 +310,15 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             userRepository.Setup(db => db.Save());
 
             UserSqlService userSqlService = new UserSqlService(
-               userRepository.Object,
-               courseService.Object,
-               authorizedUser.Object,
-               userCourseService.Object,
-               userCourseMaterialSqlService.Object,
-               userMaterialSqlService.Object,
-               userSkillSqlService.Object,
-               courseSkillService.Object);
+                userRepository.Object,
+                courseService.Object,
+                authorizedUser.Object,
+                userCourseService.Object,
+                userCourseMaterialSqlService.Object,
+                userMaterialSqlService.Object,
+                userSkillSqlService.Object,
+                courseSkillService.Object,
+                logger.Object);
 
             userSqlService.Delete(It.IsAny<int>());
 
@@ -311,15 +334,17 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void GetAllUserSkills_AuthorizedUserNull_Null()
         {
+            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             UserSqlService userSqlService = new UserSqlService(
-               userRepository.Object,
-               courseService.Object,
-               null,
-               userCourseService.Object,
-               userCourseMaterialSqlService.Object,
-               userMaterialSqlService.Object,
-               userSkillSqlService.Object,
-               courseSkillService.Object);
+                userRepository.Object,
+                courseService.Object,
+                null,
+                userCourseService.Object,
+                userCourseMaterialSqlService.Object,
+                userMaterialSqlService.Object,
+                userSkillSqlService.Object,
+                courseSkillService.Object,
+                logger.Object);
 
             Assert.IsNull(userSqlService.GetAllUserSkills());
         }
@@ -331,14 +356,15 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             userSkillSqlService.Setup(db => db.GetAllSkillInUser(It.IsAny<int>()));
 
             UserSqlService userSqlService = new UserSqlService(
-               userRepository.Object,
-               courseService.Object,
-               authorizedUser.Object,
-               userCourseService.Object,
-               userCourseMaterialSqlService.Object,
-               userMaterialSqlService.Object,
-               userSkillSqlService.Object,
-               courseSkillService.Object);
+                userRepository.Object,
+                courseService.Object,
+                authorizedUser.Object,
+                userCourseService.Object,
+                userCourseMaterialSqlService.Object,
+                userMaterialSqlService.Object,
+                userSkillSqlService.Object,
+                courseSkillService.Object,
+                logger.Object);
 
             userSqlService.GetAllUserSkills();
 
@@ -357,14 +383,15 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             courseService.Setup(db => db.AvailableCourses(It.IsAny<List<Course>>())).Returns(new List<Course>());
 
             UserSqlService userSqlService = new UserSqlService(
-               userRepository.Object,
-               courseService.Object,
-               authorizedUser.Object,
-               userCourseService.Object,
-               userCourseMaterialSqlService.Object,
-               userMaterialSqlService.Object,
-               userSkillSqlService.Object,
-               courseSkillService.Object);
+                userRepository.Object,
+                courseService.Object,
+                authorizedUser.Object,
+                userCourseService.Object,
+                userCourseMaterialSqlService.Object,
+                userMaterialSqlService.Object,
+                userSkillSqlService.Object,
+                courseSkillService.Object,
+                logger.Object);
 
             userSqlService.GetAvailableCoursesForUser();
 
@@ -375,15 +402,17 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void GetAvailableCoursesForUser_AuthorizedUserNotNull_Null()
         {
+            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             UserSqlService userSqlService = new UserSqlService(
-               userRepository.Object,
-               courseService.Object,
-               null,
-               userCourseService.Object,
-               userCourseMaterialSqlService.Object,
-               userMaterialSqlService.Object,
-               userSkillSqlService.Object,
-               courseSkillService.Object);
+                userRepository.Object,
+                courseService.Object,
+                null,
+                userCourseService.Object,
+                userCourseMaterialSqlService.Object,
+                userMaterialSqlService.Object,
+                userSkillSqlService.Object,
+                courseSkillService.Object,
+                logger.Object);
 
             Assert.IsNull(userSqlService.GetAvailableCoursesForUser());
         }
@@ -395,15 +424,17 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void GetListWithCoursesInProgress_AuthorizedUserNull_Null()
         {
+            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             UserSqlService userSqlService = new UserSqlService(
-               userRepository.Object,
-               courseService.Object,
-               null,
-               userCourseService.Object,
-               userCourseMaterialSqlService.Object,
-               userMaterialSqlService.Object,
-               userSkillSqlService.Object,
-               courseSkillService.Object);
+                userRepository.Object,
+                courseService.Object,
+                null,
+                userCourseService.Object,
+                userCourseMaterialSqlService.Object,
+                userMaterialSqlService.Object,
+                userSkillSqlService.Object,
+                courseSkillService.Object,
+                logger.Object);
 
             Assert.IsNull(userSqlService.GetListWithCoursesInProgress());
         }
@@ -415,14 +446,15 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             userCourseService.Setup(db => db.GetAllCourseInProgress(It.IsAny<int>())).Returns(new List<Course>());
 
             UserSqlService userSqlService = new UserSqlService(
-               userRepository.Object,
-               courseService.Object,
-               authorizedUser.Object,
-               userCourseService.Object,
-               userCourseMaterialSqlService.Object,
-               userMaterialSqlService.Object,
-               userSkillSqlService.Object,
-               courseSkillService.Object);
+                userRepository.Object,
+                courseService.Object,
+                authorizedUser.Object,
+                userCourseService.Object,
+                userCourseMaterialSqlService.Object,
+                userMaterialSqlService.Object,
+                userSkillSqlService.Object,
+                courseSkillService.Object,
+                logger.Object);
 
             userSqlService.GetListWithCoursesInProgress();
 
@@ -436,17 +468,19 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void GetMaterialsFromCourseInProgress_CourseNotExist_Null()
         {
+            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             courseService.Setup(db => db.ExistCourse(It.IsAny<int>())).Returns(false);
 
             UserSqlService userSqlService = new UserSqlService(
-              userRepository.Object,
-              courseService.Object,
-              authorizedUser.Object,
-              userCourseService.Object,
-              userCourseMaterialSqlService.Object,
-              userMaterialSqlService.Object,
-              userSkillSqlService.Object,
-              courseSkillService.Object);
+                userRepository.Object,
+                courseService.Object,
+                authorizedUser.Object,
+                userCourseService.Object,
+                userCourseMaterialSqlService.Object,
+                userMaterialSqlService.Object,
+                userSkillSqlService.Object,
+                courseSkillService.Object,
+                logger.Object);
 
             Assert.IsNull(userSqlService.GetMaterialsFromCourseInProgress(It.IsAny<int>()));
         }
@@ -460,14 +494,15 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             userCourseService.Setup(db => db.GetUserCourse(It.IsAny<int>(), It.IsAny<int>())).Returns(new UserCourse() { Id = 0 });
 
             UserSqlService userSqlService = new UserSqlService(
-              userRepository.Object,
-              courseService.Object,
-              authorizedUser.Object,
-              userCourseService.Object,
-              userCourseMaterialSqlService.Object,
-              userMaterialSqlService.Object,
-              userSkillSqlService.Object,
-              courseSkillService.Object);
+                userRepository.Object,
+                courseService.Object,
+                authorizedUser.Object,
+                userCourseService.Object,
+                userCourseMaterialSqlService.Object,
+                userMaterialSqlService.Object,
+                userSkillSqlService.Object,
+                courseSkillService.Object,
+                logger.Object);
 
             userSqlService.GetMaterialsFromCourseInProgress(It.IsAny<int>());
 
@@ -485,14 +520,15 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             courseService.Setup(db => db.ExistCourse(It.IsAny<int>())).Returns(false);
 
             UserSqlService userSqlService = new UserSqlService(
-              userRepository.Object,
-              courseService.Object,
-              authorizedUser.Object,
-              userCourseService.Object,
-              userCourseMaterialSqlService.Object,
-              userMaterialSqlService.Object,
-              userSkillSqlService.Object,
-              courseSkillService.Object);
+                userRepository.Object,
+                courseService.Object,
+                authorizedUser.Object,
+                userCourseService.Object,
+                userCourseMaterialSqlService.Object,
+                userMaterialSqlService.Object,
+                userSkillSqlService.Object,
+                courseSkillService.Object,
+                logger.Object);
 
             Assert.IsNull(userSqlService.GetSkillsFromCourseInProgress(It.IsAny<int>()));
         }
@@ -500,18 +536,20 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void GetSkillsFromCourseInProgress_CourseExist_CallGetAllSkillsFromCourse()
         {
+            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             courseService.Setup(db => db.ExistCourse(It.IsAny<int>())).Returns(true);
             courseSkillService.Setup(db => db.GetAllSkillsFromCourse(It.IsAny<int>()));
 
             UserSqlService userSqlService = new UserSqlService(
-              userRepository.Object,
-              courseService.Object,
-              authorizedUser.Object,
-              userCourseService.Object,
-              userCourseMaterialSqlService.Object,
-              userMaterialSqlService.Object,
-              userSkillSqlService.Object,
-              courseSkillService.Object);
+                userRepository.Object,
+                courseService.Object,
+                authorizedUser.Object,
+                userCourseService.Object,
+                userCourseMaterialSqlService.Object,
+                userMaterialSqlService.Object,
+                userSkillSqlService.Object,
+                courseSkillService.Object,
+                logger.Object);
 
             userSqlService.GetSkillsFromCourseInProgress(It.IsAny<int>());
 
@@ -525,17 +563,19 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void UpdateUser_UserNotExist_False()
         {
+            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             userRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<User, bool>>>())).Returns(false);
 
             UserSqlService userSqlService = new UserSqlService(
-              userRepository.Object,
-              courseService.Object,
-              authorizedUser.Object,
-              userCourseService.Object,
-              userCourseMaterialSqlService.Object,
-              userMaterialSqlService.Object,
-              userSkillSqlService.Object,
-              courseSkillService.Object);
+                userRepository.Object,
+                courseService.Object,
+                authorizedUser.Object,
+                userCourseService.Object,
+                userCourseMaterialSqlService.Object,
+                userMaterialSqlService.Object,
+                userSkillSqlService.Object,
+                courseSkillService.Object,
+                logger.Object);
 
             Assert.IsFalse(userSqlService.UpdateUser(It.IsAny<User>()));
         }
@@ -548,14 +588,15 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             userRepository.Setup(db => db.Save());
 
             UserSqlService userSqlService = new UserSqlService(
-              userRepository.Object,
-              courseService.Object,
-              authorizedUser.Object,
-              userCourseService.Object,
-              userCourseMaterialSqlService.Object,
-              userMaterialSqlService.Object,
-              userSkillSqlService.Object,
-              courseSkillService.Object);
+                userRepository.Object,
+                courseService.Object,
+                authorizedUser.Object,
+                userCourseService.Object,
+                userCourseMaterialSqlService.Object,
+                userMaterialSqlService.Object,
+                userSkillSqlService.Object,
+                courseSkillService.Object,
+                logger.Object);
 
             userSqlService.UpdateUser(It.IsAny<User>());
 
@@ -571,20 +612,22 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void UpdateValueOfPassMaterialInProgress_UserCourseMaterialNotExist_False()
         {
+            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             authorizedUser.SetupGet(db => db.User).Returns(new User() { Id = 0 });
             userCourseService.Setup(db => db.GetUserCourse(It.IsAny<int>(), It.IsAny<int>()))
                 .Returns(new UserCourse() { UserId = 0, CourseId = 0 });
             userCourseMaterialSqlService.Setup(db => db.SetPassToMaterial(It.IsAny<int>(), It.IsAny<int>())).Returns(false);
 
             UserSqlService userSqlService = new UserSqlService(
-              userRepository.Object,
-              courseService.Object,
-              authorizedUser.Object,
-              userCourseService.Object,
-              userCourseMaterialSqlService.Object,
-              userMaterialSqlService.Object,
-              userSkillSqlService.Object,
-              courseSkillService.Object);
+                userRepository.Object,
+                courseService.Object,
+                authorizedUser.Object,
+                userCourseService.Object,
+                userCourseMaterialSqlService.Object,
+                userMaterialSqlService.Object,
+                userSkillSqlService.Object,
+                courseSkillService.Object,
+                logger.Object);
 
             Assert.IsFalse(userSqlService.UpdateValueOfPassMaterialInProgress(It.IsAny<int>(), It.IsAny<int>()));
         }
@@ -599,14 +642,15 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             userMaterialSqlService.Setup(db => db.AddMaterialToUser(It.IsAny<int>(), It.IsAny<int>()));
 
             UserSqlService userSqlService = new UserSqlService(
-              userRepository.Object,
-              courseService.Object,
-              authorizedUser.Object,
-              userCourseService.Object,
-              userCourseMaterialSqlService.Object,
-              userMaterialSqlService.Object,
-              userSkillSqlService.Object,
-              courseSkillService.Object);
+                userRepository.Object,
+                courseService.Object,
+                authorizedUser.Object,
+                userCourseService.Object,
+                userCourseMaterialSqlService.Object,
+                userMaterialSqlService.Object,
+                userSkillSqlService.Object,
+                courseSkillService.Object,
+                logger.Object);
 
             userSqlService.UpdateValueOfPassMaterialInProgress(It.IsAny<int>(), It.IsAny<int>());
 
@@ -624,14 +668,15 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             userRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<User, bool>>>()));
 
             UserSqlService userSqlService = new UserSqlService(
-              userRepository.Object,
-              courseService.Object,
-              authorizedUser.Object,
-              userCourseService.Object,
-              userCourseMaterialSqlService.Object,
-              userMaterialSqlService.Object,
-              userSkillSqlService.Object,
-              courseSkillService.Object);
+                userRepository.Object,
+                courseService.Object,
+                authorizedUser.Object,
+                userCourseService.Object,
+                userCourseMaterialSqlService.Object,
+                userMaterialSqlService.Object,
+                userSkillSqlService.Object,
+                courseSkillService.Object,
+                logger.Object);
 
             userSqlService.ExistEmail(It.IsAny<Expression<Func<User, bool>>>());
 
@@ -645,15 +690,18 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void GetAllPassedCourseFromUser_AuthorizedUserNull_Null()
         {
+            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
+
             UserSqlService userSqlService = new UserSqlService(
-             userRepository.Object,
-             courseService.Object,
-             null,
-             userCourseService.Object,
-             userCourseMaterialSqlService.Object,
-             userMaterialSqlService.Object,
-             userSkillSqlService.Object,
-             courseSkillService.Object);
+                userRepository.Object,
+                courseService.Object,
+                null,
+                userCourseService.Object,
+                userCourseMaterialSqlService.Object,
+                userMaterialSqlService.Object,
+                userSkillSqlService.Object,
+                courseSkillService.Object,
+                logger.Object);
 
             Assert.IsNull(userSqlService.GetAllPassedCourseFromUser());
         }
@@ -665,14 +713,15 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             userCourseService.Setup(db => db.GetAllPassedCourse(It.IsAny<int>()));
 
             UserSqlService userSqlService = new UserSqlService(
-             userRepository.Object,
-             courseService.Object,
-             authorizedUser.Object,
-             userCourseService.Object,
-             userCourseMaterialSqlService.Object,
-             userMaterialSqlService.Object,
-             userSkillSqlService.Object,
-             courseSkillService.Object);
+                userRepository.Object,
+                courseService.Object,
+                authorizedUser.Object,
+                userCourseService.Object,
+                userCourseMaterialSqlService.Object,
+                userMaterialSqlService.Object,
+                userSkillSqlService.Object,
+                courseSkillService.Object,
+                logger.Object);
 
             userSqlService.GetAllPassedCourseFromUser();
 
