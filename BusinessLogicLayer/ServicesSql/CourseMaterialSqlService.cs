@@ -16,9 +16,11 @@
     public class CourseMaterialSqlService : ICourseMaterialService
     {
         private readonly IRepository<CourseMaterial> courseMaterialRepository;
+        private static IBLLLogger logger;
 
-        public CourseMaterialSqlService(IRepository<CourseMaterial> courseMatRepository)
+        public CourseMaterialSqlService(IRepository<CourseMaterial> courseMatRepository, IBLLLogger log)
         {
+            logger = log;
             this.courseMaterialRepository = courseMatRepository;
         }
 
@@ -26,6 +28,7 @@
         {
             if (this.courseMaterialRepository.Exist(x => x.CourseId == courseId && x.MaterialId == materialId))
             {
+                logger.Logger.Debug("CourseMaterial not exist - " + DateTime.Now);
                 return false;
             }
 
