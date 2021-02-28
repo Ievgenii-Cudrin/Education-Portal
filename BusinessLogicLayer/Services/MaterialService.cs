@@ -6,8 +6,8 @@
     using BusinessLogicLayer.Interfaces;
     using DataAccessLayer.Entities;
     using DataAccessLayer.Interfaces;
-    using DataAccessLayer.Repositories;
     using EducationPortal.BLL.Interfaces;
+    using EducationPortal.DAL.XML.Repositories;
     using Entities;
 
     public class MaterialService : IMaterialService
@@ -19,12 +19,12 @@
         private readonly ICourseService courseService;
 
         public MaterialService(
-            IEnumerable<IRepository<Material>> repositories,
+            IRepository<Material> repositories,
             IAuthorizedUser authorizedUser,
             IMaterialComparerService materialComparerService,
             ICourseService courseService)
         {
-            this.materialRepository = repositories.FirstOrDefault(t => t.GetType() == typeof(RepositoryXml<Material>));
+            this.materialRepository = repositories;
             this.materialsFromDB = materialRepository.GetAll().ToList();
             this.authorizedUser = authorizedUser;
             this.materialComparerService = materialComparerService;

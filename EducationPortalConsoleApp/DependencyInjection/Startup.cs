@@ -6,7 +6,6 @@ namespace EducationPortalConsoleApp.DependencyInjection
     using BusinessLogicLayer.Services;
     using DataAccessLayer.DataContext;
     using DataAccessLayer.Interfaces;
-    using DataAccessLayer.Repositories;
     using EducationPortal.PL.Controller;
     using EducationPortal.PL.Interfaces;
     using EducationPortalConsoleApp.Controller;
@@ -16,7 +15,6 @@ namespace EducationPortalConsoleApp.DependencyInjection
     using XmlDataBase.Interfaces;
     using XmlDataBase.Serialization;
     using EducationPortal.PL.Mapping;
-    using EducationPortal.DAL.Repositories;
     using EducationPortal.BLL.ServicesSql;
     using EducationPortal.DAL.DataContext;
     using Microsoft.EntityFrameworkCore;
@@ -27,6 +25,7 @@ namespace EducationPortalConsoleApp.DependencyInjection
     using EducationPortal.DAL.Interfaces;
     using EducationPortal.DAL.Loggers;
     using EducationPortal.BLL.Loggers;
+    using EducationPortal.DAL.XML.Repositories;
 
     public class Startup
     {
@@ -45,18 +44,18 @@ namespace EducationPortalConsoleApp.DependencyInjection
                 .AddSingleton(typeof(IXmlSet<>), typeof(XmlSet<>))
                 .AddSingleton(typeof(IXmlSerializeContext<>), typeof(XmlSerializationContextGeneric<>))
                 // Repositories
-                //.AddTransient(typeof(IRepository<>), typeof(RepositoryXml<>))
-                .AddTransient(typeof(IRepository<>), typeof(RepositorySql<>))
-                .AddDbContext<ApplicationContext>(options => options.UseSqlServer(configuration["ConnectionStrings:UserDBConnection"]))
+                .AddTransient(typeof(IRepository<>), typeof(RepositoryXml<>))
+                //.AddTransient(typeof(IRepository<>), typeof(RepositorySql<>))
+                //.AddDbContext<ApplicationContext>(options => options.UseSqlServer(configuration["ConnectionStrings:UserDBConnection"]))
                 // Services
-                //.AddTransient<IUserService, UserService>()
-                .AddTransient<IUserService, UserSqlService>()
-                //.AddTransient<ICourseService, CourseService>()
-                .AddTransient<ICourseService, CourseSqlService>()
-                //.AddTransient<IMaterialService, MaterialService>()
-                .AddTransient<IMaterialService, MaterialSqlService>()
-                //.AddTransient<ISkillService, SkillService>()
-                .AddTransient<ISkillService, SkillSqlService>()
+                .AddTransient<IUserService, UserService>()
+                //.AddTransient<IUserService, UserSqlService>()
+                .AddTransient<ICourseService, CourseService>()
+                //.AddTransient<ICourseService, CourseSqlService>()
+                .AddTransient<IMaterialService, MaterialService>()
+                //.AddTransient<IMaterialService, MaterialSqlService>()
+                .AddTransient<ISkillService, SkillService>()
+                //.AddTransient<ISkillService, SkillSqlService>()
                 .AddTransient<ILogInService, LogInService>()
                 .AddScoped<IUserCourseSqlService, UserCourseSqlService>()
                 .AddTransient<ICourseMaterialService, CourseMaterialSqlService>()

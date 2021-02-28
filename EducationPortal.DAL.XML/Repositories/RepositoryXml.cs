@@ -1,13 +1,13 @@
-﻿namespace DataAccessLayer.Repositories
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Linq.Expressions;
-    using DataAccessLayer.Interfaces;
-    using EducationPortal.Domain.Entities;
-    using XmlDataBase.Interfaces;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using DataAccessLayer.Interfaces;
+using EducationPortal.Domain.Entities;
+using XmlDataBase.Interfaces;
 
+namespace EducationPortal.DAL.XML.Repositories
+{
     public class RepositoryXml<T> : IRepository<T>
         where T : class
     {

@@ -5,15 +5,15 @@
     using BusinessLogicLayer.Interfaces;
     using DataAccessLayer.Entities;
     using DataAccessLayer.Interfaces;
-    using DataAccessLayer.Repositories;
+    using EducationPortal.DAL.XML.Repositories;
 
-    public class SkillService// : ISkillService
+    public class SkillService : ISkillService
     {
         private readonly IRepository<Skill> repository;
 
-        public SkillService(IEnumerable<IRepository<Skill>> repository)
+        public SkillService(IRepository<Skill> repository)
         {
-            this.repository = repository.FirstOrDefault(t => t.GetType() == typeof(RepositoryXml<Skill>));
+            this.repository = repository;
         }
 
         public Skill CreateSkill(Skill skillToCreate)
@@ -60,6 +60,11 @@
         public Skill GetSkillByName(string name)
         {
             return this.repository.GetAll().Where(x => x.Name == name).FirstOrDefault();
+        }
+
+        public bool ExistSkill(int skillId)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

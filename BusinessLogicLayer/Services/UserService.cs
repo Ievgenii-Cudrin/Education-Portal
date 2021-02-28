@@ -7,9 +7,9 @@
     using BusinessLogicLayer.Interfaces;
     using DataAccessLayer.Entities;
     using DataAccessLayer.Interfaces;
-    using DataAccessLayer.Repositories;
     using EducationPortal.BLL.Interfaces;
     using EducationPortal.DAL.Repositories;
+    using EducationPortal.DAL.XML.Repositories;
     using EducationPortal.Domain.Comparers;
     using Entities;
 
@@ -22,14 +22,14 @@
         private IMaterialService materialService;
 
         public UserService(
-            IEnumerable<IRepository<User>> uRepositories,
-            IEnumerable<IRepository<Course>> courseRepositories,
+            IRepository<User> uRepositories,
+            IRepository<Course> courseRepositories,
             IAuthorizedUser authUser,
             ICourseComparerService courseComparer,
             IMaterialService materialService)
         {
-            this.userRepository = uRepositories.FirstOrDefault(t => t.GetType() == typeof(RepositoryXml<User>));
-            this.courseRepository = courseRepositories.FirstOrDefault(t => t.GetType() == typeof(RepositoryXml<Course>));
+            this.userRepository = uRepositories;
+            this.courseRepository = courseRepositories;
             this.authorizedUser = authUser;
             this.courseComparer = courseComparer;
             this.materialService = materialService;

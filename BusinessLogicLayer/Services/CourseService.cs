@@ -5,8 +5,8 @@
     using BusinessLogicLayer.Interfaces;
     using DataAccessLayer.Entities;
     using DataAccessLayer.Interfaces;
-    using DataAccessLayer.Repositories;
     using EducationPortal.BLL.Interfaces;
+    using EducationPortal.DAL.XML.Repositories;
     using EducationPortal.Domain.Comparers;
     using Entities;
 
@@ -17,11 +17,11 @@
         private ICourseComparerService courseComparer;
 
         public CourseService(
-            IEnumerable<IRepository<Course>> repositories,
+            IRepository<Course> repositories,
             ISkillService skillService,
             ICourseComparerService courseComparer)
         {
-            this.courseRepository = repositories.FirstOrDefault(t => t.GetType() == typeof(RepositoryXml<Course>));
+            this.courseRepository = repositories;
             this.skillService = skillService;
             this.courseComparer = courseComparer;
         }

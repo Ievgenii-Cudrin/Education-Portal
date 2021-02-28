@@ -15,9 +15,9 @@
         private IRepository<User> userRepository;
         private IWorkWithAuthorizedUser workWithAuthorizedUser;
 
-        public LogInService(IEnumerable<IRepository<User>> uRepo, IWorkWithAuthorizedUser workWithAuthUser)
+        public LogInService(IRepository<User> uRepo, IWorkWithAuthorizedUser workWithAuthUser)
         {
-            this.userRepository = uRepo.FirstOrDefault(t => t.GetType() == typeof(RepositorySql<User>));
+            this.userRepository = uRepo;
             this.workWithAuthorizedUser = workWithAuthUser;
         }
 
