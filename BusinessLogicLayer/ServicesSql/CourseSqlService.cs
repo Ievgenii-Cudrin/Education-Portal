@@ -22,6 +22,7 @@
         private IMaterialService materialService;
         private ISkillService skillService;
         private ICourseComparerService courseComparerService;
+        private static IBLLLogger logger;
 
 
         public CourseSqlService(
@@ -30,7 +31,8 @@
             ICourseSkillService courseSkillServ,
             IMaterialService materialService,
             ISkillService skillService,
-            ICourseComparerService courseComparerService)
+            ICourseComparerService courseComparerService,
+            IBLLLogger log)
         {
             this.courseRepository = courseRepo;
             this.courseMaterialService = courseMaterialServ;
@@ -38,6 +40,7 @@
             this.materialService = materialService;
             this.skillService = skillService;
             this.courseComparerService = courseComparerService;
+            logger = log;
         }
 
         public bool AddMaterialToCourse(int courseId, Material material)
@@ -48,6 +51,7 @@
                 return this.courseMaterialService.AddMaterialToCourse(courseId, material.Id);
             }
 
+            logger.Logger.Debug("Material dont add to course - " + DateTime.Now);
             return false;
         }
 
@@ -59,6 +63,7 @@
                 return this.courseSkillService.AddSkillToCourse(courseId, skillToAdd.Id);
             }
 
+            logger.Logger.Debug("Skill dont add to course - " + DateTime.Now);
             return false;
         }
 
@@ -73,6 +78,7 @@
                 return true;
             }
 
+            logger.Logger.Debug("Course not created - " + DateTime.Now);
             return false;
         }
 
@@ -85,6 +91,7 @@
                 return true;
             }
 
+            logger.Logger.Debug("Course not deleted - " + DateTime.Now);
             return false;
         }
 
@@ -96,6 +103,7 @@
                     .Except(this.materialService.GetAllNotPassedMaterialFromUser()).ToList();
             }
 
+            logger.Logger.Debug("Return null materials, course not exist - " + DateTime.Now);
             return null;
         }
 
@@ -106,6 +114,7 @@
                 return this.courseSkillService.GetAllSkillsFromCourse(id);
             }
 
+            logger.Logger.Debug("Return null skills, course not exist - " + DateTime.Now);
             return null;
         }
 
@@ -118,6 +127,7 @@
                 return true;
             }
 
+            logger.Logger.Debug("Course not updated, course not exist - " + DateTime.Now);
             return false;
         }
 
@@ -133,6 +143,7 @@
                 return this.courseRepository.Except(courses, this.courseComparerService.CourseComparer).ToList();
             }
 
+            logger.Logger.Debug("Not available courses, course list is null - " + DateTime.Now);
             return null;
         }
     }
