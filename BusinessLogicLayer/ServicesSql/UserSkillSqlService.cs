@@ -13,10 +13,13 @@
     public class UserSkillSqlService : IUserSkillSqlService
     {
         private readonly IRepository<UserSkill> userSkillRepository;
+        private static IBLLLogger logger;
 
-        public UserSkillSqlService(IRepository<UserSkill> userSkillRepository)
+        public UserSkillSqlService(IRepository<UserSkill> userSkillRepository,
+            IBLLLogger log)
         {
             this.userSkillRepository = userSkillRepository;
+            logger = log;
         }
 
         public void AddSkillToUser(int userId, int skillId)
@@ -27,6 +30,7 @@
             {
                 userSkill.CountOfPoint++;
                 this.userSkillRepository.Update(userSkill);
+                logger.Logger.Debug("Add point to exist skill in user - " + DateTime.Now);
             }
             else
             {
@@ -37,6 +41,7 @@
                 };
 
                 this.userSkillRepository.Add(userSkill);
+                logger.Logger.Debug("Add new skill - " + DateTime.Now);
             }
 
             this.userSkillRepository.Save();
