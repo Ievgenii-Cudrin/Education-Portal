@@ -16,12 +16,16 @@
     {
         private IRepository<UserCourseMaterial> userCourseMaterialRepository;
         private ICourseMaterialService courseMaterialService;
+        private static IBLLLogger logger;
 
-        public UserCourseMaterialSqlService(IRepository<UserCourseMaterial> userCourseMaterialRepository,
-            ICourseMaterialService courseMaterialService)
+        public UserCourseMaterialSqlService(
+            IRepository<UserCourseMaterial> userCourseMaterialRepository,
+            ICourseMaterialService courseMaterialService,
+            IBLLLogger log)
         {
             this.userCourseMaterialRepository = userCourseMaterialRepository;
             this.courseMaterialService = courseMaterialService;
+            logger = log;
         }
 
         public bool AddMaterialsToUserCourse(int userCourseId, int courseId)
@@ -30,6 +34,7 @@
 
             if (materialsFromCourse == null)
             {
+                logger.Logger.Debug("Course not exist - " + DateTime.Now);
                 return false;
             }
 
@@ -62,6 +67,7 @@
                 return true;
             }
 
+            logger.Logger.Debug("UserCourseMaterial not found - " + DateTime.Now);
             return false;
         }
 
@@ -69,6 +75,7 @@
         {
             if (!this.userCourseMaterialRepository.Exist(x => x.UserCourseId == userCourseId))
             {
+                logger.Logger.Debug("UserCourse not found - " + DateTime.Now);
                 return null;
             }
 
