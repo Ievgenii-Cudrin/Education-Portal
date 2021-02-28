@@ -1,9 +1,11 @@
 ﻿using DataAccessLayer.Interfaces;
+using EducationPortal.BLL.Interfaces;
 using EducationPortal.BLL.ServicesSql;
 using EducationPortal.Domain.Entities;
 using Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -15,11 +17,13 @@ namespace EducationPortal.BLL.Tests.ServicesSql
     public class UserMaterialSqlServiceTests
     {
         private Mock<IRepository<UserMaterial>> userMaterialRepository;
+        private Mock<IBLLLogger> logger;
 
         [TestInitialize]
         public void SetUp()
         {
             this.userMaterialRepository = new Mock<IRepository<UserMaterial>>();
+            this.logger = new Mock<IBLLLogger>();
         }
 
         #region AddMaterialToUser
@@ -27,9 +31,12 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void AddMaterialToUser_UserMaterialExist_False()
         {
+            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             userMaterialRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<UserMaterial, bool>>>())).Returns(true);
 
-            UserMaterialSqlService userMaterialSqlService = new UserMaterialSqlService(userMaterialRepository.Object);
+            UserMaterialSqlService userMaterialSqlService = new UserMaterialSqlService(
+                userMaterialRepository.Object,
+                logger.Object);
 
             Assert.IsFalse(userMaterialSqlService.AddMaterialToUser(It.IsAny<int>(), It.IsAny<int>()));
         }
@@ -41,7 +48,9 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             userMaterialRepository.Setup(db => db.Add(It.IsAny<UserMaterial>()));
             userMaterialRepository.Setup(db => db.Save());
 
-            UserMaterialSqlService userMaterialSqlService = new UserMaterialSqlService(userMaterialRepository.Object);
+            UserMaterialSqlService userMaterialSqlService = new UserMaterialSqlService(
+                userMaterialRepository.Object,
+                logger.Object);
 
             userMaterialSqlService.AddMaterialToUser(It.IsAny<int>(), It.IsAny<int>());
 
@@ -61,7 +70,9 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 It.IsAny<Expression<Func<UserMaterial, bool>>>()
                 )).Returns(new List<Material>());
 
-            UserMaterialSqlService userMaterialSqlService = new UserMaterialSqlService(userMaterialRepository.Object);
+            UserMaterialSqlService userMaterialSqlService = new UserMaterialSqlService(
+                userMaterialRepository.Object,
+                logger.Object);
 
             userMaterialSqlService.GetAllMaterialInUser(It.IsAny<int>());
 

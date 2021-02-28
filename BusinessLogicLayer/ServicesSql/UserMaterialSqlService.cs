@@ -13,16 +13,21 @@
     public class UserMaterialSqlService : IUserMaterialSqlService
     {
         private readonly IRepository<UserMaterial> userMaterialRepository;
+        private static IBLLLogger logger;
 
-        public UserMaterialSqlService(IRepository<UserMaterial> userMaterialRepository)
+        public UserMaterialSqlService(
+            IRepository<UserMaterial> userMaterialRepository,
+            IBLLLogger log)
         {
             this.userMaterialRepository = userMaterialRepository;
+            logger = log;
         }
 
         public bool AddMaterialToUser(int userId, int materialId)
         {
             if (this.userMaterialRepository.Exist(x => x.UserId == userId && x.MaterialId == materialId))
             {
+                logger.Logger.Debug("UserMaterial not exist - " + DateTime.Now);
                 return false;
             }
 
