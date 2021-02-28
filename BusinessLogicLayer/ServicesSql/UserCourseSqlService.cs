@@ -14,12 +14,15 @@
     {
         private IRepository<UserCourse> userCourseRepository;
         private IUserCourseMaterialSqlService userCourseMaterialSqlService;
+        private static IBLLLogger logger;
 
         public UserCourseSqlService(IRepository<UserCourse> userCourseRepository,
-            IUserCourseMaterialSqlService userCourseMaterialSqlService)
+            IUserCourseMaterialSqlService userCourseMaterialSqlService,
+            IBLLLogger log)
         {
             this.userCourseRepository = userCourseRepository;
             this.userCourseMaterialSqlService = userCourseMaterialSqlService;
+            logger = log;
         }
 
         public void AddCourseToUser(int userId, int courseId)
@@ -70,6 +73,7 @@
 
             if (userCourse == null)
             {
+                logger.Logger.Debug("User course not found - " + DateTime.Now);
                 return false;
             }
 
