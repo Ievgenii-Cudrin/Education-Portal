@@ -1,11 +1,10 @@
-﻿using Entities;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Text;
-
-namespace EducationPortal.Domain.Comparers
+﻿namespace EducationPortal.Domain.Comparers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using global::Entities;
+
     public class MaterialComparer : IEqualityComparer<Material>
     {
         public bool Equals([AllowNull] Material x, [AllowNull] Material y)

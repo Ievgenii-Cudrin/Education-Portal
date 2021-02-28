@@ -15,6 +15,9 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="NLog" Version="4.7.8" />
+    <PackageReference Include="NLog.Config" Version="4.7.8" />
+    <PackageReference Include="NLog.Schema" Version="4.7.8" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -24,6 +27,24 @@
   <ItemGroup>
     <ProjectReference Include="..\EducationPortal.Domain\EducationPortal.Domain.csproj" />
     <ProjectReference Include="..\EducationPortal.XmlDataBase\EducationPortal.XmlDataBase.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="C:\Users\zhend\.nuget\packages\nlog.config\4.7.0\contentFiles\any\any\NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="C:\Users\zhend\.nuget\packages\nlog.schema\4.7.0\contentFiles\any\any\NLog.xsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="C:\Users\zhend\.nuget\packages\nlog.config\4.7.0\contentFiles\any\any\NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

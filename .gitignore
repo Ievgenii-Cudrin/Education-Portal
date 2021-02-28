@@ -354,3 +354,4 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+DataAccessLayer/NLog.config
