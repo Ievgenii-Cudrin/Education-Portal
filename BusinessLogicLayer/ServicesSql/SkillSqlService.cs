@@ -7,16 +7,19 @@
     using BusinessLogicLayer.Interfaces;
     using DataAccessLayer.Entities;
     using DataAccessLayer.Interfaces;
+    using EducationPortal.BLL.Interfaces;
     using EducationPortal.DAL.Repositories;
     using Entities;
 
     public class SkillSqlService : ISkillService
     {
         private readonly IRepository<Skill> skillRepository;
+        private static IBLLLogger logger;
 
-        public SkillSqlService(IRepository<Skill> repository)
+        public SkillSqlService(IRepository<Skill> repository, IBLLLogger log)
         {
             this.skillRepository = repository;
+            logger = log;
         }
 
         public Skill CreateSkill(Skill skill)
@@ -26,6 +29,7 @@
                 this.skillRepository.Add(skill);
                 this.skillRepository.Save();
                 return skill;
+                logger.Logger.Debug("Create new skill - " + DateTime.Now);
             }
 
             return this.skillRepository.Get(x => x.Name == skill.Name).FirstOrDefault();
@@ -38,6 +42,8 @@
                 this.skillRepository.Delete(id);
                 this.skillRepository.Save();
             }
+
+            logger.Logger.Debug("Skill not deleted - " + DateTime.Now);
         }
 
         public Skill GetSkill(int id)
@@ -48,6 +54,7 @@
             }
             else
             {
+                logger.Logger.Debug("Skill not exist - " + DateTime.Now);
                 return null;
             }
         }
@@ -56,6 +63,7 @@
         {
             if (string.IsNullOrEmpty(name))
             {
+                logger.Logger.Debug("method parametr is null or empry - " + DateTime.Now);
                 return null;
             }
             else
@@ -70,6 +78,8 @@
             {
                 this.skillRepository.Update(skill);
             }
+
+            logger.Logger.Debug("Skill is null - " + DateTime.Now);
         }
 
         public bool ExistSkill(int skillId)
