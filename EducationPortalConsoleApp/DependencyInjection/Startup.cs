@@ -24,6 +24,8 @@ namespace EducationPortalConsoleApp.DependencyInjection
     using System.IO;
     using EducationPortal.BLL.Services;
     using EducationPortal.BLL.Interfaces;
+    using EducationPortal.DAL.Interfaces;
+    using EducationPortal.DAL.Loggers;
 
     public class Startup
     {
@@ -69,6 +71,7 @@ namespace EducationPortalConsoleApp.DependencyInjection
                 .AddTransient<IUserSkillSqlService, UserSkillSqlService>()
                 .AddTransient<IMaterialComparerService, MaterialComparerService>()
                 .AddTransient<ICourseComparerService, CourseComparerService>()
+                .AddTransient<IDalSqlLogger, DalSqlNLogLogger>()
                 .BuildServiceProvider();
 
             return provider;
