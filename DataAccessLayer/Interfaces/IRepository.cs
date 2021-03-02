@@ -6,7 +6,6 @@
     using EducationPortal.Domain.Entities;
 
     public interface IRepository<T>
-        where T : class
     {
         IList<T> GetAll();
 

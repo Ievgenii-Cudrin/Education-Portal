@@ -156,18 +156,6 @@
             }
         }
 
-        // public IList<TEntity> GetPage<TEntity>(
-        //    Expression<Func<TEntity, TResult>> selector,
-        //    Expression<Func<TEntity, bool>> predicat,
-        //    PageInfo page)
-        //    where TEntity : class
-        // {
-        //    var skip = page.Size * (page.Number - 1);
-        //    return this.dbContext.Set<TEntity>()
-        //                .Select(selector)
-        //                .Where(predicat)
-        //                .Skip(skip).Take(page.Size).ToList();
-        // }
         public bool Exist(Expression<Func<T, bool>> predicat)
         {
             try
@@ -235,11 +223,7 @@
             try
             {
                 var entity = this.dbContext.Set<T>().Find(id);
-
-                if (entity != null)
-                {
-                    this.dbContext.Set<T>().Remove(entity);
-                }
+                this.dbContext.Set<T>().Remove(entity);
             }
             catch (SqlException ex)
             {
