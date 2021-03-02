@@ -3,14 +3,12 @@ namespace EducationPortalConsoleApp.DependencyInjection
 {
     using System;
     using BusinessLogicLayer.Interfaces;
-    using BusinessLogicLayer.Services;
     using DataAccessLayer.DataContext;
     using DataAccessLayer.Interfaces;
     using EducationPortal.PL.Controller;
     using EducationPortal.PL.Interfaces;
     using EducationPortalConsoleApp.Controller;
     using EducationPortalConsoleApp.Interfaces;
-    using EducationPortalConsoleApp.Services;
     using Microsoft.Extensions.DependencyInjection;
     using XmlDataBase.Interfaces;
     using XmlDataBase.Serialization;
@@ -27,6 +25,7 @@ namespace EducationPortalConsoleApp.DependencyInjection
     using EducationPortal.BLL.Loggers;
     using EducationPortal.DAL.XML.Repositories;
     using EducationPortal.DAL.Repositories;
+    using EducationPortal.Domain.Entities;
 
     public class Startup
     {
@@ -45,25 +44,27 @@ namespace EducationPortalConsoleApp.DependencyInjection
                 .AddSingleton(typeof(IXmlSet<>), typeof(XmlSet<>))
                 .AddSingleton(typeof(IXmlSerializeContext<>), typeof(XmlSerializationContextGeneric<>))
                 // Repositories
-                //.AddTransient(typeof(IRepository<>), typeof(RepositoryXml<>))
-                .AddTransient(typeof(IRepository<>), typeof(RepositorySql<>))
+                .AddTransient<IRepository<UserCourse>, UserCourseXmlRepository>()
+                .AddSingleton<IRepository<CourseMaterial>, CourseMaterialXmlRepository>()
+                .AddTransient<IRepository<CourseSkill>, CourseSkillXmlRepository>()
+                .AddTransient<IRepository<UserMaterial>, UserMaterialXmlRepository>()
+                .AddTransient<IRepository<UserSkill>, UserSkillXmlRepository>()
+                .AddTransient<IRepository<UserCourseMaterial>, UserCourseMaterialXmlRepository>()
+                .AddTransient(typeof(IRepository<>), typeof(RepositoryXml<>))
+                //.AddTransient(typeof(IRepository<>), typeof(RepositorySql<>))
                 .AddDbContext<ApplicationContext>(options => options.UseSqlServer(configuration["ConnectionStrings:UserDBConnection"]))
                 // Services
-                //.AddTransient<IUserService, UserService>()
-                .AddTransient<IUserService, UserSqlService>()
-                //.AddTransient<ICourseService, CourseService>()
-                .AddTransient<ICourseService, CourseSqlService>()
-                //.AddTransient<IMaterialService, MaterialService>()
-                .AddTransient<IMaterialService, MaterialSqlService>()
-                //.AddTransient<ISkillService, SkillService>()
-                .AddTransient<ISkillService, SkillSqlService>()
+                .AddTransient<IUserService, UserService>()
+                .AddTransient<ICourseService, CourseService>()
+                .AddTransient<IMaterialService, MaterialService>()
+                .AddTransient<ISkillService, SkillService>()
                 .AddTransient<ILogInService, LogInService>()
-                .AddScoped<IUserCourseSqlService, UserCourseSqlService>()
-                .AddTransient<ICourseMaterialService, CourseMaterialSqlService>()
-                .AddTransient<ICourseSkillService, CourseSkillSqlService>()
-                .AddTransient<IUserCourseMaterialSqlService, UserCourseMaterialSqlService>()
-                .AddTransient<IUserMaterialSqlService, UserMaterialSqlService>()
-                .AddTransient<IUserSkillSqlService, UserSkillSqlService>()
+                .AddScoped<IUserCourseSqlService, UserCourseService>()
+                .AddTransient<ICourseMaterialService, CourseMaterialService>()
+                .AddTransient<ICourseSkillService, CourseSkillService>()
+                .AddTransient<IUserCourseMaterialSqlService, UserCourseMaterialService>()
+                .AddTransient<IUserMaterialSqlService, UserMaterialService>()
+                .AddTransient<IUserSkillSqlService, UserSkillService>()
                 .AddTransient<IMaterialComparerService, MaterialComparerService>()
                 .AddTransient<ICourseComparerService, CourseComparerService>()
                 .AddTransient<IAuthorizedUser, AuthorizerUser>()
