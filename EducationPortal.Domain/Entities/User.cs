@@ -23,26 +23,6 @@
         [XmlElement("Email")]
         public string Email { get; set; }
 
-        [NotMapped]
-        [XmlArray("SkillArray")]
-        [XmlArrayItem("SkillObjekt")]
-        public List<Skill> Skills { get; set; }
-
-        [NotMapped]
-        [XmlArray("PassedCoursesArray")]
-        [XmlArrayItem("PassedCourseObjekt")]
-        public List<Course> CoursesPassed { get; set; }
-
-        [NotMapped]
-        [XmlArray("InProgressCoursesArray")]
-        [XmlArrayItem("InProgressCourseObjekt")]
-        public List<Course> CoursesInProgress { get; set; }
-
-        [NotMapped]
-        [XmlArray("MaterialsArray")]
-        [XmlArrayItem("MaterialObjekt")]
-        public List<Material> PassedMaterials { get; set; }
-
         [XmlIgnore]
         public List<UserSkill> UserSkills { get; set; }
 

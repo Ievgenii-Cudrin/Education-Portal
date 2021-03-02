@@ -4,21 +4,22 @@
     using System.Collections.Generic;
     using System.Xml.Serialization;
 
+    [XmlType("UserCourse")]
     public class UserCourse : BaseEntity
     {
-        [XmlIgnore]
+        [XmlElement("UserId")]
         public int UserId { get; set; }
 
         [XmlIgnore]
         public User User { get; set; }
 
-        [XmlIgnore]
+        [XmlElement("CourseId")]
         public int CourseId { get; set; }
 
         [XmlIgnore]
         public Course Course { get; set; }
 
-        [XmlIgnore]
+        [XmlElement("IsPassed")]
         public bool IsPassed { get; set; }
 
         [XmlIgnore]

@@ -19,16 +19,6 @@
         [XmlElement("Description")]
         public string Description { get; set; }
 
-        [NotMapped]
-        [XmlArray("SkillArray")]
-        [XmlArrayItem("SkillObjekt")]
-        public List<Skill> Skills { get; set; }
-
-        [NotMapped]
-        [XmlArray("MaterialArray")]
-        [XmlArrayItem("MaterialObjekt")]
-        public List<Material> Materials { get; set; }
-
         [XmlIgnore]
         public ICollection<CourseSkill> CourseSkills { get; set; }
 
@@ -41,9 +31,7 @@
         public override string ToString()
         {
             return $"\nName: {this.Name}" +
-                $"\nDescription: {this.Description}" +
-                $"\nYou will acquire the following skills: {string.Join(",", this.Skills.Select(s => s.Name))}" +
-                $"\nThe course contains the following list of materials: {string.Join(",", this.Materials.Select(x => x.Name))}";
+                $"\nDescription: {this.Description}";
         }
     }
 }
