@@ -10,12 +10,12 @@
     using EducationPortal.Domain.Entities;
     using Entities;
 
-    public class UserMaterialSqlService : IUserMaterialSqlService
+    public class UserMaterialService : IUserMaterialSqlService
     {
         private readonly IRepository<UserMaterial> userMaterialRepository;
         private static IBLLLogger logger;
 
-        public UserMaterialSqlService(
+        public UserMaterialService(
             IRepository<UserMaterial> userMaterialRepository,
             IBLLLogger log)
         {

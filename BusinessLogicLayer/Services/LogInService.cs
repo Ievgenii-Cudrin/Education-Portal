@@ -1,15 +1,10 @@
-﻿namespace EducationPortal.BLL.Services
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using BusinessLogicLayer.Interfaces;
-    using DataAccessLayer.Entities;
-    using DataAccessLayer.Interfaces;
-    using EducationPortal.BLL.Interfaces;
-    using EducationPortal.DAL.Repositories;
+﻿using System.Linq;
+using DataAccessLayer.Entities;
+using DataAccessLayer.Interfaces;
+using EducationPortal.BLL.Interfaces;
 
+namespace EducationPortal.BLL.Services
+{   
     public class LogInService : ILogInService
     {
         private IRepository<User> userRepository;

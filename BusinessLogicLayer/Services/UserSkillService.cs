@@ -10,12 +10,12 @@
     using EducationPortal.DAL.Repositories;
     using EducationPortal.Domain.Entities;
 
-    public class UserSkillSqlService : IUserSkillSqlService
+    public class UserSkillService : IUserSkillSqlService
     {
         private readonly IRepository<UserSkill> userSkillRepository;
         private static IBLLLogger logger;
 
-        public UserSkillSqlService(IRepository<UserSkill> userSkillRepository,
+        public UserSkillService(IRepository<UserSkill> userSkillRepository,
             IBLLLogger log)
         {
             this.userSkillRepository = userSkillRepository;
@@ -30,7 +30,7 @@
             {
                 userSkill.CountOfPoint++;
                 this.userSkillRepository.Update(userSkill);
-                logger.Logger.Debug("Add point to exist skill in user - " + DateTime.Now);
+                logger.Logger.Debug($"Add point to exist skill in user - { DateTime.Now }");
             }
             else
             {

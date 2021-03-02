@@ -1,23 +1,21 @@
-﻿namespace EducationPortal.BLL.ServicesSql
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using DataAccessLayer.Entities;
-    using DataAccessLayer.Interfaces;
-    using EducationPortal.BLL.Interfaces;
-    using EducationPortal.DAL.Repositories;
-    using EducationPortal.Domain.Entities;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using DataAccessLayer.Entities;
+using DataAccessLayer.Interfaces;
+using EducationPortal.BLL.Interfaces;
+using EducationPortal.Domain.Entities;
 
-    public class CourseSkillSqlService : ICourseSkillService
+namespace EducationPortal.BLL.ServicesSql
+{
+    public class CourseSkillService : ICourseSkillService
     {
         private readonly IRepository<CourseSkill> courseSkillRepository;
         private readonly IRepository<Course> courseRepository;
         private readonly IRepository<Skill> skillRepository;
         private static IBLLLogger logger;
 
-        public CourseSkillSqlService(
+        public CourseSkillService(
             IRepository<CourseSkill> courseSkillRepo,
             IRepository<Skill> skillRepo,
             IRepository<Course> courseRepo,
@@ -47,7 +45,19 @@
             }
             else
             {
-                logger.Logger.Debug("Skill dont add to course - " + DateTime.Now);
+                if (!this.courseRepository.Exist(x => x.Id == courseId))
+                {
+                    logger.Logger.Debug("Skill dont add to course - course not exist" + DateTime.Now);
+                }
+                else if (!this.skillRepository.Exist(x => x.Id == skillId))
+                {
+                    logger.Logger.Debug("Skill dont add to course - skill not exist" + DateTime.Now);
+                }
+                else
+                {
+                    logger.Logger.Debug("Skill dont add to course - skill exist in course" + DateTime.Now);
+                }
+
                 return false;
             }
         }

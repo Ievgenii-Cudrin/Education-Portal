@@ -12,13 +12,13 @@
     using EducationPortal.Domain.Entities;
     using Entities;
 
-    public class UserCourseMaterialSqlService : IUserCourseMaterialSqlService
+    public class UserCourseMaterialService : IUserCourseMaterialSqlService
     {
         private IRepository<UserCourseMaterial> userCourseMaterialRepository;
         private ICourseMaterialService courseMaterialService;
         private static IBLLLogger logger;
 
-        public UserCourseMaterialSqlService(
+        public UserCourseMaterialService(
             IRepository<UserCourseMaterial> userCourseMaterialRepository,
             ICourseMaterialService courseMaterialService,
             IBLLLogger log)

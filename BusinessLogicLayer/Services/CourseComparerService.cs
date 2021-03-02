@@ -1,11 +1,8 @@
-﻿namespace EducationPortal.BLL.ServicesSql
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-    using EducationPortal.BLL.Interfaces;
-    using EducationPortal.Domain.Comparers;
+﻿using EducationPortal.BLL.Interfaces;
+using EducationPortal.Domain.Comparers;
 
+namespace EducationPortal.BLL.ServicesSql
+{
     public class CourseComparerService : ICourseComparerService
     {
         private CourseComparer courseComparer;

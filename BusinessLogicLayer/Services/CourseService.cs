@@ -1,153 +1,145 @@
-﻿namespace BusinessLogicLayer.Services
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using BusinessLogicLayer.Interfaces;
+using DataAccessLayer.Entities;
+using DataAccessLayer.Interfaces;
+using EducationPortal.BLL.Interfaces;
+using Entities;
+
+namespace EducationPortal.BLL.ServicesSql
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using BusinessLogicLayer.Interfaces;
-    using DataAccessLayer.Entities;
-    using DataAccessLayer.Interfaces;
-    using EducationPortal.BLL.Interfaces;
-    using EducationPortal.DAL.XML.Repositories;
-    using EducationPortal.Domain.Comparers;
-    using Entities;
 
     public class CourseService : ICourseService
     {
-        private readonly IRepository<Course> courseRepository;
-        private readonly ISkillService skillService;
-        private ICourseComparerService courseComparer;
+        private IRepository<Course> courseRepository;
+        private ICourseMaterialService courseMaterialService;
+        private ICourseSkillService courseSkillService;
+        private IMaterialService materialService;
+        private ISkillService skillService;
+        private ICourseComparerService courseComparerService;
+        private static IBLLLogger logger;
+
 
         public CourseService(
-            IRepository<Course> repositories,
+            IRepository<Course> courseRepo,
+            ICourseMaterialService courseMaterialServ,
+            ICourseSkillService courseSkillServ,
+            IMaterialService materialService,
             ISkillService skillService,
-            ICourseComparerService courseComparer)
+            ICourseComparerService courseComparerService,
+            IBLLLogger log)
         {
-            this.courseRepository = repositories;
+            this.courseRepository = courseRepo;
+            this.courseMaterialService = courseMaterialServ;
+            this.courseSkillService = courseSkillServ;
+            this.materialService = materialService;
             this.skillService = skillService;
-            this.courseComparer = courseComparer;
+            this.courseComparerService = courseComparerService;
+            logger = log;
+        }
+
+        public bool AddMaterialToCourse(int courseId, Material material)
+        {
+            if (this.courseRepository.Exist(x => x.Id == courseId) &&
+                this.materialService.ExistMaterial(material.Id))
+            {
+                return this.courseMaterialService.AddMaterialToCourse(courseId, material.Id);
+            }
+
+            logger.Logger.Debug("Material dont add to course - " + DateTime.Now);
+            return false;
+        }
+
+        public bool AddSkillToCourse(int courseId, Skill skillToAdd)
+        {
+            if (this.courseRepository.Exist(x => x.Id == courseId) &&
+                this.skillService.ExistSkill(skillToAdd.Id))
+            {
+                return this.courseSkillService.AddSkillToCourse(courseId, skillToAdd.Id);
+            }
+
+            logger.Logger.Debug("Skill dont add to course - " + DateTime.Now);
+            return false;
         }
 
         public bool CreateCourse(Course course)
         {
-            bool uniqueName = course != null && !this.courseRepository.GetAll().Any(x => x.Name.ToLower().Equals(course.Name.ToLower()));
+            bool uniqueCourse = course != null && !this.courseRepository.Exist(x => x.Name == course.Name);
 
-            if (uniqueName)
+            if (uniqueCourse)
             {
                 this.courseRepository.Add(course);
-            }
-            else
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        public bool AddMaterialToCourse(int id, Material material)
-        {
-            Course course = this.courseRepository.Get(id);
-
-            if (course != null && material != null && !course.Materials.Any(x => x.Name.ToLower() == material.Name.ToLower()))
-            {
-                course.Materials.Add(material);
-                this.courseRepository.Update(course);
+                this.courseRepository.Save();
                 return true;
             }
 
+            logger.Logger.Debug("Course not created - " + DateTime.Now);
             return false;
-        }
-
-        public bool AddSkillToCourse(int id, Skill skillToAdd)
-        {
-            this.skillService.CreateSkill(skillToAdd);
-            Skill skill = this.skillService.GetSkillByName(skillToAdd.Name);
-            Course course = this.courseRepository.Get(id);
-
-            if (course != null)
-            {
-                course.Skills.Add(skill);
-                this.courseRepository.Update(course);
-                return true;
-            }
-
-            return false;
-        }
-
-        public bool UpdateCourse(Course courseToUpdate)
-        {
-            Course course = this.courseRepository.Get(courseToUpdate.Id);
-
-            if (course == null)
-            {
-                return false;
-            }
-            else
-            {
-                course.Name = courseToUpdate.Name;
-                course.Description = courseToUpdate.Description;
-                this.courseRepository.Update(course);
-            }
-
-            return true;
-        }
-
-        public IEnumerable<Course> GetAllCourses()
-        {
-            return this.courseRepository.GetAll();
         }
 
         public bool Delete(int id)
         {
-            Course course = this.courseRepository.Get(id);
-
-            if (course == null)
-            {
-                return false;
-            }
-            else
+            if (this.courseRepository.Exist(x => x.Id == id))
             {
                 this.courseRepository.Delete(id);
+                this.courseRepository.Save();
+                return true;
             }
 
-            return true;
+            logger.Logger.Debug("Course not deleted - " + DateTime.Now);
+            return false;
         }
 
         public List<Material> GetMaterialsFromCourse(int id)
         {
-            List<Material> materials = this.courseRepository.Get(id).Materials.ToList();
+            if (this.courseRepository.Exist(x => x.Id == id))
+            {
+                return this.courseMaterialService.GetAllMaterialsFromCourse(id);
+            }
 
-            if (materials != null)
-            {
-                return materials;
-            }
-            else
-            {
-                return null;
-            }
+            logger.Logger.Debug("Return null materials, course not exist - " + DateTime.Now);
+            return null;
         }
 
         public List<Skill> GetSkillsFromCourse(int id)
         {
-            var course = this.courseRepository.Get(id);
-            List<Skill> skills = course.Skills.ToList();
+            if (this.courseRepository.Exist(x => x.Id == id))
+            {
+                return this.courseSkillService.GetAllSkillsFromCourse(id);
+            }
 
-            if (skills != null)
+            logger.Logger.Debug("Return null skills, course not exist - " + DateTime.Now);
+            return null;
+        }
+
+        public bool UpdateCourse(Course course)
+        {
+            if (this.courseRepository.Exist(x => x.Id == course.Id))
             {
-                return skills;
+                this.courseRepository.Update(course);
+                this.courseRepository.Save();
+                return true;
             }
-            else
-            {
-                return null;
-            }
+
+            logger.Logger.Debug("Course not updated, course not exist - " + DateTime.Now);
+            return false;
         }
 
         public bool ExistCourse(int courseId)
         {
-            return this.courseRepository.GetAll().Any(x => x.Id == courseId);
+            return this.courseRepository.Exist(x => x.Id == courseId);
         }
 
         public List<Course> AvailableCourses(List<Course> courses)
         {
-            return this.courseRepository.Except(courses, this.courseComparer.CourseComparer).ToList();
+            if (courses != null)
+            {
+                return this.courseRepository.Except(courses, this.courseComparerService.CourseComparer).ToList();
+            }
+
+            logger.Logger.Debug("Not available courses, course list is null - " + DateTime.Now);
+            return null;
         }
     }
 }

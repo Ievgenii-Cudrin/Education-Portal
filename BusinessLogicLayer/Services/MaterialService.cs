@@ -1,34 +1,36 @@
-﻿namespace EducationPortalConsoleApp.Services
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using BusinessLogicLayer.Interfaces;
-    using DataAccessLayer.Entities;
-    using DataAccessLayer.Interfaces;
-    using EducationPortal.BLL.Interfaces;
-    using EducationPortal.DAL.XML.Repositories;
-    using Entities;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using BusinessLogicLayer.Interfaces;
+using DataAccessLayer.Interfaces;
+using EducationPortal.BLL.Interfaces;
+using Entities;
 
+namespace EducationPortal.BLL.ServicesSql
+{
     public class MaterialService : IMaterialService
     {
-        private readonly IRepository<Material> materialRepository;
-        private readonly List<Material> materialsFromDB;
-        private readonly IAuthorizedUser authorizedUser;
-        private readonly IMaterialComparerService materialComparerService;
-        private readonly ICourseService courseService;
+        private IRepository<Material> materialRepository;
+        private IUserMaterialSqlService userMaterialService;
+        private ICourseMaterialService courseMaterialService;
+        private IAuthorizedUser authorizedUser;
+        private IMaterialComparerService materialComparer;
+        private static IBLLLogger logger;
 
         public MaterialService(
-            IRepository<Material> repositories,
+            IRepository<Material> repository,
+            IUserMaterialSqlService userMaterialService,
             IAuthorizedUser authorizedUser,
-            IMaterialComparerService materialComparerService,
-            ICourseService courseService)
+            ICourseMaterialService courseMaterialService,
+            IMaterialComparerService materialComparer,
+            IBLLLogger log)
         {
-            this.materialRepository = repositories;
-            this.materialsFromDB = materialRepository.GetAll().ToList();
+            this.materialRepository = repository;
+            this.userMaterialService = userMaterialService;
             this.authorizedUser = authorizedUser;
-            this.materialComparerService = materialComparerService;
-            this.courseService = courseService;
+            this.courseMaterialService = courseMaterialService;
+            this.materialComparer = materialComparer;
+            logger = log;
         }
 
         public Material CreateMaterial(Material material)
@@ -36,116 +38,51 @@
             if (material != null && !this.materialRepository.Exist(x => x.Name == material.Name))
             {
                 this.materialRepository.Add(material);
-                this.materialsFromDB.Add(material);
+                this.materialRepository.Save();
                 return material;
             }
 
+            logger.Logger.Debug("Material dont create - " + DateTime.Now);
             return null;
         }
 
-        //public bool UpdateVideo(Video videoToUpdate)
-        //{
-        //    if (!(this.materialRepository.Get(videoToUpdate.Id) is Video video))
-        //    {
-        //        return false;
-        //    }
-        //    else
-        //    {
-        //        video.Name = videoToUpdate.Name;
-        //        video.Link = videoToUpdate.Link;
-        //        video.Quality = videoToUpdate.Quality;
-        //        video.Duration = videoToUpdate.Duration;
-        //        this.materialRepository.Update(video);
-        //    }
-
-        //    return true;
-        //}
-
-        //public bool UpdateArticle(Article articleToUpdate)
-        //{
-        //    if (!(this.materialRepository.Get(articleToUpdate.Id) is Article article))
-        //    {
-        //        return false;
-        //    }
-        //    else
-        //    {
-        //        article.Name = articleToUpdate.Name;
-        //        article.Site = articleToUpdate.Site;
-        //        article.PublicationDate = articleToUpdate.PublicationDate;
-        //        this.materialRepository.Update(article);
-        //    }
-
-        //    return true;
-        //}
-
-        //public bool UpdateBook(Book bookToUpdate)
-        //{
-        //    if (!(this.materialRepository.Get(bookToUpdate.Id) is Book book))
-        //    {
-        //        return false;
-        //    }
-        //    else
-        //    {
-        //        book.Name = bookToUpdate.Name;
-        //        book.Author = bookToUpdate.Author;
-        //        book.CountOfPages = bookToUpdate.CountOfPages;
-        //        this.materialRepository.Update(book);
-        //    }
-
-        //    return true;
-        //}
-
-        public IEnumerable<Material> GetAllExceptedMaterials()
+        public bool Delete(int materialId)
         {
-            return this.materialRepository.GetAll();
-        }
-
-        public bool Delete(int id)
-        {
-            Material material = this.materialRepository.Get(id);
-
-            if (material == null)
+            if (this.materialRepository.Exist(x => x.Id == materialId))
             {
-                return false;
-            }
-            else
-            {
-                this.materialRepository.Delete(id);
+                this.materialRepository.Delete(materialId);
+                this.materialRepository.Save();
+                return true;
             }
 
-            return true;
-        }
-
-        public Material GetMaterial(int id)
-        {
-            Material material;
-
-            try
-            {
-                material = this.materialRepository.Get(id);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return null;
-            }
-
-            return material;
+            logger.Logger.Debug("Material dont delete - " + DateTime.Now);
+            return false;
         }
 
         public IEnumerable<Material> GetAllExceptedMaterials(int courseId)
         {
-            return this.materialRepository.Except(this.courseService.GetMaterialsFromCourse(courseId), this.materialComparerService.MaterialComparer);
+            return this.materialRepository.Except(this.courseMaterialService.GetAllMaterialsFromCourse(courseId), this.materialComparer.MaterialComparer).ToList();
+        }
+
+        public IEnumerable<Material> GetAllNotPassedMaterialFromUser()
+        {
+            return this.materialRepository.Except(this.userMaterialService.GetAllMaterialInUser(this.authorizedUser.User.Id), this.materialComparer.MaterialComparer).ToList();
+        }
+
+        public Material GetMaterial(int materialId)
+        {
+            if (this.materialRepository.Exist(x => x.Id == materialId))
+            {
+                return this.materialRepository.Get(x => x.Id == materialId).FirstOrDefault();
+            }
+
+            logger.Logger.Debug("Material dont exist - " + DateTime.Now);
+            return null;
         }
 
         public bool ExistMaterial(int materialId)
         {
             return this.materialRepository.Exist(x => x.Id == materialId);
-        }
-
-        public IEnumerable<Material> GetAllNotPassedMaterialFromUser()
-        {
-            return this.materialRepository.Except(this.authorizedUser.User.PassedMaterials, this.materialComparerService.MaterialComparer);
         }
     }
 }

@@ -10,13 +10,13 @@
     using EducationPortal.DAL.Repositories;
     using EducationPortal.Domain.Entities;
 
-    public class UserCourseSqlService : IUserCourseSqlService
+    public class UserCourseService : IUserCourseSqlService
     {
         private IRepository<UserCourse> userCourseRepository;
         private IUserCourseMaterialSqlService userCourseMaterialSqlService;
         private static IBLLLogger logger;
 
-        public UserCourseSqlService(IRepository<UserCourse> userCourseRepository,
+        public UserCourseService(IRepository<UserCourse> userCourseRepository,
             IUserCourseMaterialSqlService userCourseMaterialSqlService,
             IBLLLogger log)
         {
