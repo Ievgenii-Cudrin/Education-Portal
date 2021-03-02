@@ -41,7 +41,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             userSkillRepository.Setup(db => db.Update(It.IsAny<UserSkill>()));
             userSkillRepository.Setup(db => db.Save());
 
-            UserSkillSqlService userSkillSqlService = new UserSkillSqlService(
+            UserSkillService userSkillSqlService = new UserSkillService(
                 userSkillRepository.Object,
                 logger.Object);
 
@@ -61,7 +61,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             userSkillRepository.Setup(db => db.Add(It.IsAny<UserSkill>()));
             userSkillRepository.Setup(db => db.Save());
 
-            UserSkillSqlService userSkillSqlService = new UserSkillSqlService(
+            UserSkillService userSkillSqlService = new UserSkillService(
                 userSkillRepository.Object,
                 logger.Object);
 
@@ -83,7 +83,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 It.IsAny<Expression<Func<UserSkill, bool>>>()
                 )).Returns(new List<Skill>());
 
-            UserSkillSqlService userSkillSqlService = new UserSkillSqlService(
+            UserSkillService userSkillSqlService = new UserSkillService(
                  userSkillRepository.Object,
                  logger.Object);
 

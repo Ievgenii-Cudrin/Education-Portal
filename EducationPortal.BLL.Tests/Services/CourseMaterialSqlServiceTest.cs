@@ -35,7 +35,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             courseMaterialRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<CourseMaterial, bool>>>())).Returns(true);
 
-            CourseMaterialSqlService courseMatService = new CourseMaterialSqlService(
+            CourseMaterialService courseMatService = new CourseMaterialService(
                 courseMaterialRepo.Object,
                 logger.Object);
 
@@ -49,7 +49,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             courseMaterialRepo.Setup(db => db.Add(It.IsAny<CourseMaterial>()));
             courseMaterialRepo.Setup(db => db.Save());
 
-            CourseMaterialSqlService courseMatService = new CourseMaterialSqlService(
+            CourseMaterialService courseMatService = new CourseMaterialService(
                 courseMaterialRepo.Object,
                 logger.Object);
 
@@ -70,7 +70,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             courseMaterialRepo.Setup(db => db.Get<Material>(It.IsAny<Expression<Func<CourseMaterial, Material>>>(),
                 It.IsAny<Expression<Func<CourseMaterial, bool>>>())).Returns(new List<Material>());
 
-            CourseMaterialSqlService courseMaterialSqlService = new CourseMaterialSqlService(
+            CourseMaterialService courseMaterialSqlService = new CourseMaterialService(
                 courseMaterialRepo.Object,
                 logger.Object);
 

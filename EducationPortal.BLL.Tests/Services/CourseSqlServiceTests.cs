@@ -48,7 +48,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             courseRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).Returns(false);
             materailService.Setup(db => db.ExistMaterial(It.IsAny<int>())).Returns(true);
 
-            CourseSqlService courseSqlService = new CourseSqlService(
+            CourseService courseSqlService = new CourseService(
                 courseRepository.Object,
                 courseMaterailService.Object,
                 courseSkillService.Object,
@@ -69,7 +69,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             courseRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).Returns(true);
             materailService.Setup(db => db.ExistMaterial(It.IsAny<int>())).Returns(false);
 
-            CourseSqlService courseSqlService = new CourseSqlService(
+            CourseService courseSqlService = new CourseService(
                 courseRepository.Object,
                 courseMaterailService.Object,
                 courseSkillService.Object,
@@ -90,7 +90,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             courseRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).Returns(false);
             materailService.Setup(db => db.ExistMaterial(It.IsAny<int>())).Returns(false);
 
-            CourseSqlService courseSqlService = new CourseSqlService(
+            CourseService courseSqlService = new CourseService(
                 courseRepository.Object,
                 courseMaterailService.Object,
                 courseSkillService.Object,
@@ -111,7 +111,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             materailService.Setup(db => db.ExistMaterial(It.IsAny<int>())).Returns(true);
             courseMaterailService.Setup(db => db.AddMaterialToCourse(It.IsAny<int>(), It.IsAny<int>())).Returns(true);
 
-            CourseSqlService courseSqlService = new CourseSqlService(
+            CourseService courseSqlService = new CourseService(
                 courseRepository.Object,
                 courseMaterailService.Object,
                 courseSkillService.Object,
@@ -136,7 +136,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             courseRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).Returns(false);
             skillService.Setup(db => db.ExistSkill(It.IsAny<int>())).Returns(true);
 
-            CourseSqlService courseSqlService = new CourseSqlService(
+            CourseService courseSqlService = new CourseService(
                 courseRepository.Object,
                 courseMaterailService.Object,
                 courseSkillService.Object,
@@ -157,7 +157,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             courseRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).Returns(true);
             skillService.Setup(db => db.ExistSkill(It.IsAny<int>())).Returns(false);
 
-            CourseSqlService courseSqlService = new CourseSqlService(
+            CourseService courseSqlService = new CourseService(
                 courseRepository.Object,
                 courseMaterailService.Object,
                 courseSkillService.Object,
@@ -178,7 +178,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             courseRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).Returns(false);
             skillService.Setup(db => db.ExistSkill(It.IsAny<int>())).Returns(false);
 
-            CourseSqlService courseSqlService = new CourseSqlService(
+            CourseService courseSqlService = new CourseService(
                 courseRepository.Object,
                 courseMaterailService.Object,
                 courseSkillService.Object,
@@ -199,7 +199,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             skillService.Setup(db => db.ExistSkill(It.IsAny<int>())).Returns(true);
             courseSkillService.Setup(db => db.AddSkillToCourse(It.IsAny<int>(), It.IsAny<int>())).Returns(true);
 
-            CourseSqlService courseSqlService = new CourseSqlService(
+            CourseService courseSqlService = new CourseService(
                 courseRepository.Object,
                 courseMaterailService.Object,
                 courseSkillService.Object,
@@ -223,7 +223,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             courseRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).Returns(false);
 
-            CourseSqlService courseSqlService = new CourseSqlService(
+            CourseService courseSqlService = new CourseService(
                 courseRepository.Object,
                 courseMaterailService.Object,
                 courseSkillService.Object,
@@ -243,7 +243,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             courseRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).Returns(true);
 
-            CourseSqlService courseSqlService = new CourseSqlService(
+            CourseService courseSqlService = new CourseService(
                 courseRepository.Object,
                 courseMaterailService.Object,
                 courseSkillService.Object,
@@ -263,7 +263,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             courseRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).Returns(false);
             courseRepository.Setup(db => db.Save());
 
-            CourseSqlService courseSqlService = new CourseSqlService(
+            CourseService courseSqlService = new CourseService(
                 courseRepository.Object,
                 courseMaterailService.Object,
                 courseSkillService.Object,
@@ -289,7 +289,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             courseRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).Returns(false);
 
-            CourseSqlService courseSqlService = new CourseSqlService(
+            CourseService courseSqlService = new CourseService(
                 courseRepository.Object,
                 courseMaterailService.Object,
                 courseSkillService.Object,
@@ -308,7 +308,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             courseRepository.Setup(db => db.Delete(It.IsAny<int>()));
             courseRepository.Setup(db => db.Save());
 
-            CourseSqlService courseSqlService = new CourseSqlService(
+            CourseService courseSqlService = new CourseService(
                 courseRepository.Object,
                 courseMaterailService.Object,
                 courseSkillService.Object,
@@ -335,7 +335,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             courseMaterailService.Setup(db => db.GetAllMaterialsFromCourse(It.IsAny<int>())).Returns(new List<Material>());
             materailService.Setup(db => db.GetAllNotPassedMaterialFromUser()).Returns(new List<Material>());
 
-            CourseSqlService courseSqlService = new CourseSqlService(
+            CourseService courseSqlService = new CourseService(
                 courseRepository.Object,
                 courseMaterailService.Object,
                 courseSkillService.Object,
@@ -358,7 +358,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             courseMaterailService.Setup(db => db.GetAllMaterialsFromCourse(It.IsAny<int>())).Returns(new List<Material>());
             materailService.Setup(db => db.GetAllNotPassedMaterialFromUser()).Returns(new List<Material>());
 
-            CourseSqlService courseSqlService = new CourseSqlService(
+            CourseService courseSqlService = new CourseService(
                 courseRepository.Object,
                 courseMaterailService.Object,
                 courseSkillService.Object,
@@ -380,7 +380,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             courseRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).Returns(true);
             courseSkillService.Setup(db => db.GetAllSkillsFromCourse(It.IsAny<int>())).Returns(new List<Skill>());
 
-            CourseSqlService courseSqlService = new CourseSqlService(
+            CourseService courseSqlService = new CourseService(
                 courseRepository.Object,
                 courseMaterailService.Object,
                 courseSkillService.Object,
@@ -401,7 +401,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             courseRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).Returns(false);
             courseSkillService.Setup(db => db.GetAllSkillsFromCourse(It.IsAny<int>())).Returns(new List<Skill>());
 
-            CourseSqlService courseSqlService = new CourseSqlService(
+            CourseService courseSqlService = new CourseService(
                 courseRepository.Object,
                 courseMaterailService.Object,
                 courseSkillService.Object,
@@ -425,7 +425,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             courseRepository.Setup(db => db.Update(It.IsAny<Course>()));
             courseRepository.Setup(db => db.Save());
 
-            CourseSqlService courseSqlService = new CourseSqlService(
+            CourseService courseSqlService = new CourseService(
                 courseRepository.Object,
                 courseMaterailService.Object,
                 courseSkillService.Object,
@@ -446,7 +446,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             courseRepository.Setup(db => db.Update(It.IsAny<Course>()));
             courseRepository.Setup(db => db.Save());
 
-            CourseSqlService courseSqlService = new CourseSqlService(
+            CourseService courseSqlService = new CourseService(
                 courseRepository.Object,
                 courseMaterailService.Object,
                 courseSkillService.Object,
@@ -459,9 +459,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             {
                 Name = "1",
                 Id = 0,
-                Description = "desc",
-                Materials = new List<Material>(),
-                Skills = new List<Skill>()
+                Description = "desc"
             };
 
             courseSqlService.UpdateCourse(course);
@@ -479,7 +477,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         {
             courseRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).Returns(true);
 
-            CourseSqlService courseSqlService = new CourseSqlService(
+            CourseService courseSqlService = new CourseService(
                 courseRepository.Object,
                 courseMaterailService.Object,
                 courseSkillService.Object,
@@ -496,7 +494,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         {
             courseRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).Returns(false);
 
-            CourseSqlService courseSqlService = new CourseSqlService(
+            CourseService courseSqlService = new CourseService(
                 courseRepository.Object,
                 courseMaterailService.Object,
                 courseSkillService.Object,
@@ -518,7 +516,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             courseRepository.Setup(db => db.Except(It.IsAny<List<Course>>(), It.IsAny<CourseComparer>())).Returns(new List<Course>());
 
-            CourseSqlService courseSqlService = new CourseSqlService(
+            CourseService courseSqlService = new CourseService(
                 courseRepository.Object,
                 courseMaterailService.Object,
                 courseSkillService.Object,
@@ -538,7 +536,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             courseRepository.Setup(db => db.Except(It.IsAny<List<Course>>(), It.IsAny<CourseComparer>())).Returns(new List<Course>());
             courseComparerService.Setup(db => db.CourseComparer);
 
-            CourseSqlService courseSqlService = new CourseSqlService(
+            CourseService courseSqlService = new CourseService(
                 courseRepository.Object,
                 courseMaterailService.Object,
                 courseSkillService.Object,

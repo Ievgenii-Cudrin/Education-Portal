@@ -40,7 +40,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             userCourseRepository.Setup(db => db.Save());
             userCourseMaterialSqlService.Setup(db => db.AddMaterialsToUserCourse(It.IsAny<int>(), It.IsAny<int>()));
 
-            UserCourseSqlService userCourseSqlService = new UserCourseSqlService(
+            UserCourseService userCourseSqlService = new UserCourseService(
                 userCourseRepository.Object,
                 userCourseMaterialSqlService.Object,
                 logger.Object);
@@ -63,7 +63,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             userCourseRepository.Setup(db => db.Save());
             userCourseMaterialSqlService.Setup(db => db.AddMaterialsToUserCourse(It.IsAny<int>(), It.IsAny<int>()));
 
-            UserCourseSqlService userCourseSqlService = new UserCourseSqlService(
+            UserCourseService userCourseSqlService = new UserCourseService(
                 userCourseRepository.Object,
                 userCourseMaterialSqlService.Object,
                 logger.Object);
@@ -88,7 +88,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 It.IsAny<Expression<Func<UserCourse, bool>>>()
                 )).Returns(new List<Course>());
 
-            UserCourseSqlService userCourseSqlService = new UserCourseSqlService(
+            UserCourseService userCourseSqlService = new UserCourseService(
                 userCourseRepository.Object,
                 userCourseMaterialSqlService.Object,
                 logger.Object);
@@ -108,7 +108,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         {
             userCourseRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<UserCourse, bool>>>()));
 
-            UserCourseSqlService userCourseSqlService = new UserCourseSqlService(
+            UserCourseService userCourseSqlService = new UserCourseService(
                 userCourseRepository.Object,
                 userCourseMaterialSqlService.Object,
                 logger.Object);
@@ -130,7 +130,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 It.IsAny<Expression<Func<UserCourse, bool>>>()
                 )).Returns(new List<Course>());
 
-            UserCourseSqlService userCourseSqlService = new UserCourseSqlService(
+            UserCourseService userCourseSqlService = new UserCourseService(
                 userCourseRepository.Object,
                 userCourseMaterialSqlService.Object,
                 logger.Object);
@@ -150,7 +150,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         {
             userCourseRepository.Setup(db => db.Get(It.IsAny<Expression<Func<UserCourse, bool>>>())).Returns(new List<UserCourse>());
 
-            UserCourseSqlService userCourseSqlService = new UserCourseSqlService(
+            UserCourseService userCourseSqlService = new UserCourseService(
                 userCourseRepository.Object,
                 userCourseMaterialSqlService.Object,
                 logger.Object);
@@ -171,7 +171,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             userCourseRepository.Setup(db => db.Get(It.IsAny<Expression<Func<UserCourse, bool>>>())).Returns(userCourses);
 
-            UserCourseSqlService userCourseSqlService = new UserCourseSqlService(
+            UserCourseService userCourseSqlService = new UserCourseService(
                 userCourseRepository.Object,
                 userCourseMaterialSqlService.Object,
                 logger.Object);
@@ -191,7 +191,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             userCourseRepository.Setup(db => db.Update(It.IsAny<UserCourse>()));
             userCourseRepository.Setup(db => db.Save());
 
-            UserCourseSqlService userCourseSqlService = new UserCourseSqlService(
+            UserCourseService userCourseSqlService = new UserCourseService(
                 userCourseRepository.Object,
                 userCourseMaterialSqlService.Object,
                 logger.Object);
@@ -215,7 +215,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 It.IsAny<Expression<Func<UserCourse, bool>>>()
                 )).Returns(new List<Course>());
 
-            UserCourseSqlService userCourseSqlService = new UserCourseSqlService(
+            UserCourseService userCourseSqlService = new UserCourseService(
                 userCourseRepository.Object,
                 userCourseMaterialSqlService.Object,
                 logger.Object);

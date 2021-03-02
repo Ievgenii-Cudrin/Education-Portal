@@ -44,7 +44,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             userCourseMaterialRepository.Setup(db => db.Add(It.IsAny<UserCourseMaterial>()));
             userCourseMaterialRepository.Setup(db => db.Save());
 
-            UserCourseMaterialSqlService userCourseMaterialSqlService = new UserCourseMaterialSqlService(
+            UserCourseMaterialService userCourseMaterialSqlService = new UserCourseMaterialService(
                 userCourseMaterialRepository.Object, 
                 courseMaterialService.Object,
                 logger.Object);
@@ -64,7 +64,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             courseMaterialService.Setup(db => db.GetAllMaterialsFromCourse(It.IsAny<int>())).Returns(materials);
 
-            UserCourseMaterialSqlService userCourseMaterialSqlService = new UserCourseMaterialSqlService(
+            UserCourseMaterialService userCourseMaterialSqlService = new UserCourseMaterialService(
                 userCourseMaterialRepository.Object,
                 courseMaterialService.Object,
                 logger.Object);
@@ -87,7 +87,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             userCourseMaterialRepository.Setup(db => db.Update(It.IsAny<UserCourseMaterial>()));
             userCourseMaterialRepository.Setup(db => db.Save());
 
-            UserCourseMaterialSqlService userCourseMaterialSqlService = new UserCourseMaterialSqlService(
+            UserCourseMaterialService userCourseMaterialSqlService = new UserCourseMaterialService(
                 userCourseMaterialRepository.Object,
                 courseMaterialService.Object,
                 logger.Object);
@@ -109,7 +109,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             userCourseMaterialRepository.Setup(db => db.Update(It.IsAny<UserCourseMaterial>()));
             userCourseMaterialRepository.Setup(db => db.Save());
 
-            UserCourseMaterialSqlService userCourseMaterialSqlService = new UserCourseMaterialSqlService(
+            UserCourseMaterialService userCourseMaterialSqlService = new UserCourseMaterialService(
                 userCourseMaterialRepository.Object,
                 courseMaterialService.Object,
                 logger.Object);
@@ -127,7 +127,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             userCourseMaterialRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<UserCourseMaterial, bool>>>())).Returns(false);
             logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
 
-            UserCourseMaterialSqlService userCourseMaterialSqlService = new UserCourseMaterialSqlService(
+            UserCourseMaterialService userCourseMaterialSqlService = new UserCourseMaterialService(
                 userCourseMaterialRepository.Object,
                 courseMaterialService.Object,
                 logger.Object);
@@ -144,7 +144,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 It.IsAny<Expression<Func<UserCourseMaterial, bool>>>()
                 )).Returns(new List<Material>());
 
-            UserCourseMaterialSqlService userCourseMaterialSqlService = new UserCourseMaterialSqlService(
+            UserCourseMaterialService userCourseMaterialSqlService = new UserCourseMaterialService(
                 userCourseMaterialRepository.Object,
                 courseMaterialService.Object,
                 logger.Object);

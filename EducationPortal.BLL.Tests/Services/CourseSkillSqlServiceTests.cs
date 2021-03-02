@@ -38,7 +38,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             courseRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).Returns(true);
             skillRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<Skill, bool>>>())).Returns(false);
 
-            CourseSkillSqlService courseSkillService = new CourseSkillSqlService(
+            CourseSkillService courseSkillService = new CourseSkillService(
                 courseSkillRepo.Object,
                 skillRepo.Object,
                 courseRepo.Object,
@@ -55,7 +55,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             courseRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).Returns(false);
             skillRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<Skill, bool>>>())).Returns(true);
 
-            CourseSkillSqlService courseSkillService = new CourseSkillSqlService(
+            CourseSkillService courseSkillService = new CourseSkillService(
                 courseSkillRepo.Object,
                 skillRepo.Object,
                 courseRepo.Object,
@@ -72,7 +72,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             courseRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).Returns(true);
             skillRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<Skill, bool>>>())).Returns(true);
 
-            CourseSkillSqlService courseSkillService = new CourseSkillSqlService(
+            CourseSkillService courseSkillService = new CourseSkillService(
                 courseSkillRepo.Object,
                 skillRepo.Object,
                 courseRepo.Object,
@@ -93,7 +93,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             skillRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<Skill, bool>>>())).Returns(true);
             courseSkillRepo.Setup(db => db.Save());
 
-            CourseSkillSqlService courseSkillService = new CourseSkillSqlService(
+            CourseSkillService courseSkillService = new CourseSkillService(
                 courseSkillRepo.Object,
                 skillRepo.Object,
                 courseRepo.Object,
@@ -120,7 +120,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             courseSkillRepo.Setup(db => db.Get<Skill>(It.IsAny<Expression<Func<CourseSkill, Skill>>>(),
                 It.IsAny<Expression<Func<CourseSkill, bool>>>())).Returns(new List<Skill>());
 
-            CourseSkillSqlService courseSkillService = new CourseSkillSqlService(
+            CourseSkillService courseSkillService = new CourseSkillService(
                 courseSkillRepo.Object,
                 skillRepo.Object,
                 courseRepo.Object,
