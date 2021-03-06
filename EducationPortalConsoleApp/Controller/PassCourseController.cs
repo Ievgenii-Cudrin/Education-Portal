@@ -1,18 +1,18 @@
-﻿namespace EducationPortal.PL.Controller
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading;
-    using BusinessLogicLayer.Interfaces;
-    using DataAccessLayer.Entities;
-    using EducationPortal.PL.Helpers;
-    using EducationPortal.PL.Interfaces;
-    using EducationPortal.PL.Models;
-    using EducationPortalConsoleApp.Branch;
-    using EducationPortalConsoleApp.Interfaces;
-    using Entities;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using BusinessLogicLayer.Interfaces;
+using DataAccessLayer.Entities;
+using EducationPortal.PL.Helpers;
+using EducationPortal.PL.Interfaces;
+using EducationPortal.PL.Models;
+using EducationPortalConsoleApp.Branch;
+using EducationPortalConsoleApp.Interfaces;
+using Entities;
 
+namespace EducationPortal.PL.Controller
+{
     public class PassCourseController : IPassCourseController
     {
         private readonly ICourseService courseService;
@@ -108,9 +108,8 @@
                 }
                 else
                 {
-                    // update passed materials in course
-                    this.userService.UpdateCourseInProgress(
-                        courseToProgressFromProcessList.Id, this.mapperService.CreateListMapFromVMToDomainWithIncludeMaterialType<MaterialViewModel, Material, VideoViewModel, Video, ArticleViewModel, Article, BookViewModel, Book>(courseVMInProgress.Materials));
+                    Console.WriteLine($"You do not passed all materials in course. Please, continue later.");
+                    Thread.Sleep(4000);
                 }
 
                 ProgramBranch.SelectFirstStepForAuthorizedUser();

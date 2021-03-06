@@ -355,3 +355,11 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 DataAccessLayer/NLog.config
+EducationPartal.CoreMVC/wwwroot/lib/jquery/LICENSE.txt
+*.map
+*.js
+*.css
+EducationPartal.CoreMVC/wwwroot/lib/bootstrap/LICENSE
+*.txt
+*.md
+*.ico

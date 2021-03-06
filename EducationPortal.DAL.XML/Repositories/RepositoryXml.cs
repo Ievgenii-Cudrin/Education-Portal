@@ -45,7 +45,7 @@ namespace EducationPortal.DAL.XML.Repositories
             return this.context.XmlSet.Get(id);
         }
 
-        public IList<TResult> Get<TResult>(Expression<Func<T, TResult>> selector, Expression<Func<T, bool>> predicat)
+        public virtual IList<TResult> Get<TResult>(Expression<Func<T, TResult>> selector, Expression<Func<T, bool>> predicat)
         {
             return this.context.XmlSet.GetAll()
                 .AsQueryable()
