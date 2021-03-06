@@ -53,14 +53,7 @@ namespace EducationPortal.BLL.ServicesSql
 
         public bool AddSkillToCourse(int courseId, Skill skillToAdd)
         {
-            if (this.courseRepository.Exist(x => x.Id == courseId) &&
-                this.skillService.ExistSkill(skillToAdd.Id))
-            {
-                return this.courseSkillService.AddSkillToCourse(courseId, skillToAdd.Id);
-            }
-
-            logger.Logger.Debug("Skill dont add to course - " + DateTime.Now);
-            return false;
+            return this.courseSkillService.AddSkillToCourse(courseId, skillToAdd.Id);
         }
 
         public bool CreateCourse(Course course)

@@ -1,11 +1,8 @@
-﻿namespace EducationPortal.BLL.Services
-{
-    using DataAccessLayer.Entities;
-    using EducationPortal.BLL.Interfaces;
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
+﻿using DataAccessLayer.Entities;
+using EducationPortal.BLL.Interfaces;
 
+namespace EducationPortal.BLL.Services
+{
     public class AuthorizerUser : IWorkWithAuthorizedUser
     {
         static User authorizedUser;

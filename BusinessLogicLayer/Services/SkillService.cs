@@ -1,15 +1,11 @@
 ﻿namespace EducationPortal.BLL.ServicesSql
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using BusinessLogicLayer.Interfaces;
     using DataAccessLayer.Entities;
     using DataAccessLayer.Interfaces;
     using EducationPortal.BLL.Interfaces;
-    using EducationPortal.DAL.Repositories;
-    using Entities;
 
     public class SkillService : ISkillService
     {
