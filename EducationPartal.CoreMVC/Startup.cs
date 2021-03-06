@@ -1,6 +1,8 @@
 using BusinessLogicLayer.Interfaces;
 using DataAccessLayer.DataContext;
 using DataAccessLayer.Interfaces;
+using EducationPartal.CoreMVC.Interfaces;
+using EducationPartal.CoreMVC.Mappers;
 using EducationPortal.BLL.Interfaces;
 using EducationPortal.BLL.Loggers;
 using EducationPortal.BLL.Services;
@@ -11,6 +13,7 @@ using EducationPortal.DAL.Loggers;
 using EducationPortal.DAL.Repositories;
 using EducationPortal.DAL.XML.Repositories;
 using EducationPortal.Domain.Entities;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -40,6 +43,7 @@ namespace EducationPartal.CoreMVC
         {
             services.AddSingleton(typeof(IXmlSet<>), typeof(XmlSet<>));
             services.AddSingleton(typeof(IXmlSerializeContext<>), typeof(XmlSerializationContextGeneric<>));
+            
             // Repositories
             services.AddTransient<IRepository<UserCourse>, UserCourseXmlRepository>();
             services.AddSingleton<IRepository<CourseMaterial>, CourseMaterialXmlRepository>();
@@ -49,6 +53,7 @@ namespace EducationPartal.CoreMVC
             services.AddTransient<IRepository<UserCourseMaterial>, UserCourseMaterialXmlRepository>();
             services.AddTransient(typeof(IRepository<>), typeof(RepositoryXml<>));
             //services.AddTransient(typeof(IRepository<>), typeof(RepositorySql<>));
+            
             // Services
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ICourseService, CourseService>();
@@ -65,9 +70,18 @@ namespace EducationPartal.CoreMVC
             services.AddTransient<ICourseComparerService, CourseComparerService>();
             services.AddTransient<IAuthorizedUser, AuthorizerUser>();
             services.AddTransient<IWorkWithAuthorizedUser, AuthorizerUser>();
+            services.AddTransient<IAutoMapperService, Mapping>();
+            
             //Loggers
             services.AddTransient<IDalSqlLogger, DalSqlNLogLogger>();
             services.AddTransient<IBLLLogger, BLLNlogLogger>();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/Account/Login";
+                    options.Cookie.Name = "EducationPortalCookie";
+                });
 
             services.AddDbContext<ApplicationContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DevConnection")));
@@ -94,11 +108,13 @@ namespace EducationPartal.CoreMVC
 
             app.UseAuthorization();
 
+            app.UseAuthentication();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Account}/{action=Login}/{id?}");
             });
         }
     }
