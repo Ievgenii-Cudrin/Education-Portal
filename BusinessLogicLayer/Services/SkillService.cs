@@ -18,17 +18,14 @@
             logger = log;
         }
 
-        public Skill CreateSkill(Skill skill)
+        public void CreateSkill(Skill skill)
         {
             if (!this.skillRepository.Exist(x => x.Name == skill.Name))
             {
                 this.skillRepository.Add(skill);
                 this.skillRepository.Save();
-                return skill;
                 logger.Logger.Debug("Create new skill - " + DateTime.Now);
             }
-
-            return this.skillRepository.Get(x => x.Name == skill.Name).FirstOrDefault();
         }
 
         public void Delete(int id)

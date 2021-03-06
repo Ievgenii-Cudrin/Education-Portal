@@ -5,7 +5,7 @@
 
     public interface ISkillService
     {
-        Skill CreateSkill(Skill skill);
+        void CreateSkill(Skill skill);
 
         Skill GetSkill(int id);
 

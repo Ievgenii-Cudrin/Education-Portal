@@ -27,8 +27,8 @@
             var skillMap = this.mapperService.CreateMapFromVMToDomain<SkillViewModel, Skill>(skill);
 
             // create skill
-            var skillAfterAddToDb = this.skillService.CreateSkill(skillMap);
-            return skillAfterAddToDb;
+            this.skillService.CreateSkill(skillMap);
+            return skillMap;
         }
     }
 }
