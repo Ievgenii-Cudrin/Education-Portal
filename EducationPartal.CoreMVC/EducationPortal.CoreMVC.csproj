@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\BusinessLogicLayer\EducationPortal.BLL.csproj" />
     <ProjectReference Include="..\DataAccessLayer\EducationPortal.DAL.csproj" />
     <ProjectReference Include="..\EducationPortal.DAL.XML\EducationPortal.DAL.XML.csproj" />
