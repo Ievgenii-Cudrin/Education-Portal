@@ -133,52 +133,6 @@ namespace EducationPortal.BLL.Tests.ServicesSql
 
         #endregion
 
-        #region GetSkillByName
-
-        [TestMethod]
-        public void GetSkillByName_StringEmpty_Null()
-        {
-            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
-
-            SkillService skillSqlService = new SkillService(
-                skillRepository.Object,
-                logger.Object);
-
-            string name = string.Empty;
-
-            Assert.IsNull(skillSqlService.GetSkillByName(name));
-        }
-
-        [TestMethod]
-        public void GetSkillByName_StringNullEmpty_Null()
-        {
-            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
-            SkillService skillSqlService = new SkillService(
-                skillRepository.Object,
-                logger.Object);
-
-            string name = null;
-
-            Assert.IsNull(skillSqlService.GetSkillByName(name));
-        }
-
-        [TestMethod]
-        public void GetSkillByName_StringNotNullNotEmpty_Null()
-        {
-            skillRepository.Setup(db => db.Get(It.IsAny<Expression<Func<Skill, bool>>>())).Returns(new List<Skill>());
-
-            SkillService skillSqlService = new SkillService(
-                skillRepository.Object,
-                logger.Object);
-
-            string name = "string";
-            skillSqlService.GetSkillByName(name);
-
-            skillRepository.Verify(x => x.Get(x => x.Name == name), Times.Once);
-        }
-
-        #endregion
-
         #region UpdateSkill
 
         [TestMethod]

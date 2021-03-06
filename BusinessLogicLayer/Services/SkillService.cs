@@ -52,19 +52,6 @@
             }
         }
 
-        public Skill GetSkillByName(string name)
-        {
-            if (string.IsNullOrEmpty(name))
-            {
-                logger.Logger.Debug("method parametr is null or empry - " + DateTime.Now);
-                return null;
-            }
-            else
-            {
-                return this.skillRepository.Get(x => x.Name == name).FirstOrDefault();
-            }
-        }
-
         public void UpdateSkill(Skill skill)
         {
             if (skill != null)

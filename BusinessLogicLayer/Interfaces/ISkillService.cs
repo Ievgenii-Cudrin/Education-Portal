@@ -11,8 +11,6 @@
 
         void UpdateSkill(Skill skill);
 
-        Skill GetSkillByName(string name);
-
         void Delete(int id);
 
         bool ExistSkill(int skillId);
