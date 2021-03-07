@@ -19,22 +19,19 @@ namespace EducationPortal.BLL.ServicesSql
         private ICourseSkillService courseSkillService;
         private IMaterialService materialService;
         private ISkillService skillService;
-        private ICourseComparerService courseComparerService;
 
         public CourseService(
             IRepository<Course> courseRepo,
             ICourseMaterialService courseMaterialServ,
             ICourseSkillService courseSkillServ,
             IMaterialService materialService,
-            ISkillService skillService,
-            ICourseComparerService courseComparerService)
+            ISkillService skillService)
         {
             this.courseRepository = courseRepo;
             this.courseMaterialService = courseMaterialServ;
             this.courseSkillService = courseSkillServ;
             this.materialService = materialService;
             this.skillService = skillService;
-            this.courseComparerService = courseComparerService;
         }
 
         public bool AddMaterialToCourse(int courseId, Material material)
@@ -129,14 +126,14 @@ namespace EducationPortal.BLL.ServicesSql
             return this.courseRepository.Exist(x => x.Id == courseId);
         }
 
-        public List<Course> AvailableCourses(List<Course> courses)
+        public List<Course> GetCoursesPerPage(int skip, int take)
         {
-            if (courses != null)
-            {
-                return this.courseRepository.Except(courses, this.courseComparerService.CourseComparer).ToList();
-            }
+            return this.courseRepository.GetPage(skip, take).ToList();
+        }
 
-            return null;
+        public int GetCount()
+        {
+            return this.courseRepository.Count();
         }
     }
 }

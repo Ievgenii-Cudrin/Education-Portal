@@ -112,11 +112,11 @@
 
         public List<Course> GetAvailableCoursesForUser()
         {
-            if (this.authorizedUser != null)
-            {
-                var coursesInProgressAndPassed = this.userCourseService.GetAllPassedAndProgressCoursesForUser(this.authorizedUser.User.Id);
-                return this.courseService.AvailableCourses(coursesInProgressAndPassed);
-            }
+            //if (this.authorizedUser != null)
+            //{
+            //    var coursesInProgressAndPassed = this.userCourseService.GetAllPassedAndProgressCoursesForUser(this.authorizedUser.User.Id);
+            //    return this.courseService.AvailableCourses(coursesInProgressAndPassed);
+            //}
 
             return null;
         }

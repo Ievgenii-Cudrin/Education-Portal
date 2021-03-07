@@ -16,20 +16,17 @@ namespace EducationPortal.BLL.ServicesSql
         private IUserMaterialSqlService userMaterialService;
         private ICourseMaterialService courseMaterialService;
         private IAuthorizedUser authorizedUser;
-        private IMaterialComparerService materialComparer;
 
         public MaterialService(
             IRepository<Material> repository,
             IUserMaterialSqlService userMaterialService,
             IAuthorizedUser authorizedUser,
-            ICourseMaterialService courseMaterialService,
-            IMaterialComparerService materialComparer)
+            ICourseMaterialService courseMaterialService)
         {
             this.materialRepository = repository;
             this.userMaterialService = userMaterialService;
             this.authorizedUser = authorizedUser;
             this.courseMaterialService = courseMaterialService;
-            this.materialComparer = materialComparer;
         }
 
         public bool CreateMaterial(Material material)
@@ -63,14 +60,15 @@ namespace EducationPortal.BLL.ServicesSql
             }
         }
 
-        public IEnumerable<Material> GetAllExceptedMaterials(int courseId)
+        public IEnumerable<Material> GetAllMaterialsForOnePage(int take, int skip)
         {
-            return this.materialRepository.Except(this.courseMaterialService.GetAllMaterialsFromCourse(courseId), this.materialComparer.MaterialComparer).ToList();
+            var a = this.materialRepository.GetPage(take, skip);
+            return this.materialRepository.GetPage(take, skip);
         }
 
         public IEnumerable<Material> GetAllNotPassedMaterialFromUser()
         {
-            return this.materialRepository.Except(this.userMaterialService.GetAllMaterialInUser(this.authorizedUser.User.Id), this.materialComparer.MaterialComparer).ToList();
+            throw new NotImplementedException();
         }
 
         public Material GetMaterial(int materialId)
@@ -88,6 +86,11 @@ namespace EducationPortal.BLL.ServicesSql
         public bool ExistMaterial(int materialId)
         {
             return this.materialRepository.Exist(x => x.Id == materialId);
+        }
+
+        public int GetCount()
+        {
+            return this.materialRepository.Count();
         }
     }
 }

@@ -15,12 +15,15 @@
     {
         private IRepository<UserCourse> userCourseRepository;
         private IUserCourseMaterialSqlService userCourseMaterialSqlService;
+        private IAuthorizedUser authorizedUser;
 
         public UserCourseService(IRepository<UserCourse> userCourseRepository,
-            IUserCourseMaterialSqlService userCourseMaterialSqlService)
+            IUserCourseMaterialSqlService userCourseMaterialSqlService,
+            IAuthorizedUser authorizedUser)
         {
             this.userCourseRepository = userCourseRepository;
             this.userCourseMaterialSqlService = userCourseMaterialSqlService;
+            this.authorizedUser = authorizedUser;
         }
 
         public void AddCourseToUser(int userId, int courseId)
@@ -47,6 +50,11 @@
         public List<Course> GetAllCourseInProgress(int userId)
         {
             return this.userCourseRepository.Get<Course>(s => s.Course, s => s.UserId == userId && s.IsPassed == false).ToList();
+        }
+
+        public bool CourseWasStarted(int courseId)
+        {
+            return this.userCourseRepository.Exist(x => x.UserId == this.authorizedUser.User.Id && x.CourseId == courseId);
         }
 
         public bool ExistUserCourse(int userCourseId)
