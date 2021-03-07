@@ -13,5 +13,20 @@
         {
             builder.ToTable("Materials").HasKey(s => s.Id);
         }
+
+        public void Configure(EntityTypeBuilder<Article> builder)
+        {
+            builder.ToTable("Articles").HasKey(s => s.Id);
+        }
+
+        public void Configure(EntityTypeBuilder<Book> builder)
+        {
+            builder.ToTable("Books").HasKey(s => s.Id);
+        }
+
+        public void Configure(EntityTypeBuilder<Video> builder)
+        {
+            builder.ToTable("Videos").HasKey(s => s.Id);
+        }
     }
 }
