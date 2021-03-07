@@ -3,7 +3,6 @@ using DataAccessLayer.Entities;
 using DataAccessLayer.Interfaces;
 using EducationPortal.BLL.Interfaces;
 using EducationPortal.BLL.ServicesSql;
-using EducationPortal.Domain.Comparers;
 using Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -24,7 +23,6 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         private Mock<ICourseSkillService> courseSkillService;
         private Mock<IMaterialService> materailService;
         private Mock<ISkillService> skillService;
-        private Mock<ICourseComparerService> courseComparerService;
         private Mock<ILogger> logger;
 
         [TestInitialize]
@@ -35,7 +33,6 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             this.courseSkillService = new Mock<ICourseSkillService>();
             this.materailService = new Mock<IMaterialService>();
             this.skillService = new Mock<ISkillService>();
-            this.courseComparerService = new Mock<ICourseComparerService>();
             this.logger = new Mock<ILogger>();
         }
 
@@ -52,8 +49,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseMaterailService.Object,
                 courseSkillService.Object,
                 materailService.Object,
-                skillService.Object,
-                courseComparerService.Object);
+                skillService.Object);
 
             Material material = new Material();
 
@@ -71,8 +67,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseMaterailService.Object,
                 courseSkillService.Object,
                 materailService.Object,
-                skillService.Object,
-                courseComparerService.Object);
+                skillService.Object);
 
             Material material = new Material();
 
@@ -90,8 +85,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseMaterailService.Object,
                 courseSkillService.Object,
                 materailService.Object,
-                skillService.Object,
-                courseComparerService.Object);
+                skillService.Object);
 
             Material material = new Material();
 
@@ -110,8 +104,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseMaterailService.Object,
                 courseSkillService.Object,
                 materailService.Object,
-                skillService.Object,
-                courseComparerService.Object);
+                skillService.Object);
 
             Material material = new Material();
 
@@ -133,8 +126,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseMaterailService.Object,
                 courseSkillService.Object,
                 materailService.Object,
-                skillService.Object,
-                courseComparerService.Object);
+                skillService.Object);
 
             Skill skill = new Skill();
 
@@ -152,8 +144,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseMaterailService.Object,
                 courseSkillService.Object,
                 materailService.Object,
-                skillService.Object,
-                courseComparerService.Object);
+                skillService.Object);
 
             Skill skill = new Skill();
 
@@ -171,8 +162,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseMaterailService.Object,
                 courseSkillService.Object,
                 materailService.Object,
-                skillService.Object,
-                courseComparerService.Object);
+                skillService.Object);
 
             Skill skill = new Skill();
 
@@ -191,8 +181,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseMaterailService.Object,
                 courseSkillService.Object,
                 materailService.Object,
-                skillService.Object,
-                courseComparerService.Object);
+                skillService.Object);
 
             Skill skill = new Skill();
 
@@ -213,8 +202,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseMaterailService.Object,
                 courseSkillService.Object,
                 materailService.Object,
-                skillService.Object,
-                courseComparerService.Object);
+                skillService.Object);
 
             Course course = null;
 
@@ -231,8 +219,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseMaterailService.Object,
                 courseSkillService.Object,
                 materailService.Object,
-                skillService.Object,
-                courseComparerService.Object);
+                skillService.Object);
 
             Course course = new Course();
 
@@ -250,8 +237,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseMaterailService.Object,
                 courseSkillService.Object,
                 materailService.Object,
-                skillService.Object,
-                courseComparerService.Object);
+                skillService.Object);
 
             Course course = new Course();
             courseSqlService.CreateCourse(course);
@@ -274,8 +260,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseMaterailService.Object,
                 courseSkillService.Object,
                 materailService.Object,
-                skillService.Object,
-                courseComparerService.Object);
+                skillService.Object);
 
             Assert.IsFalse(courseSqlService.Delete(0));
         }
@@ -292,8 +277,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseMaterailService.Object,
                 courseSkillService.Object,
                 materailService.Object,
-                skillService.Object,
-                courseComparerService.Object);
+                skillService.Object);
 
             courseSqlService.Delete(0);
 
@@ -318,8 +302,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseMaterailService.Object,
                 courseSkillService.Object,
                 materailService.Object,
-                skillService.Object,
-                courseComparerService.Object);
+                skillService.Object);
 
             courseSqlService.GetMaterialsFromCourse(0);
 
@@ -339,8 +322,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseMaterailService.Object,
                 courseSkillService.Object,
                 materailService.Object,
-                skillService.Object,
-                courseComparerService.Object);
+                skillService.Object);
 
             Assert.IsNull(courseSqlService.GetMaterialsFromCourse(0));
         }
@@ -360,8 +342,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseMaterailService.Object,
                 courseSkillService.Object,
                 materailService.Object,
-                skillService.Object,
-                courseComparerService.Object);
+                skillService.Object);
 
             courseSqlService.GetSkillsFromCourse(0);
 
@@ -379,8 +360,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseMaterailService.Object,
                 courseSkillService.Object,
                 materailService.Object,
-                skillService.Object,
-                courseComparerService.Object);
+                skillService.Object);
 
             Assert.IsNull(courseSqlService.GetSkillsFromCourse(0));
         }
@@ -401,8 +381,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseMaterailService.Object,
                 courseSkillService.Object,
                 materailService.Object,
-                skillService.Object,
-                courseComparerService.Object);
+                skillService.Object);
 
             Course course = new Course();
 
@@ -421,8 +400,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseMaterailService.Object,
                 courseSkillService.Object,
                 materailService.Object,
-                skillService.Object,
-                courseComparerService.Object);
+                skillService.Object);
 
             Course course = new Course()
             {
@@ -451,8 +429,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseMaterailService.Object,
                 courseSkillService.Object,
                 materailService.Object,
-                skillService.Object,
-                courseComparerService.Object);
+                skillService.Object);
 
             Assert.IsTrue(courseSqlService.ExistCourse(0));
         }
@@ -467,53 +444,9 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseMaterailService.Object,
                 courseSkillService.Object,
                 materailService.Object,
-                skillService.Object,
-                courseComparerService.Object);
+                skillService.Object);
 
             Assert.IsFalse(courseSqlService.ExistCourse(0));
-        }
-
-        #endregion
-
-        #region AvailableCourses
-
-        [TestMethod]
-        public void AvailableCourses_ListNull_Null()
-        {
-            courseRepository.Setup(db => db.Except(It.IsAny<List<Course>>(), It.IsAny<CourseComparer>())).Returns(new List<Course>());
-
-            CourseService courseSqlService = new CourseService(
-                courseRepository.Object,
-                courseMaterailService.Object,
-                courseSkillService.Object,
-                materailService.Object,
-                skillService.Object,
-                courseComparerService.Object);
-
-            List<Course> courses = null;
-
-            Assert.IsNull(courseSqlService.AvailableCourses(courses));
-        }
-
-        [TestMethod]
-        public void AvailableCourses_ListNotNull_ReturnList()
-        {
-            courseRepository.Setup(db => db.Except(It.IsAny<List<Course>>(), It.IsAny<CourseComparer>())).Returns(new List<Course>());
-            courseComparerService.Setup(db => db.CourseComparer);
-
-            CourseService courseSqlService = new CourseService(
-                courseRepository.Object,
-                courseMaterailService.Object,
-                courseSkillService.Object,
-                materailService.Object,
-                skillService.Object,
-                courseComparerService.Object);
-
-            List<Course> courses = new List<Course>();
-
-            courseSqlService.AvailableCourses(courses);
-            courseComparerService.Verify(x => x.CourseComparer, Times.Once);
-            courseRepository.Verify(x => x.Except(courses, courseComparerService.Object.CourseComparer), Times.Once);
         }
 
         #endregion

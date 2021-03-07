@@ -2,7 +2,6 @@
 using DataAccessLayer.Interfaces;
 using EducationPortal.BLL.Interfaces;
 using EducationPortal.BLL.ServicesSql;
-using EducationPortal.Domain.Comparers;
 using Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -21,7 +20,6 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         private Mock<IUserMaterialSqlService> userMaterialService;
         private Mock<ICourseMaterialService> courseMaterialService;
         private Mock<IAuthorizedUser> authorizedUser;
-        private Mock<IMaterialComparerService> materialComparer;
         private Mock<ILogger> logger;
 
         [TestInitialize]
@@ -31,7 +29,6 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             this.userMaterialService = new Mock<IUserMaterialSqlService>();
             this.courseMaterialService = new Mock<ICourseMaterialService>();
             this.authorizedUser = new Mock<IAuthorizedUser>();
-            this.materialComparer = new Mock<IMaterialComparerService>();
             this.logger = new Mock<ILogger>();
         }
 
@@ -46,8 +43,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 materialRepository.Object,
                 userMaterialService.Object, 
                 authorizedUser.Object, 
-                courseMaterialService.Object, 
-                materialComparer.Object);
+                courseMaterialService.Object);
 
             Material material = null;
 
@@ -63,8 +59,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 materialRepository.Object,
                 userMaterialService.Object,
                 authorizedUser.Object,
-                courseMaterialService.Object,
-                materialComparer.Object);
+                courseMaterialService.Object);
 
             Material material = new Material();
 
@@ -82,8 +77,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 materialRepository.Object,
                 userMaterialService.Object,
                 authorizedUser.Object,
-                courseMaterialService.Object,
-                materialComparer.Object);
+                courseMaterialService.Object);
 
             Material material = new Material();
             materialSqlService.CreateMaterial(material);
@@ -105,8 +99,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 materialRepository.Object,
                 userMaterialService.Object,
                 authorizedUser.Object,
-                courseMaterialService.Object,
-                materialComparer.Object);
+                courseMaterialService.Object);
 
             Assert.IsFalse(materialSqlService.Delete(0));
         }
@@ -122,8 +115,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 materialRepository.Object,
                 userMaterialService.Object,
                 authorizedUser.Object,
-                courseMaterialService.Object,
-                materialComparer.Object);
+                courseMaterialService.Object);
 
             materialSqlService.Delete(0);
 
@@ -134,31 +126,6 @@ namespace EducationPortal.BLL.Tests.ServicesSql
 
         #endregion
 
-        #region GetAllExceptedMaterials
-
-        [TestMethod]
-        public void GetAllExceptedMaterials_ReturnMaterials()
-        {
-            materialRepository.Setup(db => db.Except(It.IsAny<List<Material>>(), It.IsAny<MaterialComparer>())).Returns(new List<Material>());
-            courseMaterialService.Setup(db => db.GetAllMaterialsFromCourse(It.IsAny<int>())).Returns(new List<Material>());
-            materialComparer.Setup(db => db.MaterialComparer);
-
-            MaterialService materialSqlService = new MaterialService(
-                materialRepository.Object,
-                userMaterialService.Object,
-                authorizedUser.Object,
-                courseMaterialService.Object,
-                materialComparer.Object);
-
-            materialSqlService.GetAllExceptedMaterials(0);
-
-            materialComparer.Verify(x => x.MaterialComparer, Times.Once);
-            courseMaterialService.Verify(x => x.GetAllMaterialsFromCourse(0), Times.Once);
-            materialRepository.Verify(x => x.Except(
-                courseMaterialService.Object.GetAllMaterialsFromCourse(0), materialComparer.Object.MaterialComparer), Times.Once);
-        }
-
-        #endregion
 
         #region GetMaterial
 
@@ -171,8 +138,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 materialRepository.Object,
                 userMaterialService.Object,
                 authorizedUser.Object,
-                courseMaterialService.Object,
-                materialComparer.Object);
+                courseMaterialService.Object);
 
             Assert.IsNull(materialSqlService.GetMaterial(0));
         }
@@ -187,8 +153,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 materialRepository.Object,
                 userMaterialService.Object,
                 authorizedUser.Object,
-                courseMaterialService.Object,
-                materialComparer.Object);
+                courseMaterialService.Object);
 
             materialSqlService.GetMaterial(0);
 
@@ -208,8 +173,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 materialRepository.Object,
                 userMaterialService.Object,
                 authorizedUser.Object,
-                courseMaterialService.Object,
-                materialComparer.Object);
+                courseMaterialService.Object);
 
             materialSqlService.ExistMaterial(0);
 

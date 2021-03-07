@@ -350,49 +350,6 @@ namespace EducationPortal.BLL.Tests.ServicesSql
 
         #endregion
 
-        #region GetAvailableCoursesForUser
-
-        [TestMethod]
-        public void GetAvailableCoursesForUser_AuthorizedUserNotNull_CallGetAndAvailable()
-        {
-            authorizedUser.SetupGet(db => db.User).Returns(new User());
-            userCourseService.Setup(db => db.GetAllPassedAndProgressCoursesForUser(It.IsAny<int>())).Returns(new List<Course>());
-            courseService.Setup(db => db.AvailableCourses(It.IsAny<List<Course>>())).Returns(new List<Course>());
-
-            UserService userSqlService = new UserService(
-                userRepository.Object,
-                courseService.Object,
-                authorizedUser.Object,
-                userCourseService.Object,
-                userCourseMaterialSqlService.Object,
-                userMaterialSqlService.Object,
-                userSkillSqlService.Object,
-                courseSkillService.Object);
-
-            userSqlService.GetAvailableCoursesForUser();
-
-            userCourseService.Verify(x => x.GetAllPassedAndProgressCoursesForUser(It.IsAny<int>()), Times.Once);
-            courseService.Verify(x => x.AvailableCourses(It.IsAny<List<Course>>()), Times.Once);
-        }
-
-        [TestMethod]
-        public void GetAvailableCoursesForUser_AuthorizedUserNotNull_Null()
-        {
-            UserService userSqlService = new UserService(
-                userRepository.Object,
-                courseService.Object,
-                null,
-                userCourseService.Object,
-                userCourseMaterialSqlService.Object,
-                userMaterialSqlService.Object,
-                userSkillSqlService.Object,
-                courseSkillService.Object);
-
-            Assert.IsNull(userSqlService.GetAvailableCoursesForUser());
-        }
-
-        #endregion
-
         #region GetListWithCoursesInProgress
 
         [TestMethod]
