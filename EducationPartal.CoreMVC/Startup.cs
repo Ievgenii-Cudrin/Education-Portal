@@ -4,12 +4,10 @@ using DataAccessLayer.Interfaces;
 using EducationPartal.CoreMVC.Interfaces;
 using EducationPartal.CoreMVC.Mappers;
 using EducationPortal.BLL.Interfaces;
-using EducationPortal.BLL.Loggers;
 using EducationPortal.BLL.Services;
 using EducationPortal.BLL.ServicesSql;
+using EducationPortal.CoreMVC.LayersDependencyInjections;
 using EducationPortal.DAL.DataContext;
-using EducationPortal.DAL.Interfaces;
-using EducationPortal.DAL.Loggers;
 using EducationPortal.DAL.Repositories;
 using EducationPortal.DAL.XML.Repositories;
 using EducationPortal.Domain.Entities;
@@ -36,45 +34,17 @@ namespace EducationPartal.CoreMVC
         {
             Configuration = configuration;
         }
-
         public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton(typeof(IXmlSet<>), typeof(XmlSet<>));
             services.AddSingleton(typeof(IXmlSerializeContext<>), typeof(XmlSerializationContextGeneric<>));
+
+            services.InstallDal();
+            services.InstallBll();
             
-            // Repositories
-            services.AddTransient<IRepository<UserCourse>, UserCourseXmlRepository>();
-            services.AddSingleton<IRepository<CourseMaterial>, CourseMaterialXmlRepository>();
-            services.AddTransient<IRepository<CourseSkill>, CourseSkillXmlRepository>();
-            services.AddTransient<IRepository<UserMaterial>, UserMaterialXmlRepository>();
-            services.AddTransient<IRepository<UserSkill>, UserSkillXmlRepository>();
-            services.AddTransient<IRepository<UserCourseMaterial>, UserCourseMaterialXmlRepository>();
-            services.AddTransient(typeof(IRepository<>), typeof(RepositoryXml<>));
-            //services.AddTransient(typeof(IRepository<>), typeof(RepositorySql<>));
-            
-            // Services
-            services.AddTransient<IUserService, UserService>();
-            services.AddTransient<ICourseService, CourseService>();
-            services.AddTransient<IMaterialService, MaterialService>();
-            services.AddTransient<ISkillService, SkillService>();
-            services.AddTransient<ILogInService, LogInService>();
-            services.AddScoped<IUserCourseSqlService, UserCourseService>();
-            services.AddTransient<ICourseMaterialService, CourseMaterialService>();
-            services.AddTransient<ICourseSkillService, CourseSkillService>();
-            services.AddTransient<IUserCourseMaterialSqlService, UserCourseMaterialService>();
-            services.AddTransient<IUserMaterialSqlService, UserMaterialService>();
-            services.AddTransient<IUserSkillSqlService, UserSkillService>();
-            services.AddTransient<IMaterialComparerService, MaterialComparerService>();
-            services.AddTransient<ICourseComparerService, CourseComparerService>();
-            services.AddTransient<IAuthorizedUser, AuthorizerUser>();
-            services.AddTransient<IWorkWithAuthorizedUser, AuthorizerUser>();
             services.AddTransient<IAutoMapperService, Mapping>();
-            
-            //Loggers
-            services.AddTransient<IDalSqlLogger, DalSqlNLogLogger>();
-            services.AddTransient<IBLLLogger, BLLNlogLogger>();
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
