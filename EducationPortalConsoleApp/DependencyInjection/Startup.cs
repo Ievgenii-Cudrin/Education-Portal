@@ -63,8 +63,6 @@ namespace EducationPortalConsoleApp.DependencyInjection
                 .AddTransient<IUserCourseMaterialSqlService, UserCourseMaterialService>()
                 .AddTransient<IUserMaterialSqlService, UserMaterialService>()
                 .AddTransient<IUserSkillSqlService, UserSkillService>()
-                .AddTransient<IMaterialComparerService, MaterialComparerService>()
-                .AddTransient<ICourseComparerService, CourseComparerService>()
                 .AddTransient<IAuthorizedUser, AuthorizerUser>()
                 .AddTransient<IWorkWithAuthorizedUser, AuthorizerUser>()
                 //ConsoleControllers

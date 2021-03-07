@@ -25,8 +25,6 @@ namespace EducationPortal.CoreMVC.LayersDependencyInjections
             services.AddTransient<IUserCourseMaterialSqlService, UserCourseMaterialService>();
             services.AddTransient<IUserMaterialSqlService, UserMaterialService>();
             services.AddTransient<IUserSkillSqlService, UserSkillService>();
-            services.AddTransient<IMaterialComparerService, MaterialComparerService>();
-            services.AddTransient<ICourseComparerService, CourseComparerService>();
             services.AddTransient<IAuthorizedUser, AuthorizerUser>();
             services.AddTransient<IWorkWithAuthorizedUser, AuthorizerUser>();
         }

@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using BusinessLogicLayer.Interfaces;
+    using EducationPortal.Domain.Entities;
     using EducationPortal.PL.InstanceCreator;
     using EducationPortal.PL.Interfaces;
     using EducationPortal.PL.Mapping;
@@ -88,11 +89,45 @@
 
         public Material GetMaterialFromAllMaterials(int courseId)
         {
-            // mapping from domain to viewmodel
-            List<MaterialViewModel> materialsVM1 = this.GetAllMaterialVMAfterMappingFromMaterialDomain(this.materialService.GetAllExceptedMaterials(courseId).ToList());
+            int numberOfPage = 1;
+            bool selectedPage = false;
 
-            // ShowMaterials
-            MaterialConsoleMessageHelper.ShowMaterial(materialsVM1);
+            do
+            {
+                Console.Clear();
+                const int pageSize = 3;
+                int recordsCount = this.materialService.GetCount();
+                var pager = new PageInfo(recordsCount, numberOfPage, pageSize);
+                int recordsSkip = (numberOfPage - 1) * pageSize;
+
+                List<MaterialViewModel> materialsVM1 = this.GetAllMaterialVMAfterMappingFromMaterialDomain(this.materialService.GetAllMaterialsForOnePage(recordsSkip, pager.PageSize).ToList());
+
+                // ShowMaterials
+                MaterialConsoleMessageHelper.ShowMaterial(materialsVM1);
+
+                Console.WriteLine($"Count of pages - {pager.TotalPages}");
+                Console.WriteLine($"Current page - {numberOfPage}");
+                Console.WriteLine($"Do you want select another PAGE (enter page) or add MATERIAL (enter material) from this page?");
+                string userChoice = Console.ReadLine();
+
+                switch (userChoice.ToLower())
+                {
+                    case "page":
+                        selectedPage = true;
+                        Console.WriteLine($"Enter page number: ");
+                        numberOfPage = int.Parse(Console.ReadLine());
+                        break;
+                    case "material":
+                        selectedPage = false;
+                        break;
+                    default:
+                        numberOfPage = 1;
+                        selectedPage = true;
+                        break;
+                }
+            }
+            while (selectedPage);
+
             Console.Write("\nEnter material id: ");
             int id;
 

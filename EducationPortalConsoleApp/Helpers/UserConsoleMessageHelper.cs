@@ -33,7 +33,7 @@
         {
             for (int i = 0; i < courses.Count; i++)
             {
-                Console.WriteLine($"{i + 1}.Name - {courses[i].Name}");
+                Console.WriteLine($"{i + 1}.Name - {courses[i].Name}, ID - {courses[i].Id}");
             }
         }
     }

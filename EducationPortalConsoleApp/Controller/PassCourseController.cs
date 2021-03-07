@@ -4,6 +4,9 @@ using System.Linq;
 using System.Threading;
 using BusinessLogicLayer.Interfaces;
 using DataAccessLayer.Entities;
+using EducationPortal.BLL.Interfaces;
+using EducationPortal.BLL.ServicesSql;
+using EducationPortal.Domain.Entities;
 using EducationPortal.PL.Helpers;
 using EducationPortal.PL.Interfaces;
 using EducationPortal.PL.Models;
@@ -20,19 +23,22 @@ namespace EducationPortal.PL.Controller
         private readonly IMaterialController materialController;
         private IMapperService mapperService;
         private IMaterialService materialService;
+        private IUserCourseSqlService userCourseService;
 
         public PassCourseController(
             ICourseService courseService,
             IUserService userService,
             IMaterialController materialController,
             IMapperService mapper,
-            IMaterialService materialService)
+            IMaterialService materialService,
+            IUserCourseSqlService userCourseService)
         {
             this.courseService = courseService;
             this.userService = userService;
             this.materialController = materialController;
             this.mapperService = mapper;
             this.materialService = materialService;
+            this.userCourseService = userCourseService;
         }
 
         public static int GetIdFromUserToPassCourse()
@@ -118,22 +124,51 @@ namespace EducationPortal.PL.Controller
 
         public void StartPassCourse()
         {
-            // Get all courses
-            List<CourseViewModel> coursesListVM = this.GetListOfCoursesFromServiceAfterMappingToVM(this.userService.GetAvailableCoursesForUser());
+            int numberOfPage = 1;
+            bool selectedPage = false;
+            List<CourseViewModel> coursesListVM;
 
-            if (coursesListVM.Count <= 0)
+            do
             {
-                this.ShowMessageAndReturnToMainMenu("No courses available");
-            }
+                Console.Clear();
+                const int pageSize = 3;
+                int recordsCount = this.courseService.GetCount();
+                var pager = new PageInfo(recordsCount, numberOfPage, pageSize);
+                int coursesSkip = (numberOfPage - 1) * pageSize;
 
-            // Show all courses
-            this.ShowCoursesToPass(coursesListVM);
+                coursesListVM = this.GetListOfCoursesFromServiceAfterMappingToVM(this.courseService.GetCoursesPerPage(coursesSkip, pager.PageSize));
+
+                // ShowCourses
+                this.ShowCoursesToPass(coursesListVM);
+
+                Console.WriteLine($"Count of pages - {pager.TotalPages}");
+                Console.WriteLine($"Current page - {numberOfPage}");
+                Console.WriteLine($"Do you want select another PAGE (enter page) or add COURSE to pass (enter course) from this page?");
+                string userChoice = Console.ReadLine();
+
+                switch (userChoice.ToLower())
+                {
+                    case "page":
+                        selectedPage = true;
+                        Console.WriteLine($"Enter page number: ");
+                        numberOfPage = int.Parse(Console.ReadLine());
+                        break;
+                    case "course":
+                        selectedPage = false;
+                        break;
+                    default:
+                        numberOfPage = 1;
+                        selectedPage = true;
+                        break;
+                }
+            }
+            while (selectedPage);
 
             // Get course id from user to passing
             int courseIdToPass = GetIdFromUserToPassCourse();
 
             // Check, may be we this course course already started
-            if (this.userService.GetListWithCoursesInProgress().Any(x => x.Id == courseIdToPass)) // transfer 
+            if (this.userCourseService.CourseWasStarted(courseIdToPass)) // .GetListWithCoursesInProgress().Any(x => x.Id == courseIdToPass))
             {
                 this.ShowMessageAndReturnToMainMenu("You have already started this course");
             }
