@@ -28,11 +28,6 @@ namespace EducationPortal.DAL.XML.Repositories
             this.context.XmlSet.Delete(id);
         }
 
-        public IList<T> Except(IList<T> list, IEqualityComparer<T> comparer)
-        {
-            return this.context.XmlSet.GetAll().Except(list, comparer).ToList();
-        }
-
         public bool Exist(Expression<Func<T, bool>> predicat)
         {
             return this.context.XmlSet.GetAll()
@@ -90,22 +85,21 @@ namespace EducationPortal.DAL.XML.Repositories
             return this.context.XmlSet.GetAll().AsQueryable().OrderBy(orderBy).Last();
         }
 
-        public IList<T> GetPage(Expression<Func<T, bool>> predicat, PageInfo page)
+        public IList<T> GetPage(Expression<Func<T, bool>> predicat, int take, int skip)
         {
-            var skip = page.Size * (page.Number - 1);
             return this.context.XmlSet.GetAll()
                 .AsQueryable()
                 .Where(predicat)
                 .Skip(skip)
-                .Take(page.Size).ToList();
+                .Take(skip).ToList();
         }
 
-        public IList<T> GetPage(PageInfo page)
+        public IList<T> GetPage(int skip, int take)
         {
-            var skip = page.Size * (page.Number - 1);
             return this.context.XmlSet.GetAll()
+                .AsQueryable()
                 .Skip(skip)
-                .Take(page.Size).ToList();
+                .Take(take).ToList();
         }
 
         public void Save()
@@ -116,6 +110,16 @@ namespace EducationPortal.DAL.XML.Repositories
         public void Update(T item)
         {
             this.context.XmlSet.Update(item);
+        }
+
+        public int Count()
+        {
+            return this.context.XmlSet.GetAll().Count();
+        }
+
+        public IList<T> GetPageWithInclude(Expression<Func<T, object>> predicat, int skip, int take)
+        {
+            throw new NotImplementedException();
         }
     }
 }

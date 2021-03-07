@@ -25,9 +25,12 @@
 
         IList<T> GetPage(
             Expression<Func<T, bool>> predicat,
-            PageInfo page);
+            int skip,
+            int take);
 
-        IList<T> GetPage(PageInfo page);
+        IList<T> GetPageWithInclude(Expression<Func<T, object>> predicat, int skip, int take);
+
+        IList<T> GetPage(int skip, int take);
 
         IList<TResult> Get<TResult>(
             Expression<Func<T, TResult>> selector,
@@ -37,10 +40,10 @@
 
         IList<T> Get(Expression<Func<T, bool>> predicat);
 
-        IList<T> Except(IList<T> list, IEqualityComparer<T> comparer);
-
         T GetLastEntity<TOrderBy>(Expression<Func<T, TOrderBy>> orderBy);
 
         T GetOne(Expression<Func<T, bool>> predicat);
+
+        int Count();
     }
 }
