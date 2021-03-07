@@ -20,12 +20,10 @@ namespace EducationPortalConsoleApp.DependencyInjection
     using System.IO;
     using EducationPortal.BLL.Services;
     using EducationPortal.BLL.Interfaces;
-    using EducationPortal.DAL.Interfaces;
-    using EducationPortal.DAL.Loggers;
-    using EducationPortal.BLL.Loggers;
     using EducationPortal.DAL.XML.Repositories;
     using EducationPortal.DAL.Repositories;
     using EducationPortal.Domain.Entities;
+    using Microsoft.Extensions.Logging;
 
     public class Startup
     {
@@ -41,11 +39,11 @@ namespace EducationPortalConsoleApp.DependencyInjection
         public IServiceProvider ConfigureService()
         {
             var provider = new ServiceCollection()
-                .AddSingleton(typeof(IXmlSet<>), typeof(XmlSet<>))
-                .AddSingleton(typeof(IXmlSerializeContext<>), typeof(XmlSerializationContextGeneric<>))
+                .AddTransient(typeof(IXmlSet<>), typeof(XmlSet<>))
+                .AddTransient(typeof(IXmlSerializeContext<>), typeof(XmlSerializationContextGeneric<>))
                 // Repositories
                 .AddTransient<IRepository<UserCourse>, UserCourseXmlRepository>()
-                .AddSingleton<IRepository<CourseMaterial>, CourseMaterialXmlRepository>()
+                .AddTransient<IRepository<CourseMaterial>, CourseMaterialXmlRepository>()
                 .AddTransient<IRepository<CourseSkill>, CourseSkillXmlRepository>()
                 .AddTransient<IRepository<UserMaterial>, UserMaterialXmlRepository>()
                 .AddTransient<IRepository<UserSkill>, UserSkillXmlRepository>()
@@ -59,7 +57,7 @@ namespace EducationPortalConsoleApp.DependencyInjection
                 .AddTransient<IMaterialService, MaterialService>()
                 .AddTransient<ISkillService, SkillService>()
                 .AddTransient<ILogInService, LogInService>()
-                .AddScoped<IUserCourseSqlService, UserCourseService>()
+                .AddTransient<IUserCourseSqlService, UserCourseService>()
                 .AddTransient<ICourseMaterialService, CourseMaterialService>()
                 .AddTransient<ICourseSkillService, CourseSkillService>()
                 .AddTransient<IUserCourseMaterialSqlService, UserCourseMaterialService>()
@@ -76,9 +74,6 @@ namespace EducationPortalConsoleApp.DependencyInjection
                 .AddTransient<ISkillController, SkillController>()
                 .AddTransient<IPassCourseController, PassCourseController>()
                 .AddTransient<IMapperService, Mapping>()
-                //Loggers
-                .AddTransient<IDalSqlLogger, DalSqlNLogLogger>()
-                .AddTransient<IBLLLogger, BLLNlogLogger>()
                 .BuildServiceProvider();
 
             return provider;

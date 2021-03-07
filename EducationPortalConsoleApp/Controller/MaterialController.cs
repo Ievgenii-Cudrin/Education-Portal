@@ -32,11 +32,11 @@
             var videoAfterMap = this.mapperService.CreateMapFromVMToDomain<VideoViewModel, Video>(materialVM);
 
             // add video to db
-            var videoFromBll = this.materialService.CreateMaterial(videoAfterMap);
+            bool succsess = this.materialService.CreateMaterial(videoAfterMap);
 
-            if (videoFromBll != null)
+            if (videoAfterMap != null && succsess)
             {
-                return videoFromBll;
+                return videoAfterMap;
             }
             else
             {
@@ -53,11 +53,11 @@
             var articleAfterMap = this.mapperService.CreateMapFromVMToDomain<ArticleViewModel, Article>(articleVM);
 
             // add article to db
-            var articleFromBll = this.materialService.CreateMaterial(articleAfterMap);
+            bool succsess = this.materialService.CreateMaterial(articleAfterMap);
 
-            if (articleFromBll != null)
+            if (articleAfterMap != null && succsess)
             {
-                return articleFromBll;
+                return articleAfterMap;
             }
             else
             {
@@ -74,11 +74,11 @@
             var bookAfterMap = this.mapperService.CreateMapFromVMToDomain<BookViewModel, Book>(bookVM);
 
             // add book to db
-            var bookFromBll = this.materialService.CreateMaterial(bookAfterMap);
+            bool success = this.materialService.CreateMaterial(bookAfterMap);
 
-            if (bookFromBll != null)
+            if (bookAfterMap != null && success)
             {
-                return bookFromBll;
+                return bookAfterMap;
             }
             else
             {
