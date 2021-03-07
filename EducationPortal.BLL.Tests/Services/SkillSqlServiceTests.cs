@@ -2,9 +2,9 @@
 using DataAccessLayer.Interfaces;
 using EducationPortal.BLL.Interfaces;
 using EducationPortal.BLL.ServicesSql;
+using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -16,13 +16,13 @@ namespace EducationPortal.BLL.Tests.ServicesSql
     public class SkillSqlServiceTests
     {
         private Mock<IRepository<Skill>> skillRepository;
-        private Mock<IBLLLogger> logger;
+        private Mock<ILogger> logger;
 
         [TestInitialize]
         public void SetUp()
         {
             this.skillRepository = new Mock<IRepository<Skill>>();
-            logger = new Mock<IBLLLogger>();
+            logger = new Mock<ILogger>();
         }
 
         #region CreateSkill
@@ -35,8 +35,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             skillRepository.Setup(db => db.Save());
 
             SkillService skillSqlService = new SkillService(
-                skillRepository.Object,
-                logger.Object);
+                skillRepository.Object);
 
             Skill skill = new Skill();
             skillSqlService.CreateSkill(skill);
@@ -52,8 +51,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             skillRepository.Setup(db => db.Get(It.IsAny<Expression<Func<Skill, bool>>>())).Returns(new List<Skill>());
 
             SkillService skillSqlService = new SkillService(
-                skillRepository.Object,
-                logger.Object);
+                skillRepository.Object);
 
             Skill skill = new Skill();
             skillSqlService.CreateSkill(skill);
@@ -68,14 +66,12 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void Delete_SkillExist_CallDeleteAndSave()
         {
-            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             skillRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Skill, bool>>>())).Returns(true);
             skillRepository.Setup(db => db.Delete(It.IsAny<int>()));
             skillRepository.Setup(db => db.Save());
 
             SkillService skillSqlService = new SkillService(
-                skillRepository.Object,
-                logger.Object);
+                skillRepository.Object);
             skillSqlService.Delete(0);
 
             skillRepository.Verify(x => x.Delete(0), Times.Once);
@@ -85,14 +81,12 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void Delete_SkillNotExist_Nothing()
         {
-            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             skillRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Skill, bool>>>())).Returns(false);
             skillRepository.Setup(db => db.Delete(It.IsAny<int>()));
             skillRepository.Setup(db => db.Save());
 
             SkillService skillSqlService = new SkillService(
-                skillRepository.Object,
-                logger.Object);
+                skillRepository.Object);
             skillSqlService.Delete(0);
 
             skillRepository.Verify(x => x.Delete(0), Times.Never);
@@ -110,8 +104,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             skillRepository.Setup(db => db.Get(It.IsAny<int>())).Returns(new Skill());
 
             SkillService skillSqlService = new SkillService(
-                skillRepository.Object,
-                logger.Object);
+                skillRepository.Object);
             skillSqlService.GetSkill(0);
 
             skillRepository.Verify(x => x.Get(0), Times.Once);
@@ -120,12 +113,10 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void GetSkill_SkillNotExist_Nothing()
         {
-            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             skillRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Skill, bool>>>())).Returns(false);
 
             SkillService skillSqlService = new SkillService(
-                skillRepository.Object,
-                logger.Object);
+                skillRepository.Object);
             skillSqlService.GetSkill(0);
 
             skillRepository.Verify(x => x.Get(0), Times.Never);
@@ -138,10 +129,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void UpdateSkill_SkillNull_Nothing()
         {
-            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             SkillService skillSqlService = new SkillService(
-                skillRepository.Object,
-                logger.Object);
+                skillRepository.Object);
 
             Skill skill = null;
             skillSqlService.UpdateSkill(null);
@@ -152,11 +141,9 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void UpdateSkill_SkillNotNull_CallUpdate()
         {
-            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             skillRepository.Setup(db => db.Update(It.IsAny<Skill>()));
             SkillService skillSqlService = new SkillService(
-                skillRepository.Object,
-                logger.Object);
+                skillRepository.Object);
 
             Skill skill = new Skill();
             skillSqlService.UpdateSkill(skill);
@@ -174,8 +161,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             skillRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Skill, bool>>>())).Returns(true);
 
             SkillService skillSqlService = new SkillService(
-                skillRepository.Object,
-                logger.Object);
+                skillRepository.Object);
 
             skillSqlService.ExistSkill(0);
 

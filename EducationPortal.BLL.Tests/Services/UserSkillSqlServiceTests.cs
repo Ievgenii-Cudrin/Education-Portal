@@ -17,13 +17,13 @@ namespace EducationPortal.BLL.Tests.ServicesSql
     public class UserSkillSqlServiceTests
     {
         private Mock<IRepository<UserSkill>> userSkillRepository;
-        private Mock<IBLLLogger> logger;
+        private Mock<ILogger> logger;
 
         [TestInitialize]
         public void SetUp()
         {
             this.userSkillRepository = new Mock<IRepository<UserSkill>>();
-            this.logger = new Mock<IBLLLogger>();
+            this.logger = new Mock<ILogger>();
         }
 
         #region AddSkillToUser
@@ -36,14 +36,12 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 new UserSkill() { UserId = 0, SkillId = 0 }
             };
 
-            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             userSkillRepository.Setup(db => db.Get(It.IsAny<Expression<Func<UserSkill, bool>>>())).Returns(userSkills);
             userSkillRepository.Setup(db => db.Update(It.IsAny<UserSkill>()));
             userSkillRepository.Setup(db => db.Save());
 
             UserSkillService userSkillSqlService = new UserSkillService(
-                userSkillRepository.Object,
-                logger.Object);
+                userSkillRepository.Object);
 
             userSkillSqlService.AddSkillToUser(It.IsAny<int>(), It.IsAny<int>());
 
@@ -56,14 +54,12 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         {
             List<UserSkill> userSkills = new List<UserSkill>();
 
-            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             userSkillRepository.Setup(db => db.Get(It.IsAny<Expression<Func<UserSkill, bool>>>())).Returns(userSkills);
             userSkillRepository.Setup(db => db.Add(It.IsAny<UserSkill>()));
             userSkillRepository.Setup(db => db.Save());
 
             UserSkillService userSkillSqlService = new UserSkillService(
-                userSkillRepository.Object,
-                logger.Object);
+                userSkillRepository.Object);
 
             userSkillSqlService.AddSkillToUser(It.IsAny<int>(), It.IsAny<int>());
 
@@ -84,8 +80,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 )).Returns(new List<Skill>());
 
             UserSkillService userSkillSqlService = new UserSkillService(
-                 userSkillRepository.Object,
-                 logger.Object);
+                 userSkillRepository.Object);
 
             userSkillSqlService.GetAllSkillInUser(It.IsAny<int>());
 

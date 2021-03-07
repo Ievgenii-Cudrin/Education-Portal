@@ -11,7 +11,6 @@ using System.Linq.Expressions;
 using DataAccessLayer.Entities;
 using Entities;
 using EducationPortal.BLL.Interfaces;
-using EducationPortal.BLL.Loggers;
 using NLog;
 
 namespace EducationPortal.BLL.Tests.ServicesSql
@@ -20,26 +19,13 @@ namespace EducationPortal.BLL.Tests.ServicesSql
     public class CourseMaterialSqlServiceTest
     {
         Mock<IRepository<CourseMaterial>> courseMaterialRepo;
-        Mock<IBLLLogger> logger;
+        Mock<ILogger> logger;
 
         [TestInitialize]
         public void SetUp()
         {
             this.courseMaterialRepo = new Mock<IRepository<CourseMaterial>>();
-            this.logger = new Mock<IBLLLogger>();
-        }
-
-        [TestMethod]
-        public void AddMaterialToCourse_CourseMaterialExist_False()
-        {
-            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
-            courseMaterialRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<CourseMaterial, bool>>>())).Returns(true);
-
-            CourseMaterialService courseMatService = new CourseMaterialService(
-                courseMaterialRepo.Object,
-                logger.Object);
-
-            Assert.IsFalse(courseMatService.AddMaterialToCourse(2, 3));
+            this.logger = new Mock<ILogger>();
         }
 
         [TestMethod]
@@ -50,8 +36,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             courseMaterialRepo.Setup(db => db.Save());
 
             CourseMaterialService courseMatService = new CourseMaterialService(
-                courseMaterialRepo.Object,
-                logger.Object);
+                courseMaterialRepo.Object);
 
             CourseMaterial courseMaterial = new CourseMaterial()
             {
@@ -71,8 +56,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 It.IsAny<Expression<Func<CourseMaterial, bool>>>())).Returns(new List<Material>());
 
             CourseMaterialService courseMaterialSqlService = new CourseMaterialService(
-                courseMaterialRepo.Object,
-                logger.Object);
+                courseMaterialRepo.Object);
 
             courseMaterialSqlService.GetAllMaterialsFromCourse(0);
 

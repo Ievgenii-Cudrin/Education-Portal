@@ -19,14 +19,14 @@ namespace EducationPortal.BLL.Tests.ServicesSql
     {
         private Mock<IRepository<UserCourse>> userCourseRepository;
         private Mock<IUserCourseMaterialSqlService> userCourseMaterialSqlService;
-        private Mock<IBLLLogger> logger;
+        private Mock<ILogger> logger;
 
         [TestInitialize]
         public void SetUp()
         {
             this.userCourseRepository = new Mock<IRepository<UserCourse>>();
             this.userCourseMaterialSqlService = new Mock<IUserCourseMaterialSqlService>();
-            this.logger = new Mock<IBLLLogger>();
+            this.logger = new Mock<ILogger>();
         }
 
         #region AddCourseToUser
@@ -42,8 +42,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
 
             UserCourseService userCourseSqlService = new UserCourseService(
                 userCourseRepository.Object,
-                userCourseMaterialSqlService.Object,
-                logger.Object);
+                userCourseMaterialSqlService.Object);
 
             userCourseSqlService.AddCourseToUser(0, 0);
 
@@ -65,8 +64,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
 
             UserCourseService userCourseSqlService = new UserCourseService(
                 userCourseRepository.Object,
-                userCourseMaterialSqlService.Object,
-                logger.Object);
+                userCourseMaterialSqlService.Object);
 
             userCourseSqlService.AddCourseToUser(0, 0);
 
@@ -90,8 +88,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
 
             UserCourseService userCourseSqlService = new UserCourseService(
                 userCourseRepository.Object,
-                userCourseMaterialSqlService.Object,
-                logger.Object);
+                userCourseMaterialSqlService.Object);
 
             userCourseSqlService.GetAllCourseInProgress(It.IsAny<int>());
 
@@ -110,8 +107,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
 
             UserCourseService userCourseSqlService = new UserCourseService(
                 userCourseRepository.Object,
-                userCourseMaterialSqlService.Object,
-                logger.Object);
+                userCourseMaterialSqlService.Object);
 
             userCourseSqlService.ExistUserCourse(It.IsAny<int>());
 
@@ -132,8 +128,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
 
             UserCourseService userCourseSqlService = new UserCourseService(
                 userCourseRepository.Object,
-                userCourseMaterialSqlService.Object,
-                logger.Object);
+                userCourseMaterialSqlService.Object);
 
             userCourseSqlService.GetAllPassedAndProgressCoursesForUser(It.IsAny<int>());
 
@@ -152,8 +147,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
 
             UserCourseService userCourseSqlService = new UserCourseService(
                 userCourseRepository.Object,
-                userCourseMaterialSqlService.Object,
-                logger.Object);
+                userCourseMaterialSqlService.Object);
 
             userCourseSqlService.GetUserCourse(It.IsAny<int>(), It.IsAny<int>());
 
@@ -168,13 +162,11 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         public void SetPassForUserCourse_UserCourseNotExist_False()
         {
             List<UserCourse> userCourses = new List<UserCourse>();
-            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             userCourseRepository.Setup(db => db.Get(It.IsAny<Expression<Func<UserCourse, bool>>>())).Returns(userCourses);
 
             UserCourseService userCourseSqlService = new UserCourseService(
                 userCourseRepository.Object,
-                userCourseMaterialSqlService.Object,
-                logger.Object);
+                userCourseMaterialSqlService.Object);
 
             Assert.IsFalse(userCourseSqlService.SetPassForUserCourse(It.IsAny<int>(), It.IsAny<int>()));
         }
@@ -193,8 +185,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
 
             UserCourseService userCourseSqlService = new UserCourseService(
                 userCourseRepository.Object,
-                userCourseMaterialSqlService.Object,
-                logger.Object);
+                userCourseMaterialSqlService.Object);
 
             userCourseSqlService.SetPassForUserCourse(It.IsAny<int>(), It.IsAny<int>());
 
@@ -217,8 +208,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
 
             UserCourseService userCourseSqlService = new UserCourseService(
                 userCourseRepository.Object,
-                userCourseMaterialSqlService.Object,
-                logger.Object);
+                userCourseMaterialSqlService.Object);
 
             userCourseSqlService.GetAllPassedCourse(It.IsAny<int>());
 

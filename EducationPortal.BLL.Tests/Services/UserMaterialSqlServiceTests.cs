@@ -17,13 +17,13 @@ namespace EducationPortal.BLL.Tests.ServicesSql
     public class UserMaterialSqlServiceTests
     {
         private Mock<IRepository<UserMaterial>> userMaterialRepository;
-        private Mock<IBLLLogger> logger;
+        private Mock<ILogger> logger;
 
         [TestInitialize]
         public void SetUp()
         {
             this.userMaterialRepository = new Mock<IRepository<UserMaterial>>();
-            this.logger = new Mock<IBLLLogger>();
+            this.logger = new Mock<ILogger>();
         }
 
         #region AddMaterialToUser
@@ -31,12 +31,10 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void AddMaterialToUser_UserMaterialExist_False()
         {
-            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             userMaterialRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<UserMaterial, bool>>>())).Returns(true);
 
             UserMaterialService userMaterialSqlService = new UserMaterialService(
-                userMaterialRepository.Object,
-                logger.Object);
+                userMaterialRepository.Object);
 
             Assert.IsFalse(userMaterialSqlService.AddMaterialToUser(It.IsAny<int>(), It.IsAny<int>()));
         }
@@ -49,8 +47,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             userMaterialRepository.Setup(db => db.Save());
 
             UserMaterialService userMaterialSqlService = new UserMaterialService(
-                userMaterialRepository.Object,
-                logger.Object);
+                userMaterialRepository.Object);
 
             userMaterialSqlService.AddMaterialToUser(It.IsAny<int>(), It.IsAny<int>());
 
@@ -71,8 +68,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 )).Returns(new List<Material>());
 
             UserMaterialService userMaterialSqlService = new UserMaterialService(
-                userMaterialRepository.Object,
-                logger.Object);
+                userMaterialRepository.Object);
 
             userMaterialSqlService.GetAllMaterialInUser(It.IsAny<int>());
 

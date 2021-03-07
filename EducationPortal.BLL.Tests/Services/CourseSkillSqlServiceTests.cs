@@ -19,7 +19,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         Mock<IRepository<CourseSkill>> courseSkillRepo;
         Mock<IRepository<Course>> courseRepo;
         Mock<IRepository<Skill>> skillRepo;
-        Mock<IBLLLogger> logger;
+        Mock<ILogger> logger;
 
         [TestInitialize]
         public void SetUp()
@@ -27,13 +27,12 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             this.courseSkillRepo = new Mock<IRepository<CourseSkill>>();
             this.courseRepo = new Mock<IRepository<Course>>();
             this.skillRepo = new Mock<IRepository<Skill>>();
-            this.logger = new Mock<IBLLLogger>();
+            this.logger = new Mock<ILogger>();
         }
 
         [TestMethod]
         public void AddMaterialToCourse_SkillNotExist_False()
         {
-            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             courseSkillRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<CourseSkill, bool>>>())).Returns(false);
             courseRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).Returns(true);
             skillRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<Skill, bool>>>())).Returns(false);
@@ -41,8 +40,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             CourseSkillService courseSkillService = new CourseSkillService(
                 courseSkillRepo.Object,
                 skillRepo.Object,
-                courseRepo.Object,
-                logger.Object);
+                courseRepo.Object);
             
             Assert.IsFalse(courseSkillService.AddSkillToCourse(0, 0));
         }
@@ -50,7 +48,6 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void AddMaterialToCourse_CourseNotExist_False()
         {
-            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             courseSkillRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<CourseSkill, bool>>>())).Returns(false);
             courseRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).Returns(false);
             skillRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<Skill, bool>>>())).Returns(true);
@@ -58,8 +55,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             CourseSkillService courseSkillService = new CourseSkillService(
                 courseSkillRepo.Object,
                 skillRepo.Object,
-                courseRepo.Object,
-                logger.Object);
+                courseRepo.Object);
 
             Assert.IsFalse(courseSkillService.AddSkillToCourse(0, 0));
         }
@@ -67,7 +63,6 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void AddMaterialToCourse_CourseSkillExist_False()
         {
-            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             courseSkillRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<CourseSkill, bool>>>())).Returns(true);
             courseRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).Returns(true);
             skillRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<Skill, bool>>>())).Returns(true);
@@ -75,8 +70,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             CourseSkillService courseSkillService = new CourseSkillService(
                 courseSkillRepo.Object,
                 skillRepo.Object,
-                courseRepo.Object,
-                logger.Object);
+                courseRepo.Object);
 
             Assert.IsFalse(courseSkillService.AddSkillToCourse(0, 0));
         }
@@ -96,8 +90,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             CourseSkillService courseSkillService = new CourseSkillService(
                 courseSkillRepo.Object,
                 skillRepo.Object,
-                courseRepo.Object,
-                logger.Object);
+                courseRepo.Object);
 
             CourseSkill courseSkill = new CourseSkill()
             {
@@ -123,8 +116,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             CourseSkillService courseSkillService = new CourseSkillService(
                 courseSkillRepo.Object,
                 skillRepo.Object,
-                courseRepo.Object,
-                logger.Object);
+                courseRepo.Object);
 
             courseSkillService.GetAllSkillsFromCourse(0);
 

@@ -25,7 +25,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         private Mock<IMaterialService> materailService;
         private Mock<ISkillService> skillService;
         private Mock<ICourseComparerService> courseComparerService;
-        private Mock<IBLLLogger> logger;
+        private Mock<ILogger> logger;
 
         [TestInitialize]
         public void SetUp()
@@ -36,7 +36,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             this.materailService = new Mock<IMaterialService>();
             this.skillService = new Mock<ISkillService>();
             this.courseComparerService = new Mock<ICourseComparerService>();
-            this.logger = new Mock<IBLLLogger>();
+            this.logger = new Mock<ILogger>();
         }
 
         #region AddMaterialToCourseTests
@@ -44,7 +44,6 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void AddMaterialToCourse_CourseNotExist_False()
         {
-            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             courseRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).Returns(false);
             materailService.Setup(db => db.ExistMaterial(It.IsAny<int>())).Returns(true);
 
@@ -54,8 +53,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseSkillService.Object,
                 materailService.Object,
                 skillService.Object,
-                courseComparerService.Object,
-                logger.Object);
+                courseComparerService.Object);
 
             Material material = new Material();
 
@@ -65,7 +63,6 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void AddMaterialToCourse_SkillNotExist_False()
         {
-            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             courseRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).Returns(true);
             materailService.Setup(db => db.ExistMaterial(It.IsAny<int>())).Returns(false);
 
@@ -75,8 +72,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseSkillService.Object,
                 materailService.Object,
                 skillService.Object,
-                courseComparerService.Object,
-                logger.Object);
+                courseComparerService.Object);
 
             Material material = new Material();
 
@@ -86,7 +82,6 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void AddMaterialToCourse_CourseAndSkillNotExist_False()
         {
-            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             courseRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).Returns(false);
             materailService.Setup(db => db.ExistMaterial(It.IsAny<int>())).Returns(false);
 
@@ -96,8 +91,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseSkillService.Object,
                 materailService.Object,
                 skillService.Object,
-                courseComparerService.Object,
-                logger.Object);
+                courseComparerService.Object);
 
             Material material = new Material();
 
@@ -117,8 +111,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseSkillService.Object,
                 materailService.Object,
                 skillService.Object,
-                courseComparerService.Object,
-                logger.Object);
+                courseComparerService.Object);
 
             Material material = new Material();
 
@@ -132,7 +125,6 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void AddSkillToCourse_CourseNotExist_False()
         {
-            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             courseRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).Returns(false);
             skillService.Setup(db => db.ExistSkill(It.IsAny<int>())).Returns(true);
 
@@ -142,8 +134,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseSkillService.Object,
                 materailService.Object,
                 skillService.Object,
-                courseComparerService.Object,
-                logger.Object);
+                courseComparerService.Object);
 
             Skill skill = new Skill();
 
@@ -153,7 +144,6 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void AddSkillToCourse_SkillNotExist_False()
         {
-            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             courseRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).Returns(true);
             skillService.Setup(db => db.ExistSkill(It.IsAny<int>())).Returns(false);
 
@@ -163,8 +153,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseSkillService.Object,
                 materailService.Object,
                 skillService.Object,
-                courseComparerService.Object,
-                logger.Object);
+                courseComparerService.Object);
 
             Skill skill = new Skill();
 
@@ -174,7 +163,6 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void AddSkillToCourse_CourseAndSkillNotExist_False()
         {
-            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             courseRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).Returns(false);
             skillService.Setup(db => db.ExistSkill(It.IsAny<int>())).Returns(false);
 
@@ -184,8 +172,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseSkillService.Object,
                 materailService.Object,
                 skillService.Object,
-                courseComparerService.Object,
-                logger.Object);
+                courseComparerService.Object);
 
             Skill skill = new Skill();
 
@@ -205,8 +192,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseSkillService.Object,
                 materailService.Object,
                 skillService.Object,
-                courseComparerService.Object,
-                logger.Object);
+                courseComparerService.Object);
 
             Skill skill = new Skill();
 
@@ -220,7 +206,6 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void CreateCourse_CourseNull_False()
         {
-            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             courseRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).Returns(false);
 
             CourseService courseSqlService = new CourseService(
@@ -229,8 +214,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseSkillService.Object,
                 materailService.Object,
                 skillService.Object,
-                courseComparerService.Object,
-                logger.Object);
+                courseComparerService.Object);
 
             Course course = null;
 
@@ -240,7 +224,6 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void CreateCourse_CourseExist_False()
         {
-            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             courseRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).Returns(true);
 
             CourseService courseSqlService = new CourseService(
@@ -249,8 +232,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseSkillService.Object,
                 materailService.Object,
                 skillService.Object,
-                courseComparerService.Object,
-                logger.Object);
+                courseComparerService.Object);
 
             Course course = new Course();
 
@@ -269,8 +251,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseSkillService.Object,
                 materailService.Object,
                 skillService.Object,
-                courseComparerService.Object,
-                logger.Object);
+                courseComparerService.Object);
 
             Course course = new Course();
             courseSqlService.CreateCourse(course);
@@ -286,7 +267,6 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void Delete_CourseNotExist_False()
         {
-            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             courseRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).Returns(false);
 
             CourseService courseSqlService = new CourseService(
@@ -295,8 +275,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseSkillService.Object,
                 materailService.Object,
                 skillService.Object,
-                courseComparerService.Object,
-                logger.Object);
+                courseComparerService.Object);
 
             Assert.IsFalse(courseSqlService.Delete(0));
         }
@@ -314,8 +293,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseSkillService.Object,
                 materailService.Object,
                 skillService.Object,
-                courseComparerService.Object,
-                logger.Object);
+                courseComparerService.Object);
 
             courseSqlService.Delete(0);
 
@@ -341,8 +319,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseSkillService.Object,
                 materailService.Object,
                 skillService.Object,
-                courseComparerService.Object,
-                logger.Object);
+                courseComparerService.Object);
 
             courseSqlService.GetMaterialsFromCourse(0);
 
@@ -353,7 +330,6 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void GetMaterialsFromCourse_CourseNotExist_ReturnNull()
         {
-            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             courseRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).Returns(false);
             courseMaterailService.Setup(db => db.GetAllMaterialsFromCourse(It.IsAny<int>())).Returns(new List<Material>());
             materailService.Setup(db => db.GetAllNotPassedMaterialFromUser()).Returns(new List<Material>());
@@ -364,8 +340,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseSkillService.Object,
                 materailService.Object,
                 skillService.Object,
-                courseComparerService.Object,
-                logger.Object);
+                courseComparerService.Object);
 
             Assert.IsNull(courseSqlService.GetMaterialsFromCourse(0));
         }
@@ -386,8 +361,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseSkillService.Object,
                 materailService.Object,
                 skillService.Object,
-                courseComparerService.Object,
-                logger.Object);
+                courseComparerService.Object);
 
             courseSqlService.GetSkillsFromCourse(0);
 
@@ -397,7 +371,6 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void GetSkillsFromCourse_CourseNotExist_Null()
         {
-            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             courseRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).Returns(false);
             courseSkillService.Setup(db => db.GetAllSkillsFromCourse(It.IsAny<int>())).Returns(new List<Skill>());
 
@@ -407,8 +380,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseSkillService.Object,
                 materailService.Object,
                 skillService.Object,
-                courseComparerService.Object,
-                logger.Object);
+                courseComparerService.Object);
 
             Assert.IsNull(courseSqlService.GetSkillsFromCourse(0));
         }
@@ -420,7 +392,6 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void UpdateCourse_CourseNotExist_False()
         {
-            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             courseRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).Returns(false);
             courseRepository.Setup(db => db.Update(It.IsAny<Course>()));
             courseRepository.Setup(db => db.Save());
@@ -431,8 +402,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseSkillService.Object,
                 materailService.Object,
                 skillService.Object,
-                courseComparerService.Object,
-                logger.Object);
+                courseComparerService.Object);
 
             Course course = new Course();
 
@@ -452,8 +422,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseSkillService.Object,
                 materailService.Object,
                 skillService.Object,
-                courseComparerService.Object,
-                logger.Object);
+                courseComparerService.Object);
 
             Course course = new Course()
             {
@@ -483,8 +452,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseSkillService.Object,
                 materailService.Object,
                 skillService.Object,
-                courseComparerService.Object,
-                logger.Object);
+                courseComparerService.Object);
 
             Assert.IsTrue(courseSqlService.ExistCourse(0));
         }
@@ -500,8 +468,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseSkillService.Object,
                 materailService.Object,
                 skillService.Object,
-                courseComparerService.Object,
-                logger.Object);
+                courseComparerService.Object);
 
             Assert.IsFalse(courseSqlService.ExistCourse(0));
         }
@@ -513,7 +480,6 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void AvailableCourses_ListNull_Null()
         {
-            logger.SetupGet(db => db.Logger).Returns(LogManager.GetCurrentClassLogger());
             courseRepository.Setup(db => db.Except(It.IsAny<List<Course>>(), It.IsAny<CourseComparer>())).Returns(new List<Course>());
 
             CourseService courseSqlService = new CourseService(
@@ -522,8 +488,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseSkillService.Object,
                 materailService.Object,
                 skillService.Object,
-                courseComparerService.Object,
-                logger.Object);
+                courseComparerService.Object);
 
             List<Course> courses = null;
 
@@ -542,8 +507,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseSkillService.Object,
                 materailService.Object,
                 skillService.Object,
-                courseComparerService.Object,
-                logger.Object);
+                courseComparerService.Object);
 
             List<Course> courses = new List<Course>();
 
