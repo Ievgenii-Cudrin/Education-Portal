@@ -22,6 +22,8 @@
 
         bool ExistCourse(int courseId);
 
-        List<Course> AvailableCourses(List<Course> courses);
+        List<Course> GetCoursesPerPage(int skip, int take);
+
+        int GetCount();
     }
 }

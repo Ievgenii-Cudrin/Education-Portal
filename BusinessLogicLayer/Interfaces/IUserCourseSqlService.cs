@@ -21,5 +21,7 @@
         bool SetPassForUserCourse(int userId, int courseId);
 
         List<Course> GetAllPassedCourse(int userId);
+
+        bool CourseWasStarted(int courseId);
     }
 }

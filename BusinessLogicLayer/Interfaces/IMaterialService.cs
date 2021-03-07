@@ -7,7 +7,7 @@
     {
         bool CreateMaterial(Material material);
 
-        IEnumerable<Material> GetAllExceptedMaterials(int courseId);
+        IEnumerable<Material> GetAllMaterialsForOnePage(int take, int skip);
 
         Material GetMaterial(int id);
 
@@ -16,5 +16,7 @@
         bool ExistMaterial(int materialId);
 
         IEnumerable<Material> GetAllNotPassedMaterialFromUser();
+
+        int GetCount();
     }
 }
