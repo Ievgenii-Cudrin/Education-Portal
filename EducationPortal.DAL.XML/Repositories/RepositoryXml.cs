@@ -68,6 +68,13 @@ namespace EducationPortal.DAL.XML.Repositories
                 .Where(predicat).ToList();
         }
 
+        public T GetOne(Expression<Func<T, bool>> predicat)
+        {
+            return this.context.XmlSet.GetAll()
+                .AsQueryable()
+                .Where(predicat).Take(1).FirstOrDefault();
+        }
+
         public IList<T> GetAll()
         {
             return this.context.XmlSet.GetAll().ToList();

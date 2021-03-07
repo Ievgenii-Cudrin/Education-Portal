@@ -40,5 +40,7 @@
         IList<T> Except(IList<T> list, IEqualityComparer<T> comparer);
 
         T GetLastEntity<TOrderBy>(Expression<Func<T, TOrderBy>> orderBy);
+
+        T GetOne(Expression<Func<T, bool>> predicat);
     }
 }
