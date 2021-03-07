@@ -27,11 +27,5 @@
 
         [XmlIgnore]
         public ICollection<CourseMaterial> CourseMaterials { get; set; }
-
-        public override string ToString()
-        {
-            return $"\nName: {this.Name}" +
-                $"\nDescription: {this.Description}";
-        }
     }
 }
