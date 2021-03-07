@@ -9,20 +9,18 @@
     using EducationPortal.BLL.Interfaces;
     using EducationPortal.DAL.Repositories;
     using EducationPortal.Domain.Entities;
+    using NLog;
 
     public class UserCourseService : IUserCourseSqlService
     {
         private IRepository<UserCourse> userCourseRepository;
         private IUserCourseMaterialSqlService userCourseMaterialSqlService;
-        private static IBLLLogger logger;
 
         public UserCourseService(IRepository<UserCourse> userCourseRepository,
-            IUserCourseMaterialSqlService userCourseMaterialSqlService,
-            IBLLLogger log)
+            IUserCourseMaterialSqlService userCourseMaterialSqlService)
         {
             this.userCourseRepository = userCourseRepository;
             this.userCourseMaterialSqlService = userCourseMaterialSqlService;
-            logger = log;
         }
 
         public void AddCourseToUser(int userId, int courseId)
@@ -34,7 +32,7 @@
                 id = this.userCourseRepository.GetLastEntity(x => x.Id).Id;
             }
 
-            UserCourse newUserCourse = new UserCourse()
+            var newUserCourse = new UserCourse()
             {
                 Id = ++id,
                 CourseId = courseId,
@@ -43,7 +41,6 @@
             };
 
             this.userCourseRepository.Add(newUserCourse);
-            this.userCourseRepository.Save();
             this.userCourseMaterialSqlService.AddMaterialsToUserCourse(newUserCourse.Id, courseId);
         }
 
@@ -69,17 +66,15 @@
 
         public bool SetPassForUserCourse(int userId, int courseId)
         {
-            UserCourse userCourse = this.userCourseRepository.Get(x => x.UserId == userId && x.CourseId == courseId).FirstOrDefault();
+            var userCourse = this.userCourseRepository.GetOne(x => x.UserId == userId && x.CourseId == courseId);
 
             if (userCourse == null)
             {
-                logger.Logger.Debug("User course not found - " + DateTime.Now);
                 return false;
             }
 
             userCourse.IsPassed = true;
             this.userCourseRepository.Update(userCourse);
-            this.userCourseRepository.Save();
             return true;
         }
 

@@ -4,7 +4,7 @@ using DataAccessLayer.Interfaces;
 using EducationPortal.BLL.Interfaces;
 
 namespace EducationPortal.BLL.Services
-{   
+{
     public class LogInService : ILogInService
     {
         private IRepository<User> userRepository;
@@ -18,17 +18,17 @@ namespace EducationPortal.BLL.Services
 
         public bool LogIn(string name, string password)
         {
-            User user = this.userRepository.Get(x => x.Name.ToLower() == name.ToLower() && x.Password == password).FirstOrDefault();
+             var user = this.userRepository.GetOne(x => x.Name.ToLower() == name.ToLower() && x.Password == password);
 
-            if (user == null)
-            {
-                return false;
-            }
-            else
-            {
-                this.workWithAuthorizedUser.SetUser(user);
-                return true;
-            }
+             if (user == null)
+             {
+                 return false;
+             }
+             else
+             {
+                 this.workWithAuthorizedUser.SetUser(user);
+                 return true;
+             }
         }
 
         public bool LogOut()

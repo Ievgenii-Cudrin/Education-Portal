@@ -5,7 +5,7 @@
 
     public interface IMaterialService
     {
-        Material CreateMaterial(Material material);
+        bool CreateMaterial(Material material);
 
         IEnumerable<Material> GetAllExceptedMaterials(int courseId);
 

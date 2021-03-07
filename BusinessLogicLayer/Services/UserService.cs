@@ -11,6 +11,7 @@
     using EducationPortal.DAL.Repositories;
     using EducationPortal.Domain.Entities;
     using Entities;
+    using NLog;
 
     public class UserService : IUserService
     {
@@ -22,7 +23,6 @@
         private IUserMaterialSqlService userMaterialSqlService;
         private IUserSkillSqlService userSkillSqlService;
         private ICourseSkillService courseSkillService;
-        private static IBLLLogger logger;
 
         public UserService(
             IRepository<User> uRepo,
@@ -32,8 +32,7 @@
             IUserCourseMaterialSqlService userCourseMaterialSqlService,
             IUserMaterialSqlService userMaterialSqlService,
             IUserSkillSqlService userSkillSqlService,
-            ICourseSkillService courseSkillService,
-            IBLLLogger log)
+            ICourseSkillService courseSkillService)
         {
             this.userRepository = uRepo;
             this.courseService = courseService;
@@ -43,7 +42,6 @@
             this.userMaterialSqlService = userMaterialSqlService;
             this.userSkillSqlService = userSkillSqlService;
             this.courseSkillService = courseSkillService;
-            logger = log;
         }
 
         public bool AddCourseInProgress(int courseId)
@@ -55,7 +53,6 @@
                 return true;
             }
 
-            logger.Logger.Debug("User not found - " + DateTime.Now);
             return false;
         }
 
@@ -73,7 +70,6 @@
                 return true;
             }
 
-            logger.Logger.Debug("Skill is null - " + DateTime.Now);
             return false;
         }
 
@@ -84,11 +80,9 @@
             if (uniqueEmail)
             {
                 this.userRepository.Add(user);
-                this.userRepository.Save();
             }
             else
             {
-                logger.Logger.Debug($"User with this email not exist - {DateTime.Now} ");
                 return false;
             }
 
@@ -100,11 +94,9 @@
             if (this.userRepository.Exist(x => x.Id == id))
             {
                 this.userRepository.Delete(id);
-                this.userRepository.Save();
                 return true;
             }
 
-            logger.Logger.Debug($"User with this id - {id} not exist - {DateTime.Now} ");
             return false;
         }
 
@@ -115,7 +107,6 @@
                 return this.userSkillSqlService.GetAllSkillInUser(this.authorizedUser.User.Id);
             }
 
-            logger.Logger.Debug($"Authorized user == null - {DateTime.Now} ");
             return null;
         }
 
@@ -127,7 +118,6 @@
                 return this.courseService.AvailableCourses(coursesInProgressAndPassed);
             }
 
-            logger.Logger.Debug($"Authorized user == null - {DateTime.Now} ");
             return null;
         }
 
@@ -138,7 +128,6 @@
                 return this.userCourseService.GetAllCourseInProgress(this.authorizedUser.User.Id);
             }
 
-            logger.Logger.Debug($"Authorized user == null - {DateTime.Now} ");
             return null;
         }
 
@@ -146,7 +135,6 @@
         {
             if (!this.courseService.ExistCourse(courseId))
             {
-                logger.Logger.Debug($"Course not exist - {DateTime.Now} ");
                 return null;
             }
 
@@ -158,7 +146,6 @@
         {
             if (this.courseService.ExistCourse(courseId))
             {
-                logger.Logger.Debug($"Course not exist - {DateTime.Now} ");
                 return this.courseSkillService.GetAllSkillsFromCourse(courseId);
             }
 
@@ -175,11 +162,9 @@
             if (this.userRepository.Exist(x => x.Id == user.Id))
             {
                 this.userRepository.Update(user);
-                this.userRepository.Save();
                 return true;
             }
 
-            logger.Logger.Debug($"User not exist - {DateTime.Now} ");
             return false;
 
         }
@@ -196,7 +181,6 @@
                 return true;
             }
 
-            logger.Logger.Debug($"Pass material not updated - {DateTime.Now} ");
             return false;
         }
 
@@ -212,7 +196,6 @@
                 return this.userCourseService.GetAllPassedCourse(this.authorizedUser.User.Id);
             }
 
-            logger.Logger.Debug($"Authorized user is null - {DateTime.Now} ");
             return null;
         }
     }

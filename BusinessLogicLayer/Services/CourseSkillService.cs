@@ -5,6 +5,8 @@ using DataAccessLayer.Entities;
 using DataAccessLayer.Interfaces;
 using EducationPortal.BLL.Interfaces;
 using EducationPortal.Domain.Entities;
+using Microsoft.Data.SqlClient;
+using NLog;
 
 namespace EducationPortal.BLL.ServicesSql
 {
@@ -13,15 +15,12 @@ namespace EducationPortal.BLL.ServicesSql
         private readonly IRepository<CourseSkill> courseSkillRepository;
         private readonly IRepository<Course> courseRepository;
         private readonly IRepository<Skill> skillRepository;
-        private static IBLLLogger logger;
 
         public CourseSkillService(
             IRepository<CourseSkill> courseSkillRepo,
             IRepository<Skill> skillRepo,
-            IRepository<Course> courseRepo,
-            IBLLLogger log)
+            IRepository<Course> courseRepo)
         {
-            logger = log;
             this.courseSkillRepository = courseSkillRepo;
             this.courseRepository = courseRepo;
             this.skillRepository = skillRepo;
@@ -29,35 +28,26 @@ namespace EducationPortal.BLL.ServicesSql
 
         public bool AddSkillToCourse(int courseId, int skillId)
         {
-            if (this.courseRepository.Exist(x => x.Id == courseId) &&
-                this.skillRepository.Exist(x => x.Id == skillId) &&
-                !this.courseSkillRepository.Exist(x => x.CourseId == courseId && x.SkillId == skillId))
+            try
             {
-                CourseSkill courseSkill = new CourseSkill()
+                if (!this.courseSkillRepository.Exist(x => x.CourseId == courseId && x.SkillId == skillId))
                 {
-                    CourseId = courseId,
-                    SkillId = skillId,
-                };
+                    var courseSkill = new CourseSkill()
+                    {
+                        CourseId = courseId,
+                        SkillId = skillId,
+                    };
 
-                this.courseSkillRepository.Add(courseSkill);
-                this.courseSkillRepository.Save();
-                return true;
-            }
-            else
-            {
-                if (!this.courseRepository.Exist(x => x.Id == courseId))
-                {
-                    logger.Logger.Debug("Skill dont add to course - course not exist" + DateTime.Now);
-                }
-                else if (!this.skillRepository.Exist(x => x.Id == skillId))
-                {
-                    logger.Logger.Debug("Skill dont add to course - skill not exist" + DateTime.Now);
+                    this.courseSkillRepository.Add(courseSkill);
+                    return true;
                 }
                 else
                 {
-                    logger.Logger.Debug("Skill dont add to course - skill exist in course" + DateTime.Now);
+                    return false;
                 }
-
+            }
+            catch (SqlException)
+            {
                 return false;
             }
         }

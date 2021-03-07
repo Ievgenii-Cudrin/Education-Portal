@@ -6,6 +6,8 @@ using DataAccessLayer.Entities;
 using DataAccessLayer.Interfaces;
 using EducationPortal.BLL.Interfaces;
 using Entities;
+using Microsoft.Data.SqlClient;
+using NLog;
 
 namespace EducationPortal.BLL.ServicesSql
 {
@@ -18,8 +20,6 @@ namespace EducationPortal.BLL.ServicesSql
         private IMaterialService materialService;
         private ISkillService skillService;
         private ICourseComparerService courseComparerService;
-        private static IBLLLogger logger;
-
 
         public CourseService(
             IRepository<Course> courseRepo,
@@ -27,8 +27,7 @@ namespace EducationPortal.BLL.ServicesSql
             ICourseSkillService courseSkillServ,
             IMaterialService materialService,
             ISkillService skillService,
-            ICourseComparerService courseComparerService,
-            IBLLLogger log)
+            ICourseComparerService courseComparerService)
         {
             this.courseRepository = courseRepo;
             this.courseMaterialService = courseMaterialServ;
@@ -36,24 +35,30 @@ namespace EducationPortal.BLL.ServicesSql
             this.materialService = materialService;
             this.skillService = skillService;
             this.courseComparerService = courseComparerService;
-            logger = log;
         }
 
         public bool AddMaterialToCourse(int courseId, Material material)
         {
-            if (this.courseRepository.Exist(x => x.Id == courseId) &&
-                this.materialService.ExistMaterial(material.Id))
+            try
             {
                 return this.courseMaterialService.AddMaterialToCourse(courseId, material.Id);
             }
-
-            logger.Logger.Debug("Material dont add to course - " + DateTime.Now);
-            return false;
+            catch (SqlException)
+            {
+                return false;
+            }
         }
 
         public bool AddSkillToCourse(int courseId, Skill skillToAdd)
         {
-            return this.courseSkillService.AddSkillToCourse(courseId, skillToAdd.Id);
+            try
+            {
+                return this.courseSkillService.AddSkillToCourse(courseId, skillToAdd.Id);
+            }
+            catch (SqlException)
+            {
+                return false;
+            }
         }
 
         public bool CreateCourse(Course course)
@@ -63,60 +68,60 @@ namespace EducationPortal.BLL.ServicesSql
             if (uniqueCourse)
             {
                 this.courseRepository.Add(course);
-                this.courseRepository.Save();
                 return true;
             }
 
-            logger.Logger.Debug("Course not created - " + DateTime.Now);
             return false;
         }
 
         public bool Delete(int id)
         {
-            if (this.courseRepository.Exist(x => x.Id == id))
+            try
             {
                 this.courseRepository.Delete(id);
-                this.courseRepository.Save();
                 return true;
             }
-
-            logger.Logger.Debug("Course not deleted - " + DateTime.Now);
-            return false;
+            catch (SqlException)
+            {
+                return false;
+            }
         }
 
         public List<Material> GetMaterialsFromCourse(int id)
         {
-            if (this.courseRepository.Exist(x => x.Id == id))
+            try
             {
                 return this.courseMaterialService.GetAllMaterialsFromCourse(id);
             }
-
-            logger.Logger.Debug("Return null materials, course not exist - " + DateTime.Now);
-            return null;
+            catch (SqlException)
+            {
+                return null;
+            }
         }
 
         public List<Skill> GetSkillsFromCourse(int id)
         {
-            if (this.courseRepository.Exist(x => x.Id == id))
+            try
             {
                 return this.courseSkillService.GetAllSkillsFromCourse(id);
             }
-
-            logger.Logger.Debug("Return null skills, course not exist - " + DateTime.Now);
-            return null;
+            catch (SqlException)
+            {
+                return null;
+            }
         }
 
         public bool UpdateCourse(Course course)
         {
-            if (this.courseRepository.Exist(x => x.Id == course.Id))
+            try
             {
                 this.courseRepository.Update(course);
-                this.courseRepository.Save();
                 return true;
             }
-
-            logger.Logger.Debug("Course not updated, course not exist - " + DateTime.Now);
-            return false;
+            catch (SqlException)
+            {
+                return false;
+            }
         }
 
         public bool ExistCourse(int courseId)
@@ -131,7 +136,6 @@ namespace EducationPortal.BLL.ServicesSql
                 return this.courseRepository.Except(courses, this.courseComparerService.CourseComparer).ToList();
             }
 
-            logger.Logger.Debug("Not available courses, course list is null - " + DateTime.Now);
             return null;
         }
     }

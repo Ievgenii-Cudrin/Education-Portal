@@ -9,28 +9,25 @@
     using EducationPortal.BLL.Interfaces;
     using EducationPortal.DAL.Repositories;
     using EducationPortal.Domain.Entities;
+    using NLog;
 
     public class UserSkillService : IUserSkillSqlService
     {
         private readonly IRepository<UserSkill> userSkillRepository;
-        private static IBLLLogger logger;
 
-        public UserSkillService(IRepository<UserSkill> userSkillRepository,
-            IBLLLogger log)
+        public UserSkillService(IRepository<UserSkill> userSkillRepository)
         {
             this.userSkillRepository = userSkillRepository;
-            logger = log;
         }
 
         public void AddSkillToUser(int userId, int skillId)
         {
-            UserSkill userSkill = this.userSkillRepository.Get(x => x.UserId == userId && x.SkillId == skillId).FirstOrDefault();
+            var userSkill = this.userSkillRepository.GetOne(x => x.UserId == userId && x.SkillId == skillId);
 
             if (userSkill != null)
             {
                 userSkill.CountOfPoint++;
                 this.userSkillRepository.Update(userSkill);
-                logger.Logger.Debug($"Add point to exist skill in user - { DateTime.Now }");
             }
             else
             {
@@ -41,10 +38,7 @@
                 };
 
                 this.userSkillRepository.Add(userSkill);
-                logger.Logger.Debug("Add new skill - " + DateTime.Now);
             }
-
-            this.userSkillRepository.Save();
         }
 
         public List<Skill> GetAllSkillInUser(int userId)

@@ -11,36 +11,33 @@
     using EducationPortal.DAL.Repositories;
     using EducationPortal.Domain.Entities;
     using Entities;
+    using NLog;
 
     public class UserCourseMaterialService : IUserCourseMaterialSqlService
     {
         private IRepository<UserCourseMaterial> userCourseMaterialRepository;
         private ICourseMaterialService courseMaterialService;
-        private static IBLLLogger logger;
 
         public UserCourseMaterialService(
             IRepository<UserCourseMaterial> userCourseMaterialRepository,
-            ICourseMaterialService courseMaterialService,
-            IBLLLogger log)
+            ICourseMaterialService courseMaterialService)
         {
             this.userCourseMaterialRepository = userCourseMaterialRepository;
             this.courseMaterialService = courseMaterialService;
-            logger = log;
         }
 
         public bool AddMaterialsToUserCourse(int userCourseId, int courseId)
         {
-            List<Material> materialsFromCourse = this.courseMaterialService.GetAllMaterialsFromCourse(courseId);
+            var materialsFromCourse = this.courseMaterialService.GetAllMaterialsFromCourse(courseId);
 
             if (materialsFromCourse == null)
             {
-                logger.Logger.Debug("Course not exist - " + DateTime.Now);
                 return false;
             }
 
             foreach (var material in materialsFromCourse)
             {
-                UserCourseMaterial userCourseMaterial = new UserCourseMaterial()
+                var userCourseMaterial = new UserCourseMaterial()
                 {
                     UserCourseId = userCourseId,
                     MaterialId = material.Id,
@@ -48,7 +45,6 @@
                 };
 
                 this.userCourseMaterialRepository.Add(userCourseMaterial);
-                this.userCourseMaterialRepository.Save();
             }
 
             return true;
@@ -56,18 +52,16 @@
 
         public bool SetPassToMaterial(int userCourseId, int materialId)
         {
-            UserCourseMaterial userCourseMaterialToUpdate = this.userCourseMaterialRepository.Get(
-                x => x.UserCourseId == userCourseId && x.MaterialId == materialId).FirstOrDefault();
+            var userCourseMaterialToUpdate = this.userCourseMaterialRepository.GetOne(
+                x => x.UserCourseId == userCourseId && x.MaterialId == materialId);
 
             if (userCourseMaterialToUpdate != null)
             {
                 userCourseMaterialToUpdate.IsPassed = true;
                 this.userCourseMaterialRepository.Update(userCourseMaterialToUpdate);
-                this.userCourseMaterialRepository.Save();
                 return true;
             }
 
-            logger.Logger.Debug("UserCourseMaterial not found - " + DateTime.Now);
             return false;
         }
 
@@ -75,7 +69,6 @@
         {
             if (!this.userCourseMaterialRepository.Exist(x => x.UserCourseId == userCourseId))
             {
-                logger.Logger.Debug("UserCourse not found - " + DateTime.Now);
                 return null;
             }
 

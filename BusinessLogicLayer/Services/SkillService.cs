@@ -6,16 +6,16 @@
     using DataAccessLayer.Entities;
     using DataAccessLayer.Interfaces;
     using EducationPortal.BLL.Interfaces;
+    using Microsoft.Data.SqlClient;
+    using Microsoft.Extensions.Logging;
 
     public class SkillService : ISkillService
     {
         private readonly IRepository<Skill> skillRepository;
-        private static IBLLLogger logger;
 
-        public SkillService(IRepository<Skill> repository, IBLLLogger log)
+        public SkillService(IRepository<Skill> repository)
         {
             this.skillRepository = repository;
-            logger = log;
         }
 
         public void CreateSkill(Skill skill)
@@ -23,8 +23,6 @@
             if (!this.skillRepository.Exist(x => x.Name == skill.Name))
             {
                 this.skillRepository.Add(skill);
-                this.skillRepository.Save();
-                logger.Logger.Debug("Create new skill - " + DateTime.Now);
             }
         }
 
@@ -33,21 +31,17 @@
             if (skillRepository.Exist(x => x.Id == id))
             {
                 this.skillRepository.Delete(id);
-                this.skillRepository.Save();
             }
-
-            logger.Logger.Debug("Skill not deleted - " + DateTime.Now);
         }
 
         public Skill GetSkill(int id)
         {
-            if (this.skillRepository.Exist(x => x.Id == id))
+            try
             {
                 return this.skillRepository.Get(id);
             }
-            else
+            catch (SqlException)
             {
-                logger.Logger.Debug("Skill not exist - " + DateTime.Now);
                 return null;
             }
         }
@@ -58,8 +52,6 @@
             {
                 this.skillRepository.Update(skill);
             }
-
-            logger.Logger.Debug("Skill is null - " + DateTime.Now);
         }
 
         public bool ExistSkill(int skillId)
