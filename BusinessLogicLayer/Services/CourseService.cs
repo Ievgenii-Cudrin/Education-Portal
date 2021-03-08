@@ -8,6 +8,7 @@ using DataAccessLayer.Interfaces;
 using EducationPortal.BLL.Interfaces;
 using Entities;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Logging;
 using NLog;
 
 namespace EducationPortal.BLL.ServicesSql
@@ -18,21 +19,21 @@ namespace EducationPortal.BLL.ServicesSql
         private IRepository<Course> courseRepository;
         private ICourseMaterialService courseMaterialService;
         private ICourseSkillService courseSkillService;
-        private IMaterialService materialService;
-        private ISkillService skillService;
+        private readonly ILogger<CourseService> logger;
+        private IAuthorizedUser authorizedUser;
 
         public CourseService(
             IRepository<Course> courseRepo,
             ICourseMaterialService courseMaterialServ,
             ICourseSkillService courseSkillServ,
-            IMaterialService materialService,
-            ISkillService skillService)
+            ILogger<CourseService> logger,
+            IAuthorizedUser authorizedUser)
         {
             this.courseRepository = courseRepo;
             this.courseMaterialService = courseMaterialServ;
             this.courseSkillService = courseSkillServ;
-            this.materialService = materialService;
-            this.skillService = skillService;
+            this.logger = logger;
+            this.authorizedUser = authorizedUser;
         }
 
         public async Task<bool> AddMaterialToCourse(int courseId, Material material)
@@ -41,35 +42,39 @@ namespace EducationPortal.BLL.ServicesSql
             {
                 return await this.courseMaterialService.AddMaterialToCourse(courseId, material.Id);
             }
-            catch (SqlException)
+            catch (SqlException ex)
             {
+                this.logger.LogWarning($"Failed to connect to db  due {ex.Message}");
                 return false;
             }
         }
 
         public async Task<bool> AddSkillToCourse(int courseId, Skill skillToAdd)
         {
-            try
-            {
-                return await this.courseSkillService.AddSkillToCourse(courseId, skillToAdd.Id);
-            }
-            catch (SqlException)
-            {
-                return false;
-            }
+            return await this.courseSkillService.AddSkillToCourse(courseId, skillToAdd.Id);
         }
 
         public async Task<bool> CreateCourse(Course course)
         {
-            bool courseExist = await this.courseRepository.Exist(x => x.Name == course.Name);
-
-            if (course != null && !courseExist)
+            try
             {
-                await this.courseRepository.Add(course);
-                return true;
-            }
+                bool courseExist = await this.courseRepository.Exist(x => x.Name == course.Name);
 
-            return false;
+                if (course != null && !courseExist)
+                {
+                    await this.courseRepository.Add(course);
+                    this.logger.LogDebug($"Create course ({course.Id}) by user ({this.authorizedUser.User.Id})");
+                    return true;
+                }
+
+                this.logger.LogInformation($"Course ({course.Id}) not created. Course exist!");
+                return false;
+            }
+            catch (SqlException ex)
+            {
+                this.logger.LogWarning($"Failed to connect to db  due {ex.Message}");
+                return false;
+            }
         }
 
         public async Task<bool> Delete(int id)
@@ -79,8 +84,9 @@ namespace EducationPortal.BLL.ServicesSql
                 await this.courseRepository.Delete(id);
                 return true;
             }
-            catch (SqlException)
+            catch (Exception ex)
             {
+                this.logger.LogWarning($"Failed to connect to db  due {ex.Message}");
                 return false;
             }
         }
@@ -114,10 +120,12 @@ namespace EducationPortal.BLL.ServicesSql
             try
             {
                 await this.courseRepository.Update(course);
+                this.logger.LogDebug($"Course ({course.Id}) successfully updated by user ({this.authorizedUser.User.Id})");
                 return true;
             }
-            catch (SqlException)
+            catch (Exception ex)
             {
+                this.logger.LogWarning($"Course ({course.Id}) not updated ({ex.Message})");
                 return false;
             }
         }

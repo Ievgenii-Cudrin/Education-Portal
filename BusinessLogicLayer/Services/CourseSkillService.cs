@@ -7,6 +7,7 @@ using DataAccessLayer.Interfaces;
 using EducationPortal.BLL.Interfaces;
 using EducationPortal.Domain.Entities;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Logging;
 using NLog;
 
 namespace EducationPortal.BLL.ServicesSql
@@ -14,17 +15,14 @@ namespace EducationPortal.BLL.ServicesSql
     public class CourseSkillService : ICourseSkillService
     {
         private readonly IRepository<CourseSkill> courseSkillRepository;
-        private readonly IRepository<Course> courseRepository;
-        private readonly IRepository<Skill> skillRepository;
+        private readonly ILogger<CourseSkillService> logger;
 
         public CourseSkillService(
             IRepository<CourseSkill> courseSkillRepo,
-            IRepository<Skill> skillRepo,
-            IRepository<Course> courseRepo)
+            ILogger<CourseSkillService> logger)
         {
             this.courseSkillRepository = courseSkillRepo;
-            this.courseRepository = courseRepo;
-            this.skillRepository = skillRepo;
+            this.logger = logger;
         }
 
         public async Task<bool> AddSkillToCourse(int courseId, int skillId)
@@ -46,11 +44,13 @@ namespace EducationPortal.BLL.ServicesSql
                 }
                 else
                 {
+                    this.logger.LogInformation($"Skill ({skillId}) not added to course ({courseId}). CourseSkill not exist!");
                     return false;
                 }
             }
-            catch (SqlException)
+            catch (Exception ex)
             {
+                this.logger.LogWarning($"Failed add skill to course - {ex.Message}");
                 return false;
             }
         }

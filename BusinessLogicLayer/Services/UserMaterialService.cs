@@ -10,16 +10,20 @@
     using EducationPortal.DAL.Repositories;
     using EducationPortal.Domain.Entities;
     using Entities;
+    using Microsoft.Extensions.Logging;
     using NLog;
 
     public class UserMaterialService : IUserMaterialSqlService
     {
         private readonly IRepository<UserMaterial> userMaterialRepository;
+        private ILogger<UserMaterialService> logger;
 
         public UserMaterialService(
-            IRepository<UserMaterial> userMaterialRepository)
+            IRepository<UserMaterial> userMaterialRepository,
+            ILogger<UserMaterialService> logger)
         {
             this.userMaterialRepository = userMaterialRepository;
+            this.logger = logger;
         }
 
         public async Task<bool> AddMaterialToUser(int userId, int materialId)
@@ -35,7 +39,14 @@
                 MaterialId = materialId,
             };
 
-            await this.userMaterialRepository.Add(userMaterial);
+            try
+            {
+                await this.userMaterialRepository.Add(userMaterial);
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogWarning($"Failed add material {materialId} to user {userId} - {ex.Message}");
+            }
             return true;
         }
 

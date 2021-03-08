@@ -13,7 +13,9 @@ namespace EducationPortal.BLL.Services
         private IWorkWithAuthorizedUser workWithAuthorizedUser;
         private ILogger<LogInService> logger;
 
-        public LogInService(IRepository<User> uRepo, IWorkWithAuthorizedUser workWithAuthUser, ILogger<LogInService> logger)
+        public LogInService(IRepository<User> uRepo,
+            IWorkWithAuthorizedUser workWithAuthUser,
+            ILogger<LogInService> logger)
         {
             this.userRepository = uRepo;
             this.workWithAuthorizedUser = workWithAuthUser;
@@ -25,12 +27,12 @@ namespace EducationPortal.BLL.Services
              var user = await this.userRepository.GetOne(x => x.Name.ToLower() == name.ToLower() && x.Password == password);
 
              if (user == null)
-             {
-                 return false;
+            {
+                this.logger.LogInformation($"User - ({name}) not found!");
+                return false;
              }
              else
              {
-                 this.logger.LogDebug("INfo");
                  this.workWithAuthorizedUser.SetUser(user);
                  return true;
              }

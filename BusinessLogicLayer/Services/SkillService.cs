@@ -15,27 +15,46 @@
     public class SkillService : ISkillService
     {
         private readonly IRepository<Skill> skillRepository;
+        private ILogger<SkillService> logger;
 
-        public SkillService(IRepository<Skill> repository)
+        public SkillService(
+            IRepository<Skill> repository,
+            ILogger<SkillService> logger)
         {
             this.skillRepository = repository;
+            this.logger = logger;
         }
 
         public async Task CreateSkill(Skill skill)
         {
-            bool skillExist = await this.skillRepository.Exist(x => x.Name == skill.Name);
-
-            if (!skillExist)
+            try
             {
-                await this.skillRepository.Add(skill);
+                bool skillExist = await this.skillRepository.Exist(x => x.Name == skill.Name);
+
+                if (!skillExist)
+                {
+                    await this.skillRepository.Add(skill);
+                }
+                else
+                {
+                    this.logger.LogDebug($"Skill ({skill.Name}) not created. Skill exist");
+                }
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogWarning($"Failed create skill - {ex.Message}");
             }
         }
 
         public async Task Delete(int id)
         {
-            if (await this.skillRepository.Exist(x => x.Id == id))
+            try
             {
                 await this.skillRepository.Delete(id);
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogDebug($"Skill {id} not deleted - {ex.Message}");
             }
         }
 
@@ -45,8 +64,9 @@
             {
                 return await this.skillRepository.Get(id);
             }
-            catch (SqlException)
+            catch (Exception ex)
             {
+                this.logger.LogDebug($"Skill {id} not foound - {ex.Message}");
                 return null;
             }
         }
@@ -57,17 +77,25 @@
             {
                 return await this.skillRepository.GetOne(predicat);
             }
-            catch (SqlException)
+            catch (Exception ex)
             {
+                this.logger.LogDebug($"Skill by predicat - {predicat.Body} not foound - {ex.Message}");
                 return null;
             }
         }
 
         public async Task UpdateSkill(Skill skill)
         {
-            if (skill != null)
+            try
             {
-                await this.skillRepository.Update(skill);
+                if (skill != null)
+                {
+                    await this.skillRepository.Update(skill);
+                }
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogDebug($"Skill by predicat - {skill.Name} not updated - {ex.Message}");
             }
         }
 

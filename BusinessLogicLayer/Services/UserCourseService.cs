@@ -10,6 +10,7 @@
     using EducationPortal.BLL.Interfaces;
     using EducationPortal.DAL.Repositories;
     using EducationPortal.Domain.Entities;
+    using Microsoft.Extensions.Logging;
     using NLog;
 
     public class UserCourseService : IUserCourseSqlService
@@ -17,15 +18,18 @@
         private IRepository<UserCourse> userCourseRepository;
         private IUserCourseMaterialSqlService userCourseMaterialSqlService;
         private IAuthorizedUser authorizedUser;
+        private ILogger<UserCourseService> logger;
 
         public UserCourseService(
             IRepository<UserCourse> userCourseRepository,
             IUserCourseMaterialSqlService userCourseMaterialSqlService,
-            IAuthorizedUser authorizedUser)
+            IAuthorizedUser authorizedUser,
+            ILogger<UserCourseService> logger)
         {
             this.userCourseRepository = userCourseRepository;
             this.userCourseMaterialSqlService = userCourseMaterialSqlService;
             this.authorizedUser = authorizedUser;
+            this.logger = logger;
         }
 
         public async Task AddCourseToUser(int userId, int courseId)
@@ -46,8 +50,15 @@
                 IsPassed = false,
             };
 
-            await this.userCourseRepository.Add(newUserCourse);
-            await this.userCourseMaterialSqlService.AddMaterialsToUserCourse(newUserCourse.Id, courseId);
+            try
+            {
+                await this.userCourseRepository.Add(newUserCourse);
+                await this.userCourseMaterialSqlService.AddMaterialsToUserCourse(newUserCourse.Id, courseId);
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogWarning($"Failed add course {courseId} to user {userId} exception - {ex.Message}");
+            }
         }
 
         public async Task<IList<Course>> GetAllCourseInProgress(int userId)
@@ -85,7 +96,15 @@
             }
 
             userCourse.IsPassed = true;
-            await this.userCourseRepository.Update(userCourse);
+
+            try
+            {
+                await this.userCourseRepository.Update(userCourse);
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogWarning($"Failed update userCourse {courseId} to user {userId} exception - {ex.Message}");
+            }
 
             return true;
         }

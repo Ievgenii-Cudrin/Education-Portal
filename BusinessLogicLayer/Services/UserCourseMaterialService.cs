@@ -12,19 +12,23 @@
     using EducationPortal.DAL.Repositories;
     using EducationPortal.Domain.Entities;
     using Entities;
+    using Microsoft.Extensions.Logging;
     using NLog;
 
     public class UserCourseMaterialService : IUserCourseMaterialSqlService
     {
         private IRepository<UserCourseMaterial> userCourseMaterialRepository;
         private ICourseMaterialService courseMaterialService;
+        private ILogger<UserCourseMaterialService> logger;
 
         public UserCourseMaterialService(
             IRepository<UserCourseMaterial> userCourseMaterialRepository,
-            ICourseMaterialService courseMaterialService)
+            ICourseMaterialService courseMaterialService,
+            ILogger<UserCourseMaterialService> logger)
         {
             this.userCourseMaterialRepository = userCourseMaterialRepository;
             this.courseMaterialService = courseMaterialService;
+            this.logger = logger;
         }
 
         public async Task<bool> AddMaterialsToUserCourse(int userCourseId, int courseId)
@@ -45,7 +49,14 @@
                     IsPassed = false,
                 };
 
-                await this.userCourseMaterialRepository.Add(userCourseMaterial);
+                try
+                {
+                    await this.userCourseMaterialRepository.Add(userCourseMaterial);
+                }
+                catch (Exception ex)
+                {
+                    this.logger.LogWarning($"Failed add materials to course {courseId} - {ex.Message}");
+                }
             }
 
             return true;
@@ -59,7 +70,7 @@
             if (userCourseMaterialToUpdate != null)
             {
                 userCourseMaterialToUpdate.IsPassed = true;
-                this.userCourseMaterialRepository.Update(userCourseMaterialToUpdate);
+                await this.userCourseMaterialRepository.Update(userCourseMaterialToUpdate);
                 return true;
             }
 

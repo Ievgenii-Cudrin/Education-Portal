@@ -7,6 +7,7 @@ using DataAccessLayer.Interfaces;
 using EducationPortal.BLL.Interfaces;
 using Entities;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Logging;
 using NLog;
 
 namespace EducationPortal.BLL.ServicesSql
@@ -14,20 +15,14 @@ namespace EducationPortal.BLL.ServicesSql
     public class MaterialService : IMaterialService
     {
         private IRepository<Material> materialRepository;
-        private IUserMaterialSqlService userMaterialService;
-        private ICourseMaterialService courseMaterialService;
-        private IAuthorizedUser authorizedUser;
+        private ILogger<MaterialService> logger;
 
         public MaterialService(
             IRepository<Material> repository,
-            IUserMaterialSqlService userMaterialService,
-            IAuthorizedUser authorizedUser,
-            ICourseMaterialService courseMaterialService)
+            ILogger<MaterialService> logger)
         {
             this.materialRepository = repository;
-            this.userMaterialService = userMaterialService;
-            this.authorizedUser = authorizedUser;
-            this.courseMaterialService = courseMaterialService;
+            this.logger = logger;
         }
 
         public async Task<bool> CreateMaterial(Material material)
@@ -42,10 +37,12 @@ namespace EducationPortal.BLL.ServicesSql
                     return true;
                 }
 
+                this.logger.LogDebug($"Material ({material.Id}) not created. Material exist");
                 return false;
             }
-            catch (SqlException)
+            catch (Exception ex)
             {
+                this.logger.LogWarning($"Failed create material - {ex.Message}");
                 return false;
             }
         }
@@ -57,8 +54,9 @@ namespace EducationPortal.BLL.ServicesSql
                 await this.materialRepository.Delete(materialId);
                 return true;
             }
-            catch (SqlException)
+            catch (Exception ex)
             {
+                this.logger.LogWarning($"Failed delete material - {ex.Message}");
                 return false;
             }
         }
@@ -79,8 +77,9 @@ namespace EducationPortal.BLL.ServicesSql
             {
                 return await this.materialRepository.GetOne(x => x.Id == materialId);
             }
-            catch (SqlException)
+            catch (Exception ex)
             {
+                this.logger.LogWarning($"Failed get material - {ex.Message}");
                 return null;
             }
         }
