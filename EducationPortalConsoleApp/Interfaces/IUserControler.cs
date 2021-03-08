@@ -1,19 +1,24 @@
-﻿namespace EducationPortalConsoleApp.Interfaces
+﻿using EducationPortal.PL.Interfaces;
+using System.Threading.Tasks;
+
+namespace EducationPortalConsoleApp.Interfaces
 {
     public interface IUserController
     {
-        void CreateNewUser();
+        Task CreateNewUser();
 
-        void VerifyLoginAndPassword();
+        Task VerifyLoginAndPassword();
 
         void LogOut();
 
-        void ShowAllPassedCourses();
+        Task ShowAllPassedCourses();
 
-        void ShowAllUserSkills();
+        Task ShowAllUserSkills();
 
-        void ShowAllCourseInProggres();
+        Task ShowAllCourseInProggres();
 
         void ShowUserInfo();
+
+        void WithApplication(IApplication application);
     }
 }

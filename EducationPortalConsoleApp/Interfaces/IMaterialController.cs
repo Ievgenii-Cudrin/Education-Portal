@@ -1,20 +1,21 @@
 ﻿namespace EducationPortalConsoleApp.Interfaces
 {
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using EducationPortal.PL.Models;
     using Entities;
 
     public interface IMaterialController
     {
-        Material CreateVideo();
+        Task<Material> CreateVideo();
 
-        Material CreateArticle();
+        Task<Material> CreateArticle();
 
-        Material CreateBook();
+        Task<Material> CreateBook();
 
         void DeleteMaterial(int id);
 
-        Material GetMaterialFromAllMaterials(int courseId);
+        Task<Material> GetMaterialFromAllMaterials(int courseId);
 
         List<MaterialViewModel> GetAllMaterialVMAfterMappingFromMaterialDomain(List<Material> materialsListDomain);
     }
