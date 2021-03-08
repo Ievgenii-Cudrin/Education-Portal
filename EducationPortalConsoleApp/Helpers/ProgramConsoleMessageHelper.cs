@@ -3,8 +3,8 @@ namespace EducationPortalConsoleApp.Helpers
 {
     using System;
     using System.Collections.Generic;
+    using EducationPortal.PL.Interfaces;
     using EducationPortal.PL.Models;
-    using EducationPortalConsoleApp.Branch;
 
     public static class ProgramConsoleMessageHelper
     {
@@ -44,17 +44,17 @@ namespace EducationPortalConsoleApp.Helpers
             );
         }
 
-        internal static void ShowCourseAndReturnMethod(List<CourseViewModel> courses)
+        internal static void ShowCourseAndReturnMethod(IApplication application, List<CourseViewModel> courses)
         {
             if (courses.Count != 0)
             {
                 UserConsoleMessageHelper.ShowInfoAboutCourses(courses);
             }
 
-            ReturnMethod();
+            ReturnMethod(application);
         }
 
-        internal static void ReturnMethod()
+        internal static void ReturnMethod(IApplication application)
         {
             string userValue = string.Empty;
 
@@ -65,7 +65,7 @@ namespace EducationPortalConsoleApp.Helpers
 
                 if (userValue == "..")
                 {
-                    ProgramBranch.SelectFirstStepForAuthorizedUser();
+                    application.SelectFirstStepForAuthorizedUser();
                 }
                 else
                 {
