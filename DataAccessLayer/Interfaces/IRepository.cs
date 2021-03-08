@@ -3,47 +3,48 @@
     using System;
     using System.Collections.Generic;
     using System.Linq.Expressions;
+    using System.Threading.Tasks;
     using EducationPortal.Domain.Entities;
 
     public interface IRepository<T>
     {
-        IList<T> GetAll();
+        Task<IList<T>> GetAll();
 
-        T Get(int id);
+        Task<T> Get(int id);
 
-        void Add(T item);
+        Task Add(T item);
 
-        void Update(T item);
+        Task Update(T item);
 
-        void Delete(int id);
+        Task Delete(int id);
 
-        IList<T> GetAll(params Expression<Func<T, object>>[] includes);
+        Task<IList<T>> GetAll(params Expression<Func<T, object>>[] includes);
 
-        void Save();
+        Task Save();
 
-        bool Exist(Expression<Func<T, bool>> predicat);
+        Task<bool> Exist(Expression<Func<T, bool>> predicat);
 
-        IList<T> GetPage(
+        Task<IList<T>> GetPage(
             Expression<Func<T, bool>> predicat,
             int skip,
             int take);
 
-        IList<T> GetPageWithInclude(Expression<Func<T, object>> predicat, int skip, int take);
+        Task<IList<T>> GetPageWithInclude(Expression<Func<T, object>> predicat, int skip, int take);
 
-        IList<T> GetPage(int skip, int take);
+        Task<IList<T>> GetPage(int skip, int take);
 
-        IList<TResult> Get<TResult>(
+        Task<IList<TResult>> Get<TResult>(
             Expression<Func<T, TResult>> selector,
             Expression<Func<T, bool>> predicat);
 
-        IList<TResult> Get<TResult>(Expression<Func<T, TResult>> selector);
+        Task<IList<TResult>> Get<TResult>(Expression<Func<T, TResult>> selector);
 
-        IList<T> Get(Expression<Func<T, bool>> predicat);
+        Task<IList<T>> Get(Expression<Func<T, bool>> predicat);
 
-        T GetLastEntity<TOrderBy>(Expression<Func<T, TOrderBy>> orderBy);
+        Task<T> GetLastEntity<TOrderBy>(Expression<Func<T, TOrderBy>> orderBy);
 
-        T GetOne(Expression<Func<T, bool>> predicat);
+        Task<T> GetOne(Expression<Func<T, bool>> predicat);
 
-        int Count();
+        Task<int> Count();
     }
 }
