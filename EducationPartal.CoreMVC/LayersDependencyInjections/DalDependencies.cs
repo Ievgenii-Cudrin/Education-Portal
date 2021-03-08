@@ -14,14 +14,14 @@ namespace EducationPortal.CoreMVC.LayersDependencyInjections
     {
         public static void InstallDal(this IServiceCollection services)
         {
-            services.AddTransient<IRepository<UserCourse>, UserCourseXmlRepository>();
-            services.AddTransient<IRepository<CourseMaterial>, CourseMaterialXmlRepository>();
-            services.AddTransient<IRepository<CourseSkill>, CourseSkillXmlRepository>();
-            services.AddTransient<IRepository<UserMaterial>, UserMaterialXmlRepository>();
-            services.AddTransient<IRepository<UserSkill>, UserSkillXmlRepository>();
-            services.AddTransient<IRepository<UserCourseMaterial>, UserCourseMaterialXmlRepository>();
-            services.AddTransient(typeof(IRepository<>), typeof(RepositoryXml<>));
-            //services.AddTransient(typeof(IRepository<>), typeof(RepositorySql<>));
+            //services.AddTransient<IRepository<UserCourse>, UserCourseXmlRepository>();
+            //services.AddTransient<IRepository<CourseMaterial>, CourseMaterialXmlRepository>();
+            //services.AddTransient<IRepository<CourseSkill>, CourseSkillXmlRepository>();
+            //services.AddTransient<IRepository<UserMaterial>, UserMaterialXmlRepository>();
+            //services.AddTransient<IRepository<UserSkill>, UserSkillXmlRepository>();
+            //services.AddTransient<IRepository<UserCourseMaterial>, UserCourseMaterialXmlRepository>();
+            //services.AddTransient(typeof(IRepository<>), typeof(RepositoryXml<>));
+            services.AddTransient(typeof(IRepository<>), typeof(RepositorySql<>));
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Threading.Tasks;
 using XmlDataBase.Interfaces;
 using XmlDataBase.Serialization;
 
@@ -21,7 +22,7 @@ namespace EducationPortal.DAL.XML.Repositories
             this.context = context;
         }
 
-        public override IList<TResult> Get<TResult>(Expression<Func<UserSkill, TResult>> selector, Expression<Func<UserSkill, bool>> predicat)
+        public override async Task<IList<TResult>> Get<TResult>(Expression<Func<UserSkill, TResult>> selector, Expression<Func<UserSkill, bool>> predicat)
         {
             var userMaterials = this.context.XmlSet.GetAll().AsQueryable()
                 .Where(predicat).ToList();

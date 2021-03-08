@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Threading.Tasks;
 using XmlDataBase.Interfaces;
 using XmlDataBase.Serialization;
 
@@ -21,34 +22,7 @@ namespace EducationPortal.DAL.XML.Repositories
             this.context = context;
         }
 
-        //public void Add(UserCourse item)
-        //{
-        //    this.context.XmlSet.Add(item);
-        //}
-
-        //public void Delete(int id)
-        //{
-        //    this.context.XmlSet.Delete(id);
-        //}
-
-        //public IList<UserCourse> Except(IList<UserCourse> list, IEqualityComparer<UserCourse> comparer)
-        //{
-        //    return this.context.XmlSet.GetAll().Except(list, comparer).ToList();
-        //}
-
-        //public bool Exist(Expression<Func<UserCourse, bool>> predicat)
-        //{
-        //    return this.context.XmlSet.GetAll()
-        //        .AsQueryable()
-        //        .Any(predicat);
-        //}
-
-        //public UserCourse Get(int id)
-        //{
-        //    return this.context.XmlSet.Get(id);
-        //}
-
-        public override IList<TResult> Get<TResult>(Expression<Func<UserCourse, TResult>> selector, Expression<Func<UserCourse, bool>> predicat)
+        public override async Task<IList<TResult>> Get<TResult>(Expression<Func<UserCourse, TResult>> selector, Expression<Func<UserCourse, bool>> predicat)
         {
             var userMaterials = this.context.XmlSet.GetAll().AsQueryable()
                 .Where(predicat).ToList();
