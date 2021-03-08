@@ -31,17 +31,17 @@ namespace EducationPartal.CoreMVC.Controllers
         }
 
         [HttpGet]
-        public IActionResult Login()
+        public async Task<IActionResult >Login()
         {
             return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Login(LoginViewModel model)
+        public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (ModelState.IsValid)
             {
-                if (this.logInService.LogIn(model.Email, model.Password))
+                if (await this.logInService.LogIn(model.Email, model.Password))
                 {
                     var claims = new List<Claim>
                     {
@@ -61,19 +61,19 @@ namespace EducationPartal.CoreMVC.Controllers
             return View(model);
         }
         [HttpGet]
-        public IActionResult Register()
+        public async Task<IActionResult> Register()
         {
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Register(RegisterViewModel model)
+        public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
                 User user = this.autoMapperService.CreateMapFromVMToDomain<RegisterViewModel, User>(model);
-                bool success = this.userService.CreateUser(user);
+                bool success = await this.userService.CreateUser(user);
 
                 if (success)
                 {
