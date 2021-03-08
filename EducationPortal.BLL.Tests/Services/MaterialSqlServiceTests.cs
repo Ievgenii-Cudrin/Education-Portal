@@ -3,6 +3,7 @@ using DataAccessLayer.Interfaces;
 using EducationPortal.BLL.Interfaces;
 using EducationPortal.BLL.ServicesSql;
 using Entities;
+using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using NLog;
@@ -21,7 +22,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         private Mock<IUserMaterialSqlService> userMaterialService;
         private Mock<ICourseMaterialService> courseMaterialService;
         private Mock<IAuthorizedUser> authorizedUser;
-        private Mock<ILogger> logger;
+        private Mock<ILogger<MaterialService>> logger;
 
         [TestInitialize]
         public void SetUp()
@@ -30,7 +31,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             this.userMaterialService = new Mock<IUserMaterialSqlService>();
             this.courseMaterialService = new Mock<ICourseMaterialService>();
             this.authorizedUser = new Mock<IAuthorizedUser>();
-            this.logger = new Mock<ILogger>();
+            this.logger = new Mock<ILogger<MaterialService>>();
         }
 
         #region CreateMaterial
@@ -42,9 +43,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
 
             MaterialService materialSqlService = new MaterialService(
                 materialRepository.Object,
-                userMaterialService.Object, 
-                authorizedUser.Object, 
-                courseMaterialService.Object);
+                logger.Object);
 
             Material material = null;
 
@@ -58,9 +57,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
 
             MaterialService materialSqlService = new MaterialService(
                 materialRepository.Object,
-                userMaterialService.Object,
-                authorizedUser.Object,
-                courseMaterialService.Object);
+                logger.Object);
 
             Material material = new Material();
 
@@ -76,9 +73,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
 
             MaterialService materialSqlService = new MaterialService(
                 materialRepository.Object,
-                userMaterialService.Object,
-                authorizedUser.Object,
-                courseMaterialService.Object);
+                logger.Object);
 
             Material material = new Material();
             materialSqlService.CreateMaterial(material);
@@ -98,9 +93,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
 
             MaterialService materialSqlService = new MaterialService(
                 materialRepository.Object,
-                userMaterialService.Object,
-                authorizedUser.Object,
-                courseMaterialService.Object);
+                logger.Object);
 
             Assert.IsFalse(await materialSqlService.Delete(0));
         }
@@ -114,9 +107,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
 
             MaterialService materialSqlService = new MaterialService(
                 materialRepository.Object,
-                userMaterialService.Object,
-                authorizedUser.Object,
-                courseMaterialService.Object);
+                logger.Object);
 
             materialSqlService.Delete(0);
 
@@ -137,9 +128,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
 
             MaterialService materialSqlService = new MaterialService(
                 materialRepository.Object,
-                userMaterialService.Object,
-                authorizedUser.Object,
-                courseMaterialService.Object);
+                logger.Object);
 
             Assert.IsNull(materialSqlService.GetMaterial(0));
         }
@@ -152,9 +141,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
 
             MaterialService materialSqlService = new MaterialService(
                 materialRepository.Object,
-                userMaterialService.Object,
-                authorizedUser.Object,
-                courseMaterialService.Object);
+                logger.Object);
 
             materialSqlService.GetMaterial(0);
 
@@ -172,9 +159,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
 
             MaterialService materialSqlService = new MaterialService(
                 materialRepository.Object,
-                userMaterialService.Object,
-                authorizedUser.Object,
-                courseMaterialService.Object);
+                logger.Object);
 
             materialSqlService.ExistMaterial(0);
 

@@ -34,17 +34,18 @@
 
         public async Task AddCourseToUser(int userId, int courseId)
         {
-            int id = 0;
+            int lastEntityId = 1;
 
-            if (await this.userCourseRepository.Exist(x => x.Id == 0))
+            var userCourseLast = await this.userCourseRepository.GetLastEntity(x => x.Id);
+
+            if (userCourseLast != null)
             {
-                var userCourseLast = await this.userCourseRepository.GetLastEntity(x => x.Id);
-                id = userCourseLast.Id;
+                lastEntityId = userCourseLast.Id;
             }
 
             var newUserCourse = new UserCourse()
             {
-                Id = ++id,
+                Id = ++lastEntityId,
                 CourseId = courseId,
                 UserId = userId,
                 IsPassed = false,
@@ -61,7 +62,7 @@
             }
         }
 
-        public async Task<IList<Course>> GetAllCourseInProgress(int userId)
+        public async Task<List<Course>> GetAllCourseInProgress(int userId)
         {
             return await this.userCourseRepository.Get<Course>(s => s.Course, s => s.UserId == userId && s.IsPassed == false);
         }
@@ -76,7 +77,7 @@
             return await this.userCourseRepository.Exist(x => x.Id == userCourseId);
         }
 
-        public async Task<IList<Course>> GetAllPassedAndProgressCoursesForUser(int userId)
+        public async Task<List<Course>> GetAllPassedAndProgressCoursesForUser(int userId)
         {
             return await this.userCourseRepository.Get<Course>(s => s.Course, s => s.UserId == userId);
         }
@@ -109,7 +110,7 @@
             return true;
         }
 
-        public async Task<IList<Course>> GetAllPassedCourse(int userId)
+        public async Task<List<Course>> GetAllPassedCourse(int userId)
         {
             return await this.userCourseRepository.Get<Course>(x => x.Course, x => x.UserId == userId && x.IsPassed == true);
         }

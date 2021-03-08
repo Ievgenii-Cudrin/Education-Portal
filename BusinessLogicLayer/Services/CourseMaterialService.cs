@@ -54,7 +54,7 @@ namespace EducationPortal.BLL.Services
             }
         }
 
-        public async Task<IList<Material>> GetAllMaterialsFromCourse(int courseId)
+        public async Task<List<Material>> GetAllMaterialsFromCourse(int courseId)
         {
             return await this.courseMaterialRepository.Get<Material>(x => x.Material, x => x.CourseId == courseId);
         }

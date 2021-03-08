@@ -15,15 +15,15 @@
 
         Task<bool> AddSkillToCourse(int courseId, Skill skillToAdd);
 
-        Task<IList<Skill>> GetSkillsFromCourse(int courseId);
+        Task<List<Skill>> GetSkillsFromCourse(int courseId);
 
-        Task<IList<Material>> GetMaterialsFromCourse(int courseId);
+        Task<List<Material>> GetMaterialsFromCourse(int courseId);
 
         Task<bool> Delete(int courseId);
 
         Task<bool> ExistCourse(int courseId);
 
-        Task<IList<Course>> GetCoursesPerPage(int skip, int take);
+        Task<List<Course>> GetCoursesPerPage(int skip, int take);
 
         Task<int> GetCount();
     }

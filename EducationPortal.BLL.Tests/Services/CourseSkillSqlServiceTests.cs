@@ -3,6 +3,7 @@ using DataAccessLayer.Interfaces;
 using EducationPortal.BLL.Interfaces;
 using EducationPortal.BLL.ServicesSql;
 using EducationPortal.Domain.Entities;
+using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using NLog;
@@ -18,30 +19,23 @@ namespace EducationPortal.BLL.Tests.ServicesSql
     public class CourseSkillSqlServiceTests
     {
         Mock<IRepository<CourseSkill>> courseSkillRepo;
-        Mock<IRepository<Course>> courseRepo;
-        Mock<IRepository<Skill>> skillRepo;
-        Mock<ILogger> logger;
+        Mock<ILogger<CourseSkillService>> logger;
 
         [TestInitialize]
         public void SetUp()
         {
             this.courseSkillRepo = new Mock<IRepository<CourseSkill>>();
-            this.courseRepo = new Mock<IRepository<Course>>();
-            this.skillRepo = new Mock<IRepository<Skill>>();
-            this.logger = new Mock<ILogger>();
+            this.logger = new Mock<ILogger<CourseSkillService>>();
         }
 
         [TestMethod]
         public async Task AddMaterialToCourse_SkillNotExist_False()
         {
             courseSkillRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<CourseSkill, bool>>>())).ReturnsAsync(false);
-            courseRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).ReturnsAsync(true);
-            skillRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<Skill, bool>>>())).ReturnsAsync(false);
 
             CourseSkillService courseSkillService = new CourseSkillService(
                 courseSkillRepo.Object,
-                skillRepo.Object,
-                courseRepo.Object);
+                logger.Object);
             
             Assert.IsFalse(await courseSkillService.AddSkillToCourse(0, 0));
         }
@@ -50,13 +44,10 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         public async Task AddMaterialToCourse_CourseNotExist_False()
         {
             courseSkillRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<CourseSkill, bool>>>())).ReturnsAsync(false);
-            courseRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).ReturnsAsync(false);
-            skillRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<Skill, bool>>>())).ReturnsAsync(true);
 
             CourseSkillService courseSkillService = new CourseSkillService(
                 courseSkillRepo.Object,
-                skillRepo.Object,
-                courseRepo.Object);
+                logger.Object);
 
             Assert.IsFalse(await courseSkillService.AddSkillToCourse(0, 0));
         }
@@ -65,13 +56,10 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         public async Task AddMaterialToCourse_CourseSkillExist_False()
         {
             courseSkillRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<CourseSkill, bool>>>())).ReturnsAsync(true);
-            courseRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).ReturnsAsync(true);
-            skillRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<Skill, bool>>>())).ReturnsAsync(true);
 
             CourseSkillService courseSkillService = new CourseSkillService(
                 courseSkillRepo.Object,
-                skillRepo.Object,
-                courseRepo.Object);
+                logger.Object);
 
             Assert.IsFalse(await courseSkillService.AddSkillToCourse(0, 0));
         }
@@ -90,8 +78,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
 
             CourseSkillService courseSkillService = new CourseSkillService(
                 courseSkillRepo.Object,
-                skillRepo.Object,
-                courseRepo.Object);
+                logger.Object);
 
             CourseSkill courseSkill = new CourseSkill()
             {
@@ -116,8 +103,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
 
             CourseSkillService courseSkillService = new CourseSkillService(
                 courseSkillRepo.Object,
-                skillRepo.Object,
-                courseRepo.Object);
+                logger.Object);
 
             courseSkillService.GetAllSkillsFromCourse(0);
 

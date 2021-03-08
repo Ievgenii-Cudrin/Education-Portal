@@ -42,9 +42,15 @@
             }
         }
 
-        public async Task<IList<Skill>> GetAllSkillInUser(int userId)
+        public async Task<List<Skill>> GetAllSkillInUser(int userId)
         {
             return await this.userSkillRepository.Get<Skill>(x => x.Skill, x => x.UserId == userId);
+        }
+
+        public async Task<int> GetCountOfUserSkill(int userId, int skillId)
+        {
+            var userSkill = await this.userSkillRepository.GetOne(x => x.UserId == userId && x.SkillId == skillId);
+            return userSkill.CountOfPoint;
         }
     }
 }

@@ -10,6 +10,6 @@
     {
         Task<bool> AddMaterialToCourse(int courseId, int materialId);
 
-        Task<IList<Material>> GetAllMaterialsFromCourse(int courseId);
+        Task<List<Material>> GetAllMaterialsFromCourse(int courseId);
     }
 }

@@ -22,7 +22,7 @@ namespace EducationPortal.DAL.XML.Repositories
             this.context = context;
         }
 
-        public override async Task<IList<TResult>> Get<TResult>(Expression<Func<UserSkill, TResult>> selector, Expression<Func<UserSkill, bool>> predicat)
+        public override async Task<List<TResult>> Get<TResult>(Expression<Func<UserSkill, TResult>> selector, Expression<Func<UserSkill, bool>> predicat)
         {
             var userMaterials = this.context.XmlSet.GetAll().AsQueryable()
                 .Where(predicat).ToList();
@@ -48,7 +48,7 @@ namespace EducationPortal.DAL.XML.Repositories
                 }
             }
 
-            return (IList<TResult>)list;
+            return (List<TResult>)list;
         }
     }
 }

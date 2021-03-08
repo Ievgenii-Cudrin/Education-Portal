@@ -13,20 +13,23 @@ using Entities;
 using EducationPortal.BLL.Interfaces;
 using NLog;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace EducationPortal.BLL.Tests.ServicesSql
 {
     [TestClass]
     public class CourseMaterialSqlServiceTest
     {
+        Mock<IAuthorizedUser> user;
         Mock<IRepository<CourseMaterial>> courseMaterialRepo;
-        Mock<ILogger> logger;
+        Mock<ILogger<CourseMaterialService>> logger;
 
         [TestInitialize]
         public void SetUp()
         {
+            this.user = new Mock<IAuthorizedUser>();
             this.courseMaterialRepo = new Mock<IRepository<CourseMaterial>>();
-            this.logger = new Mock<ILogger>();
+            this.logger = new Mock<ILogger<CourseMaterialService>>();
         }
 
         [TestMethod]
@@ -37,7 +40,9 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             courseMaterialRepo.Setup(db => db.Save());
 
             CourseMaterialService courseMatService = new CourseMaterialService(
-                courseMaterialRepo.Object);
+                courseMaterialRepo.Object,
+                logger.Object,
+                user.Object);
 
             CourseMaterial courseMaterial = new CourseMaterial()
             {
@@ -49,20 +54,5 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             courseMaterialRepo.Verify(x => x.Save(), Times.Once);
             Assert.IsTrue(await courseMatService.AddMaterialToCourse(2, 3));
         }
-
-        [TestMethod]
-        public void GetAllMaterialsFromCourse_ReturnListMaterials()
-        {
-            courseMaterialRepo.Setup(db => db.Get<Material>(It.IsAny<Expression<Func<CourseMaterial, Material>>>(),
-                It.IsAny<Expression<Func<CourseMaterial, bool>>>())).ReturnsAsync(new List<Material>());
-
-            CourseMaterialService courseMaterialSqlService = new CourseMaterialService(
-                courseMaterialRepo.Object);
-
-            courseMaterialSqlService.GetAllMaterialsFromCourse(0);
-
-            courseMaterialRepo.Verify(x => x.Get<Material>(x => x.Material, x => x.CourseId == 0), Times.Once);
-        }
-
     }
 }

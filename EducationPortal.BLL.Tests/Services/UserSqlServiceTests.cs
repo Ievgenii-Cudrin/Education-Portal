@@ -26,7 +26,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         private Mock<IUserMaterialSqlService> userMaterialSqlService;
         private Mock<IUserSkillSqlService> userSkillSqlService;
         private Mock<ICourseSkillService> courseSkillService;
-        private Mock<ILogger> logger;
+        private Mock<ICourseMaterialService> courseMaterialService;
 
         [TestInitialize]
         public void SetUp()
@@ -39,7 +39,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             this.userMaterialSqlService = new Mock<IUserMaterialSqlService>();
             this.userSkillSqlService = new Mock<IUserSkillSqlService>();
             this.courseSkillService = new Mock<ICourseSkillService>();
-            this.logger = new Mock<ILogger>();
+            this.courseMaterialService = new Mock<ICourseMaterialService>();
         }
 
         #region AddCourseInProgress
@@ -58,7 +58,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 userCourseMaterialSqlService.Object,
                 userMaterialSqlService.Object,
                 userSkillSqlService.Object,
-                courseSkillService.Object);
+                courseSkillService.Object,
+                courseMaterialService.Object);
 
             Assert.IsFalse(await userSqlService.AddCourseInProgress(It.IsAny<int>()));
         }
@@ -76,7 +77,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 userCourseMaterialSqlService.Object,
                 userMaterialSqlService.Object,
                 userSkillSqlService.Object,
-                courseSkillService.Object);
+                courseSkillService.Object,
+                courseMaterialService.Object);
 
             Assert.IsFalse(await userSqlService.AddCourseInProgress(It.IsAny<int>()));
         }
@@ -94,7 +96,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 userCourseMaterialSqlService.Object,
                 userMaterialSqlService.Object,
                 userSkillSqlService.Object,
-                courseSkillService.Object);
+                courseSkillService.Object,
+                courseMaterialService.Object);
 
             Assert.IsFalse(await userSqlService.AddCourseInProgress(It.IsAny<int>()));
         }
@@ -114,7 +117,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 userCourseMaterialSqlService.Object,
                 userMaterialSqlService.Object,
                 userSkillSqlService.Object,
-                courseSkillService.Object);
+                courseSkillService.Object,
+                courseMaterialService.Object);
 
             userSqlService.AddCourseInProgress(It.IsAny<int>());
 
@@ -140,7 +144,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 userCourseMaterialSqlService.Object,
                 userMaterialSqlService.Object,
                 userSkillSqlService.Object,
-                courseSkillService.Object);
+                courseSkillService.Object,
+                courseMaterialService.Object);
 
             userSqlService.AddCourseToPassed(It.IsAny<int>());
 
@@ -163,7 +168,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 userCourseMaterialSqlService.Object,
                 userMaterialSqlService.Object,
                 userSkillSqlService.Object,
-                courseSkillService.Object);
+                courseSkillService.Object,
+                courseMaterialService.Object);
 
             Skill skill = null;
 
@@ -184,7 +190,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 userCourseMaterialSqlService.Object,
                 userMaterialSqlService.Object,
                 userSkillSqlService.Object,
-                courseSkillService.Object);
+                courseSkillService.Object,
+                courseMaterialService.Object);
 
             Skill skill = new Skill();
             userSqlService.AddSkill(skill);
@@ -210,7 +217,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 userCourseMaterialSqlService.Object,
                 userMaterialSqlService.Object,
                 userSkillSqlService.Object,
-                courseSkillService.Object);
+                courseSkillService.Object,
+                courseMaterialService.Object);
 
             User user = new User();
 
@@ -230,7 +238,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 userCourseMaterialSqlService.Object,
                 userMaterialSqlService.Object,
                 userSkillSqlService.Object,
-                courseSkillService.Object);
+                courseSkillService.Object,
+                courseMaterialService.Object);
 
             User user = null;
 
@@ -252,7 +261,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 userCourseMaterialSqlService.Object,
                 userMaterialSqlService.Object,
                 userSkillSqlService.Object,
-                courseSkillService.Object);
+                courseSkillService.Object,
+                courseMaterialService.Object);
 
             User user = new User();
             userSqlService.CreateUser(user);
@@ -279,7 +289,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 userCourseMaterialSqlService.Object,
                 userMaterialSqlService.Object,
                 userSkillSqlService.Object,
-                courseSkillService.Object);
+                courseSkillService.Object,
+                courseMaterialService.Object);
 
             Assert.IsFalse(await userSqlService.Delete(It.IsAny<int>()));
         }
@@ -299,7 +310,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 userCourseMaterialSqlService.Object,
                 userMaterialSqlService.Object,
                 userSkillSqlService.Object,
-                courseSkillService.Object);
+                courseSkillService.Object,
+                courseMaterialService.Object);
 
             userSqlService.Delete(It.IsAny<int>());
 
@@ -323,7 +335,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 userCourseMaterialSqlService.Object,
                 userMaterialSqlService.Object,
                 userSkillSqlService.Object,
-                courseSkillService.Object);
+                courseSkillService.Object,
+                courseMaterialService.Object);
 
             Assert.IsNull(userSqlService.GetAllUserSkills());
         }
@@ -342,7 +355,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 userCourseMaterialSqlService.Object,
                 userMaterialSqlService.Object,
                 userSkillSqlService.Object,
-                courseSkillService.Object);
+                courseSkillService.Object,
+                courseMaterialService.Object);
 
             userSqlService.GetAllUserSkills();
 
@@ -364,7 +378,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 userCourseMaterialSqlService.Object,
                 userMaterialSqlService.Object,
                 userSkillSqlService.Object,
-                courseSkillService.Object);
+                courseSkillService.Object,
+                courseMaterialService.Object);
 
             Assert.IsNull(userSqlService.GetListWithCoursesInProgress());
         }
@@ -383,7 +398,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 userCourseMaterialSqlService.Object,
                 userMaterialSqlService.Object,
                 userSkillSqlService.Object,
-                courseSkillService.Object);
+                courseSkillService.Object,
+                courseMaterialService.Object);
 
             userSqlService.GetListWithCoursesInProgress();
 
@@ -407,7 +423,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 userCourseMaterialSqlService.Object,
                 userMaterialSqlService.Object,
                 userSkillSqlService.Object,
-                courseSkillService.Object);
+                courseSkillService.Object,
+                courseMaterialService.Object);
 
             Assert.IsNull(userSqlService.GetMaterialsFromCourseInProgress(It.IsAny<int>()));
         }
@@ -428,7 +445,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 userCourseMaterialSqlService.Object,
                 userMaterialSqlService.Object,
                 userSkillSqlService.Object,
-                courseSkillService.Object);
+                courseSkillService.Object,
+                courseMaterialService.Object);
 
             userSqlService.GetMaterialsFromCourseInProgress(It.IsAny<int>());
 
@@ -453,7 +471,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 userCourseMaterialSqlService.Object,
                 userMaterialSqlService.Object,
                 userSkillSqlService.Object,
-                courseSkillService.Object);
+                courseSkillService.Object,
+                courseMaterialService.Object);
 
             Assert.IsNull(userSqlService.GetSkillsFromCourseInProgress(It.IsAny<int>()));
         }
@@ -472,7 +491,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 userCourseMaterialSqlService.Object,
                 userMaterialSqlService.Object,
                 userSkillSqlService.Object,
-                courseSkillService.Object);
+                courseSkillService.Object,
+                courseMaterialService.Object);
 
             userSqlService.GetSkillsFromCourseInProgress(It.IsAny<int>());
 
@@ -496,7 +516,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 userCourseMaterialSqlService.Object,
                 userMaterialSqlService.Object,
                 userSkillSqlService.Object,
-                courseSkillService.Object);
+                courseSkillService.Object,
+                courseMaterialService.Object);
 
             Assert.IsFalse(await userSqlService.UpdateUser(It.IsAny<User>()));
         }
@@ -516,7 +537,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 userCourseMaterialSqlService.Object,
                 userMaterialSqlService.Object,
                 userSkillSqlService.Object,
-                courseSkillService.Object);
+                courseSkillService.Object,
+                courseMaterialService.Object);
 
             userSqlService.UpdateUser(It.IsAny<User>());
 
@@ -545,7 +567,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 userCourseMaterialSqlService.Object,
                 userMaterialSqlService.Object,
                 userSkillSqlService.Object,
-                courseSkillService.Object);
+                courseSkillService.Object,
+                courseMaterialService.Object);
 
             Assert.IsFalse(await userSqlService.UpdateValueOfPassMaterialInProgress(It.IsAny<int>(), It.IsAny<int>()));
         }
@@ -567,7 +590,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 userCourseMaterialSqlService.Object,
                 userMaterialSqlService.Object,
                 userSkillSqlService.Object,
-                courseSkillService.Object);
+                courseSkillService.Object,
+                courseMaterialService.Object);
 
             userSqlService.UpdateValueOfPassMaterialInProgress(It.IsAny<int>(), It.IsAny<int>());
 
@@ -592,7 +616,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 userCourseMaterialSqlService.Object,
                 userMaterialSqlService.Object,
                 userSkillSqlService.Object,
-                courseSkillService.Object);
+                courseSkillService.Object,
+                courseMaterialService.Object);
 
             userSqlService.ExistEmail(It.IsAny<Expression<Func<User, bool>>>());
 
@@ -615,7 +640,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 userCourseMaterialSqlService.Object,
                 userMaterialSqlService.Object,
                 userSkillSqlService.Object,
-                courseSkillService.Object);
+                courseSkillService.Object,
+                courseMaterialService.Object);
 
             Assert.IsNull(userSqlService.GetAllPassedCourseFromUser());
         }
@@ -634,7 +660,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 userCourseMaterialSqlService.Object,
                 userMaterialSqlService.Object,
                 userSkillSqlService.Object,
-                courseSkillService.Object);
+                courseSkillService.Object,
+                courseMaterialService.Object);
 
             userSqlService.GetAllPassedCourseFromUser();
 

@@ -19,7 +19,7 @@ namespace EducationPortal.BLL.ServicesSql
         private IRepository<Course> courseRepository;
         private ICourseMaterialService courseMaterialService;
         private ICourseSkillService courseSkillService;
-        private readonly ILogger<CourseService> logger;
+        private ILogger<CourseService> logger;
         private IAuthorizedUser authorizedUser;
 
         public CourseService(
@@ -91,7 +91,7 @@ namespace EducationPortal.BLL.ServicesSql
             }
         }
 
-        public async Task<IList<Material>> GetMaterialsFromCourse(int id)
+        public async Task<List<Material>> GetMaterialsFromCourse(int id)
         {
             try
             {
@@ -103,7 +103,7 @@ namespace EducationPortal.BLL.ServicesSql
             }
         }
 
-        public async Task<IList<Skill>> GetSkillsFromCourse(int id)
+        public async Task<List<Skill>> GetSkillsFromCourse(int id)
         {
             try
             {
@@ -135,7 +135,7 @@ namespace EducationPortal.BLL.ServicesSql
             return await this.courseRepository.Exist(x => x.Id == courseId);
         }
 
-        public async Task<IList<Course>> GetCoursesPerPage(int skip, int take)
+        public async Task<List<Course>> GetCoursesPerPage(int skip, int take)
         {
             return await this.courseRepository.GetPage(skip, take);
         }

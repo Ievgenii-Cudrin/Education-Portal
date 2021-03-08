@@ -101,7 +101,7 @@
                 var pager = new PageInfo(recordsCount, numberOfPage, pageSize);
                 int recordsSkip = (numberOfPage - 1) * pageSize;
 
-                List<MaterialViewModel> materialsVM1 = this.GetAllMaterialVMAfterMappingFromMaterialDomain((List<Material>)await this.materialService.GetAllMaterialsForOnePage(recordsSkip, pager.PageSize));
+                List<MaterialViewModel> materialsVM1 = this.GetAllMaterialVMAfterMappingFromMaterialDomain(await this.materialService.GetAllMaterialsForOnePage(recordsSkip, pager.PageSize));
 
                 // ShowMaterials
                 MaterialConsoleMessageHelper.ShowMaterial(materialsVM1);

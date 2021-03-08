@@ -19,12 +19,12 @@
             this.dbContext = context;
         }
 
-        public async Task<IList<T>> GetAll()
+        public async Task<List<T>> GetAll()
         {
             return await this.dbContext.Set<T>().ToListAsync();
         }
 
-        public async Task<IList<T>> GetAll(params Expression<Func<T, object>>[] includes)
+        public async Task<List<T>> GetAll(params Expression<Func<T, object>>[] includes)
         {
             var result = this.dbContext.Set<T>();
             foreach (var include in includes)
@@ -35,7 +35,7 @@
             return await result.ToListAsync();
         }
 
-        public async Task<IList<T>> Get(
+        public async Task<List<T>> Get(
             Expression<Func<T, bool>> predicat,
             params Expression<Func<T, object>>[] includes)
         {
@@ -48,13 +48,13 @@
             return await result.Where(predicat).ToListAsync();
         }
 
-        public async Task<IList<TResult>> Get<TResult>(Expression<Func<T, TResult>> selector)
+        public async Task<List<TResult>> Get<TResult>(Expression<Func<T, TResult>> selector)
         {
             return await this.dbContext.Set<T>()
                         .Select(selector).ToListAsync();
         }
 
-        public async Task<IList<TResult>> Get<TResult>(
+        public async Task<List<TResult>> Get<TResult>(
             Expression<Func<T, TResult>> selector,
             Expression<Func<T, bool>> predicat)
         {
@@ -69,25 +69,25 @@
                         .Where(predicat).Take(1).FirstOrDefaultAsync();
         }
 
-        public async Task<IList<T>> Get(Expression<Func<T, bool>> predicat)
+        public async Task<List<T>> Get(Expression<Func<T, bool>> predicat)
         {
             return await this.dbContext.Set<T>()
                         .Where(predicat).ToListAsync();
         }
 
-        public async Task<IList<T>> GetPage(int skip, int take)
+        public async Task<List<T>> GetPage(int skip, int take)
         {
             return await this.dbContext.Set<T>()
                         .Skip(skip).Take(take).ToListAsync();
         }
 
-        public async Task<IList<T>> GetPageWithInclude(Expression<Func<T, object>> predicat, int skip, int take)
+        public async Task<List<T>> GetPageWithInclude(Expression<Func<T, object>> predicat, int skip, int take)
         {
             return await this.dbContext.Set<T>()
                 .Include(predicat).Skip(skip).Take(take).ToListAsync();
         }
 
-        public async Task<IList<T>> GetPage(
+        public async Task<List<T>> GetPage(
             Expression<Func<T, bool>> predicat,
             int skip, int take)
         {

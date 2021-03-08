@@ -4,6 +4,7 @@ using DataAccessLayer.Interfaces;
 using EducationPortal.BLL.Interfaces;
 using EducationPortal.BLL.ServicesSql;
 using Entities;
+using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using NLog;
@@ -22,9 +23,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         private Mock<IRepository<Course>> courseRepository;
         private Mock<ICourseMaterialService> courseMaterailService;
         private Mock<ICourseSkillService> courseSkillService;
-        private Mock<IMaterialService> materailService;
-        private Mock<ISkillService> skillService;
-        private Mock<ILogger> logger;
+        private Mock<IAuthorizedUser> authorizedUser;
+        private Mock<ILogger<CourseService>> logger;
 
         [TestInitialize]
         public void SetUp()
@@ -32,9 +32,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             this.courseRepository = new Mock<IRepository<Course>>();
             this.courseMaterailService = new Mock<ICourseMaterialService>();
             this.courseSkillService = new Mock<ICourseSkillService>();
-            this.materailService = new Mock<IMaterialService>();
-            this.skillService = new Mock<ISkillService>();
-            this.logger = new Mock<ILogger>();
+            this.authorizedUser = new Mock<IAuthorizedUser>();
+            this.logger = new Mock<ILogger<CourseService>>();
         }
 
         #region AddMaterialToCourseTests
@@ -43,14 +42,13 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         public async Task AddMaterialToCourse_CourseNotExist_False()
         {
             courseRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).ReturnsAsync(false);
-            materailService.Setup(db => db.ExistMaterial(It.IsAny<int>())).ReturnsAsync(true);
 
             CourseService courseSqlService = new CourseService(
                 courseRepository.Object,
                 courseMaterailService.Object,
                 courseSkillService.Object,
-                materailService.Object,
-                skillService.Object);
+                logger.Object,
+                authorizedUser.Object);
 
             Material material = new Material();
 
@@ -61,14 +59,13 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         public async Task AddMaterialToCourse_SkillNotExist_False()
         {
             courseRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).ReturnsAsync(true);
-            materailService.Setup(db => db.ExistMaterial(It.IsAny<int>())).ReturnsAsync(false);
 
             CourseService courseSqlService = new CourseService(
                 courseRepository.Object,
                 courseMaterailService.Object,
                 courseSkillService.Object,
-                materailService.Object,
-                skillService.Object);
+                logger.Object,
+                authorizedUser.Object);
 
             Material material = new Material();
 
@@ -79,14 +76,13 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         public async Task AddMaterialToCourse_CourseAndSkillNotExist_False()
         {
             courseRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).ReturnsAsync(false);
-            materailService.Setup(db => db.ExistMaterial(It.IsAny<int>())).ReturnsAsync(false);
 
             CourseService courseSqlService = new CourseService(
                 courseRepository.Object,
                 courseMaterailService.Object,
                 courseSkillService.Object,
-                materailService.Object,
-                skillService.Object);
+                logger.Object,
+                authorizedUser.Object);
 
             Material material = new Material();
 
@@ -97,15 +93,14 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         public async Task AddMaterialToCourse_CourseAndSkillExist_True()
         {
             courseRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).ReturnsAsync(true);
-            materailService.Setup(db => db.ExistMaterial(It.IsAny<int>())).ReturnsAsync(true);
             courseMaterailService.Setup(db => db.AddMaterialToCourse(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(true);
 
             CourseService courseSqlService = new CourseService(
                 courseRepository.Object,
                 courseMaterailService.Object,
                 courseSkillService.Object,
-                materailService.Object,
-                skillService.Object);
+                logger.Object,
+                authorizedUser.Object);
 
             Material material = new Material();
 
@@ -120,14 +115,13 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         public async Task AddSkillToCourse_CourseNotExist_False()
         {
             courseRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).ReturnsAsync(false);
-            skillService.Setup(db => db.ExistSkill(It.IsAny<int>())).ReturnsAsync(true);
 
             CourseService courseSqlService = new CourseService(
                 courseRepository.Object,
                 courseMaterailService.Object,
                 courseSkillService.Object,
-                materailService.Object,
-                skillService.Object);
+                logger.Object,
+                authorizedUser.Object);
 
             Skill skill = new Skill();
 
@@ -138,14 +132,13 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         public async Task AddSkillToCourse_SkillNotExist_False()
         {
             courseRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).ReturnsAsync(true);
-            skillService.Setup(db => db.ExistSkill(It.IsAny<int>())).ReturnsAsync(false);
 
             CourseService courseSqlService = new CourseService(
                 courseRepository.Object,
                 courseMaterailService.Object,
                 courseSkillService.Object,
-                materailService.Object,
-                skillService.Object);
+                logger.Object,
+                authorizedUser.Object);
 
             Skill skill = new Skill();
 
@@ -156,14 +149,13 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         public async Task AddSkillToCourse_CourseAndSkillNotExist_False()
         {
             courseRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).ReturnsAsync(false);
-            skillService.Setup(db => db.ExistSkill(It.IsAny<int>())).ReturnsAsync(false);
 
             CourseService courseSqlService = new CourseService(
                 courseRepository.Object,
                 courseMaterailService.Object,
                 courseSkillService.Object,
-                materailService.Object,
-                skillService.Object);
+                logger.Object,
+                authorizedUser.Object);
 
             Skill skill = new Skill();
 
@@ -174,15 +166,14 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         public async Task AddSkillToCourse_CourseAndSkillExist_True()
         {
             courseRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).ReturnsAsync(true);
-            skillService.Setup(db => db.ExistSkill(It.IsAny<int>())).ReturnsAsync(true);
             courseSkillService.Setup(db => db.AddSkillToCourse(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(true);
 
             CourseService courseSqlService = new CourseService(
                 courseRepository.Object,
                 courseMaterailService.Object,
                 courseSkillService.Object,
-                materailService.Object,
-                skillService.Object);
+                logger.Object,
+                authorizedUser.Object);
 
             Skill skill = new Skill();
 
@@ -202,8 +193,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseRepository.Object,
                 courseMaterailService.Object,
                 courseSkillService.Object,
-                materailService.Object,
-                skillService.Object);
+                logger.Object,
+                authorizedUser.Object);
 
             Course course = null;
 
@@ -219,8 +210,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseRepository.Object,
                 courseMaterailService.Object,
                 courseSkillService.Object,
-                materailService.Object,
-                skillService.Object);
+                logger.Object,
+                authorizedUser.Object);
 
             Course course = new Course();
 
@@ -237,8 +228,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseRepository.Object,
                 courseMaterailService.Object,
                 courseSkillService.Object,
-                materailService.Object,
-                skillService.Object);
+                logger.Object,
+                authorizedUser.Object);
 
             Course course = new Course();
             courseSqlService.CreateCourse(course);
@@ -260,8 +251,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseRepository.Object,
                 courseMaterailService.Object,
                 courseSkillService.Object,
-                materailService.Object,
-                skillService.Object);
+                logger.Object,
+                authorizedUser.Object);
 
             Assert.IsFalse(await courseSqlService.Delete(0));
         }
@@ -277,8 +268,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseRepository.Object,
                 courseMaterailService.Object,
                 courseSkillService.Object,
-                materailService.Object,
-                skillService.Object);
+                logger.Object,
+                authorizedUser.Object);
 
             courseSqlService.Delete(0);
 
@@ -296,19 +287,17 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         {
             courseRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).ReturnsAsync(true);
             courseMaterailService.Setup(db => db.GetAllMaterialsFromCourse(It.IsAny<int>())).ReturnsAsync(new List<Material>());
-            materailService.Setup(db => db.GetAllNotPassedMaterialFromUser()).Returns(new List<Material>());
 
             CourseService courseSqlService = new CourseService(
                 courseRepository.Object,
                 courseMaterailService.Object,
                 courseSkillService.Object,
-                materailService.Object,
-                skillService.Object);
+                logger.Object,
+                authorizedUser.Object);
 
             courseSqlService.GetMaterialsFromCourse(0);
 
             courseMaterailService.Verify(x => x.GetAllMaterialsFromCourse(0), Times.Once);
-            materailService.Verify(x => x.GetAllNotPassedMaterialFromUser(), Times.Once);
         }
 
         [TestMethod]
@@ -316,14 +305,13 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         {
             courseRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).ReturnsAsync(false);
             courseMaterailService.Setup(db => db.GetAllMaterialsFromCourse(It.IsAny<int>())).ReturnsAsync(new List<Material>());
-            materailService.Setup(db => db.GetAllNotPassedMaterialFromUser()).Returns(new List<Material>());
 
             CourseService courseSqlService = new CourseService(
                 courseRepository.Object,
                 courseMaterailService.Object,
                 courseSkillService.Object,
-                materailService.Object,
-                skillService.Object);
+                logger.Object,
+                authorizedUser.Object);
 
             Assert.IsNull(courseSqlService.GetMaterialsFromCourse(0));
         }
@@ -342,8 +330,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseRepository.Object,
                 courseMaterailService.Object,
                 courseSkillService.Object,
-                materailService.Object,
-                skillService.Object);
+                logger.Object,
+                authorizedUser.Object);
 
             courseSqlService.GetSkillsFromCourse(0);
 
@@ -360,8 +348,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseRepository.Object,
                 courseMaterailService.Object,
                 courseSkillService.Object,
-                materailService.Object,
-                skillService.Object);
+                logger.Object,
+                authorizedUser.Object);
 
             Assert.IsNull(courseSqlService.GetSkillsFromCourse(0));
         }
@@ -381,8 +369,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseRepository.Object,
                 courseMaterailService.Object,
                 courseSkillService.Object,
-                materailService.Object,
-                skillService.Object);
+                logger.Object,
+                authorizedUser.Object);
 
             Course course = new Course();
 
@@ -400,8 +388,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseRepository.Object,
                 courseMaterailService.Object,
                 courseSkillService.Object,
-                materailService.Object,
-                skillService.Object);
+                logger.Object,
+                authorizedUser.Object);
 
             Course course = new Course()
             {
@@ -429,8 +417,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseRepository.Object,
                 courseMaterailService.Object,
                 courseSkillService.Object,
-                materailService.Object,
-                skillService.Object);
+                logger.Object,
+                authorizedUser.Object);
 
             Assert.IsTrue(await courseSqlService.ExistCourse(0));
         }
@@ -444,8 +432,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 courseRepository.Object,
                 courseMaterailService.Object,
                 courseSkillService.Object,
-                materailService.Object,
-                skillService.Object);
+                logger.Object,
+                authorizedUser.Object);
 
             Assert.IsFalse(await courseSqlService.ExistCourse(0));
         }

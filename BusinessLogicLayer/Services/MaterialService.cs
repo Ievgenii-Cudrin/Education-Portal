@@ -61,7 +61,7 @@ namespace EducationPortal.BLL.ServicesSql
             }
         }
 
-        public async Task<IEnumerable<Material>> GetAllMaterialsForOnePage(int take, int skip)
+        public async Task<List<Material>> GetAllMaterialsForOnePage(int take, int skip)
         {
             return await this.materialRepository.GetPage(take, skip);
         }

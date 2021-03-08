@@ -67,7 +67,7 @@ namespace EducationPortal.PL.Controller
 
         public async Task StartPassingCourseFromProgressList()
         {
-            var courseDomainListInProgress = (List<Course>)await this.userService.GetListWithCoursesInProgress();
+            var courseDomainListInProgress = await this.userService.GetListWithCoursesInProgress();
             // Get all courses in progress
             List<CourseViewModel> coursesListInProgressVM = await this.GetListOfCoursesFromServiceAfterMappingToVM(courseDomainListInProgress);
 
@@ -91,16 +91,16 @@ namespace EducationPortal.PL.Controller
             }
 
             // get course in progress
-            List<Course> courseToProgressFromProcessList = (List<Course>)await this.userService.GetListWithCoursesInProgress();
+            List<Course> courseToProgressFromProcessList = await this.userService.GetListWithCoursesInProgress();
 
             // mapping to course domain to course view model
             CourseViewModel courseVMInProgress = this.mapperService.CreateMapFromVMToDomainWithIncludeLsitType<Course, CourseViewModel, Material, MaterialViewModel, Skill, SkillViewModel>(courseToProgressFromProcessList.Where(x => x.Id == courseInProgressIdToPass).FirstOrDefault());
 
             // mapping materials in progogress
-            courseVMInProgress.Materials = this.materialController.GetAllMaterialVMAfterMappingFromMaterialDomain((List<Material>)await this.userService.GetMaterialsFromCourseInProgress(courseVMInProgress.Id));
+            courseVMInProgress.Materials = this.materialController.GetAllMaterialVMAfterMappingFromMaterialDomain(await this.userService.GetMaterialsFromCourseInProgress(courseVMInProgress.Id));
 
             // mapping skills
-            courseVMInProgress.Skills = this.mapperService.CreateListMap<Skill, SkillViewModel>((List<Skill>)await this.userService.GetSkillsFromCourseInProgress(courseVMInProgress.Id));
+            courseVMInProgress.Skills = this.mapperService.CreateListMap<Skill, SkillViewModel>(await this.userService.GetSkillsFromCourseInProgress(courseVMInProgress.Id));
 
             if (courseVMInProgress != null)
             {
@@ -144,7 +144,7 @@ namespace EducationPortal.PL.Controller
                 var pager = new PageInfo(recordsCount, numberOfPage, pageSize);
                 int coursesSkip = (numberOfPage - 1) * pageSize;
 
-                coursesListVM = await this.GetListOfCoursesFromServiceAfterMappingToVM((List<Course>)await this.courseService.GetCoursesPerPage(coursesSkip, pager.PageSize));
+                coursesListVM = await this.GetListOfCoursesFromServiceAfterMappingToVM(await this.courseService.GetCoursesPerPage(coursesSkip, pager.PageSize));
 
                 // ShowCourses
                 this.ShowCoursesToPass(coursesListVM);
@@ -189,6 +189,10 @@ namespace EducationPortal.PL.Controller
 
             // Greate course to continue passing
             CourseViewModel courseInProgress = coursesListVM.Where(x => x.Id == courseIdToPass).FirstOrDefault();
+
+            var allNotPassedMaterialsDomain = await this.userService.GetAllNotPassedMaterialsInCourse(courseIdToPass);
+            var allNodPassedAfterMpping = this.mapperService.CreateListMapFromVMToDomainWithIncludeMaterialType<Material, MaterialViewModel, Video, VideoViewModel, Article, ArticleViewModel, Book, BookViewModel>(allNotPassedMaterialsDomain);
+            courseInProgress.Materials = allNodPassedAfterMpping;
 
             if (courseInProgress != null)
             {
@@ -246,25 +250,32 @@ namespace EducationPortal.PL.Controller
         {
             foreach (var material in materials)
             {
-                // Show info about material
-                Console.WriteLine(material.ToString());
-                Console.Write("\nHas the material been studied (Enter '+') or exit from studying course (Enter 'Exit')?");
-
-                // get value from user
-                string learnMaterial = Console.ReadLine();
-
-                if (learnMaterial == "+")
+                if (material.IsPassed == true)
                 {
-                    // select true to passed material
-                    courseInProgress.Materials.Select(x => x).Where(x => x.Name == material.Name).FirstOrDefault().IsPassed = true;
-
-                    // update user with new value
                     await this.userService.UpdateValueOfPassMaterialInProgress(courseInProgress.Id, material.Id);
                 }
-                else if (learnMaterial.ToLower() == "exit")
+                else
                 {
-                    Console.WriteLine("Сourse not finished!");
-                    break;
+                    // Show info about material
+                    Console.WriteLine(material.ToString());
+                    Console.Write("\nHas the material been studied (Enter '+') or exit from studying course (Enter 'Exit')?");
+
+                    // get value from user
+                    string learnMaterial = Console.ReadLine();
+
+                    if (learnMaterial == "+")
+                    {
+                        // select true to passed material
+                        courseInProgress.Materials.Select(x => x).Where(x => x.Name == material.Name).FirstOrDefault().IsPassed = true;
+
+                        // update user with new value
+                        await this.userService.UpdateValueOfPassMaterialInProgress(courseInProgress.Id, material.Id);
+                    }
+                    else if (learnMaterial.ToLower() == "exit")
+                    {
+                        Console.WriteLine("Сourse not finished!");
+                        break;
+                    }
                 }
             }
         }
@@ -276,8 +287,8 @@ namespace EducationPortal.PL.Controller
 
             foreach (var course in coursesListVM)
             {
-                course.Materials = this.mapperService.CreateListMapFromVMToDomainWithIncludeMaterialType<Material, MaterialViewModel, Video, VideoViewModel, Article, ArticleViewModel, Book, BookViewModel>((List<Material>)await this.courseService.GetMaterialsFromCourse(course.Id));
-                course.Skills = this.mapperService.CreateListMap<Skill, SkillViewModel>((List<Skill>)await this.courseService.GetSkillsFromCourse(course.Id));
+                course.Materials = this.mapperService.CreateListMapFromVMToDomainWithIncludeMaterialType<Material, MaterialViewModel, Video, VideoViewModel, Article, ArticleViewModel, Book, BookViewModel>(await this.courseService.GetMaterialsFromCourse(course.Id));
+                course.Skills = this.mapperService.CreateListMap<Skill, SkillViewModel>(await this.courseService.GetSkillsFromCourse(course.Id));
             }
 
             return coursesListVM;

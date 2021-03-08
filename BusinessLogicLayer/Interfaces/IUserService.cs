@@ -21,22 +21,24 @@
 
         Task<bool> UpdateValueOfPassMaterialInProgress(int courseId, int materialId);
 
-        Task<IList<Course>> GetListWithCoursesInProgress();
+        Task<List<Course>> GetListWithCoursesInProgress();
 
-        Task<IList<Material>> GetMaterialsFromCourseInProgress(int id);
+        Task<List<Material>> GetMaterialsFromCourseInProgress(int id);
 
-        Task<IList<Skill>> GetSkillsFromCourseInProgress(int courseId);
+        Task<List<Skill>> GetSkillsFromCourseInProgress(int courseId);
 
         List<Course> GetAvailableCoursesForUser();
 
         void UpdateCourseInProgress(int courseInProgressNotFinishId, List<Material> updatedMaterials);
 
-        Task<IList<Skill>> GetAllUserSkills();
+        Task<List<Skill>> GetAllUserSkills();
 
         Task<bool> ExistEmail(Expression<Func<User, bool>> predicat);
 
         Task<bool> Delete(int id);
 
-        Task<IList<Course>> GetAllPassedCourseFromUser();
+        Task<List<Course>> GetAllPassedCourseFromUser();
+
+        Task<List<Material>> GetAllNotPassedMaterialsInCourse(int courseId);
     }
 }

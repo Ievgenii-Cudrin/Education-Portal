@@ -10,6 +10,6 @@
     {
         Task<bool> AddSkillToCourse(int courseId, int skillId);
 
-        Task<IList<Skill>> GetAllSkillsFromCourse(int courseId);
+        Task<List<Skill>> GetAllSkillsFromCourse(int courseId);
     }
 }

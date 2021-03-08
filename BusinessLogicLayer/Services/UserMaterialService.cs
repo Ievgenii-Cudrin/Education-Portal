@@ -50,9 +50,14 @@
             return true;
         }
 
-        public async Task<IList<Material>> GetAllMaterialInUser(int userId)
+        public async Task<List<Material>> GetAllMaterialInUser(int userId)
         {
             return await this.userMaterialRepository.Get<Material>(x => x.Material, x => x.UserId == userId);
+        }
+
+        public async Task<bool> ExistMaterialInUser(int userId, int materialId)
+        {
+            return await this.userMaterialRepository.Exist(x => x.UserId == userId && x.MaterialId == materialId);
         }
     }
 }

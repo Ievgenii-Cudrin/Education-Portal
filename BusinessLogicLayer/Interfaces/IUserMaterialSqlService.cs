@@ -10,6 +10,8 @@
     {
         Task<bool> AddMaterialToUser(int userId, int materialId);
 
-        Task<IList<Material>> GetAllMaterialInUser(int userId);
+        Task<List<Material>> GetAllMaterialInUser(int userId);
+
+        Task<bool> ExistMaterialInUser(int userId, int materialId);
     }
 }

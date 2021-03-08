@@ -8,7 +8,7 @@
     {
         Task<bool> CreateMaterial(Material material);
 
-        Task<IEnumerable<Material>> GetAllMaterialsForOnePage(int take, int skip);
+        Task<List<Material>> GetAllMaterialsForOnePage(int take, int skip);
 
         Task<Material> GetMaterial(int id);
 

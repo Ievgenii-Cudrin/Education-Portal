@@ -10,6 +10,8 @@
     {
         Task AddSkillToUser(int userId, int skillId);
 
-        Task<IList<Skill>> GetAllSkillInUser(int userId);
+        Task<List<Skill>> GetAllSkillInUser(int userId);
+
+        Task<int> GetCountOfUserSkill(int userId, int skillId);
     }
 }

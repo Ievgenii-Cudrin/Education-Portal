@@ -55,7 +55,7 @@ namespace EducationPortal.BLL.ServicesSql
             }
         }
 
-        public async Task<IList<Skill>> GetAllSkillsFromCourse(int courseId)
+        public async Task<List<Skill>> GetAllSkillsFromCourse(int courseId)
         {
             return await this.courseSkillRepository.Get<Skill>(x => x.Skill, x => x.CourseId == courseId);
         }

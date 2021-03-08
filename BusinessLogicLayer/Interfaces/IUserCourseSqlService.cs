@@ -11,17 +11,17 @@
     {
         Task AddCourseToUser(int userId, int courseId);
 
-        Task<IList<Course>> GetAllCourseInProgress(int userId);
+        Task<List<Course>> GetAllCourseInProgress(int userId);
 
         Task<bool> ExistUserCourse(int userCourseId);
 
-        Task<IList<Course>> GetAllPassedAndProgressCoursesForUser(int userId);
+        Task<List<Course>> GetAllPassedAndProgressCoursesForUser(int userId);
 
         Task<UserCourse> GetUserCourse(int userId, int courseId);
 
         Task<bool> SetPassForUserCourse(int userId, int courseId);
 
-        Task<IList<Course>> GetAllPassedCourse(int userId);
+        Task<List<Course>> GetAllPassedCourse(int userId);
 
         Task<bool> CourseWasStarted(int courseId);
     }

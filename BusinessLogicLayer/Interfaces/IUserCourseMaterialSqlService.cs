@@ -12,6 +12,6 @@
 
         Task<bool> SetPassToMaterial(int userCourseId, int materialId);
 
-        Task<IList<Material>> GetNotPassedMaterialsFromCourseInProgress(int userCourseId);
+        Task<List<Material>> GetNotPassedMaterialsFromCourseInProgress(int userCourseId);
     }
 }

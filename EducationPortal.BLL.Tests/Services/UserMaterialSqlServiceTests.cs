@@ -3,6 +3,7 @@ using EducationPortal.BLL.Interfaces;
 using EducationPortal.BLL.ServicesSql;
 using EducationPortal.Domain.Entities;
 using Entities;
+using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using NLog;
@@ -18,13 +19,13 @@ namespace EducationPortal.BLL.Tests.ServicesSql
     public class UserMaterialSqlServiceTests
     {
         private Mock<IRepository<UserMaterial>> userMaterialRepository;
-        private Mock<ILogger> logger;
+        private Mock<ILogger<UserMaterialService>> logger;
 
         [TestInitialize]
         public void SetUp()
         {
             this.userMaterialRepository = new Mock<IRepository<UserMaterial>>();
-            this.logger = new Mock<ILogger>();
+            this.logger = new Mock<ILogger<UserMaterialService>>();
         }
 
         #region AddMaterialToUser
@@ -35,7 +36,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             userMaterialRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<UserMaterial, bool>>>())).ReturnsAsync(true);
 
             UserMaterialService userMaterialSqlService = new UserMaterialService(
-                userMaterialRepository.Object);
+                userMaterialRepository.Object,
+                logger.Object);
 
             Assert.IsFalse(await userMaterialSqlService.AddMaterialToUser(It.IsAny<int>(), It.IsAny<int>()));
         }
@@ -48,7 +50,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             userMaterialRepository.Setup(db => db.Save());
 
             UserMaterialService userMaterialSqlService = new UserMaterialService(
-                userMaterialRepository.Object);
+                userMaterialRepository.Object,
+                logger.Object);
 
             await userMaterialSqlService.AddMaterialToUser(It.IsAny<int>(), It.IsAny<int>());
 
@@ -69,7 +72,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 )).ReturnsAsync(new List<Material>());
 
             UserMaterialService userMaterialSqlService = new UserMaterialService(
-                userMaterialRepository.Object);
+                userMaterialRepository.Object,
+                logger.Object);
 
             userMaterialSqlService.GetAllMaterialInUser(It.IsAny<int>());
 

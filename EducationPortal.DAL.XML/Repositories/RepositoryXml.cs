@@ -41,7 +41,7 @@ namespace EducationPortal.DAL.XML.Repositories
             return this.context.XmlSet.Get(id);
         }
 
-        public virtual async Task<IList<TResult>> Get<TResult>(Expression<Func<T, TResult>> selector, Expression<Func<T, bool>> predicat)
+        public virtual async Task<List<TResult>> Get<TResult>(Expression<Func<T, TResult>> selector, Expression<Func<T, bool>> predicat)
         {
             return this.context.XmlSet.GetAll()
                 .AsQueryable()
@@ -50,14 +50,14 @@ namespace EducationPortal.DAL.XML.Repositories
                 .ToList();
         }
 
-        public async Task<IList<TResult>> Get<TResult>(Expression<Func<T, TResult>> selector)
+        public async Task<List<TResult>> Get<TResult>(Expression<Func<T, TResult>> selector)
         {
             return this.context.XmlSet.GetAll()
                 .AsQueryable()
                 .Select(selector).ToList();
         }
 
-        public async Task<IList<T>> Get(Expression<Func<T, bool>> predicat)
+        public async Task<List<T>> Get(Expression<Func<T, bool>> predicat)
         {
             return this.context.XmlSet.GetAll()
                 .AsQueryable()
@@ -71,12 +71,12 @@ namespace EducationPortal.DAL.XML.Repositories
                 .Where(predicat).Take(1).FirstOrDefault();
         }
 
-        public async Task<IList<T>> GetAll()
+        public async Task<List<T>> GetAll()
         {
             return this.context.XmlSet.GetAll().ToList();
         }
 
-        public async Task<IList<T>> GetAll(params Expression<Func<T, object>>[] includes)
+        public async Task<List<T>> GetAll(params Expression<Func<T, object>>[] includes)
         {
             throw new NotImplementedException();
         }
@@ -86,7 +86,7 @@ namespace EducationPortal.DAL.XML.Repositories
             return this.context.XmlSet.GetAll().AsQueryable().OrderBy(orderBy).Last();
         }
 
-        public async Task<IList<T>> GetPage(Expression<Func<T, bool>> predicat, int take, int skip)
+        public async Task<List<T>> GetPage(Expression<Func<T, bool>> predicat, int take, int skip)
         {
             return this.context.XmlSet.GetAll()
                 .AsQueryable()
@@ -95,7 +95,7 @@ namespace EducationPortal.DAL.XML.Repositories
                 .Take(skip).ToList();
         }
 
-        public async Task<IList<T>> GetPage(int skip, int take)
+        public async Task<List<T>> GetPage(int skip, int take)
         {
             return this.context.XmlSet.GetAll()
                 .AsQueryable()
@@ -118,7 +118,7 @@ namespace EducationPortal.DAL.XML.Repositories
             return this.context.XmlSet.GetAll().Count();
         }
 
-        public async Task<IList<T>> GetPageWithInclude(Expression<Func<T, object>> predicat, int skip, int take)
+        public async Task<List<T>> GetPageWithInclude(Expression<Func<T, object>> predicat, int skip, int take)
         {
             throw new NotImplementedException();
         }

@@ -8,7 +8,7 @@
 
     public interface IRepository<T>
     {
-        Task<IList<T>> GetAll();
+        Task<List<T>> GetAll();
 
         Task<T> Get(int id);
 
@@ -18,28 +18,28 @@
 
         Task Delete(int id);
 
-        Task<IList<T>> GetAll(params Expression<Func<T, object>>[] includes);
+        Task<List<T>> GetAll(params Expression<Func<T, object>>[] includes);
 
         Task Save();
 
         Task<bool> Exist(Expression<Func<T, bool>> predicat);
 
-        Task<IList<T>> GetPage(
+        Task<List<T>> GetPage(
             Expression<Func<T, bool>> predicat,
             int skip,
             int take);
 
-        Task<IList<T>> GetPageWithInclude(Expression<Func<T, object>> predicat, int skip, int take);
+        Task<List<T>> GetPageWithInclude(Expression<Func<T, object>> predicat, int skip, int take);
 
-        Task<IList<T>> GetPage(int skip, int take);
+        Task<List<T>> GetPage(int skip, int take);
 
-        Task<IList<TResult>> Get<TResult>(
+        Task<List<TResult>> Get<TResult>(
             Expression<Func<T, TResult>> selector,
             Expression<Func<T, bool>> predicat);
 
-        Task<IList<TResult>> Get<TResult>(Expression<Func<T, TResult>> selector);
+        Task<List<TResult>> Get<TResult>(Expression<Func<T, TResult>> selector);
 
-        Task<IList<T>> Get(Expression<Func<T, bool>> predicat);
+        Task<List<T>> Get(Expression<Func<T, bool>> predicat);
 
         Task<T> GetLastEntity<TOrderBy>(Expression<Func<T, TOrderBy>> orderBy);
 

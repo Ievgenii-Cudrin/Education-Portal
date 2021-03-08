@@ -3,6 +3,7 @@ using EducationPortal.BLL.Interfaces;
 using EducationPortal.BLL.ServicesSql;
 using EducationPortal.Domain.Entities;
 using Entities;
+using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using NLog;
@@ -19,14 +20,14 @@ namespace EducationPortal.BLL.Tests.ServicesSql
     {
         private Mock<IRepository<UserCourseMaterial>> userCourseMaterialRepository;
         private Mock<ICourseMaterialService> courseMaterialService;
-        private static Mock<ILogger> logger;
+        private static Mock<ILogger<UserCourseMaterialService>> logger;
 
         [TestInitialize]
         public void SetUp()
         {
             this.userCourseMaterialRepository = new Mock<IRepository<UserCourseMaterial>>();
             this.courseMaterialService = new Mock<ICourseMaterialService>();
-            logger = new Mock<ILogger>();
+            logger = new Mock<ILogger<UserCourseMaterialService>>();
         }
 
         #region AddMaterialsToUserCourse
@@ -47,7 +48,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
 
             UserCourseMaterialService userCourseMaterialSqlService = new UserCourseMaterialService(
                 userCourseMaterialRepository.Object, 
-                courseMaterialService.Object);
+                courseMaterialService.Object,
+                logger.Object);
 
             userCourseMaterialSqlService.AddMaterialsToUserCourse(0, 0);
 
@@ -65,7 +67,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
 
             UserCourseMaterialService userCourseMaterialSqlService = new UserCourseMaterialService(
                 userCourseMaterialRepository.Object,
-                courseMaterialService.Object);
+                courseMaterialService.Object,
+                logger.Object);
 
             Assert.IsFalse(await userCourseMaterialSqlService.AddMaterialsToUserCourse(0, 0));
         }
@@ -87,7 +90,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
 
             UserCourseMaterialService userCourseMaterialSqlService = new UserCourseMaterialService(
                 userCourseMaterialRepository.Object,
-                courseMaterialService.Object);
+                courseMaterialService.Object,
+                logger.Object);
 
             userCourseMaterialSqlService.SetPassToMaterial(0, 0);
 
@@ -107,7 +111,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
 
             UserCourseMaterialService userCourseMaterialSqlService = new UserCourseMaterialService(
                 userCourseMaterialRepository.Object,
-                courseMaterialService.Object);
+                courseMaterialService.Object,
+                logger.Object);
 
             Assert.IsFalse(await userCourseMaterialSqlService.SetPassToMaterial(0, 0));
         }
@@ -123,7 +128,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
 
             UserCourseMaterialService userCourseMaterialSqlService = new UserCourseMaterialService(
                 userCourseMaterialRepository.Object,
-                courseMaterialService.Object);
+                courseMaterialService.Object,
+                logger.Object);
 
             Assert.IsNull(userCourseMaterialSqlService.GetNotPassedMaterialsFromCourseInProgress(It.IsAny<int>()));
         }
@@ -139,7 +145,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
 
             UserCourseMaterialService userCourseMaterialSqlService = new UserCourseMaterialService(
                 userCourseMaterialRepository.Object,
-                courseMaterialService.Object);
+                courseMaterialService.Object,
+                logger.Object);
 
             userCourseMaterialSqlService.GetNotPassedMaterialsFromCourseInProgress(0);
 

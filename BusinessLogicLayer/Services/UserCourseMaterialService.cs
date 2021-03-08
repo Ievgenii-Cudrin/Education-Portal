@@ -40,24 +40,14 @@
                 return false;
             }
 
-            foreach (var material in materialsFromCourse)
+            var p = materialsFromCourse.Select(x => new UserCourseMaterial
             {
-                var userCourseMaterial = new UserCourseMaterial()
-                {
-                    UserCourseId = userCourseId,
-                    MaterialId = material.Id,
-                    IsPassed = false,
-                };
+                UserCourseId = userCourseId,
+                MaterialId = x.Id,
+                IsPassed = false,
+            });
 
-                try
-                {
-                    await this.userCourseMaterialRepository.Add(userCourseMaterial);
-                }
-                catch (Exception ex)
-                {
-                    this.logger.LogWarning($"Failed add materials to course {courseId} - {ex.Message}");
-                }
-            }
+            p.AsParallel().ForAll(u => this.userCourseMaterialRepository.Add(u));
 
             return true;
         }
@@ -77,7 +67,7 @@
             return false;
         }
 
-        public async Task<IList<Material>> GetNotPassedMaterialsFromCourseInProgress(int userCourseId)
+        public async Task<List<Material>> GetNotPassedMaterialsFromCourseInProgress(int userCourseId)
         {
             bool userCourseMaterialExist = await this.userCourseMaterialRepository.Exist(x => x.UserCourseId == userCourseId);
 

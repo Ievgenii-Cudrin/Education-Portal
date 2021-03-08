@@ -25,6 +25,7 @@
         private IUserMaterialSqlService userMaterialSqlService;
         private IUserSkillSqlService userSkillSqlService;
         private ICourseSkillService courseSkillService;
+        private ICourseMaterialService courseMaterialService;
 
         public UserService(
             IRepository<User> uRepo,
@@ -34,7 +35,8 @@
             IUserCourseMaterialSqlService userCourseMaterialSqlService,
             IUserMaterialSqlService userMaterialSqlService,
             IUserSkillSqlService userSkillSqlService,
-            ICourseSkillService courseSkillService)
+            ICourseSkillService courseSkillService,
+            ICourseMaterialService courseMaterialService)
         {
             this.userRepository = uRepo;
             this.courseService = courseService;
@@ -44,6 +46,7 @@
             this.userMaterialSqlService = userMaterialSqlService;
             this.userSkillSqlService = userSkillSqlService;
             this.courseSkillService = courseSkillService;
+            this.courseMaterialService = courseMaterialService;
         }
 
         public async Task<bool> AddCourseInProgress(int courseId)
@@ -102,7 +105,7 @@
             return false;
         }
 
-        public async Task<IList<Skill>> GetAllUserSkills()
+        public async Task<List<Skill>> GetAllUserSkills()
         {
             if (this.authorizedUser != null)
             {
@@ -117,7 +120,7 @@
             throw new NotImplementedException();
         }
 
-        public async Task<IList<Course>> GetListWithCoursesInProgress()
+        public async Task<List<Course>> GetListWithCoursesInProgress()
         {
             if (this.authorizedUser != null)
             {
@@ -127,7 +130,7 @@
             return null;
         }
 
-        public async Task<IList<Material>> GetMaterialsFromCourseInProgress(int courseId)
+        public async Task<List<Material>> GetMaterialsFromCourseInProgress(int courseId)
         {
             bool existCourseService = await this.courseService.ExistCourse(courseId);
 
@@ -136,11 +139,12 @@
                 return null;
             }
 
-            int userCourseId = this.userCourseService.GetUserCourse(this.authorizedUser.User.Id, courseId).Id;
+            var userCourse = await this.userCourseService.GetUserCourse(this.authorizedUser.User.Id, courseId);
+            int userCourseId = userCourse.Id;
             return await this.userCourseMaterialSqlService.GetNotPassedMaterialsFromCourseInProgress(userCourseId);
         }
 
-        public async Task<IList<Skill>> GetSkillsFromCourseInProgress(int courseId)
+        public async Task<List<Skill>> GetSkillsFromCourseInProgress(int courseId)
         {
             if (await this.courseService.ExistCourse(courseId))
             {
@@ -187,7 +191,7 @@
             return await this.userRepository.Exist(predicat);
         }
 
-        public async Task<IList<Course>> GetAllPassedCourseFromUser()
+        public async Task<List<Course>> GetAllPassedCourseFromUser()
         {
             if (this.authorizedUser != null)
             {
@@ -195,6 +199,22 @@
             }
 
             return null;
+        }
+
+        public async Task<List<Material>> GetAllNotPassedMaterialsInCourse(int courseId)
+        {
+            var allMaterialsFromCourse = (List<Material>)await this.courseMaterialService.GetAllMaterialsFromCourse(courseId);
+
+            foreach (var material in allMaterialsFromCourse)
+            {
+                bool existThisMaterialInUser = await this.userMaterialSqlService.ExistMaterialInUser(this.authorizedUser.User.Id, material.Id);
+                if (existThisMaterialInUser)
+                {
+                    material.IsPassed = true;
+                }
+            }
+
+            return allMaterialsFromCourse;
         }
     }
 }
