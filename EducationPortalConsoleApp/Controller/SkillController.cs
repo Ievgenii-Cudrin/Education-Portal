@@ -7,6 +7,8 @@
     using EducationPortal.PL.Mapping;
     using EducationPortal.PL.Models;
     using EducationPortalConsoleApp.Interfaces;
+    using System.Linq;
+    using System.Threading.Tasks;
 
     public class SkillController : ISkillController
     {
@@ -19,15 +21,21 @@
             this.mapperService = mapper;
         }
 
-        public Skill CreateSkill()
+        public async Task<Skill> CreateSkill()
         {
             SkillViewModel skill = SkillVMInstanceCreator.CreateSkill();
+            var existingSkill = await this.skillService.GetSkillsByPredicate(x => x.Name == skill.Name);
+
+            if (existingSkill != null)
+            {
+                skill.Id = existingSkill.Id;
+            }
 
             // mapping
             var skillMap = this.mapperService.CreateMapFromVMToDomain<SkillViewModel, Skill>(skill);
 
             // create skill
-            this.skillService.CreateSkill(skillMap);
+            await this.skillService.CreateSkill(skillMap);
             return skillMap;
         }
     }

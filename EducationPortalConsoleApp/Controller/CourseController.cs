@@ -2,13 +2,13 @@
 {
     using System;
     using System.Linq;
+    using System.Threading.Tasks;
     using BusinessLogicLayer.Interfaces;
     using DataAccessLayer.Entities;
     using EducationPortal.PL.InstanceCreator;
     using EducationPortal.PL.Interfaces;
     using EducationPortal.PL.Mapping;
     using EducationPortal.PL.Models;
-    using EducationPortalConsoleApp.Branch;
     using EducationPortalConsoleApp.Interfaces;
     using Entities;
 
@@ -17,6 +17,7 @@
         private ICourseService courseService;
         private IMapperService mapperService;
         private ISkillController skillController;
+        private IApplication application;
 
         public CourseController(
             ICourseService courseService,
@@ -28,7 +29,12 @@
             this.skillController = skilCntrl;
         }
 
-        public void CreateNewCourse()
+        public void WithApplication(IApplication application)
+        {
+            this.application = application;
+        }
+
+        public async Task CreateNewCourse()
         {
             Console.Clear();
 
@@ -37,37 +43,38 @@
             var course = this.mapperService.CreateMapFromVMToDomain<CourseViewModel, Course>(courseVM);
             // mapping to Domain model
             var courseDomain = this.mapperService.CreateMapFromVMToDomain<CourseViewModel, Course>(courseVM);
-            bool success = this.courseService.CreateCourse(courseDomain);
+            bool success = await this.courseService.CreateCourse(courseDomain);
 
             if (success)
             {
                 // Add materials to course
-                this.AddMaterialToCourse(courseDomain.Id);
+                await this.AddMaterialToCourse(courseDomain.Id);
 
                 // Add skills to course
-                this.AddSkillsToCourse(courseDomain.Id);
+                await this.AddSkillsToCourse(courseDomain.Id);
 
                 // go ro start menu
-                ProgramBranch.SelectFirstStepForAuthorizedUser();
+                await this.application.SelectFirstStepForAuthorizedUser();
             }
             else
             {
                 Console.WriteLine("Course exist");
 
                 // Go to start menu
-                ProgramBranch.SelectFirstStepForAuthorizedUser();
+                await this.application.SelectFirstStepForAuthorizedUser();
             }
         }
 
-        private void AddMaterialToCourse(int courseId)
+        private async Task AddMaterialToCourse(int courseId)
         {
             string userChoice;
             do
             {
-                Material materialDomain = ProgramBranch.SelectMaterialForAddToCourse(courseId);
+                Material materialDomain = await this.application.SelectMaterialForAddToCourse(courseId);
+                bool successOperation = await this.courseService.AddMaterialToCourse(courseId, materialDomain);
 
                 // check, material exist in course, or no
-                if (!this.courseService.AddMaterialToCourse(courseId, materialDomain))
+                if (!successOperation)
                 {
                     Console.WriteLine("Material exist in course");
                 }
@@ -78,7 +85,7 @@
             while (userChoice.ToLower() == "yes");
         }
 
-        private void AddSkillsToCourse(int courseId)
+        private async Task AddSkillsToCourse(int courseId)
         {
             string userChoice;
 
@@ -87,10 +94,10 @@
                 Console.WriteLine("Add skill to your course: ");
 
                 // create skill
-                var skillDomain = this.skillController.CreateSkill();
+                var skillDomain = await this.skillController.CreateSkill();
 
                 // add skill to course after mapping
-                this.courseService.AddSkillToCourse(courseId, skillDomain);
+                await this.courseService.AddSkillToCourse(courseId, skillDomain);
                 Console.WriteLine("Do you want to add one more skill (Enter YES)?");
                 userChoice = Console.ReadLine();
             }

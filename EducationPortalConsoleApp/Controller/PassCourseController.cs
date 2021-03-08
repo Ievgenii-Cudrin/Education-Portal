@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using BusinessLogicLayer.Interfaces;
 using DataAccessLayer.Entities;
 using EducationPortal.BLL.Interfaces;
@@ -10,7 +11,6 @@ using EducationPortal.Domain.Entities;
 using EducationPortal.PL.Helpers;
 using EducationPortal.PL.Interfaces;
 using EducationPortal.PL.Models;
-using EducationPortalConsoleApp.Branch;
 using EducationPortalConsoleApp.Interfaces;
 using Entities;
 
@@ -24,6 +24,7 @@ namespace EducationPortal.PL.Controller
         private IMapperService mapperService;
         private IMaterialService materialService;
         private IUserCourseSqlService userCourseService;
+        private IApplication application;
 
         public PassCourseController(
             ICourseService courseService,
@@ -41,7 +42,12 @@ namespace EducationPortal.PL.Controller
             this.userCourseService = userCourseService;
         }
 
-        public static int GetIdFromUserToPassCourse()
+        public void WithApplication(IApplication application)
+        {
+            this.application = application;
+        }
+
+        public async Task<int> GetIdFromUserToPassCourse()
         {
             int id;
             Console.WriteLine("Please, enter course to pass");
@@ -53,46 +59,48 @@ namespace EducationPortal.PL.Controller
             catch (Exception ex)
             {
                 Console.WriteLine($"Invalid data + {ex.Message}");
-                ProgramBranch.SelectFirstStepForAuthorizedUser();
+                await this.application.SelectFirstStepForAuthorizedUser();
             }
 
             return -1;
         }
 
-        public void StartPassingCourseFromProgressList()
+        public async Task StartPassingCourseFromProgressList()
         {
+            var courseDomainListInProgress = (List<Course>)await this.userService.GetListWithCoursesInProgress();
             // Get all courses in progress
-            List<CourseViewModel> coursesListInProgressVM = this.GetListOfCoursesFromServiceAfterMappingToVM(this.userService.GetListWithCoursesInProgress().ToList());
+            List<CourseViewModel> coursesListInProgressVM = await this.GetListOfCoursesFromServiceAfterMappingToVM(courseDomainListInProgress);
+
 
             // CHeck, we have courses in progress, or no
             if (coursesListInProgressVM.Count <= 0)
             {
-                this.ShowMessageAndReturnToMainMenu("You have no unfinished courses!");
+                await this.ShowMessageAndReturnToMainMenu("You have no unfinished courses!");
             }
 
             // Show all courses in progress
             this.ShowCoursesToPass(coursesListInProgressVM);
 
             // get course id from user to continue
-            int courseInProgressIdToPass = GetIdFromUserToPassCourse();
+            int courseInProgressIdToPass = await this.GetIdFromUserToPassCourse();
 
             // checking valid course id
             if (!coursesListInProgressVM.Any(x => x.Id == courseInProgressIdToPass))
             {
-                this.ShowMessageAndReturnToMainMenu("Invalid ID.");
+                await this.ShowMessageAndReturnToMainMenu("Invalid ID.");
             }
 
             // get course in progress
-            var courseToProgressFromProcessList = this.userService.GetListWithCoursesInProgress().Where(x => x.Id == courseInProgressIdToPass).FirstOrDefault();
+            List<Course> courseToProgressFromProcessList = (List<Course>)await this.userService.GetListWithCoursesInProgress();
 
             // mapping to course domain to course view model
-            CourseViewModel courseVMInProgress = this.mapperService.CreateMapFromVMToDomainWithIncludeLsitType<Course, CourseViewModel, Material, MaterialViewModel, Skill, SkillViewModel>(courseToProgressFromProcessList);
+            CourseViewModel courseVMInProgress = this.mapperService.CreateMapFromVMToDomainWithIncludeLsitType<Course, CourseViewModel, Material, MaterialViewModel, Skill, SkillViewModel>(courseToProgressFromProcessList.Where(x => x.Id == courseInProgressIdToPass).FirstOrDefault());
 
             // mapping materials in progogress
-            courseVMInProgress.Materials = this.materialController.GetAllMaterialVMAfterMappingFromMaterialDomain(this.userService.GetMaterialsFromCourseInProgress(courseVMInProgress.Id));
+            courseVMInProgress.Materials = this.materialController.GetAllMaterialVMAfterMappingFromMaterialDomain((List<Material>)await this.userService.GetMaterialsFromCourseInProgress(courseVMInProgress.Id));
 
             // mapping skills
-            courseVMInProgress.Skills = this.mapperService.CreateListMap<Skill, SkillViewModel>(this.userService.GetSkillsFromCourseInProgress(courseVMInProgress.Id));
+            courseVMInProgress.Skills = this.mapperService.CreateListMap<Skill, SkillViewModel>((List<Skill>)await this.userService.GetSkillsFromCourseInProgress(courseVMInProgress.Id));
 
             if (courseVMInProgress != null)
             {
@@ -102,7 +110,7 @@ namespace EducationPortal.PL.Controller
                 List<MaterialViewModel> materials = courseVMInProgress.Materials.Where(x => x.IsPassed == false).ToList();
 
                 // Add to method course from processing list, and materials from this course, which do not passed
-                this.PassingCourse(ref courseVMInProgress, materials);
+                await this.PassingCourse(courseVMInProgress, materials);
 
                 // checking if all materials have been worked out
                 bool allMaterialsPassed = courseVMInProgress.Materials.All(x => x.IsPassed == true);
@@ -110,7 +118,7 @@ namespace EducationPortal.PL.Controller
                 if (allMaterialsPassed)
                 {
                     // if all materials passed => add skills for user and add course to Passed list, delete course from processing list
-                    this.WorkAfterSuccessfullyPassingCourse(allMaterialsPassed, courseVMInProgress);
+                    await this.WorkAfterSuccessfullyPassingCourse(allMaterialsPassed, courseVMInProgress);
                 }
                 else
                 {
@@ -118,11 +126,11 @@ namespace EducationPortal.PL.Controller
                     Thread.Sleep(4000);
                 }
 
-                ProgramBranch.SelectFirstStepForAuthorizedUser();
+                await this.application.SelectFirstStepForAuthorizedUser();
             }
         }
 
-        public void StartPassCourse()
+        public async Task StartPassCourse()
         {
             int numberOfPage = 1;
             bool selectedPage = false;
@@ -132,11 +140,11 @@ namespace EducationPortal.PL.Controller
             {
                 Console.Clear();
                 const int pageSize = 3;
-                int recordsCount = this.courseService.GetCount();
+                int recordsCount = await this.courseService.GetCount();
                 var pager = new PageInfo(recordsCount, numberOfPage, pageSize);
                 int coursesSkip = (numberOfPage - 1) * pageSize;
 
-                coursesListVM = this.GetListOfCoursesFromServiceAfterMappingToVM(this.courseService.GetCoursesPerPage(coursesSkip, pager.PageSize));
+                coursesListVM = await this.GetListOfCoursesFromServiceAfterMappingToVM((List<Course>)await this.courseService.GetCoursesPerPage(coursesSkip, pager.PageSize));
 
                 // ShowCourses
                 this.ShowCoursesToPass(coursesListVM);
@@ -144,6 +152,7 @@ namespace EducationPortal.PL.Controller
                 Console.WriteLine($"Count of pages - {pager.TotalPages}");
                 Console.WriteLine($"Current page - {numberOfPage}");
                 Console.WriteLine($"Do you want select another PAGE (enter page) or add COURSE to pass (enter course) from this page?");
+
                 string userChoice = Console.ReadLine();
 
                 switch (userChoice.ToLower())
@@ -165,17 +174,17 @@ namespace EducationPortal.PL.Controller
             while (selectedPage);
 
             // Get course id from user to passing
-            int courseIdToPass = GetIdFromUserToPassCourse();
+            int courseIdToPass = await this.GetIdFromUserToPassCourse();
 
             // Check, may be we this course course already started
-            if (this.userCourseService.CourseWasStarted(courseIdToPass)) // .GetListWithCoursesInProgress().Any(x => x.Id == courseIdToPass))
+            if (await this.userCourseService.CourseWasStarted(courseIdToPass)) 
             {
-                this.ShowMessageAndReturnToMainMenu("You have already started this course");
+                await this.ShowMessageAndReturnToMainMenu("You have already started this course");
             }
 
             if (!coursesListVM.Any(x => x.Id == courseIdToPass))
             {
-                this.ShowMessageAndReturnToMainMenu("Сourses with this id do not exist");
+                await this.ShowMessageAndReturnToMainMenu("Сourses with this id do not exist");
             }
 
             // Greate course to continue passing
@@ -186,18 +195,18 @@ namespace EducationPortal.PL.Controller
                 Console.Clear();
 
                 // add course to Progress List
-                this.userService.AddCourseInProgress(courseInProgress.Id);
+                await this.userService.AddCourseInProgress(courseInProgress.Id);
                 PassCourseConsoleMessageHelper.ShowInfoToStartPassingCourse();
 
                 // passing the course
-                this.PassingCourse(ref courseInProgress, courseInProgress.Materials.ToList());
+                await this.PassingCourse(courseInProgress, courseInProgress.Materials.ToList());
 
                 // checking if all materials have been worked out
                 bool allMaterialsPassed = courseInProgress.Materials.All(x => x.IsPassed == true);
 
                 // add skills for user and add course to Passed list
-                this.WorkAfterSuccessfullyPassingCourse(allMaterialsPassed, courseInProgress);
-                ProgramBranch.SelectFirstStepForAuthorizedUser();
+                await this.WorkAfterSuccessfullyPassingCourse(allMaterialsPassed, courseInProgress);
+                await this.application.SelectFirstStepForAuthorizedUser();
             }
         }
 
@@ -225,15 +234,15 @@ namespace EducationPortal.PL.Controller
             }
         }
 
-        private void ShowMessageAndReturnToMainMenu(string message)
+        private async Task ShowMessageAndReturnToMainMenu(string message)
         {
             // Show message with error and return to main menu
             Console.WriteLine(message);
             Thread.Sleep(4000);
-            ProgramBranch.SelectFirstStepForAuthorizedUser();
+            await this.application.SelectFirstStepForAuthorizedUser();
         }
 
-        private void PassingCourse(ref CourseViewModel courseInProgress, List<MaterialViewModel> materials)
+        private async Task PassingCourse(CourseViewModel courseInProgress, List<MaterialViewModel> materials)
         {
             foreach (var material in materials)
             {
@@ -250,7 +259,7 @@ namespace EducationPortal.PL.Controller
                     courseInProgress.Materials.Select(x => x).Where(x => x.Name == material.Name).FirstOrDefault().IsPassed = true;
 
                     // update user with new value
-                    this.userService.UpdateValueOfPassMaterialInProgress(courseInProgress.Id, material.Id);
+                    await this.userService.UpdateValueOfPassMaterialInProgress(courseInProgress.Id, material.Id);
                 }
                 else if (learnMaterial.ToLower() == "exit")
                 {
@@ -260,31 +269,31 @@ namespace EducationPortal.PL.Controller
             }
         }
 
-        private List<CourseViewModel> GetListOfCoursesFromServiceAfterMappingToVM(List<Course> courses)
+        private async Task<List<CourseViewModel>> GetListOfCoursesFromServiceAfterMappingToVM(List<Course> courses)
         {
             // Mapping entity to view model, and mapping include entities lists
             List<CourseViewModel> coursesListVM = this.mapperService.CreateListMapFromVMToDomainWithIncludeLsitType<Course, CourseViewModel, Material, MaterialViewModel, Skill, SkillViewModel>(courses);
 
             foreach (var course in coursesListVM)
             {
-                course.Materials = this.mapperService.CreateListMapFromVMToDomainWithIncludeMaterialType<Material, MaterialViewModel, Video, VideoViewModel, Article, ArticleViewModel, Book, BookViewModel>(this.courseService.GetMaterialsFromCourse(course.Id));
-                course.Skills = this.mapperService.CreateListMap<Skill, SkillViewModel>(this.courseService.GetSkillsFromCourse(course.Id));
+                course.Materials = this.mapperService.CreateListMapFromVMToDomainWithIncludeMaterialType<Material, MaterialViewModel, Video, VideoViewModel, Article, ArticleViewModel, Book, BookViewModel>((List<Material>)await this.courseService.GetMaterialsFromCourse(course.Id));
+                course.Skills = this.mapperService.CreateListMap<Skill, SkillViewModel>((List<Skill>)await this.courseService.GetSkillsFromCourse(course.Id));
             }
 
             return coursesListVM;
         }
 
-        private void WorkAfterSuccessfullyPassingCourse(bool allMaterialsPassed, CourseViewModel successfullyСompletedСourse)
+        private async Task WorkAfterSuccessfullyPassingCourse(bool allMaterialsPassed, CourseViewModel successfullyСompletedСourse)
         {
             if (allMaterialsPassed)
             {
                 // add course to Passed List
-                this.userService.AddCourseToPassed(successfullyСompletedСourse.Id);
+                await this.userService.AddCourseToPassed(successfullyСompletedСourse.Id);
 
                 // add skills to user
                 foreach (var skill in successfullyСompletedСourse.Skills)
                 {
-                    this.userService.AddSkill(this.mapperService.CreateMapFromVMToDomain<SkillViewModel, Skill>(skill));
+                    await this.userService.AddSkill(this.mapperService.CreateMapFromVMToDomain<SkillViewModel, Skill>(skill));
                 }
 
                 Console.WriteLine($"Congratulations, you have successfully completed the course {successfullyСompletedСourse.Name}");

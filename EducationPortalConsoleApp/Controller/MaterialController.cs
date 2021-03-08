@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
     using BusinessLogicLayer.Interfaces;
     using EducationPortal.Domain.Entities;
     using EducationPortal.PL.InstanceCreator;
@@ -24,7 +25,7 @@
             this.mapperService = mapper;
         }
 
-        public Material CreateVideo()
+        public async Task<Material> CreateVideo()
         {
             // create video
             VideoViewModel materialVM = VideoVMInstanceCreator.CreateVideo();
@@ -33,7 +34,7 @@
             var videoAfterMap = this.mapperService.CreateMapFromVMToDomain<VideoViewModel, Video>(materialVM);
 
             // add video to db
-            bool succsess = this.materialService.CreateMaterial(videoAfterMap);
+            bool succsess = await this.materialService.CreateMaterial(videoAfterMap);
 
             if (videoAfterMap != null && succsess)
             {
@@ -45,7 +46,7 @@
             }
         }
 
-        public Material CreateArticle()
+        public async Task<Material> CreateArticle()
         {
             // create article
             ArticleViewModel articleVM = ArticleVMInstanceCreator.CreateArticle();
@@ -54,7 +55,7 @@
             var articleAfterMap = this.mapperService.CreateMapFromVMToDomain<ArticleViewModel, Article>(articleVM);
 
             // add article to db
-            bool succsess = this.materialService.CreateMaterial(articleAfterMap);
+            bool succsess = await this.materialService.CreateMaterial(articleAfterMap);
 
             if (articleAfterMap != null && succsess)
             {
@@ -66,7 +67,7 @@
             }
         }
 
-        public Material CreateBook()
+        public async Task<Material> CreateBook()
         {
             // create book
             BookViewModel bookVM = BookVMInstanceCreator.CreateBook();
@@ -75,7 +76,7 @@
             var bookAfterMap = this.mapperService.CreateMapFromVMToDomain<BookViewModel, Book>(bookVM);
 
             // add book to db
-            bool success = this.materialService.CreateMaterial(bookAfterMap);
+            bool success = await this.materialService.CreateMaterial(bookAfterMap);
 
             if (bookAfterMap != null && success)
             {
@@ -87,7 +88,7 @@
             }
         }
 
-        public Material GetMaterialFromAllMaterials(int courseId)
+        public async Task<Material> GetMaterialFromAllMaterials(int courseId)
         {
             int numberOfPage = 1;
             bool selectedPage = false;
@@ -96,11 +97,11 @@
             {
                 Console.Clear();
                 const int pageSize = 3;
-                int recordsCount = this.materialService.GetCount();
+                int recordsCount = await this.materialService.GetCount();
                 var pager = new PageInfo(recordsCount, numberOfPage, pageSize);
                 int recordsSkip = (numberOfPage - 1) * pageSize;
 
-                List<MaterialViewModel> materialsVM1 = this.GetAllMaterialVMAfterMappingFromMaterialDomain(this.materialService.GetAllMaterialsForOnePage(recordsSkip, pager.PageSize).ToList());
+                List<MaterialViewModel> materialsVM1 = this.GetAllMaterialVMAfterMappingFromMaterialDomain((List<Material>)await this.materialService.GetAllMaterialsForOnePage(recordsSkip, pager.PageSize));
 
                 // ShowMaterials
                 MaterialConsoleMessageHelper.ShowMaterial(materialsVM1);
@@ -139,10 +140,10 @@
             {
                 id = 0;
                 Console.WriteLine($"Invalid value");
-                this.GetMaterialFromAllMaterials(courseId);
+                await this.GetMaterialFromAllMaterials(courseId);
             }
 
-            return this.materialService.GetMaterial(id);
+            return await this.materialService.GetMaterial(id);
         }
 
         public List<MaterialViewModel> GetAllMaterialVMAfterMappingFromMaterialDomain(List<Material> materialsListDomain)

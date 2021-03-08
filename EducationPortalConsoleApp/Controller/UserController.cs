@@ -5,6 +5,7 @@ namespace EducationPortalConsoleApp.Controller
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
+    using System.Threading.Tasks;
     using BusinessLogicLayer.Interfaces;
     using DataAccessLayer.Entities;
     using EducationPortal.BLL.Interfaces;
@@ -12,7 +13,6 @@ namespace EducationPortalConsoleApp.Controller
     using EducationPortal.PL.Interfaces;
     using EducationPortal.PL.Mapping;
     using EducationPortal.PL.Models;
-    using EducationPortalConsoleApp.Branch;
     using EducationPortalConsoleApp.Helpers;
     using EducationPortalConsoleApp.Interfaces;
     using Entities;
@@ -23,6 +23,7 @@ namespace EducationPortalConsoleApp.Controller
         private IMapperService mapperService;
         private ILogInService logInService;
         private IAuthorizedUser authorizedUser;
+        private IApplication application;
 
         public UserController(IUserService userService,
             IMapperService mapper,
@@ -35,53 +36,60 @@ namespace EducationPortalConsoleApp.Controller
             this.authorizedUser = authorizedUser;
         }
 
-        public void VerifyLoginAndPassword()
+        public void WithApplication(IApplication application)
+        {
+            this.application = application;
+        }
+
+        public async Task VerifyLoginAndPassword()
         {
             // get data from user
             string name = GetDataHelper.GetNameFromUser();
             string password = GetDataHelper.GetPasswordFromUser();
 
             // verify user
-            bool validUser = this.logInService.LogIn(name, password);
+            bool validUser = await this.logInService.LogIn(name, password);
 
             if (validUser)
             {
-                ProgramBranch.SelectFirstStepForAuthorizedUser();
+                await this.application.SelectFirstStepForAuthorizedUser();
             }
             else
             {
                 Console.WriteLine("User with such data does not exist");
                 Thread.Sleep(4000);
-                ProgramBranch.StartApplication();
+                await this.application.StartApplication();
             }
         }
 
-        public void CreateNewUser()
+        public async Task CreateNewUser()
         {
             Console.Clear();
             // create user
             UserViewModel userVM = UserVMInstanceCreator.CreateUser();
             var user = this.mapperService.CreateMapFromVMToDomain<UserViewModel, User>(userVM);
+
             // user data is valid?
-            if (this.userService.ExistEmail(x => x.Email == user.Email))
+            if (await this.userService.ExistEmail(x => x.Email == user.Email))
             {
                 Console.WriteLine("User with this email already exists!");
                 Thread.Sleep(4000);
-                ProgramBranch.StartApplication();
+                await this.application.StartApplication();
             }
 
             // Create new user, if not - false
-            bool createUser = this.userService.CreateUser(user);
+            bool createUser = await this.userService.CreateUser(user);
 
-            // Show result
-            ProgramConsoleMessageHelper.
-                ShowFunctionResult(
-                createUser,
-                "User successfully created!",
-                "Something wrong",
-                ProgramBranch.StartApplication,
-                ProgramBranch.StartApplication
-                );
+            if (createUser)
+            {
+                Console.WriteLine("User successfully created!");
+            }
+            else
+            {
+                Console.WriteLine("Something wrong");
+            }
+
+            await this.application.StartApplication();
         }
 
         public void LogOut()
@@ -89,50 +97,50 @@ namespace EducationPortalConsoleApp.Controller
             this.logInService.LogOut();
         }
 
-        public void ShowAllPassedCourses()
+        public async Task ShowAllPassedCourses()
         {
             //get all passed courses from bll and mapping
-            List<CourseViewModel> passedCourses = this.mapperService.CreateListMapFromVMToDomainWithIncludeLsitType<Course, CourseViewModel, Material, MaterialViewModel, Skill, SkillViewModel>(this.userService.GetAllPassedCourseFromUser());
+            List<CourseViewModel> passedCourses = this.mapperService.CreateListMapFromVMToDomainWithIncludeLsitType<Course, CourseViewModel, Material, MaterialViewModel, Skill, SkillViewModel>((List<Course>)await this.userService.GetAllPassedCourseFromUser());
 
             if (passedCourses.Count == 0)
             {
                 this.ShowMessageIfCountOfCourseListIsZero("Нou do not have passed courses");
             }
 
-            ProgramConsoleMessageHelper.ShowCourseAndReturnMethod(passedCourses);
+            ProgramConsoleMessageHelper.ShowCourseAndReturnMethod(this.application, passedCourses);
         }
 
-        public void ShowAllCourseInProggres()
+        public async Task ShowAllCourseInProggres()
         {
             // get courses in progress from bll and mapping
-            List<CourseViewModel> coursesInProgress = this.mapperService.CreateListMapFromVMToDomainWithIncludeLsitType<Course, CourseViewModel, Material, MaterialViewModel, Skill, SkillViewModel>(this.userService.GetListWithCoursesInProgress());
+            List<CourseViewModel> coursesInProgress = this.mapperService.CreateListMapFromVMToDomainWithIncludeLsitType<Course, CourseViewModel, Material, MaterialViewModel, Skill, SkillViewModel>((List<Course>)await this.userService.GetListWithCoursesInProgress());
 
             if (coursesInProgress.Count == 0)
             {
-                this.ShowMessageIfCountOfCourseListIsZero("Нou do not have started courses");
+                await this.ShowMessageIfCountOfCourseListIsZero("Нou do not have started courses");
             }
 
-            ProgramConsoleMessageHelper.ShowCourseAndReturnMethod(coursesInProgress);
+            ProgramConsoleMessageHelper.ShowCourseAndReturnMethod(this.application, coursesInProgress);
         }
 
-        private void ShowMessageIfCountOfCourseListIsZero(string message)
+        private async Task ShowMessageIfCountOfCourseListIsZero(string message)
         {
             Console.WriteLine(message);
             Thread.Sleep(4000);
-            ProgramBranch.SelectFirstStepForAuthorizedUser();
+            await this.application.SelectFirstStepForAuthorizedUser();
         }
 
-        public void ShowAllUserSkills()
+        public async Task ShowAllUserSkills()
         {
             Console.Clear();
             // get user skills from bll and mapping
-            List<SkillViewModel> userSkills = this.mapperService.CreateListMap<Skill, SkillViewModel>(this.userService.GetAllUserSkills());
+            List<SkillViewModel> userSkills = this.mapperService.CreateListMap<Skill, SkillViewModel>((List<Skill>)await this.userService.GetAllUserSkills());
 
             if (userSkills == null)
             {
                 Console.WriteLine("You don't have skills yet!");
                 Thread.Sleep(4000);
-                ProgramBranch.SelectFirstStepForAuthorizedUser();
+                await this.application.SelectFirstStepForAuthorizedUser();
             }
 
             // show skills
@@ -141,7 +149,7 @@ namespace EducationPortalConsoleApp.Controller
                 Console.WriteLine($"{i + 1}.{userSkills[i].Name}. Count of points - {userSkills[i].CountOfPoint}");
             }
 
-            ProgramConsoleMessageHelper.ReturnMethod();
+            ProgramConsoleMessageHelper.ReturnMethod(this.application);
         }
 
         public void ShowUserInfo()
@@ -153,7 +161,7 @@ namespace EducationPortalConsoleApp.Controller
                 $"Phone Number - {this.authorizedUser.User.PhoneNumber}\n" +
                 $"Email - {this.authorizedUser.User.Email}\n");
 
-            ProgramConsoleMessageHelper.ReturnMethod();
+            ProgramConsoleMessageHelper.ReturnMethod(this.application);
         }
     }
 }
