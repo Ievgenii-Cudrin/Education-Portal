@@ -24,6 +24,9 @@ namespace EducationPortalConsoleApp.DependencyInjection
     using EducationPortal.DAL.Repositories;
     using EducationPortal.Domain.Entities;
     using Microsoft.Extensions.Logging;
+    using EducationPortal.PL.DependencyInjection;
+    using EducationPortal.PL;
+    using EducationPortal.PL.Helpers;
 
     public class Startup
     {
@@ -36,45 +39,24 @@ namespace EducationPortalConsoleApp.DependencyInjection
             .AddJsonFile("Config.json", optional: false, reloadOnChange: true)
             .Build();
         }
-        public IServiceProvider ConfigureService()
-        {
-            var provider = new ServiceCollection()
-                .AddTransient(typeof(IXmlSet<>), typeof(XmlSet<>))
-                .AddTransient(typeof(IXmlSerializeContext<>), typeof(XmlSerializationContextGeneric<>))
-                // Repositories
-                .AddTransient<IRepository<UserCourse>, UserCourseXmlRepository>()
-                .AddTransient<IRepository<CourseMaterial>, CourseMaterialXmlRepository>()
-                .AddTransient<IRepository<CourseSkill>, CourseSkillXmlRepository>()
-                .AddTransient<IRepository<UserMaterial>, UserMaterialXmlRepository>()
-                .AddTransient<IRepository<UserSkill>, UserSkillXmlRepository>()
-                .AddTransient<IRepository<UserCourseMaterial>, UserCourseMaterialXmlRepository>()
-                .AddTransient(typeof(IRepository<>), typeof(RepositoryXml<>))
-                //.AddTransient(typeof(IRepository<>), typeof(RepositorySql<>))
-                .AddDbContext<ApplicationContext>(options => options.UseSqlServer(configuration["ConnectionStrings:UserDBConnection"]))
-                // Services
-                .AddTransient<IUserService, UserService>()
-                .AddTransient<ICourseService, CourseService>()
-                .AddTransient<IMaterialService, MaterialService>()
-                .AddTransient<ISkillService, SkillService>()
-                .AddTransient<ILogInService, LogInService>()
-                .AddTransient<IUserCourseSqlService, UserCourseService>()
-                .AddTransient<ICourseMaterialService, CourseMaterialService>()
-                .AddTransient<ICourseSkillService, CourseSkillService>()
-                .AddTransient<IUserCourseMaterialSqlService, UserCourseMaterialService>()
-                .AddTransient<IUserMaterialSqlService, UserMaterialService>()
-                .AddTransient<IUserSkillSqlService, UserSkillService>()
-                .AddTransient<IAuthorizedUser, AuthorizerUser>()
-                .AddTransient<IWorkWithAuthorizedUser, AuthorizerUser>()
-                //ConsoleControllers
-                .AddTransient<IMaterialController, MaterialController>()
-                .AddTransient<IUserController, UserController>()
-                .AddTransient<ICourseController, CourseController>()
-                .AddTransient<ISkillController, SkillController>()
-                .AddTransient<IPassCourseController, PassCourseController>()
-                .AddTransient<IMapperService, Mapping>()
-                .BuildServiceProvider();
 
-            return provider;
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddTransient(typeof(IXmlSet<>), typeof(XmlSet<>));
+            services.AddTransient(typeof(IXmlSerializeContext<>), typeof(XmlSerializationContextGeneric<>));
+            services.AddTransient<IMapperService, Mapping>();
+            services.AddTransient<IApplication, App>();
+
+            // Repositories
+            services.AddRepositories();
+            services.AddDbContext<ApplicationContext>(options =>
+                    options.UseSqlServer(configuration["ConnectionStrings:UserDBConnection"]), ServiceLifetime.Transient);
+
+            // Services
+            services.AddBusinessLogicServices();
+
+            //ConsoleControllers
+            services.AddConsoleAppControllers();
         }
     }
 }
