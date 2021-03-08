@@ -1,7 +1,10 @@
 ﻿namespace EducationPortal.BLL.ServicesSql
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
+    using System.Linq.Expressions;
+    using System.Threading.Tasks;
     using BusinessLogicLayer.Interfaces;
     using DataAccessLayer.Entities;
     using DataAccessLayer.Interfaces;
@@ -18,27 +21,29 @@
             this.skillRepository = repository;
         }
 
-        public void CreateSkill(Skill skill)
+        public async Task CreateSkill(Skill skill)
         {
-            if (!this.skillRepository.Exist(x => x.Name == skill.Name))
+            bool skillExist = await this.skillRepository.Exist(x => x.Name == skill.Name);
+
+            if (!skillExist)
             {
-                this.skillRepository.Add(skill);
+                await this.skillRepository.Add(skill);
             }
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            if (skillRepository.Exist(x => x.Id == id))
+            if (await this.skillRepository.Exist(x => x.Id == id))
             {
-                this.skillRepository.Delete(id);
+                await this.skillRepository.Delete(id);
             }
         }
 
-        public Skill GetSkill(int id)
+        public async Task<Skill> GetSkill(int id)
         {
             try
             {
-                return this.skillRepository.Get(id);
+                return await this.skillRepository.Get(id);
             }
             catch (SqlException)
             {
@@ -46,17 +51,29 @@
             }
         }
 
-        public void UpdateSkill(Skill skill)
+        public async Task<Skill> GetSkillsByPredicate(Expression<Func<Skill, bool>> predicat)
         {
-            if (skill != null)
+            try
             {
-                this.skillRepository.Update(skill);
+                return await this.skillRepository.GetOne(predicat);
+            }
+            catch (SqlException)
+            {
+                return null;
             }
         }
 
-        public bool ExistSkill(int skillId)
+        public async Task UpdateSkill(Skill skill)
         {
-            return this.skillRepository.Exist(x => x.Id == skillId);
+            if (skill != null)
+            {
+                await this.skillRepository.Update(skill);
+            }
+        }
+
+        public async Task<bool> ExistSkill(int skillId)
+        {
+            return await this.skillRepository.Exist(x => x.Id == skillId);
         }
     }
 }

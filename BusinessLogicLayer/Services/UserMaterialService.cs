@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using System.Threading.Tasks;
     using DataAccessLayer.Interfaces;
     using EducationPortal.BLL.Interfaces;
     using EducationPortal.DAL.Repositories;
@@ -21,9 +22,9 @@
             this.userMaterialRepository = userMaterialRepository;
         }
 
-        public bool AddMaterialToUser(int userId, int materialId)
+        public async Task<bool> AddMaterialToUser(int userId, int materialId)
         {
-            if (this.userMaterialRepository.Exist(x => x.UserId == userId && x.MaterialId == materialId))
+            if (await this.userMaterialRepository.Exist(x => x.UserId == userId && x.MaterialId == materialId))
             {
                 return false;
             }
@@ -34,13 +35,13 @@
                 MaterialId = materialId,
             };
 
-            this.userMaterialRepository.Add(userMaterial);
+            await this.userMaterialRepository.Add(userMaterial);
             return true;
         }
 
-        public List<Material> GetAllMaterialInUser(int userId)
+        public async Task<IList<Material>> GetAllMaterialInUser(int userId)
         {
-            return this.userMaterialRepository.Get<Material>(x => x.Material, x => x.UserId == userId).ToList();
+            return await this.userMaterialRepository.Get<Material>(x => x.Material, x => x.UserId == userId);
         }
     }
 }

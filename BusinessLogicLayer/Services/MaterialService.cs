@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using BusinessLogicLayer.Interfaces;
 using DataAccessLayer.Interfaces;
 using EducationPortal.BLL.Interfaces;
@@ -29,13 +30,15 @@ namespace EducationPortal.BLL.ServicesSql
             this.courseMaterialService = courseMaterialService;
         }
 
-        public bool CreateMaterial(Material material)
+        public async Task<bool> CreateMaterial(Material material)
         {
             try
             {
-                if (material != null && !this.materialRepository.Exist(x => x.Name == material.Name))
+                bool materialExist = await this.materialRepository.Exist(x => x.Name == material.Name);
+
+                if (material != null && !materialExist)
                 {
-                    this.materialRepository.Add(material);
+                    await this.materialRepository.Add(material);
                     return true;
                 }
 
@@ -47,11 +50,11 @@ namespace EducationPortal.BLL.ServicesSql
             }
         }
 
-        public bool Delete(int materialId)
+        public async Task<bool> Delete(int materialId)
         {
             try
             {
-                this.materialRepository.Delete(materialId);
+                await this.materialRepository.Delete(materialId);
                 return true;
             }
             catch (SqlException)
@@ -60,10 +63,9 @@ namespace EducationPortal.BLL.ServicesSql
             }
         }
 
-        public IEnumerable<Material> GetAllMaterialsForOnePage(int take, int skip)
+        public async Task<IEnumerable<Material>> GetAllMaterialsForOnePage(int take, int skip)
         {
-            var a = this.materialRepository.GetPage(take, skip);
-            return this.materialRepository.GetPage(take, skip);
+            return await this.materialRepository.GetPage(take, skip);
         }
 
         public IEnumerable<Material> GetAllNotPassedMaterialFromUser()
@@ -71,11 +73,11 @@ namespace EducationPortal.BLL.ServicesSql
             throw new NotImplementedException();
         }
 
-        public Material GetMaterial(int materialId)
+        public async Task<Material> GetMaterial(int materialId)
         {
             try
             {
-                return this.materialRepository.Get(x => x.Id == materialId).FirstOrDefault();
+                return await this.materialRepository.GetOne(x => x.Id == materialId);
             }
             catch (SqlException)
             {
@@ -83,14 +85,14 @@ namespace EducationPortal.BLL.ServicesSql
             }
         }
 
-        public bool ExistMaterial(int materialId)
+        public async Task<bool> ExistMaterial(int materialId)
         {
-            return this.materialRepository.Exist(x => x.Id == materialId);
+            return await this.materialRepository.Exist(x => x.Id == materialId);
         }
 
-        public int GetCount()
+        public async Task<int> GetCount()
         {
-            return this.materialRepository.Count();
+            return await this.materialRepository.Count();
         }
     }
 }

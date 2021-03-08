@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using DataAccessLayer.Interfaces;
 using EducationPortal.BLL.Interfaces;
 using EducationPortal.Domain.Entities;
@@ -18,11 +19,11 @@ namespace EducationPortal.BLL.Services
             this.courseMaterialRepository = courseMatRepository;
         }
 
-        public bool AddMaterialToCourse(int courseId, int materialId)
+        public async Task<bool> AddMaterialToCourse(int courseId, int materialId)
         {
             try
             {
-                if (this.courseMaterialRepository.Exist(x => x.CourseId == courseId && x.MaterialId == materialId))
+                if (await this.courseMaterialRepository.Exist(x => x.CourseId == courseId && x.MaterialId == materialId))
                 {
                     return false;
                 }
@@ -33,7 +34,7 @@ namespace EducationPortal.BLL.Services
                     MaterialId = materialId,
                 };
 
-                this.courseMaterialRepository.Add(courseMaterial);
+                await this.courseMaterialRepository.Add(courseMaterial);
                 return true;
             }
             catch (Exception)
@@ -42,9 +43,9 @@ namespace EducationPortal.BLL.Services
             }
         }
 
-        public List<Material> GetAllMaterialsFromCourse(int courseId)
+        public async Task<IList<Material>> GetAllMaterialsFromCourse(int courseId)
         {
-            return this.courseMaterialRepository.Get<Material>(x => x.Material, x => x.CourseId == courseId).ToList();
+            return await this.courseMaterialRepository.Get<Material>(x => x.Material, x => x.CourseId == courseId);
         }
     }
 }

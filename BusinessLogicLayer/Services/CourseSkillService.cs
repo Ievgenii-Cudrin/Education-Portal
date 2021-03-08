@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using DataAccessLayer.Entities;
 using DataAccessLayer.Interfaces;
 using EducationPortal.BLL.Interfaces;
@@ -26,11 +27,13 @@ namespace EducationPortal.BLL.ServicesSql
             this.skillRepository = skillRepo;
         }
 
-        public bool AddSkillToCourse(int courseId, int skillId)
+        public async Task<bool> AddSkillToCourse(int courseId, int skillId)
         {
             try
             {
-                if (!this.courseSkillRepository.Exist(x => x.CourseId == courseId && x.SkillId == skillId))
+                bool userSkillExist = await this.courseSkillRepository.Exist(x => x.CourseId == courseId && x.SkillId == skillId);
+
+                if (!userSkillExist)
                 {
                     var courseSkill = new CourseSkill()
                     {
@@ -38,7 +41,7 @@ namespace EducationPortal.BLL.ServicesSql
                         SkillId = skillId,
                     };
 
-                    this.courseSkillRepository.Add(courseSkill);
+                    await this.courseSkillRepository.Add(courseSkill);
                     return true;
                 }
                 else
@@ -52,9 +55,9 @@ namespace EducationPortal.BLL.ServicesSql
             }
         }
 
-        public List<Skill> GetAllSkillsFromCourse(int courseId)
+        public async Task<IList<Skill>> GetAllSkillsFromCourse(int courseId)
         {
-            return this.courseSkillRepository.Get<Skill>(x => x.Skill, x => x.CourseId == courseId).ToList();
+            return await this.courseSkillRepository.Get<Skill>(x => x.Skill, x => x.CourseId == courseId);
         }
     }
 }

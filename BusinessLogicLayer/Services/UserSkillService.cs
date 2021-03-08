@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using System.Threading.Tasks;
     using DataAccessLayer.Entities;
     using DataAccessLayer.Interfaces;
     using EducationPortal.BLL.Interfaces;
@@ -20,9 +21,9 @@
             this.userSkillRepository = userSkillRepository;
         }
 
-        public void AddSkillToUser(int userId, int skillId)
+        public async Task AddSkillToUser(int userId, int skillId)
         {
-            var userSkill = this.userSkillRepository.GetOne(x => x.UserId == userId && x.SkillId == skillId);
+            var userSkill = await this.userSkillRepository.GetOne(x => x.UserId == userId && x.SkillId == skillId);
 
             if (userSkill != null)
             {
@@ -37,13 +38,13 @@
                     SkillId = skillId,
                 };
 
-                this.userSkillRepository.Add(userSkill);
+                await this.userSkillRepository.Add(userSkill);
             }
         }
 
-        public List<Skill> GetAllSkillInUser(int userId)
+        public async Task<IList<Skill>> GetAllSkillInUser(int userId)
         {
-            return this.userSkillRepository.Get<Skill>(x => x.Skill, x => x.UserId == userId).ToList();
+            return await this.userSkillRepository.Get<Skill>(x => x.Skill, x => x.UserId == userId);
         }
     }
 }

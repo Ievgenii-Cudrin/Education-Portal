@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using System.Threading.Tasks;
     using DataAccessLayer.Entities;
     using DataAccessLayer.Interfaces;
     using EducationPortal.BLL.Interfaces;
@@ -17,7 +18,8 @@
         private IUserCourseMaterialSqlService userCourseMaterialSqlService;
         private IAuthorizedUser authorizedUser;
 
-        public UserCourseService(IRepository<UserCourse> userCourseRepository,
+        public UserCourseService(
+            IRepository<UserCourse> userCourseRepository,
             IUserCourseMaterialSqlService userCourseMaterialSqlService,
             IAuthorizedUser authorizedUser)
         {
@@ -26,13 +28,14 @@
             this.authorizedUser = authorizedUser;
         }
 
-        public void AddCourseToUser(int userId, int courseId)
+        public async Task AddCourseToUser(int userId, int courseId)
         {
             int id = 0;
 
-            if (this.userCourseRepository.Exist(x => x.Id == 0))
+            if (await this.userCourseRepository.Exist(x => x.Id == 0))
             {
-                id = this.userCourseRepository.GetLastEntity(x => x.Id).Id;
+                var userCourseLast = await this.userCourseRepository.GetLastEntity(x => x.Id);
+                id = userCourseLast.Id;
             }
 
             var newUserCourse = new UserCourse()
@@ -43,38 +46,38 @@
                 IsPassed = false,
             };
 
-            this.userCourseRepository.Add(newUserCourse);
-            this.userCourseMaterialSqlService.AddMaterialsToUserCourse(newUserCourse.Id, courseId);
+            await this.userCourseRepository.Add(newUserCourse);
+            await this.userCourseMaterialSqlService.AddMaterialsToUserCourse(newUserCourse.Id, courseId);
         }
 
-        public List<Course> GetAllCourseInProgress(int userId)
+        public async Task<IList<Course>> GetAllCourseInProgress(int userId)
         {
-            return this.userCourseRepository.Get<Course>(s => s.Course, s => s.UserId == userId && s.IsPassed == false).ToList();
+            return await this.userCourseRepository.Get<Course>(s => s.Course, s => s.UserId == userId && s.IsPassed == false);
         }
 
-        public bool CourseWasStarted(int courseId)
+        public async Task<bool> CourseWasStarted(int courseId)
         {
-            return this.userCourseRepository.Exist(x => x.UserId == this.authorizedUser.User.Id && x.CourseId == courseId);
+            return await this.userCourseRepository.Exist(x => x.UserId == this.authorizedUser.User.Id && x.CourseId == courseId);
         }
 
-        public bool ExistUserCourse(int userCourseId)
+        public async Task<bool> ExistUserCourse(int userCourseId)
         {
-            return this.userCourseRepository.Exist(x => x.Id == userCourseId);
+            return await this.userCourseRepository.Exist(x => x.Id == userCourseId);
         }
 
-        public List<Course> GetAllPassedAndProgressCoursesForUser(int userId)
+        public async Task<IList<Course>> GetAllPassedAndProgressCoursesForUser(int userId)
         {
-            return this.userCourseRepository.Get<Course>(s => s.Course, s => s.UserId == userId).ToList();
+            return await this.userCourseRepository.Get<Course>(s => s.Course, s => s.UserId == userId);
         }
 
-        public UserCourse GetUserCourse(int userId, int courseId)
+        public async Task<UserCourse> GetUserCourse(int userId, int courseId)
         {
-            return this.userCourseRepository.Get(x => x.UserId == userId && x.CourseId == courseId).FirstOrDefault();
+            return await this.userCourseRepository.GetOne(x => x.UserId == userId && x.CourseId == courseId);
         }
 
-        public bool SetPassForUserCourse(int userId, int courseId)
+        public async Task<bool> SetPassForUserCourse(int userId, int courseId)
         {
-            var userCourse = this.userCourseRepository.GetOne(x => x.UserId == userId && x.CourseId == courseId);
+            var userCourse = await this.userCourseRepository.GetOne(x => x.UserId == userId && x.CourseId == courseId);
 
             if (userCourse == null)
             {
@@ -82,13 +85,14 @@
             }
 
             userCourse.IsPassed = true;
-            this.userCourseRepository.Update(userCourse);
+            await this.userCourseRepository.Update(userCourse);
+
             return true;
         }
 
-        public List<Course> GetAllPassedCourse(int userId)
+        public async Task<IList<Course>> GetAllPassedCourse(int userId)
         {
-            return this.userCourseRepository.Get<Course>(x => x.Course, x => x.UserId == userId && x.IsPassed == true).ToList();
+            return await this.userCourseRepository.Get<Course>(x => x.Course, x => x.UserId == userId && x.IsPassed == true);
         }
     }
 }

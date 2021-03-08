@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using BusinessLogicLayer.Interfaces;
 using DataAccessLayer.Entities;
 using DataAccessLayer.Interfaces;
@@ -34,11 +35,11 @@ namespace EducationPortal.BLL.ServicesSql
             this.skillService = skillService;
         }
 
-        public bool AddMaterialToCourse(int courseId, Material material)
+        public async Task<bool> AddMaterialToCourse(int courseId, Material material)
         {
             try
             {
-                return this.courseMaterialService.AddMaterialToCourse(courseId, material.Id);
+                return await this.courseMaterialService.AddMaterialToCourse(courseId, material.Id);
             }
             catch (SqlException)
             {
@@ -46,11 +47,11 @@ namespace EducationPortal.BLL.ServicesSql
             }
         }
 
-        public bool AddSkillToCourse(int courseId, Skill skillToAdd)
+        public async Task<bool> AddSkillToCourse(int courseId, Skill skillToAdd)
         {
             try
             {
-                return this.courseSkillService.AddSkillToCourse(courseId, skillToAdd.Id);
+                return await this.courseSkillService.AddSkillToCourse(courseId, skillToAdd.Id);
             }
             catch (SqlException)
             {
@@ -58,24 +59,24 @@ namespace EducationPortal.BLL.ServicesSql
             }
         }
 
-        public bool CreateCourse(Course course)
+        public async Task<bool> CreateCourse(Course course)
         {
-            bool uniqueCourse = course != null && !this.courseRepository.Exist(x => x.Name == course.Name);
+            bool courseExist = await this.courseRepository.Exist(x => x.Name == course.Name);
 
-            if (uniqueCourse)
+            if (course != null && !courseExist)
             {
-                this.courseRepository.Add(course);
+                await this.courseRepository.Add(course);
                 return true;
             }
 
             return false;
         }
 
-        public bool Delete(int id)
+        public async Task<bool> Delete(int id)
         {
             try
             {
-                this.courseRepository.Delete(id);
+                await this.courseRepository.Delete(id);
                 return true;
             }
             catch (SqlException)
@@ -84,11 +85,11 @@ namespace EducationPortal.BLL.ServicesSql
             }
         }
 
-        public List<Material> GetMaterialsFromCourse(int id)
+        public async Task<IList<Material>> GetMaterialsFromCourse(int id)
         {
             try
             {
-                return this.courseMaterialService.GetAllMaterialsFromCourse(id);
+                return await this.courseMaterialService.GetAllMaterialsFromCourse(id);
             }
             catch (SqlException)
             {
@@ -96,11 +97,11 @@ namespace EducationPortal.BLL.ServicesSql
             }
         }
 
-        public List<Skill> GetSkillsFromCourse(int id)
+        public async Task<IList<Skill>> GetSkillsFromCourse(int id)
         {
             try
             {
-                return this.courseSkillService.GetAllSkillsFromCourse(id);
+                return await this.courseSkillService.GetAllSkillsFromCourse(id);
             }
             catch (SqlException)
             {
@@ -108,11 +109,11 @@ namespace EducationPortal.BLL.ServicesSql
             }
         }
 
-        public bool UpdateCourse(Course course)
+        public async Task<bool> UpdateCourse(Course course)
         {
             try
             {
-                this.courseRepository.Update(course);
+                await this.courseRepository.Update(course);
                 return true;
             }
             catch (SqlException)
@@ -121,19 +122,19 @@ namespace EducationPortal.BLL.ServicesSql
             }
         }
 
-        public bool ExistCourse(int courseId)
+        public async Task<bool> ExistCourse(int courseId)
         {
-            return this.courseRepository.Exist(x => x.Id == courseId);
+            return await this.courseRepository.Exist(x => x.Id == courseId);
         }
 
-        public List<Course> GetCoursesPerPage(int skip, int take)
+        public async Task<IList<Course>> GetCoursesPerPage(int skip, int take)
         {
-            return this.courseRepository.GetPage(skip, take).ToList();
+            return await this.courseRepository.GetPage(skip, take);
         }
 
-        public int GetCount()
+        public async Task<int> GetCount()
         {
-            return this.courseRepository.Count();
+            return await this.courseRepository.Count();
         }
     }
 }

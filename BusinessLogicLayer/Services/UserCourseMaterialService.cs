@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using System.Threading.Tasks;
     using BusinessLogicLayer.Interfaces;
     using DataAccessLayer.Entities;
     using DataAccessLayer.Interfaces;
@@ -26,9 +27,9 @@
             this.courseMaterialService = courseMaterialService;
         }
 
-        public bool AddMaterialsToUserCourse(int userCourseId, int courseId)
+        public async Task<bool> AddMaterialsToUserCourse(int userCourseId, int courseId)
         {
-            var materialsFromCourse = this.courseMaterialService.GetAllMaterialsFromCourse(courseId);
+            var materialsFromCourse = await this.courseMaterialService.GetAllMaterialsFromCourse(courseId);
 
             if (materialsFromCourse == null)
             {
@@ -44,15 +45,15 @@
                     IsPassed = false,
                 };
 
-                this.userCourseMaterialRepository.Add(userCourseMaterial);
+                await this.userCourseMaterialRepository.Add(userCourseMaterial);
             }
 
             return true;
         }
 
-        public bool SetPassToMaterial(int userCourseId, int materialId)
+        public async Task<bool> SetPassToMaterial(int userCourseId, int materialId)
         {
-            var userCourseMaterialToUpdate = this.userCourseMaterialRepository.GetOne(
+            var userCourseMaterialToUpdate = await this.userCourseMaterialRepository.GetOne(
                 x => x.UserCourseId == userCourseId && x.MaterialId == materialId);
 
             if (userCourseMaterialToUpdate != null)
@@ -65,14 +66,16 @@
             return false;
         }
 
-        public List<Material> GetNotPassedMaterialsFromCourseInProgress(int userCourseId)
+        public async Task<IList<Material>> GetNotPassedMaterialsFromCourseInProgress(int userCourseId)
         {
-            if (!this.userCourseMaterialRepository.Exist(x => x.UserCourseId == userCourseId))
+            bool userCourseMaterialExist = await this.userCourseMaterialRepository.Exist(x => x.UserCourseId == userCourseId);
+
+            if (!userCourseMaterialExist)
             {
                 return null;
             }
 
-            return this.userCourseMaterialRepository.Get<Material>(x => x.Material, x => x.UserCourseId == userCourseId && x.IsPassed == false).ToList();
+            return await this.userCourseMaterialRepository.Get<Material>(x => x.Material, x => x.UserCourseId == userCourseId && x.IsPassed == false);
         }
     }
 }
