@@ -4,13 +4,14 @@
     using System;
     using System.Collections.Generic;
     using System.Text;
+    using System.Threading.Tasks;
 
     public interface IUserCourseMaterialSqlService
     {
-        bool AddMaterialsToUserCourse(int userCourseId, int courseId);
+        Task<bool> AddMaterialsToUserCourse(int userCourseId, int courseId);
 
-        bool SetPassToMaterial(int userCourseId, int materialId);
+        Task<bool> SetPassToMaterial(int userCourseId, int materialId);
 
-        List<Material> GetNotPassedMaterialsFromCourseInProgress(int userCourseId);
+        Task<IList<Material>> GetNotPassedMaterialsFromCourseInProgress(int userCourseId);
     }
 }

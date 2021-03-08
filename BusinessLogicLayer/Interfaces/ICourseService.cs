@@ -1,29 +1,30 @@
 ﻿namespace BusinessLogicLayer.Interfaces
 {
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using DataAccessLayer.Entities;
     using Entities;
 
     public interface ICourseService
     {
-        bool CreateCourse(Course course);
+        Task<bool> CreateCourse(Course course);
 
-        bool UpdateCourse(Course course);
+        Task<bool> UpdateCourse(Course course);
 
-        bool AddMaterialToCourse(int courseId, Material material);
+        Task<bool> AddMaterialToCourse(int courseId, Material material);
 
-        bool AddSkillToCourse(int courseId, Skill skillToAdd);
+        Task<bool> AddSkillToCourse(int courseId, Skill skillToAdd);
 
-        List<Skill> GetSkillsFromCourse(int courseId);
+        Task<IList<Skill>> GetSkillsFromCourse(int courseId);
 
-        List<Material> GetMaterialsFromCourse(int courseId);
+        Task<IList<Material>> GetMaterialsFromCourse(int courseId);
 
-        bool Delete(int courseId);
+        Task<bool> Delete(int courseId);
 
-        bool ExistCourse(int courseId);
+        Task<bool> ExistCourse(int courseId);
 
-        List<Course> GetCoursesPerPage(int skip, int take);
+        Task<IList<Course>> GetCoursesPerPage(int skip, int take);
 
-        int GetCount();
+        Task<int> GetCount();
     }
 }

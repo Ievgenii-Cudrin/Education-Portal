@@ -4,11 +4,12 @@
     using System;
     using System.Collections.Generic;
     using System.Text;
+    using System.Threading.Tasks;
 
     public interface IUserMaterialSqlService
     {
-        bool AddMaterialToUser(int userId, int materialId);
+        Task<bool> AddMaterialToUser(int userId, int materialId);
 
-        List<Material> GetAllMaterialInUser(int userId);
+        Task<IList<Material>> GetAllMaterialInUser(int userId);
     }
 }

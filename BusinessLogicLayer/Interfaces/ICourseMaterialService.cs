@@ -3,12 +3,13 @@
     using System;
     using System.Collections.Generic;
     using System.Text;
+    using System.Threading.Tasks;
     using Entities;
 
     public interface ICourseMaterialService
     {
-        bool AddMaterialToCourse(int courseId, int materialId);
+        Task<bool> AddMaterialToCourse(int courseId, int materialId);
 
-        List<Material> GetAllMaterialsFromCourse(int courseId);
+        Task<IList<Material>> GetAllMaterialsFromCourse(int courseId);
     }
 }

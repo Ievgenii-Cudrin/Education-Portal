@@ -1,22 +1,23 @@
 ﻿namespace BusinessLogicLayer.Interfaces
 {
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using Entities;
 
     public interface IMaterialService
     {
-        bool CreateMaterial(Material material);
+        Task<bool> CreateMaterial(Material material);
 
-        IEnumerable<Material> GetAllMaterialsForOnePage(int take, int skip);
+        Task<IEnumerable<Material>> GetAllMaterialsForOnePage(int take, int skip);
 
-        Material GetMaterial(int id);
+        Task<Material> GetMaterial(int id);
 
-        bool Delete(int id);
+        Task<bool> Delete(int id);
 
-        bool ExistMaterial(int materialId);
+        Task<bool> ExistMaterial(int materialId);
 
         IEnumerable<Material> GetAllNotPassedMaterialFromUser();
 
-        int GetCount();
+        Task<int> GetCount();
     }
 }

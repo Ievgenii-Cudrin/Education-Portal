@@ -3,25 +3,26 @@
     using System;
     using System.Collections.Generic;
     using System.Text;
+    using System.Threading.Tasks;
     using DataAccessLayer.Entities;
     using EducationPortal.Domain.Entities;
 
     public interface IUserCourseSqlService
     {
-        void AddCourseToUser(int userId, int courseId);
+        Task AddCourseToUser(int userId, int courseId);
 
-        List<Course> GetAllCourseInProgress(int userId);
+        Task<IList<Course>> GetAllCourseInProgress(int userId);
 
-        bool ExistUserCourse(int userCourseId);
+        Task<bool> ExistUserCourse(int userCourseId);
 
-        List<Course> GetAllPassedAndProgressCoursesForUser(int userId);
+        Task<IList<Course>> GetAllPassedAndProgressCoursesForUser(int userId);
 
-        UserCourse GetUserCourse(int userId, int courseId);
+        Task<UserCourse> GetUserCourse(int userId, int courseId);
 
-        bool SetPassForUserCourse(int userId, int courseId);
+        Task<bool> SetPassForUserCourse(int userId, int courseId);
 
-        List<Course> GetAllPassedCourse(int userId);
+        Task<IList<Course>> GetAllPassedCourse(int userId);
 
-        bool CourseWasStarted(int courseId);
+        Task<bool> CourseWasStarted(int courseId);
     }
 }

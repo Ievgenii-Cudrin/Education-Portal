@@ -3,39 +3,40 @@
     using System;
     using System.Collections.Generic;
     using System.Linq.Expressions;
+    using System.Threading.Tasks;
     using DataAccessLayer.Entities;
     using Entities;
 
     public interface IUserService
     {
-        bool CreateUser(User user);
+        Task<bool> CreateUser(User user);
 
-        bool UpdateUser(User user);
+        Task<bool> UpdateUser(User user);
 
-        bool AddCourseInProgress(int id);
+        Task<bool> AddCourseInProgress(int id);
 
-        bool AddCourseToPassed(int id);
+        Task<bool> AddCourseToPassed(int id);
 
-        bool AddSkill(Skill skill);
+        Task<bool> AddSkill(Skill skill);
 
-        bool UpdateValueOfPassMaterialInProgress(int courseId, int materialId);
+        Task<bool> UpdateValueOfPassMaterialInProgress(int courseId, int materialId);
 
-        List<Course> GetListWithCoursesInProgress();
+        Task<IList<Course>> GetListWithCoursesInProgress();
 
-        List<Material> GetMaterialsFromCourseInProgress(int id);
+        Task<IList<Material>> GetMaterialsFromCourseInProgress(int id);
 
-        List<Skill> GetSkillsFromCourseInProgress(int id);
+        Task<IList<Skill>> GetSkillsFromCourseInProgress(int courseId);
 
         List<Course> GetAvailableCoursesForUser();
 
         void UpdateCourseInProgress(int courseInProgressNotFinishId, List<Material> updatedMaterials);
 
-        List<Skill> GetAllUserSkills();
+        Task<IList<Skill>> GetAllUserSkills();
 
-        public bool ExistEmail(Expression<Func<User, bool>> predicat);
+        Task<bool> ExistEmail(Expression<Func<User, bool>> predicat);
 
-        bool Delete(int id);
+        Task<bool> Delete(int id);
 
-        List<Course> GetAllPassedCourseFromUser();
+        Task<IList<Course>> GetAllPassedCourseFromUser();
     }
 }

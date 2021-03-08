@@ -3,12 +3,13 @@
     using System;
     using System.Collections.Generic;
     using System.Text;
+    using System.Threading.Tasks;
     using DataAccessLayer.Entities;
 
     public interface IUserSkillSqlService
     {
-        void AddSkillToUser(int userId, int skillId);
+        Task AddSkillToUser(int userId, int skillId);
 
-        List<Skill> GetAllSkillInUser(int userId);
+        Task<IList<Skill>> GetAllSkillInUser(int userId);
     }
 }

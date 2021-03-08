@@ -1,18 +1,23 @@
 ﻿namespace BusinessLogicLayer.Interfaces
 {
+    using System;
     using System.Collections.Generic;
+    using System.Linq.Expressions;
+    using System.Threading.Tasks;
     using DataAccessLayer.Entities;
 
     public interface ISkillService
     {
-        void CreateSkill(Skill skill);
+        Task CreateSkill(Skill skill);
 
-        Skill GetSkill(int id);
+        Task<Skill> GetSkill(int id);
 
-        void UpdateSkill(Skill skill);
+        Task UpdateSkill(Skill skill);
 
-        void Delete(int id);
+        Task Delete(int id);
 
-        bool ExistSkill(int skillId);
+        Task<bool> ExistSkill(int skillId);
+
+        Task<Skill> GetSkillsByPredicate(Expression<Func<Skill, bool>> predicat);
     }
 }

@@ -3,12 +3,13 @@
     using System;
     using System.Collections.Generic;
     using System.Text;
+    using System.Threading.Tasks;
     using DataAccessLayer.Entities;
 
     public interface ILogInService
     {
-        public bool LogIn(string email, string password);
+        Task<bool> LogIn(string email, string password);
 
-        public bool LogOut();
+        bool LogOut();
     }
 }
