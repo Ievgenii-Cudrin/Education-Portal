@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EducationPortal.BLL.Tests.ServicesSql
 {
@@ -31,7 +32,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         #region AddMaterialsToUserCourse
 
         [TestMethod]
-        public void AddMaterialsToUserCourse_MaterialsNotNull_ReturnTrue()
+        public async Task AddMaterialsToUserCourse_MaterialsNotNull_ReturnTrue()
         {
             List<Material> materials = new List<Material>()
             {
@@ -40,7 +41,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 new Material() {Id = 2}
             };
 
-            courseMaterialService.Setup(db => db.GetAllMaterialsFromCourse(It.IsAny<int>())).Returns(materials);
+            courseMaterialService.Setup(db => db.GetAllMaterialsFromCourse(It.IsAny<int>())).ReturnsAsync(materials);
             userCourseMaterialRepository.Setup(db => db.Add(It.IsAny<UserCourseMaterial>()));
             userCourseMaterialRepository.Setup(db => db.Save());
 
@@ -52,35 +53,35 @@ namespace EducationPortal.BLL.Tests.ServicesSql
 
             userCourseMaterialRepository.Verify(x => x.Add(It.IsAny<UserCourseMaterial>()), Times.Exactly(materials.Count));
             userCourseMaterialRepository.Verify(x => x.Save(), Times.Exactly(materials.Count));
-            Assert.IsTrue(userCourseMaterialSqlService.AddMaterialsToUserCourse(0, 0));
+            Assert.IsTrue(await userCourseMaterialSqlService.AddMaterialsToUserCourse(0, 0));
         }
 
         [TestMethod]
-        public void AddMaterialsToUserCourse_MaterialsNull_False()
+        public async Task AddMaterialsToUserCourse_MaterialsNull_False()
         {
             List<Material> materials = null;
 
-            courseMaterialService.Setup(db => db.GetAllMaterialsFromCourse(It.IsAny<int>())).Returns(materials);
+            courseMaterialService.Setup(db => db.GetAllMaterialsFromCourse(It.IsAny<int>())).ReturnsAsync(materials);
 
             UserCourseMaterialService userCourseMaterialSqlService = new UserCourseMaterialService(
                 userCourseMaterialRepository.Object,
                 courseMaterialService.Object);
 
-            Assert.IsFalse(userCourseMaterialSqlService.AddMaterialsToUserCourse(0, 0));
+            Assert.IsFalse(await userCourseMaterialSqlService.AddMaterialsToUserCourse(0, 0));
         }
         #endregion
 
         #region SetPassToMaterial
 
         [TestMethod]
-        public void SetPassToMaterial_UserCourseMaterialExist_True()
+        public async Task SetPassToMaterial_UserCourseMaterialExist_True()
         {
             List<UserCourseMaterial> userCourseMaterials = new List<UserCourseMaterial>()
             {
                 new UserCourseMaterial() { UserCourseId = 0, MaterialId = 0 }
             };
 
-            userCourseMaterialRepository.Setup(db => db.Get(It.IsAny<Expression<Func<UserCourseMaterial, bool>>>())).Returns(userCourseMaterials);
+            userCourseMaterialRepository.Setup(db => db.Get(It.IsAny<Expression<Func<UserCourseMaterial, bool>>>())).ReturnsAsync(userCourseMaterials);
             userCourseMaterialRepository.Setup(db => db.Update(It.IsAny<UserCourseMaterial>()));
             userCourseMaterialRepository.Setup(db => db.Save());
 
@@ -92,15 +93,15 @@ namespace EducationPortal.BLL.Tests.ServicesSql
 
             userCourseMaterialRepository.Verify(x => x.Update(It.IsAny<UserCourseMaterial>()), Times.Once);
             userCourseMaterialRepository.Verify(x => x.Save(), Times.Once);
-            Assert.IsTrue(userCourseMaterialSqlService.SetPassToMaterial(0, 0));
+            Assert.IsTrue(await userCourseMaterialSqlService.SetPassToMaterial(0, 0));
         }
 
         [TestMethod]
-        public void SetPassToMaterial_UserCourseMaterialNotExist_False()
+        public async Task SetPassToMaterial_UserCourseMaterialNotExist_False()
         {
             List<UserCourseMaterial> userCourseMaterials = new List<UserCourseMaterial>();
 
-            userCourseMaterialRepository.Setup(db => db.Get(It.IsAny<Expression<Func<UserCourseMaterial, bool>>>())).Returns(userCourseMaterials);
+            userCourseMaterialRepository.Setup(db => db.Get(It.IsAny<Expression<Func<UserCourseMaterial, bool>>>())).ReturnsAsync(userCourseMaterials);
             userCourseMaterialRepository.Setup(db => db.Update(It.IsAny<UserCourseMaterial>()));
             userCourseMaterialRepository.Setup(db => db.Save());
 
@@ -108,7 +109,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 userCourseMaterialRepository.Object,
                 courseMaterialService.Object);
 
-            Assert.IsFalse(userCourseMaterialSqlService.SetPassToMaterial(0, 0));
+            Assert.IsFalse(await userCourseMaterialSqlService.SetPassToMaterial(0, 0));
         }
 
         #endregion
@@ -118,7 +119,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void GetNotPassedMaterialsFromCourseInProgress_UserCourseMaterialNotExist_Null()
         {
-            userCourseMaterialRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<UserCourseMaterial, bool>>>())).Returns(false);
+            userCourseMaterialRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<UserCourseMaterial, bool>>>())).ReturnsAsync(false);
 
             UserCourseMaterialService userCourseMaterialSqlService = new UserCourseMaterialService(
                 userCourseMaterialRepository.Object,
@@ -130,11 +131,11 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void GetNotPassedMaterialsFromCourseInProgress_()
         {
-            userCourseMaterialRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<UserCourseMaterial, bool>>>())).Returns(true);
+            userCourseMaterialRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<UserCourseMaterial, bool>>>())).ReturnsAsync(true);
             userCourseMaterialRepository.Setup(
                 db => db.Get<Material>(It.IsAny<Expression<Func<UserCourseMaterial, Material>>>(),
                 It.IsAny<Expression<Func<UserCourseMaterial, bool>>>()
-                )).Returns(new List<Material>());
+                )).ReturnsAsync(new List<Material>());
 
             UserCourseMaterialService userCourseMaterialSqlService = new UserCourseMaterialService(
                 userCourseMaterialRepository.Object,

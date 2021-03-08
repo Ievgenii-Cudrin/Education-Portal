@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EducationPortal.BLL.Tests.ServicesSql
 {
@@ -37,7 +38,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void CreateMaterial_MaterialNull_Null()
         {
-            materialRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Material, bool>>>())).Returns(false);
+            materialRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Material, bool>>>())).ReturnsAsync(false);
 
             MaterialService materialSqlService = new MaterialService(
                 materialRepository.Object,
@@ -53,7 +54,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void CreateMaterial_MaterialExist_Null()
         {
-            materialRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Material, bool>>>())).Returns(true);
+            materialRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Material, bool>>>())).ReturnsAsync(true);
 
             MaterialService materialSqlService = new MaterialService(
                 materialRepository.Object,
@@ -69,7 +70,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void CreateMaterial_MaterialNotNullNoetExist_Null()
         {
-            materialRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Material, bool>>>())).Returns(false);
+            materialRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Material, bool>>>())).ReturnsAsync(false);
             materialRepository.Setup(db => db.Add(It.IsAny<Material>()));
             materialRepository.Setup(db => db.Save());
 
@@ -91,9 +92,9 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         #region Delete
 
         [TestMethod]
-        public void Delete_MaterialNotExist_False()
+        public async Task Delete_MaterialNotExist_False()
         {
-            materialRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Material, bool>>>())).Returns(false);
+            materialRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Material, bool>>>())).ReturnsAsync(false);
 
             MaterialService materialSqlService = new MaterialService(
                 materialRepository.Object,
@@ -101,13 +102,13 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 authorizedUser.Object,
                 courseMaterialService.Object);
 
-            Assert.IsFalse(materialSqlService.Delete(0));
+            Assert.IsFalse(await materialSqlService.Delete(0));
         }
 
         [TestMethod]
-        public void Delete_MaterialExist_True()
+        public async Task Delete_MaterialExist_True()
         {
-            materialRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Material, bool>>>())).Returns(true);
+            materialRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Material, bool>>>())).ReturnsAsync(true);
             materialRepository.Setup(db => db.Delete(It.IsAny<int>()));
             materialRepository.Setup(db => db.Save());
 
@@ -121,7 +122,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
 
             materialRepository.Verify(x => x.Delete(0), Times.Once);
             materialRepository.Verify(x => x.Save());
-            Assert.IsTrue(materialSqlService.Delete(0));
+            Assert.IsTrue(await materialSqlService.Delete(0));
         }
 
         #endregion
@@ -132,7 +133,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void GetMaterial_MaterialExist_Null()
         {
-            materialRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Material, bool>>>())).Returns(false);
+            materialRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Material, bool>>>())).ReturnsAsync(false);
 
             MaterialService materialSqlService = new MaterialService(
                 materialRepository.Object,
@@ -146,8 +147,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void GetMaterial_MaterialNotExist_CallGet()
         {
-            materialRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Material, bool>>>())).Returns(true);
-            materialRepository.Setup(db => db.Get(It.IsAny<Expression<Func<Material, bool>>>())).Returns(new List<Material>());
+            materialRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Material, bool>>>())).ReturnsAsync(true);
+            materialRepository.Setup(db => db.Get(It.IsAny<Expression<Func<Material, bool>>>())).ReturnsAsync(new List<Material>());
 
             MaterialService materialSqlService = new MaterialService(
                 materialRepository.Object,
@@ -167,7 +168,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void ExistMaterial_CallExistMethod()
         {
-            materialRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Material, bool>>>())).Returns(true);
+            materialRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Material, bool>>>())).ReturnsAsync(true);
 
             MaterialService materialSqlService = new MaterialService(
                 materialRepository.Object,

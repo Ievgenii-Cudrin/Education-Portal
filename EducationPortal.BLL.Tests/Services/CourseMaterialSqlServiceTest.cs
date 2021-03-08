@@ -12,6 +12,7 @@ using DataAccessLayer.Entities;
 using Entities;
 using EducationPortal.BLL.Interfaces;
 using NLog;
+using System.Threading.Tasks;
 
 namespace EducationPortal.BLL.Tests.ServicesSql
 {
@@ -29,9 +30,9 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         }
 
         [TestMethod]
-        public void AddMaterialToCourse_CourseMaterialNotExist_True()
+        public async Task AddMaterialToCourse_CourseMaterialNotExist_True()
         {
-            courseMaterialRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<CourseMaterial, bool>>>())).Returns(false);
+            courseMaterialRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<CourseMaterial, bool>>>())).ReturnsAsync(false);
             courseMaterialRepo.Setup(db => db.Add(It.IsAny<CourseMaterial>()));
             courseMaterialRepo.Setup(db => db.Save());
 
@@ -43,17 +44,17 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 CourseId = 2,
                 MaterialId = 3
             };
-            courseMatService.AddMaterialToCourse(2, 3);
+            await courseMatService.AddMaterialToCourse(2, 3);
 
             courseMaterialRepo.Verify(x => x.Save(), Times.Once);
-            Assert.IsTrue(courseMatService.AddMaterialToCourse(2, 3));
+            Assert.IsTrue(await courseMatService.AddMaterialToCourse(2, 3));
         }
 
         [TestMethod]
         public void GetAllMaterialsFromCourse_ReturnListMaterials()
         {
             courseMaterialRepo.Setup(db => db.Get<Material>(It.IsAny<Expression<Func<CourseMaterial, Material>>>(),
-                It.IsAny<Expression<Func<CourseMaterial, bool>>>())).Returns(new List<Material>());
+                It.IsAny<Expression<Func<CourseMaterial, bool>>>())).ReturnsAsync(new List<Material>());
 
             CourseMaterialService courseMaterialSqlService = new CourseMaterialService(
                 courseMaterialRepo.Object);

@@ -30,7 +30,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void CreateSkill_SkillUnique_CreateSkill()
         {
-            skillRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Skill, bool>>>())).Returns(false);
+            skillRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Skill, bool>>>())).ReturnsAsync(false);
             skillRepository.Setup(db => db.Add(It.IsAny<Skill>()));
             skillRepository.Setup(db => db.Save());
 
@@ -47,8 +47,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void CreateSkill_SkillNotUnique_Null()
         {
-            skillRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Skill, bool>>>())).Returns(true);
-            skillRepository.Setup(db => db.Get(It.IsAny<Expression<Func<Skill, bool>>>())).Returns(new List<Skill>());
+            skillRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Skill, bool>>>())).ReturnsAsync(true);
+            skillRepository.Setup(db => db.Get(It.IsAny<Expression<Func<Skill, bool>>>())).ReturnsAsync(new List<Skill>());
 
             SkillService skillSqlService = new SkillService(
                 skillRepository.Object);
@@ -66,7 +66,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void Delete_SkillExist_CallDeleteAndSave()
         {
-            skillRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Skill, bool>>>())).Returns(true);
+            skillRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Skill, bool>>>())).ReturnsAsync(true);
             skillRepository.Setup(db => db.Delete(It.IsAny<int>()));
             skillRepository.Setup(db => db.Save());
 
@@ -81,7 +81,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void Delete_SkillNotExist_Nothing()
         {
-            skillRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Skill, bool>>>())).Returns(false);
+            skillRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Skill, bool>>>())).ReturnsAsync(false);
             skillRepository.Setup(db => db.Delete(It.IsAny<int>()));
             skillRepository.Setup(db => db.Save());
 
@@ -100,8 +100,8 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void GetSkill_SkillExist_CallGet()
         {
-            skillRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Skill, bool>>>())).Returns(true);
-            skillRepository.Setup(db => db.Get(It.IsAny<int>())).Returns(new Skill());
+            skillRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Skill, bool>>>())).ReturnsAsync(true);
+            skillRepository.Setup(db => db.Get(It.IsAny<int>())).ReturnsAsync(new Skill());
 
             SkillService skillSqlService = new SkillService(
                 skillRepository.Object);
@@ -113,7 +113,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void GetSkill_SkillNotExist_Nothing()
         {
-            skillRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Skill, bool>>>())).Returns(false);
+            skillRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Skill, bool>>>())).ReturnsAsync(false);
 
             SkillService skillSqlService = new SkillService(
                 skillRepository.Object);
@@ -158,7 +158,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void ExistSkill_CallExistMethod()
         {
-            skillRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Skill, bool>>>())).Returns(true);
+            skillRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<Skill, bool>>>())).ReturnsAsync(true);
 
             SkillService skillSqlService = new SkillService(
                 skillRepository.Object);

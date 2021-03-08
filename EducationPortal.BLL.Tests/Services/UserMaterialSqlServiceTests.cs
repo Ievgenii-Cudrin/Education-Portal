@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EducationPortal.BLL.Tests.ServicesSql
 {
@@ -29,30 +30,30 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         #region AddMaterialToUser
 
         [TestMethod]
-        public void AddMaterialToUser_UserMaterialExist_False()
+        public async Task AddMaterialToUser_UserMaterialExist_False()
         {
-            userMaterialRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<UserMaterial, bool>>>())).Returns(true);
+            userMaterialRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<UserMaterial, bool>>>())).ReturnsAsync(true);
 
             UserMaterialService userMaterialSqlService = new UserMaterialService(
                 userMaterialRepository.Object);
 
-            Assert.IsFalse(userMaterialSqlService.AddMaterialToUser(It.IsAny<int>(), It.IsAny<int>()));
+            Assert.IsFalse(await userMaterialSqlService.AddMaterialToUser(It.IsAny<int>(), It.IsAny<int>()));
         }
 
         [TestMethod]
-        public void AddMaterialToUser_UserMaterialNotExist_True()
+        public async Task AddMaterialToUser_UserMaterialNotExist_True()
         {
-            userMaterialRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<UserMaterial, bool>>>())).Returns(false);
+            userMaterialRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<UserMaterial, bool>>>())).ReturnsAsync(false);
             userMaterialRepository.Setup(db => db.Add(It.IsAny<UserMaterial>()));
             userMaterialRepository.Setup(db => db.Save());
 
             UserMaterialService userMaterialSqlService = new UserMaterialService(
                 userMaterialRepository.Object);
 
-            userMaterialSqlService.AddMaterialToUser(It.IsAny<int>(), It.IsAny<int>());
+            await userMaterialSqlService.AddMaterialToUser(It.IsAny<int>(), It.IsAny<int>());
 
 
-            Assert.IsTrue(userMaterialSqlService.AddMaterialToUser(It.IsAny<int>(), It.IsAny<int>()));
+            Assert.IsTrue(await userMaterialSqlService.AddMaterialToUser(It.IsAny<int>(), It.IsAny<int>()));
         }
 
         #endregion
@@ -65,7 +66,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             userMaterialRepository.Setup(
                 db => db.Get<Material>(It.IsAny<Expression<Func<UserMaterial, Material>>>(),
                 It.IsAny<Expression<Func<UserMaterial, bool>>>()
-                )).Returns(new List<Material>());
+                )).ReturnsAsync(new List<Material>());
 
             UserMaterialService userMaterialSqlService = new UserMaterialService(
                 userMaterialRepository.Object);

@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EducationPortal.BLL.Tests.ServicesSql
 {
@@ -44,10 +45,10 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         #region AddCourseInProgress
 
         [TestMethod]
-        public void AddCourseInProgress_CourseNotExist_False()
+        public async Task AddCourseInProgress_CourseNotExist_False()
         {
             authorizedUser.Setup(db => db.User);
-            courseService.Setup(db => db.ExistCourse(It.IsAny<int>())).Returns(false);
+            courseService.Setup(db => db.ExistCourse(It.IsAny<int>())).ReturnsAsync(false);
 
             UserService userSqlService = new UserService(
                 userRepository.Object,
@@ -59,13 +60,13 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 userSkillSqlService.Object,
                 courseSkillService.Object);
 
-            Assert.IsFalse(userSqlService.AddCourseInProgress(It.IsAny<int>()));
+            Assert.IsFalse(await userSqlService.AddCourseInProgress(It.IsAny<int>()));
         }
 
         [TestMethod]
-        public void AddCourseInProgress_AuthorizedUserNull_False()
+        public async Task AddCourseInProgress_AuthorizedUserNull_False()
         {
-            courseService.Setup(db => db.ExistCourse(It.IsAny<int>())).Returns(true);
+            courseService.Setup(db => db.ExistCourse(It.IsAny<int>())).ReturnsAsync(true);
 
             UserService userSqlService = new UserService(
                 userRepository.Object,
@@ -77,13 +78,13 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 userSkillSqlService.Object,
                 courseSkillService.Object);
 
-            Assert.IsFalse(userSqlService.AddCourseInProgress(It.IsAny<int>()));
+            Assert.IsFalse(await userSqlService.AddCourseInProgress(It.IsAny<int>()));
         }
 
         [TestMethod]
-        public void AddCourseInProgress_AuthorizedUserNullCourseNotExist_False()
+        public async Task AddCourseInProgress_AuthorizedUserNullCourseNotExist_False()
         {
-            courseService.Setup(db => db.ExistCourse(It.IsAny<int>())).Returns(false);
+            courseService.Setup(db => db.ExistCourse(It.IsAny<int>())).ReturnsAsync(false);
 
             UserService userSqlService = new UserService(
                 userRepository.Object,
@@ -95,15 +96,15 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 userSkillSqlService.Object,
                 courseSkillService.Object);
 
-            Assert.IsFalse(userSqlService.AddCourseInProgress(It.IsAny<int>()));
+            Assert.IsFalse(await userSqlService.AddCourseInProgress(It.IsAny<int>()));
         }
 
         [TestMethod]
-        public void AddCourseInProgress_AuthorizedUserNotNullCourseExist_True()
+        public async Task AddCourseInProgress_AuthorizedUserNotNullCourseExist_True()
         {
             authorizedUser.SetupGet(db => db.User).Returns(new User() { Id = 0 });
             userCourseService.Setup(db => db.AddCourseToUser(It.IsAny<int>(), It.IsAny<int>()));
-            courseService.Setup(db => db.ExistCourse(It.IsAny<int>())).Returns(true);
+            courseService.Setup(db => db.ExistCourse(It.IsAny<int>())).ReturnsAsync(true);
 
             UserService userSqlService = new UserService(
                 userRepository.Object,
@@ -118,7 +119,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             userSqlService.AddCourseInProgress(It.IsAny<int>());
 
             userCourseService.Verify(x => x.AddCourseToUser(It.IsAny<int>(), It.IsAny<int>()));
-            Assert.IsTrue(userSqlService.AddCourseInProgress(It.IsAny<int>()));
+            Assert.IsTrue(await userSqlService.AddCourseInProgress(It.IsAny<int>()));
         }
 
         #endregion
@@ -126,7 +127,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         #region AddCourseToPassed
 
         [TestMethod]
-        public void AddCourseToPassed_CallSetPassToCourseAndReturnTrue()
+        public async Task AddCourseToPassed_CallSetPassToCourseAndReturnTrue()
         {
             authorizedUser.SetupGet(db => db.User).Returns(new User() { Id = 0 });
             userCourseService.Setup(db => db.SetPassForUserCourse(It.IsAny<int>(), It.IsAny<int>()));
@@ -144,7 +145,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             userSqlService.AddCourseToPassed(It.IsAny<int>());
 
             userCourseService.Verify(x => x.SetPassForUserCourse(It.IsAny<int>(), It.IsAny<int>()));
-            Assert.IsTrue(userSqlService.AddCourseToPassed(It.IsAny<int>()));
+            Assert.IsTrue(await userSqlService.AddCourseToPassed(It.IsAny<int>()));
         }
 
         #endregion
@@ -152,7 +153,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         #region AddSkill
 
         [TestMethod]
-        public void AddSkill_SkillNull_False()
+        public async Task AddSkill_SkillNull_False()
         {
             UserService userSqlService = new UserService(
                 userRepository.Object,
@@ -166,11 +167,11 @@ namespace EducationPortal.BLL.Tests.ServicesSql
 
             Skill skill = null;
 
-            Assert.IsFalse(userSqlService.AddSkill(skill));
+            Assert.IsFalse(await userSqlService.AddSkill(skill));
         }
 
         [TestMethod]
-        public void AddSkill_SkillNotNull_True()
+        public async Task AddSkill_SkillNotNull_True()
         {
             authorizedUser.SetupGet(db => db.User).Returns(new User() { Id = 0 });
             userSkillSqlService.Setup(db => db.AddSkillToUser(It.IsAny<int>(), It.IsAny<int>()));
@@ -189,7 +190,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             userSqlService.AddSkill(skill);
 
             userSkillSqlService.Verify(db => db.AddSkillToUser(It.IsAny<int>(), It.IsAny<int>()));
-            Assert.IsTrue(userSqlService.AddSkill(skill));
+            Assert.IsTrue(await userSqlService.AddSkill(skill));
         }
 
         #endregion
@@ -197,9 +198,9 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         #region CreateUser
 
         [TestMethod]
-        public void CreateUser_UserExist_False()
+        public async Task CreateUser_UserExist_False()
         {
-            userRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<User, bool>>>())).Returns(true);
+            userRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<User, bool>>>())).ReturnsAsync(true);
 
             UserService userSqlService = new UserService(
                 userRepository.Object,
@@ -213,13 +214,13 @@ namespace EducationPortal.BLL.Tests.ServicesSql
 
             User user = new User();
 
-            Assert.IsFalse(userSqlService.CreateUser(It.IsAny<User>()));
+            Assert.IsFalse(await userSqlService.CreateUser(It.IsAny<User>()));
         }
 
         [TestMethod]
-        public void CreateUser_UserNull_False()
+        public async Task CreateUser_UserNull_False()
         {
-            userRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<User, bool>>>())).Returns(false);
+            userRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<User, bool>>>())).ReturnsAsync(false);
 
             UserService userSqlService = new UserService(
                 userRepository.Object,
@@ -233,13 +234,13 @@ namespace EducationPortal.BLL.Tests.ServicesSql
 
             User user = null;
 
-            Assert.IsFalse(userSqlService.CreateUser(It.IsAny<User>()));
+            Assert.IsFalse(await userSqlService.CreateUser(It.IsAny<User>()));
         }
 
         [TestMethod]
-        public void CreateUser_UserNotNullUserExist_True()
+        public async Task CreateUser_UserNotNullUserExist_True()
         {
-            userRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<User, bool>>>())).Returns(false);
+            userRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<User, bool>>>())).ReturnsAsync(false);
             userRepository.Setup(db => db.Add(It.IsAny<User>()));
             userRepository.Setup(db => db.Save());
 
@@ -258,7 +259,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
 
             userRepository.Verify(x => x.Add(It.IsAny<User>()));
             userRepository.Verify(x => x.Save());
-            Assert.IsTrue(userSqlService.CreateUser(user));
+            Assert.IsTrue(await userSqlService.CreateUser(user));
         }
 
         #endregion
@@ -266,9 +267,9 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         #region Delete
 
         [TestMethod]
-        public void Delete_UserNotExist_False()
+        public async Task Delete_UserNotExist_False()
         {
-            userRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<User, bool>>>())).Returns(false);
+            userRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<User, bool>>>())).ReturnsAsync(false);
 
             UserService userSqlService = new UserService(
                 userRepository.Object,
@@ -280,13 +281,13 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 userSkillSqlService.Object,
                 courseSkillService.Object);
 
-            Assert.IsFalse(userSqlService.Delete(It.IsAny<int>()));
+            Assert.IsFalse(await userSqlService.Delete(It.IsAny<int>()));
         }
 
         [TestMethod]
-        public void Delete_UserExist_True()
+        public async Task Delete_UserExist_True()
         {
-            userRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<User, bool>>>())).Returns(true);
+            userRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<User, bool>>>())).ReturnsAsync(true);
             userRepository.Setup(db => db.Delete(It.IsAny<int>()));
             userRepository.Setup(db => db.Save());
 
@@ -304,7 +305,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
 
             userRepository.Verify(x => x.Delete(It.IsAny<int>()));
             userRepository.Verify(x => x.Save());
-            Assert.IsTrue(userSqlService.Delete(It.IsAny<int>()));
+            Assert.IsTrue(await userSqlService.Delete(It.IsAny<int>()));
         }
 
         #endregion
@@ -372,7 +373,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         public void GetListWithCoursesInProgress_AuthorizedUserNotNull_Call()
         {
             authorizedUser.SetupGet(db => db.User).Returns(new User());
-            userCourseService.Setup(db => db.GetAllCourseInProgress(It.IsAny<int>())).Returns(new List<Course>());
+            userCourseService.Setup(db => db.GetAllCourseInProgress(It.IsAny<int>())).ReturnsAsync(new List<Course>());
 
             UserService userSqlService = new UserService(
                 userRepository.Object,
@@ -396,7 +397,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void GetMaterialsFromCourseInProgress_CourseNotExist_Null()
         {
-            courseService.Setup(db => db.ExistCourse(It.IsAny<int>())).Returns(false);
+            courseService.Setup(db => db.ExistCourse(It.IsAny<int>())).ReturnsAsync(false);
 
             UserService userSqlService = new UserService(
                 userRepository.Object,
@@ -412,12 +413,12 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         }
 
         [TestMethod]
-        public void GetMaterialsFromCourseInProgress_CourseExist_CallGetUserCourse()
+        public async Task GetMaterialsFromCourseInProgress_CourseExist_CallGetUserCourse()
         {
             authorizedUser.SetupGet(db => db.User).Returns(new User() { Id = 0 });
-            courseService.Setup(db => db.ExistCourse(It.IsAny<int>())).Returns(true);
+            courseService.Setup(db => db.ExistCourse(It.IsAny<int>())).ReturnsAsync(true);
             userCourseMaterialSqlService.Setup(db => db.GetNotPassedMaterialsFromCourseInProgress(It.IsAny<int>()));
-            userCourseService.Setup(db => db.GetUserCourse(It.IsAny<int>(), It.IsAny<int>())).Returns(new UserCourse() { Id = 0 });
+            userCourseService.Setup(db => db.GetUserCourse(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(new UserCourse() { Id = 0 });
 
             UserService userSqlService = new UserService(
                 userRepository.Object,
@@ -442,7 +443,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void GetSkillsFromCourseInProgress_CourseNotExist_Null()
         {
-            courseService.Setup(db => db.ExistCourse(It.IsAny<int>())).Returns(false);
+            courseService.Setup(db => db.ExistCourse(It.IsAny<int>())).ReturnsAsync(false);
 
             UserService userSqlService = new UserService(
                 userRepository.Object,
@@ -460,7 +461,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         [TestMethod]
         public void GetSkillsFromCourseInProgress_CourseExist_CallGetAllSkillsFromCourse()
         {
-            courseService.Setup(db => db.ExistCourse(It.IsAny<int>())).Returns(true);
+            courseService.Setup(db => db.ExistCourse(It.IsAny<int>())).ReturnsAsync(true);
             courseSkillService.Setup(db => db.GetAllSkillsFromCourse(It.IsAny<int>()));
 
             UserService userSqlService = new UserService(
@@ -483,9 +484,9 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         #region UpdateUser
 
         [TestMethod]
-        public void UpdateUser_UserNotExist_False()
+        public async Task UpdateUser_UserNotExist_False()
         {
-            userRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<User, bool>>>())).Returns(false);
+            userRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<User, bool>>>())).ReturnsAsync(false);
 
             UserService userSqlService = new UserService(
                 userRepository.Object,
@@ -497,13 +498,13 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 userSkillSqlService.Object,
                 courseSkillService.Object);
 
-            Assert.IsFalse(userSqlService.UpdateUser(It.IsAny<User>()));
+            Assert.IsFalse(await userSqlService.UpdateUser(It.IsAny<User>()));
         }
 
         [TestMethod]
-        public void UpdateUser_UserExist_CallUpdateAndSave()
+        public async Task UpdateUser_UserExist_CallUpdateAndSave()
         {
-            userRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<User, bool>>>())).Returns(true);
+            userRepository.Setup(db => db.Exist(It.IsAny<Expression<Func<User, bool>>>())).ReturnsAsync(true);
             userRepository.Setup(db => db.Update(It.IsAny<User>()));
             userRepository.Setup(db => db.Save());
 
@@ -521,7 +522,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
 
             userRepository.Verify(x => x.Update(It.IsAny<User>()), Times.Once);
             userRepository.Verify(x => x.Save(), Times.Once);
-            Assert.IsTrue(userSqlService.UpdateUser(It.IsAny<User>()));
+            Assert.IsTrue(await userSqlService.UpdateUser(It.IsAny<User>()));
         }
 
         #endregion
@@ -529,12 +530,12 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         #region UpdateValueOfPassMaterialInProgress
 
         [TestMethod]
-        public void UpdateValueOfPassMaterialInProgress_UserCourseMaterialNotExist_False()
+        public async Task UpdateValueOfPassMaterialInProgress_UserCourseMaterialNotExist_False()
         {
             authorizedUser.SetupGet(db => db.User).Returns(new User() { Id = 0 });
             userCourseService.Setup(db => db.GetUserCourse(It.IsAny<int>(), It.IsAny<int>()))
-                .Returns(new UserCourse() { UserId = 0, CourseId = 0 });
-            userCourseMaterialSqlService.Setup(db => db.SetPassToMaterial(It.IsAny<int>(), It.IsAny<int>())).Returns(false);
+                .ReturnsAsync(new UserCourse() { UserId = 0, CourseId = 0 });
+            userCourseMaterialSqlService.Setup(db => db.SetPassToMaterial(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(false);
 
             UserService userSqlService = new UserService(
                 userRepository.Object,
@@ -546,16 +547,16 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 userSkillSqlService.Object,
                 courseSkillService.Object);
 
-            Assert.IsFalse(userSqlService.UpdateValueOfPassMaterialInProgress(It.IsAny<int>(), It.IsAny<int>()));
+            Assert.IsFalse(await userSqlService.UpdateValueOfPassMaterialInProgress(It.IsAny<int>(), It.IsAny<int>()));
         }
 
         [TestMethod]
-        public void UpdateValueOfPassMaterialInProgress_UserCourseMaterialExist_True()
+        public async Task UpdateValueOfPassMaterialInProgress_UserCourseMaterialExist_True()
         {
             authorizedUser.SetupGet(db => db.User).Returns(new User() { Id = 0 });
             userCourseService.Setup(db => db.GetUserCourse(It.IsAny<int>(), It.IsAny<int>()))
-                .Returns(new UserCourse() { UserId = 0, CourseId = 0 });
-            userCourseMaterialSqlService.Setup(db => db.SetPassToMaterial(It.IsAny<int>(), It.IsAny<int>())).Returns(true);
+                .ReturnsAsync(new UserCourse() { UserId = 0, CourseId = 0 });
+            userCourseMaterialSqlService.Setup(db => db.SetPassToMaterial(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(true);
             userMaterialSqlService.Setup(db => db.AddMaterialToUser(It.IsAny<int>(), It.IsAny<int>()));
 
             UserService userSqlService = new UserService(
@@ -571,7 +572,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             userSqlService.UpdateValueOfPassMaterialInProgress(It.IsAny<int>(), It.IsAny<int>());
 
             userMaterialSqlService.Verify(x => x.AddMaterialToUser(It.IsAny<int>(), It.IsAny<int>()));
-            Assert.IsTrue(userSqlService.UpdateValueOfPassMaterialInProgress(It.IsAny<int>(), It.IsAny<int>()));
+            Assert.IsTrue(await userSqlService.UpdateValueOfPassMaterialInProgress(It.IsAny<int>(), It.IsAny<int>()));
         }
 
         #endregion

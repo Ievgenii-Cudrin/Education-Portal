@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EducationPortal.BLL.Tests.ServicesSql
 {
@@ -31,60 +32,60 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         }
 
         [TestMethod]
-        public void AddMaterialToCourse_SkillNotExist_False()
+        public async Task AddMaterialToCourse_SkillNotExist_False()
         {
-            courseSkillRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<CourseSkill, bool>>>())).Returns(false);
-            courseRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).Returns(true);
-            skillRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<Skill, bool>>>())).Returns(false);
+            courseSkillRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<CourseSkill, bool>>>())).ReturnsAsync(false);
+            courseRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).ReturnsAsync(true);
+            skillRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<Skill, bool>>>())).ReturnsAsync(false);
 
             CourseSkillService courseSkillService = new CourseSkillService(
                 courseSkillRepo.Object,
                 skillRepo.Object,
                 courseRepo.Object);
             
-            Assert.IsFalse(courseSkillService.AddSkillToCourse(0, 0));
+            Assert.IsFalse(await courseSkillService.AddSkillToCourse(0, 0));
         }
 
         [TestMethod]
-        public void AddMaterialToCourse_CourseNotExist_False()
+        public async Task AddMaterialToCourse_CourseNotExist_False()
         {
-            courseSkillRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<CourseSkill, bool>>>())).Returns(false);
-            courseRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).Returns(false);
-            skillRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<Skill, bool>>>())).Returns(true);
+            courseSkillRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<CourseSkill, bool>>>())).ReturnsAsync(false);
+            courseRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).ReturnsAsync(false);
+            skillRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<Skill, bool>>>())).ReturnsAsync(true);
 
             CourseSkillService courseSkillService = new CourseSkillService(
                 courseSkillRepo.Object,
                 skillRepo.Object,
                 courseRepo.Object);
 
-            Assert.IsFalse(courseSkillService.AddSkillToCourse(0, 0));
+            Assert.IsFalse(await courseSkillService.AddSkillToCourse(0, 0));
         }
 
         [TestMethod]
-        public void AddMaterialToCourse_CourseSkillExist_False()
+        public async Task AddMaterialToCourse_CourseSkillExist_False()
         {
-            courseSkillRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<CourseSkill, bool>>>())).Returns(true);
-            courseRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).Returns(true);
-            skillRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<Skill, bool>>>())).Returns(true);
+            courseSkillRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<CourseSkill, bool>>>())).ReturnsAsync(true);
+            courseRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).ReturnsAsync(true);
+            skillRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<Skill, bool>>>())).ReturnsAsync(true);
 
             CourseSkillService courseSkillService = new CourseSkillService(
                 courseSkillRepo.Object,
                 skillRepo.Object,
                 courseRepo.Object);
 
-            Assert.IsFalse(courseSkillService.AddSkillToCourse(0, 0));
+            Assert.IsFalse(await courseSkillService.AddSkillToCourse(0, 0));
         }
 
         [TestMethod]
-        public void AddMaterialToCourse_CourseSkillNotExistCourseExistSkillExist_True()
+        public async Task AddMaterialToCourse_CourseSkillNotExistCourseExistSkillExist_True()
         {
             Mock<IRepository<CourseSkill>> courseSkillRepo = new Mock<IRepository<CourseSkill>>();
             Mock<IRepository<Course>> courseRepo = new Mock<IRepository<Course>>();
             Mock<IRepository<Skill>> skillRepo = new Mock<IRepository<Skill>>();
 
-            courseSkillRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<CourseSkill, bool>>>())).Returns(false);
-            courseRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).Returns(true);
-            skillRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<Skill, bool>>>())).Returns(true);
+            courseSkillRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<CourseSkill, bool>>>())).ReturnsAsync(false);
+            courseRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<Course, bool>>>())).ReturnsAsync(true);
+            skillRepo.Setup(db => db.Exist(It.IsAny<Expression<Func<Skill, bool>>>())).ReturnsAsync(true);
             courseSkillRepo.Setup(db => db.Save());
 
             CourseSkillService courseSkillService = new CourseSkillService(
@@ -100,7 +101,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             courseSkillService.AddSkillToCourse(0, 0);
 
             courseSkillRepo.Verify(x => x.Save(), Times.Once);
-            Assert.IsTrue(courseSkillService.AddSkillToCourse(0, 0));
+            Assert.IsTrue(await courseSkillService.AddSkillToCourse(0, 0));
         }
 
         [TestMethod]
@@ -111,7 +112,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
             Mock<IRepository<Skill>> skillRepo = new Mock<IRepository<Skill>>();
 
             courseSkillRepo.Setup(db => db.Get<Skill>(It.IsAny<Expression<Func<CourseSkill, Skill>>>(),
-                It.IsAny<Expression<Func<CourseSkill, bool>>>())).Returns(new List<Skill>());
+                It.IsAny<Expression<Func<CourseSkill, bool>>>())).ReturnsAsync(new List<Skill>());
 
             CourseSkillService courseSkillService = new CourseSkillService(
                 courseSkillRepo.Object,

@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EducationPortal.BLL.Tests.ServicesSql
 {
@@ -36,7 +37,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
                 new UserSkill() { UserId = 0, SkillId = 0 }
             };
 
-            userSkillRepository.Setup(db => db.Get(It.IsAny<Expression<Func<UserSkill, bool>>>())).Returns(userSkills);
+            userSkillRepository.Setup(db => db.Get(It.IsAny<Expression<Func<UserSkill, bool>>>())).ReturnsAsync(userSkills);
             userSkillRepository.Setup(db => db.Update(It.IsAny<UserSkill>()));
             userSkillRepository.Setup(db => db.Save());
 
@@ -54,7 +55,7 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         {
             List<UserSkill> userSkills = new List<UserSkill>();
 
-            userSkillRepository.Setup(db => db.Get(It.IsAny<Expression<Func<UserSkill, bool>>>())).Returns(userSkills);
+            userSkillRepository.Setup(db => db.Get(It.IsAny<Expression<Func<UserSkill, bool>>>())).ReturnsAsync(userSkills);
             userSkillRepository.Setup(db => db.Add(It.IsAny<UserSkill>()));
             userSkillRepository.Setup(db => db.Save());
 
@@ -72,17 +73,17 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         #region GetAllSkillInUser
 
         [TestMethod]
-        public void GetAllSkillInUser_CallGet()
+        public async Task GetAllSkillInUser_CallGet()
         {
             userSkillRepository.Setup(
                 db => db.Get<Skill>(It.IsAny<Expression<Func<UserSkill, Skill>>>(),
                 It.IsAny<Expression<Func<UserSkill, bool>>>()
-                )).Returns(new List<Skill>());
+                )).ReturnsAsync(new List<Skill>());
 
             UserSkillService userSkillSqlService = new UserSkillService(
                  userSkillRepository.Object);
 
-            userSkillSqlService.GetAllSkillInUser(It.IsAny<int>());
+            await userSkillSqlService.GetAllSkillInUser(It.IsAny<int>());
 
             userSkillRepository.Verify(x => x.Get<Skill>(It.IsAny<Expression<Func<UserSkill, Skill>>>(),
                 It.IsAny<Expression<Func<UserSkill, bool>>>()
