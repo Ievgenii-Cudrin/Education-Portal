@@ -1,55 +1,65 @@
-﻿namespace EducationPortal.BLL.ServicesSql
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using BusinessLogicLayer.Interfaces;
-    using DataAccessLayer.Entities;
-    using DataAccessLayer.Interfaces;
-    using EducationPortal.BLL.Interfaces;
-    using EducationPortal.DAL.Repositories;
-    using EducationPortal.Domain.Entities;
-    using Entities;
-    using Microsoft.Extensions.Logging;
-    using NLog;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using DataAccessLayer.Interfaces;
+using EducationPortal.BLL.Interfaces;
+using EducationPortal.Domain.Entities;
+using Entities;
+using Microsoft.Extensions.Logging;
 
+namespace EducationPortal.BLL.ServicesSql
+{
     public class UserCourseMaterialService : IUserCourseMaterialSqlService
     {
-        private IRepository<UserCourseMaterial> userCourseMaterialRepository;
-        private ICourseMaterialService courseMaterialService;
-        private ILogger<UserCourseMaterialService> logger;
+        private readonly IRepository<UserCourseMaterial> userCourseMaterialRepository;
+        private readonly ICourseMaterialService courseMaterialService;
+        private readonly ILogger<UserCourseMaterialService> logger;
+        private IOperationResult operationResult;
+
+        private const string courseHasntMaterials = "COurse hasnt any materials";
+        private const string success = "Success";
 
         public UserCourseMaterialService(
             IRepository<UserCourseMaterial> userCourseMaterialRepository,
             ICourseMaterialService courseMaterialService,
-            ILogger<UserCourseMaterialService> logger)
+            ILogger<UserCourseMaterialService> logger,
+            IOperationResult operationResult)
         {
             this.userCourseMaterialRepository = userCourseMaterialRepository;
             this.courseMaterialService = courseMaterialService;
             this.logger = logger;
+            this.operationResult = operationResult;
         }
 
-        public async Task<bool> AddMaterialsToUserCourse(int userCourseId, int courseId)
+        public async Task<IOperationResult> AddMaterialsToUserCourse(int userCourseId, int courseId)
         {
             var materialsFromCourse = await this.courseMaterialService.GetAllMaterialsFromCourse(courseId);
 
             if (materialsFromCourse == null)
             {
-                return false;
+                this.logger.LogInformation($"Course {courseId} hasn't any materials");
+                this.operationResult.IsSucceed = false;
+                this.operationResult.Message = courseHasntMaterials;
+
+                return this.operationResult;
             }
 
-            var p = materialsFromCourse.Select(x => new UserCourseMaterial
+            foreach (var material in materialsFromCourse)
             {
-                UserCourseId = userCourseId,
-                MaterialId = x.Id,
-                IsPassed = false,
-            });
+                UserCourseMaterial userCourseMaterial = new UserCourseMaterial()
+                {
+                    UserCourseId = userCourseId,
+                    MaterialId = material.Id,
+                    IsPassed = false,
+                };
 
-            p.AsParallel().ForAll(u => this.userCourseMaterialRepository.Add(u));
+                await this.userCourseMaterialRepository.Add(userCourseMaterial);
+            }
 
-            return true;
+            this.operationResult.IsSucceed = true;
+            this.operationResult.Message = success;
+            await this.userCourseMaterialRepository.Save();
+
+            return this.operationResult;
         }
 
         public async Task<bool> SetPassToMaterial(int userCourseId, int materialId)
@@ -61,13 +71,14 @@
             {
                 userCourseMaterialToUpdate.IsPassed = true;
                 await this.userCourseMaterialRepository.Update(userCourseMaterialToUpdate);
+                await this.userCourseMaterialRepository.Save();
                 return true;
             }
 
             return false;
         }
 
-        public async Task<List<Material>> GetNotPassedMaterialsFromCourseInProgress(int userCourseId)
+        public async Task<IEnumerable<Material>> GetNotPassedMaterialsFromCourseInProgress(int userCourseId)
         {
             bool userCourseMaterialExist = await this.userCourseMaterialRepository.Exist(x => x.UserCourseId == userCourseId);
 
@@ -77,6 +88,11 @@
             }
 
             return await this.userCourseMaterialRepository.Get<Material>(x => x.Material, x => x.UserCourseId == userCourseId && x.IsPassed == false);
+        }
+
+        public async Task<int> GetCountOfPassedMaterialsInCourse(int userCourseId)
+        {
+            return await this.userCourseMaterialRepository.GetCountWithPredicate(x => x.UserCourseId == userCourseId && x.IsPassed == true);
         }
     }
 }

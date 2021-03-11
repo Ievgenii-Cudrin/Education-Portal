@@ -9,125 +9,120 @@ using EducationPortal.BLL.Interfaces;
 using Entities;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Logging;
-using NLog;
 
 namespace EducationPortal.BLL.ServicesSql
 {
 
     public class CourseService : ICourseService
     {
-        private IRepository<Course> courseRepository;
-        private ICourseMaterialService courseMaterialService;
-        private ICourseSkillService courseSkillService;
-        private ILogger<CourseService> logger;
-        private IAuthorizedUser authorizedUser;
+        private readonly IRepository<Course> courseRepository;
+        private readonly ICourseMaterialService courseMaterialService;
+        private readonly ICourseSkillService courseSkillService;
+        private readonly ILogger<CourseService> logger;
+        private readonly IAuthorizedUser authorizedUser;
+        private IOperationResult operationResult;
+
+        private const string success = "Success";
+        private const string courseExistInDB = "Operation with course is successfull finished";
+        private const string courseNotExist = "Course not exist";
 
         public CourseService(
             IRepository<Course> courseRepo,
             ICourseMaterialService courseMaterialServ,
             ICourseSkillService courseSkillServ,
             ILogger<CourseService> logger,
-            IAuthorizedUser authorizedUser)
+            IAuthorizedUser authorizedUser,
+            IOperationResult operationResult)
         {
             this.courseRepository = courseRepo;
             this.courseMaterialService = courseMaterialServ;
             this.courseSkillService = courseSkillServ;
             this.logger = logger;
             this.authorizedUser = authorizedUser;
+            this.operationResult = operationResult;
         }
 
-        public async Task<bool> AddMaterialToCourse(int courseId, Material material)
+        public async Task<IOperationResult> AddMaterialToCourse(int courseId, Material material)
         {
-            try
-            {
-                return await this.courseMaterialService.AddMaterialToCourse(courseId, material.Id);
-            }
-            catch (SqlException ex)
-            {
-                this.logger.LogWarning($"Failed to connect to db  due {ex.Message}");
-                return false;
-            }
+            return await this.courseMaterialService.AddMaterialToCourse(courseId, material.Id);
         }
 
-        public async Task<bool> AddSkillToCourse(int courseId, Skill skillToAdd)
+        public async Task<IOperationResult> AddSkillToCourse(int courseId, Skill skillToAdd)
         {
             return await this.courseSkillService.AddSkillToCourse(courseId, skillToAdd.Id);
         }
 
-        public async Task<bool> CreateCourse(Course course)
+        public async Task<IOperationResult> CreateCourse(Course course)
         {
-            try
-            {
-                bool courseExist = await this.courseRepository.Exist(x => x.Name == course.Name);
+            bool courseExist = await this.courseRepository.Exist(x => x.Name == course.Name);
 
-                if (course != null && !courseExist)
-                {
-                    await this.courseRepository.Add(course);
-                    this.logger.LogDebug($"Create course ({course.Id}) by user ({this.authorizedUser.User.Id})");
-                    return true;
-                }
-
-                this.logger.LogInformation($"Course ({course.Id}) not created. Course exist!");
-                return false;
-            }
-            catch (SqlException ex)
+            if (course != null && !courseExist)
             {
-                this.logger.LogWarning($"Failed to connect to db  due {ex.Message}");
-                return false;
+                await this.courseRepository.Add(course);
+                await this.courseRepository.Save();
+                this.logger.LogDebug($"Create course ({course.Id}) by user ({this.authorizedUser.User.Id})");
+                this.operationResult.IsSucceed = true;
+                this.operationResult.Message = success;
             }
+            else
+            {
+                this.logger.LogInformation($"Course ({course.Id}) by user ({this.authorizedUser.User.Id} not created. Course with this name exist!");
+                this.operationResult.IsSucceed = false;
+                this.operationResult.Message = courseExistInDB;
+            }
+
+            return this.operationResult;
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task<IOperationResult> Delete(int id)
         {
             try
             {
                 await this.courseRepository.Delete(id);
-                return true;
+                await this.courseRepository.Save();
+                this.operationResult.IsSucceed = true;
+                this.operationResult.Message = success;
+                this.logger.LogInformation($"Course ({id}) by user ({this.authorizedUser.User.Id} successfull deleted");
             }
             catch (Exception ex)
             {
-                this.logger.LogWarning($"Failed to connect to db  due {ex.Message}");
-                return false;
+                this.logger.LogWarning($"Failed to delete course {id} by user ({this.authorizedUser.User.Id} due {ex.Message}");
+                this.operationResult.IsSucceed = false;
+                this.operationResult.Message = courseNotExist;
             }
+
+            return this.operationResult;
         }
 
-        public async Task<List<Material>> GetMaterialsFromCourse(int id)
+        public async Task<IEnumerable<Material>> GetMaterialsFromCourse(int id)
         {
-            try
-            {
-                return await this.courseMaterialService.GetAllMaterialsFromCourse(id);
-            }
-            catch (SqlException)
-            {
-                return null;
-            }
+
+            return await this.courseMaterialService.GetAllMaterialsFromCourse(id);
         }
 
-        public async Task<List<Skill>> GetSkillsFromCourse(int id)
+        public async Task<IEnumerable<Skill>> GetSkillsFromCourse(int id)
         {
-            try
-            {
-                return await this.courseSkillService.GetAllSkillsFromCourse(id);
-            }
-            catch (SqlException)
-            {
-                return null;
-            }
+            return await this.courseSkillService.GetAllSkillsFromCourse(id);
         }
 
-        public async Task<bool> UpdateCourse(Course course)
+        public async Task<IOperationResult> UpdateCourse(Course course)
         {
             try
             {
                 await this.courseRepository.Update(course);
+                await this.courseRepository.Save();
                 this.logger.LogDebug($"Course ({course.Id}) successfully updated by user ({this.authorizedUser.User.Id})");
-                return true;
+                this.operationResult.IsSucceed = true;
+                this.operationResult.Message = courseExistInDB;
             }
             catch (Exception ex)
             {
-                this.logger.LogWarning($"Course ({course.Id}) not updated ({ex.Message})");
-                return false;
+                this.logger.LogWarning($"Course ({course.Id}) not updated by user ({this.authorizedUser.User.Id}) by due ({ex.Message})");
+                this.operationResult.IsSucceed = false;
+                this.operationResult.Message = courseNotExist;
             }
+
+            return this.operationResult;
         }
 
         public async Task<bool> ExistCourse(int courseId)
@@ -135,7 +130,7 @@ namespace EducationPortal.BLL.ServicesSql
             return await this.courseRepository.Exist(x => x.Id == courseId);
         }
 
-        public async Task<List<Course>> GetCoursesPerPage(int skip, int take)
+        public async Task<IEnumerable<Course>> GetCoursesPerPage(int skip, int take)
         {
             return await this.courseRepository.GetPage(skip, take);
         }
@@ -143,6 +138,17 @@ namespace EducationPortal.BLL.ServicesSql
         public async Task<int> GetCount()
         {
             return await this.courseRepository.Count();
+        }
+
+        public async Task<Course> GetCourse(int id)
+        {
+            return await this.courseRepository.GetOne(x => x.Id == id);
+        }
+
+        public async Task<int> GetLastId()
+        {
+            var course = await this.courseRepository.GetLastEntity(x => x.Id);
+            return course.Id;
         }
     }
 }

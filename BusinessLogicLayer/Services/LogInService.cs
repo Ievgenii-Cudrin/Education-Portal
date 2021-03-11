@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using DataAccessLayer.Entities;
 using DataAccessLayer.Interfaces;
 using EducationPortal.BLL.Interfaces;
@@ -9,11 +8,12 @@ namespace EducationPortal.BLL.Services
 {
     public class LogInService : ILogInService
     {
-        private IRepository<User> userRepository;
-        private IWorkWithAuthorizedUser workWithAuthorizedUser;
-        private ILogger<LogInService> logger;
+        private readonly IRepository<User> userRepository;
+        private readonly IWorkWithAuthorizedUser workWithAuthorizedUser;
+        private readonly ILogger<LogInService> logger;
 
-        public LogInService(IRepository<User> uRepo,
+        public LogInService(
+            IRepository<User> uRepo,
             IWorkWithAuthorizedUser workWithAuthUser,
             ILogger<LogInService> logger)
         {

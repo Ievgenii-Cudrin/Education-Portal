@@ -1,22 +1,18 @@
-﻿namespace EducationPortal.BLL.ServicesSql
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using DataAccessLayer.Interfaces;
-    using EducationPortal.BLL.Interfaces;
-    using EducationPortal.DAL.Repositories;
-    using EducationPortal.Domain.Entities;
-    using Entities;
-    using Microsoft.Extensions.Logging;
-    using NLog;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using DataAccessLayer.Interfaces;
+using EducationPortal.BLL.Interfaces;
+using EducationPortal.Domain.Entities;
+using Entities;
+using Microsoft.Extensions.Logging;
 
+namespace EducationPortal.BLL.ServicesSql
+{
     public class UserMaterialService : IUserMaterialSqlService
     {
         private readonly IRepository<UserMaterial> userMaterialRepository;
-        private ILogger<UserMaterialService> logger;
+        private readonly ILogger<UserMaterialService> logger;
 
         public UserMaterialService(
             IRepository<UserMaterial> userMaterialRepository,
@@ -39,18 +35,13 @@
                 MaterialId = materialId,
             };
 
-            try
-            {
-                await this.userMaterialRepository.Add(userMaterial);
-            }
-            catch (Exception ex)
-            {
-                this.logger.LogWarning($"Failed add material {materialId} to user {userId} - {ex.Message}");
-            }
+            await this.userMaterialRepository.Add(userMaterial);
+            await this.userMaterialRepository.Save();
+
             return true;
         }
 
-        public async Task<List<Material>> GetAllMaterialInUser(int userId)
+        public async Task<IEnumerable<Material>> GetAllMaterialInUser(int userId)
         {
             return await this.userMaterialRepository.Get<Material>(x => x.Material, x => x.UserId == userId);
         }

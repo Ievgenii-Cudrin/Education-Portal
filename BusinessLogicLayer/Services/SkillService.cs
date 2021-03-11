@@ -1,49 +1,58 @@
-﻿namespace EducationPortal.BLL.ServicesSql
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Linq.Expressions;
-    using System.Threading.Tasks;
-    using BusinessLogicLayer.Interfaces;
-    using DataAccessLayer.Entities;
-    using DataAccessLayer.Interfaces;
-    using EducationPortal.BLL.Interfaces;
-    using Microsoft.Data.SqlClient;
-    using Microsoft.Extensions.Logging;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
+using BusinessLogicLayer.Interfaces;
+using DataAccessLayer.Entities;
+using DataAccessLayer.Interfaces;
+using EducationPortal.BLL.Interfaces;
+using Microsoft.Extensions.Logging;
 
+namespace EducationPortal.BLL.ServicesSql
+{
     public class SkillService : ISkillService
     {
         private readonly IRepository<Skill> skillRepository;
-        private ILogger<SkillService> logger;
+        private readonly ILogger<SkillService> logger;
+        private readonly IAuthorizedUser authorizedUser;
+        private IOperationResult operationResult;
+
+        private const string success = "Success";
+        private const string skillExistInDB = "Skill with this name exist";
 
         public SkillService(
             IRepository<Skill> repository,
-            ILogger<SkillService> logger)
+            ILogger<SkillService> logger,
+            IOperationResult operationResult,
+            IAuthorizedUser authorizedUser)
         {
             this.skillRepository = repository;
             this.logger = logger;
+            this.operationResult = operationResult;
+            this.authorizedUser = authorizedUser;
         }
 
-        public async Task CreateSkill(Skill skill)
+        public async Task<IOperationResult> CreateSkill(Skill skill)
         {
-            try
-            {
-                bool skillExist = await this.skillRepository.Exist(x => x.Name == skill.Name);
+            bool skillExist = await this.skillRepository.Exist(x => x.Name == skill.Name);
 
-                if (!skillExist)
-                {
-                    await this.skillRepository.Add(skill);
-                }
-                else
-                {
-                    this.logger.LogDebug($"Skill ({skill.Name}) not created. Skill exist");
-                }
-            }
-            catch (Exception ex)
+            if (!skillExist)
             {
-                this.logger.LogWarning($"Failed create skill - {ex.Message}");
+                await this.skillRepository.Add(skill);
+                this.logger.LogDebug($"Skill ({skill.Name}) successfullu created by user {this.authorizedUser.User.Id}");
+                this.operationResult.Message = success;
+                this.operationResult.IsSucceed = true;
             }
+            else
+            {
+                this.operationResult.Message = skillExistInDB;
+                this.operationResult.IsSucceed = false;
+                this.logger.LogDebug($"Skill ({skill.Name}) not created. Skill exist");
+            }
+
+            await this.skillRepository.Save();
+
+            return this.operationResult;
         }
 
         public async Task Delete(int id)
@@ -51,6 +60,7 @@
             try
             {
                 await this.skillRepository.Delete(id);
+                await this.skillRepository.Save();
             }
             catch (Exception ex)
             {
@@ -91,6 +101,7 @@
                 if (skill != null)
                 {
                     await this.skillRepository.Update(skill);
+                    await this.skillRepository.Save();
                 }
             }
             catch (Exception ex)
@@ -102,6 +113,16 @@
         public async Task<bool> ExistSkill(int skillId)
         {
             return await this.skillRepository.Exist(x => x.Id == skillId);
+        }
+
+        public async Task<IEnumerable<Skill>> GetAllSkillsForOnePage(int take, int skip)
+        {
+            return await this.skillRepository.GetPage(take, skip);
+        }
+
+        public async Task<int> GetCount()
+        {
+            return await this.skillRepository.Count();
         }
     }
 }
