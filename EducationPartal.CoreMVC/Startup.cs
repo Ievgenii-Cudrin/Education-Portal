@@ -1,28 +1,18 @@
-using BusinessLogicLayer.Interfaces;
 using DataAccessLayer.DataContext;
-using DataAccessLayer.Interfaces;
 using EducationPartal.CoreMVC.Interfaces;
 using EducationPartal.CoreMVC.Mappers;
-using EducationPortal.BLL.Interfaces;
-using EducationPortal.BLL.Services;
-using EducationPortal.BLL.ServicesSql;
+using EducationPortal.CoreMVC.Heleprs;
+using EducationPortal.CoreMVC.Interfaces;
 using EducationPortal.CoreMVC.LayersDependencyInjections;
 using EducationPortal.DAL.DataContext;
-using EducationPortal.DAL.Repositories;
-using EducationPortal.DAL.XML.Repositories;
-using EducationPortal.Domain.Entities;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using XmlDataBase.Interfaces;
 using XmlDataBase.Serialization;
 
@@ -38,8 +28,9 @@ namespace EducationPartal.CoreMVC
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton(typeof(IXmlSet<>), typeof(XmlSet<>));
-            services.AddSingleton(typeof(IXmlSerializeContext<>), typeof(XmlSerializationContextGeneric<>));
+            services.AddTransient(typeof(IXmlSet<>), typeof(XmlSet<>));
+            services.AddTransient(typeof(IXmlSerializeContext<>), typeof(XmlSerializationContextGeneric<>));
+            services.AddTransient<ICurrentCourse, CurrentCourse>();
 
             services.InstallDal();
             services.InstallBll();
@@ -55,6 +46,9 @@ namespace EducationPartal.CoreMVC
 
             services.AddDbContext<ApplicationContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DevConnection")));
+
+            services.AddMvc()
+                .AddFluentValidation(mvcConfiguration => mvcConfiguration.RegisterValidatorsFromAssemblyContaining<Startup>());
 
             services.AddControllersWithViews();
         }

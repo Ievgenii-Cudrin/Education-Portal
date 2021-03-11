@@ -39,16 +39,16 @@ namespace EducationPortal.PL
             {
                 case "1":
                     Console.Clear();
-                    await userController.VerifyLoginAndPassword();
+                    await this.userController.VerifyLoginAndPassword();
                     break;
                 case "2":
                     Console.Clear();
-                    await userController.CreateNewUser();
-                    StartApplication();
+                    await this.userController.CreateNewUser();
+                    await this.StartApplication();
                     break;
                 default:
                     Console.WriteLine("Default case");
-                    await StartApplication();
+                    await this.StartApplication();
                     break;
             }
         }
@@ -63,34 +63,34 @@ namespace EducationPortal.PL
             switch (userChoice)
             {
                 case "1":
-                    await courseController.CreateNewCourse();
+                    await this.courseController.CreateNewCourse();
                     break;
                 case "2":
-                    await passCourseController.StartPassCourse();
+                    await this.passCourseController.StartPassCourse();
                     break;
                 case "3":
-                    await passCourseController.StartPassingCourseFromProgressList();
+                    await this.passCourseController.StartPassingCourseFromProgressList();
                     break;
                 case "4":
-                    await userController.ShowAllPassedCourses();
+                    await this.userController.ShowAllPassedCourses();
                     break;
                 case "5":
-                    await userController.ShowAllUserSkills();
+                    await this.userController.ShowAllUserSkills();
                     break;
                 case "6":
-                    await userController.ShowAllCourseInProggres();
+                    await this.userController.ShowAllCourseInProggres();
                     break;
                 case "7":
-                    userController.ShowUserInfo();
+                    this.userController.ShowUserInfo();
                     break;
                 case "8":
-                    userController.LogOut();
+                    this.userController.LogOut();
                     Console.Clear();
-                    StartApplication();
+                    await this.StartApplication();
                     break;
                 default:
                     Console.WriteLine("Default case");
-                    StartApplication();
+                    await this.StartApplication();
                     break;
             }
         }
@@ -106,18 +106,18 @@ namespace EducationPortal.PL
             {
                 case "1":
                     // Video
-                    return await materialController.CreateVideo();
+                    return await this.materialController.CreateVideo();
                 case "2":
                     // Book
-                    return await materialController.CreateBook();
+                    return await this.materialController.CreateBook();
                 case "3":
                     // Article
-                    return await materialController.CreateArticle();
+                    return await this.materialController.CreateArticle();
                 case "4":
-                    return await materialController.GetMaterialFromAllMaterials(courseId);
+                    return await this.materialController.GetMaterialFromAllMaterials(courseId);
                 default:
                     Console.WriteLine("Default case");
-                    SelectMaterialForAddToCourse(courseId);
+                    await this.SelectMaterialForAddToCourse(courseId);
                     break;
             }
 
