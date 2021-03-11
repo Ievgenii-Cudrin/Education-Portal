@@ -46,8 +46,4 @@
     <ProjectReference Include="..\EducationPortal.XmlDataBase\EducationPortal.XmlDataBase.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Branch\" />
-  </ItemGroup>
-
 </Project>

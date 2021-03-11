@@ -21,9 +21,9 @@ namespace EducationPortal.PL.Controller
         private readonly ICourseService courseService;
         private readonly IUserService userService;
         private readonly IMaterialController materialController;
-        private IMapperService mapperService;
-        private IMaterialService materialService;
-        private IUserCourseSqlService userCourseService;
+        private readonly IMapperService mapperService;
+        private readonly IMaterialService materialService;
+        private readonly IUserCourseSqlService userCourseService;
         private IApplication application;
 
         public PassCourseController(
@@ -68,9 +68,9 @@ namespace EducationPortal.PL.Controller
         public async Task StartPassingCourseFromProgressList()
         {
             var courseDomainListInProgress = await this.userService.GetListWithCoursesInProgress();
-            // Get all courses in progress
-            List<CourseViewModel> coursesListInProgressVM = await this.GetListOfCoursesFromServiceAfterMappingToVM(courseDomainListInProgress);
 
+            // Get all courses in progress
+            List<CourseViewModel> coursesListInProgressVM = await this.GetListOfCoursesFromServiceAfterMappingToVM((List<Course>)courseDomainListInProgress);
 
             // CHeck, we have courses in progress, or no
             if (coursesListInProgressVM.Count <= 0)
@@ -91,16 +91,16 @@ namespace EducationPortal.PL.Controller
             }
 
             // get course in progress
-            List<Course> courseToProgressFromProcessList = await this.userService.GetListWithCoursesInProgress();
+            List<Course> courseToProgressFromProcessList = (List<Course>)await this.userService.GetListWithCoursesInProgress();
 
             // mapping to course domain to course view model
             CourseViewModel courseVMInProgress = this.mapperService.CreateMapFromVMToDomainWithIncludeLsitType<Course, CourseViewModel, Material, MaterialViewModel, Skill, SkillViewModel>(courseToProgressFromProcessList.Where(x => x.Id == courseInProgressIdToPass).FirstOrDefault());
 
             // mapping materials in progogress
-            courseVMInProgress.Materials = this.materialController.GetAllMaterialVMAfterMappingFromMaterialDomain(await this.userService.GetMaterialsFromCourseInProgress(courseVMInProgress.Id));
+            courseVMInProgress.Materials = this.materialController.GetAllMaterialVMAfterMappingFromMaterialDomain((List<Material>)await this.userService.GetMaterialsFromCourseInProgress(courseVMInProgress.Id));
 
             // mapping skills
-            courseVMInProgress.Skills = this.mapperService.CreateListMap<Skill, SkillViewModel>(await this.userService.GetSkillsFromCourseInProgress(courseVMInProgress.Id));
+            courseVMInProgress.Skills = this.mapperService.CreateListMap<Skill, SkillViewModel>((List<Skill>)await this.userService.GetSkillsFromCourseInProgress(courseVMInProgress.Id));
 
             if (courseVMInProgress != null)
             {
@@ -143,8 +143,8 @@ namespace EducationPortal.PL.Controller
                 int recordsCount = await this.courseService.GetCount();
                 var pager = new PageInfo(recordsCount, numberOfPage, pageSize);
                 int coursesSkip = (numberOfPage - 1) * pageSize;
-
-                coursesListVM = await this.GetListOfCoursesFromServiceAfterMappingToVM(await this.courseService.GetCoursesPerPage(coursesSkip, pager.PageSize));
+                var coursesOnPage = await this.courseService.GetCoursesPerPage(coursesSkip, pager.PageSize);
+                coursesListVM = await this.GetListOfCoursesFromServiceAfterMappingToVM(coursesOnPage.ToList());
 
                 // ShowCourses
                 this.ShowCoursesToPass(coursesListVM);
@@ -177,7 +177,7 @@ namespace EducationPortal.PL.Controller
             int courseIdToPass = await this.GetIdFromUserToPassCourse();
 
             // Check, may be we this course course already started
-            if (await this.userCourseService.CourseWasStarted(courseIdToPass)) 
+            if (await this.userCourseService.CourseWasStarted(courseIdToPass))
             {
                 await this.ShowMessageAndReturnToMainMenu("You have already started this course");
             }
@@ -191,7 +191,7 @@ namespace EducationPortal.PL.Controller
             CourseViewModel courseInProgress = coursesListVM.Where(x => x.Id == courseIdToPass).FirstOrDefault();
 
             var allNotPassedMaterialsDomain = await this.userService.GetAllNotPassedMaterialsInCourse(courseIdToPass);
-            var allNodPassedAfterMpping = this.mapperService.CreateListMapFromVMToDomainWithIncludeMaterialType<Material, MaterialViewModel, Video, VideoViewModel, Article, ArticleViewModel, Book, BookViewModel>(allNotPassedMaterialsDomain);
+            var allNodPassedAfterMpping = this.mapperService.CreateListMapFromVMToDomainWithIncludeMaterialType<Material, MaterialViewModel, Video, VideoViewModel, Article, ArticleViewModel, Book, BookViewModel>((List<Material>)allNotPassedMaterialsDomain);
             courseInProgress.Materials = allNodPassedAfterMpping;
 
             if (courseInProgress != null)
@@ -287,8 +287,8 @@ namespace EducationPortal.PL.Controller
 
             foreach (var course in coursesListVM)
             {
-                course.Materials = this.mapperService.CreateListMapFromVMToDomainWithIncludeMaterialType<Material, MaterialViewModel, Video, VideoViewModel, Article, ArticleViewModel, Book, BookViewModel>(await this.courseService.GetMaterialsFromCourse(course.Id));
-                course.Skills = this.mapperService.CreateListMap<Skill, SkillViewModel>(await this.courseService.GetSkillsFromCourse(course.Id));
+                course.Materials = this.mapperService.CreateListMapFromVMToDomainWithIncludeMaterialType<Material, MaterialViewModel, Video, VideoViewModel, Article, ArticleViewModel, Book, BookViewModel>((List<Material>)await this.courseService.GetMaterialsFromCourse(course.Id));
+                course.Skills = this.mapperService.CreateListMap<Skill, SkillViewModel>((List<Skill>)await this.courseService.GetSkillsFromCourse(course.Id));
             }
 
             return coursesListVM;

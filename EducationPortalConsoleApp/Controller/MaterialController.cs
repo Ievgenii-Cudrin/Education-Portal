@@ -1,28 +1,33 @@
-﻿namespace EducationPortalConsoleApp.Controller
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using BusinessLogicLayer.Interfaces;
-    using EducationPortal.Domain.Entities;
-    using EducationPortal.PL.InstanceCreator;
-    using EducationPortal.PL.Interfaces;
-    using EducationPortal.PL.Mapping;
-    using EducationPortal.PL.Models;
-    using EducationPortalConsoleApp.Helpers;
-    using EducationPortalConsoleApp.Interfaces;
-    using Entities;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using BusinessLogicLayer.Interfaces;
+using EducationPortal.BLL.Interfaces;
+using EducationPortal.Domain.Entities;
+using EducationPortal.PL.InstanceCreator;
+using EducationPortal.PL.Interfaces;
+using EducationPortal.PL.Models;
+using EducationPortalConsoleApp.Helpers;
+using EducationPortalConsoleApp.Interfaces;
+using Entities;
 
+namespace EducationPortalConsoleApp.Controller
+{
     public class MaterialController : IMaterialController
     {
         private readonly IMaterialService materialService;
-        private IMapperService mapperService;
+        private readonly IMapperService mapperService;
+        private IOperationResult operationResult;
 
-        public MaterialController(IMaterialService materialService, IMapperService mapper)
+        public MaterialController(
+            IMaterialService materialService,
+            IMapperService mapper,
+            IOperationResult operationResult)
         {
             this.materialService = materialService;
             this.mapperService = mapper;
+            this.operationResult = operationResult;
         }
 
         public async Task<Material> CreateVideo()
@@ -34,9 +39,9 @@
             var videoAfterMap = this.mapperService.CreateMapFromVMToDomain<VideoViewModel, Video>(materialVM);
 
             // add video to db
-            bool succsess = await this.materialService.CreateMaterial(videoAfterMap);
+            this.operationResult = await this.materialService.CreateMaterial(videoAfterMap);
 
-            if (videoAfterMap != null && succsess)
+            if (videoAfterMap != null && this.operationResult.IsSucceed)
             {
                 return videoAfterMap;
             }
@@ -55,9 +60,9 @@
             var articleAfterMap = this.mapperService.CreateMapFromVMToDomain<ArticleViewModel, Article>(articleVM);
 
             // add article to db
-            bool succsess = await this.materialService.CreateMaterial(articleAfterMap);
+            this.operationResult = await this.materialService.CreateMaterial(articleAfterMap);
 
-            if (articleAfterMap != null && succsess)
+            if (articleAfterMap != null && this.operationResult.IsSucceed)
             {
                 return articleAfterMap;
             }
@@ -76,9 +81,9 @@
             var bookAfterMap = this.mapperService.CreateMapFromVMToDomain<BookViewModel, Book>(bookVM);
 
             // add book to db
-            bool success = await this.materialService.CreateMaterial(bookAfterMap);
+            this.operationResult = await this.materialService.CreateMaterial(bookAfterMap);
 
-            if (bookAfterMap != null && success)
+            if (bookAfterMap != null && this.operationResult.IsSucceed)
             {
                 return bookAfterMap;
             }
@@ -100,8 +105,8 @@
                 int recordsCount = await this.materialService.GetCount();
                 var pager = new PageInfo(recordsCount, numberOfPage, pageSize);
                 int recordsSkip = (numberOfPage - 1) * pageSize;
-
-                List<MaterialViewModel> materialsVM1 = this.GetAllMaterialVMAfterMappingFromMaterialDomain(await this.materialService.GetAllMaterialsForOnePage(recordsSkip, pager.PageSize));
+                var materialsForOnePage = await this.materialService.GetAllMaterialsForOnePage(recordsSkip, pager.PageSize);
+                List<MaterialViewModel> materialsVM1 = this.GetAllMaterialVMAfterMappingFromMaterialDomain(materialsForOnePage.ToList());
 
                 // ShowMaterials
                 MaterialConsoleMessageHelper.ShowMaterial(materialsVM1);

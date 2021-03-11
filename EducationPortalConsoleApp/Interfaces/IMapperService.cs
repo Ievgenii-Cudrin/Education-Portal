@@ -1,7 +1,7 @@
-﻿namespace EducationPortal.PL.Interfaces
-{
-    using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
+namespace EducationPortal.PL.Interfaces
+{
     public interface IMapperService
     {
         TDomain CreateMapFromVMToDomain<TView, TDomain>(TView viewModelType);

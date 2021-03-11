@@ -1,10 +1,8 @@
-﻿namespace XmlDataBase.Interfaces
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
+﻿using System.Collections.Generic;
 
-    public interface IXmlSet<T> 
+namespace XmlDataBase.Interfaces
+{
+    public interface IXmlSet<T>
         where T : class
     {
         void Add(T objToXml);

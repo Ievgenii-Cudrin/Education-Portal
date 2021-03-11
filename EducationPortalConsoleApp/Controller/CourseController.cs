@@ -1,32 +1,34 @@
-﻿namespace EducationPortalConsoleApp.Controller
-{
-    using System;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using BusinessLogicLayer.Interfaces;
-    using DataAccessLayer.Entities;
-    using EducationPortal.PL.InstanceCreator;
-    using EducationPortal.PL.Interfaces;
-    using EducationPortal.PL.Mapping;
-    using EducationPortal.PL.Models;
-    using EducationPortalConsoleApp.Interfaces;
-    using Entities;
+﻿using System;
+using System.Threading.Tasks;
+using BusinessLogicLayer.Interfaces;
+using DataAccessLayer.Entities;
+using EducationPortal.BLL.Interfaces;
+using EducationPortal.PL.InstanceCreator;
+using EducationPortal.PL.Interfaces;
+using EducationPortal.PL.Models;
+using EducationPortalConsoleApp.Interfaces;
+using Entities;
 
+namespace EducationPortalConsoleApp.Controller
+{
     public class CourseController : ICourseController
     {
-        private ICourseService courseService;
-        private IMapperService mapperService;
-        private ISkillController skillController;
+        private readonly ICourseService courseService;
+        private readonly IMapperService mapperService;
+        private readonly ISkillController skillController;
+        private IOperationResult operationResult;
         private IApplication application;
 
         public CourseController(
             ICourseService courseService,
             IMapperService mapper,
-            ISkillController skilCntrl)
+            ISkillController skilCntrl,
+            IOperationResult operationResult)
         {
             this.courseService = courseService;
             this.mapperService = mapper;
             this.skillController = skilCntrl;
+            this.operationResult = operationResult;
         }
 
         public void WithApplication(IApplication application)
@@ -40,12 +42,12 @@
 
             // Create course
             CourseViewModel courseVM = CourseVMInstanceCreator.CreateCourse();
-            var course = this.mapperService.CreateMapFromVMToDomain<CourseViewModel, Course>(courseVM);
+
             // mapping to Domain model
             var courseDomain = this.mapperService.CreateMapFromVMToDomain<CourseViewModel, Course>(courseVM);
-            bool success = await this.courseService.CreateCourse(courseDomain);
+            this.operationResult = await this.courseService.CreateCourse(courseDomain);
 
-            if (success)
+            if (this.operationResult.IsSucceed)
             {
                 // Add materials to course
                 await this.AddMaterialToCourse(courseDomain.Id);
@@ -58,7 +60,7 @@
             }
             else
             {
-                Console.WriteLine("Course exist");
+                Console.WriteLine(this.operationResult.Message);
 
                 // Go to start menu
                 await this.application.SelectFirstStepForAuthorizedUser();
@@ -71,12 +73,12 @@
             do
             {
                 Material materialDomain = await this.application.SelectMaterialForAddToCourse(courseId);
-                bool successOperation = await this.courseService.AddMaterialToCourse(courseId, materialDomain);
+                this.operationResult = await this.courseService.AddMaterialToCourse(courseId, materialDomain);
 
                 // check, material exist in course, or no
-                if (!successOperation)
+                if (!this.operationResult.IsSucceed)
                 {
-                    Console.WriteLine("Material exist in course");
+                    Console.WriteLine(this.operationResult.Message);
                 }
 
                 Console.WriteLine("Do you want to add more material (Enter YES)?");

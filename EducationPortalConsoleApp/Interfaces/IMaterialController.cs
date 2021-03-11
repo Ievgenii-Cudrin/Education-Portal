@@ -1,10 +1,10 @@
-﻿namespace EducationPortalConsoleApp.Interfaces
-{
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using EducationPortal.PL.Models;
-    using Entities;
+﻿using Entities;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using EducationPortal.PL.Models;
 
+namespace EducationPortalConsoleApp.Interfaces
+{
     public interface IMaterialController
     {
         Task<Material> CreateVideo();

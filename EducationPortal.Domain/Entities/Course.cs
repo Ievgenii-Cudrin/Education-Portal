@@ -1,13 +1,10 @@
-﻿namespace DataAccessLayer.Entities
-{
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
-    using System.Xml.Serialization;
-    using EducationPortal.Domain.Entities;
-    using global::Entities;
+﻿using System.Collections.Generic;
+using System.Xml.Serialization;
+using EducationPortal.Domain.Entities;
+using global::Entities;
 
+namespace DataAccessLayer.Entities
+{
     [XmlType("Course")]
     [XmlInclude(typeof(Skill))]
     [XmlInclude(typeof(Material))]

@@ -1,12 +1,9 @@
-﻿namespace EducationPortalConsoleApp.Helpers
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-    using System.Text.RegularExpressions;
-    using DataAccessLayer.Interfaces;
-    using EducationPortal.PL.EnumViewModel;
+﻿using System;
+using System.Text.RegularExpressions;
+using EducationPortal.PL.EnumViewModel;
 
+namespace EducationPortalConsoleApp.Helpers
+{
     public static class GetDataHelper
     {
         public static string GetPhoneNumberFromUser()

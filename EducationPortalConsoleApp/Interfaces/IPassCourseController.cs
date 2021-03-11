@@ -1,10 +1,7 @@
-﻿namespace EducationPortal.PL.Interfaces
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-    using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
+namespace EducationPortal.PL.Interfaces
+{
     public interface IPassCourseController
     {
         Task StartPassCourse();

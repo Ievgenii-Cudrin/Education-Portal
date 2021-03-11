@@ -7,24 +7,39 @@ namespace EducationPartal.CoreMVC.Interfaces
 {
     public interface IAutoMapperService
     {
-        TN CreateMapFromVMToDomain<T, TN>(T viewModelType);
+        TViewModel CreateMapFromVMToDomain<TDomain, TViewModel>(TDomain viewModelType);
 
-        TN CreateMapFromVMToDomainWithIncludeVideoType<T, TN, TIT, TIN>(T viewModelType)
-            where TIT : T
-            where TIN : TN;
+        TViewModel CreateMapFromVMToDomainWithIncludeVideoType<TDomain, TViewModel, TIncludeDomain, TIncludeViewModel>(TDomain viewModelType)
+            where TIncludeDomain : TDomain
+            where TIncludeViewModel : TViewModel;
 
-        List<TN> CreateListMap<T, TN>(List<T> list);
+        List<TViewModel> CreateListMap<TDomain, TViewModel>(List<TDomain> list);
 
-        List<TMV> CreateListMapFromVMToDomainWithIncludeMaterialType<TMD, TMV, TVD, TVV, TAD, TAV, TBD, TBV>(List<TMD> viewModelType)
-            where TVD : TMD
-            where TAD : TMD
-            where TBD : TMD
-            where TVV : TMV
-            where TAV : TMV
-            where TBV : TMV;
+        TMaterialView CreateOneMapFromVMToDomainWithIncludeMaterialType
+            <TMaterialDomainD, TMaterialView, TVideoDomain, TVideoView, TArticleDomain, TArticleView, TBookDomain, TBookView>(TMaterialDomainD viewModelType)
+            where TVideoDomain : TMaterialDomainD
+            where TArticleDomain : TMaterialDomainD
+            where TBookDomain : TMaterialDomainD
+            where TVideoView : TMaterialView
+            where TArticleView : TMaterialView
+            where TBookView : TMaterialView;
 
-        List<TCV> CreateListMapFromVMToDomainWithIncludeLsitType<TCD, TCV, TMD, TMV, TSD, TSV>(List<TCD> viewModelType);
+        List<TMaterialView> CreateListMapFromVMToDomainWithIncludeMaterialType
+            <TMaterialDomain, TMaterialView, TVideoDomain, TVideoView, TArticleDomain, TArticleView, TBookDomain, TBookView>(List<TMaterialDomain> viewModelType)
+            where TVideoDomain : TMaterialDomain
+            where TArticleDomain : TMaterialDomain
+            where TBookDomain : TMaterialDomain
+            where TVideoView : TMaterialView
+            where TArticleView : TMaterialView
+            where TBookView : TMaterialView;
 
-        TCV CreateMapFromVMToDomainWithIncludeLsitType<TCD, TCV, TMD, TMV, TSD, TSV>(TCD viewModelType);
+        List<TCourseView> CreateListMapFromVMToDomainWithIncludeLsitType
+            <TCourseDomain, TCourseView, TMaterialDomain, TMaterialView, TSkillDomain, TSkillView>(List<TCourseDomain> viewModelType);
+
+        TCourseView CreateMapFromVMToDomainWithIncludeLsitType
+            <TCourseDomain, TCourseView, TMaterialDomain, TMaterialView, TSkillDomain, TSkillView>(TCourseDomain viewModelType);
+
+        List<TCourseView> CreateSkillListMapFromVMToDomainWithIncludeSkillType
+            <TCourseDomain, TCourseView, TMaterialDomain, TMaterialView>(List<TCourseDomain> viewModelType);
     }
 }

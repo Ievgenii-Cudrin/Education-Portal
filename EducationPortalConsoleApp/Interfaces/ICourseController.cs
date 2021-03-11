@@ -1,11 +1,8 @@
-﻿namespace EducationPortalConsoleApp.Interfaces
-{
-    using EducationPortal.PL.Interfaces;
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-    using System.Threading.Tasks;
+﻿using EducationPortal.PL.Interfaces;
+using System.Threading.Tasks;
 
+namespace EducationPortalConsoleApp.Interfaces
+{
     public interface ICourseController
     {
         Task CreateNewCourse();

@@ -1,9 +1,9 @@
-﻿namespace EducationPortal.Domain.Entities
-{
-    using global::Entities;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Xml.Serialization;
+﻿using global::Entities;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Xml.Serialization;
 
+namespace EducationPortal.Domain.Entities
+{
     [XmlType("UserCourseMaterial")]
     public class UserCourseMaterial
     {

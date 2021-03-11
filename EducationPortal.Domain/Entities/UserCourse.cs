@@ -1,9 +1,9 @@
-﻿namespace EducationPortal.Domain.Entities
-{
-    using DataAccessLayer.Entities;
-    using System.Collections.Generic;
-    using System.Xml.Serialization;
+﻿using DataAccessLayer.Entities;
+using System.Collections.Generic;
+using System.Xml.Serialization;
 
+namespace EducationPortal.Domain.Entities
+{
     [XmlType("UserCourse")]
     public class UserCourse : BaseEntity
     {

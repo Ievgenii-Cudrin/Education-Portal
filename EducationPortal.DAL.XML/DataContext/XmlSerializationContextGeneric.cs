@@ -1,7 +1,7 @@
-﻿namespace DataAccessLayer.DataContext
-{
-    using XmlDataBase.Interfaces;
+﻿using XmlDataBase.Interfaces;
 
+namespace DataAccessLayer.DataContext
+{
     public class XmlSerializationContextGeneric<T> : IXmlSerializeContext<T>
         where T : class
     {

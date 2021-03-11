@@ -1,10 +1,10 @@
-﻿namespace EducationPortal.Domain.Entities
-{
-    using DataAccessLayer.Entities;
-    using global::Entities;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Xml.Serialization;
+﻿using DataAccessLayer.Entities;
+using global::Entities;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Xml.Serialization;
 
+namespace EducationPortal.Domain.Entities
+{
     [XmlType("UserSkill")]
     public class UserMaterial
     {

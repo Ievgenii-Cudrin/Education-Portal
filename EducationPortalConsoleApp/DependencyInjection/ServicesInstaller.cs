@@ -1,5 +1,6 @@
 ﻿using BusinessLogicLayer.Interfaces;
 using EducationPortal.BLL.Interfaces;
+using EducationPortal.BLL.Results;
 using EducationPortal.BLL.Services;
 using EducationPortal.BLL.ServicesSql;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,6 +24,7 @@ namespace EducationPortal.PL.DependencyInjection
             services.AddTransient<IUserSkillSqlService, UserSkillService>();
             services.AddTransient<IAuthorizedUser, AuthorizerUser>();
             services.AddTransient<IWorkWithAuthorizedUser, AuthorizerUser>();
+            services.AddTransient<IOperationResult, OperationResult>();
         }
     }
 }

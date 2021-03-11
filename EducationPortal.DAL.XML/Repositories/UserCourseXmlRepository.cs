@@ -1,11 +1,9 @@
-﻿using DataAccessLayer.Interfaces;
-using EducationPortal.Domain.Entities;
+﻿using EducationPortal.Domain.Entities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 using XmlDataBase.Interfaces;
 using XmlDataBase.Serialization;
@@ -22,7 +20,7 @@ namespace EducationPortal.DAL.XML.Repositories
             this.context = context;
         }
 
-        public override async Task<List<TResult>> Get<TResult>(Expression<Func<UserCourse, TResult>> selector, Expression<Func<UserCourse, bool>> predicat)
+        public override async Task<IEnumerable<TResult>> Get<TResult>(Expression<Func<UserCourse, TResult>> selector, Expression<Func<UserCourse, bool>> predicat)
         {
             var userMaterials = this.context.XmlSet.GetAll().AsQueryable()
                 .Where(predicat).ToList();
