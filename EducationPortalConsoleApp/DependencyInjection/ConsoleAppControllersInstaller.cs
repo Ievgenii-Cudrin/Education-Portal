@@ -16,7 +16,6 @@ namespace EducationPortal.PL.DependencyInjection
             services.AddTransient<ISkillController, SkillController>();
             services.AddTransient<IPassCourseController, PassCourseController>();
             services.AddTransient<IApplication, App>();
-            //.AddTransient(typeof(IRepository<>), typeof(RepositorySql<>))
         }
     }
 }

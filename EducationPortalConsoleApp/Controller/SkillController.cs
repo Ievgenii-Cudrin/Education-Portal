@@ -1,19 +1,17 @@
-﻿namespace EducationPortalConsoleApp.Controller
-{
-    using BusinessLogicLayer.Interfaces;
-    using DataAccessLayer.Entities;
-    using EducationPortal.PL.InstanceCreator;
-    using EducationPortal.PL.Interfaces;
-    using EducationPortal.PL.Mapping;
-    using EducationPortal.PL.Models;
-    using EducationPortalConsoleApp.Interfaces;
-    using System.Linq;
-    using System.Threading.Tasks;
+﻿using BusinessLogicLayer.Interfaces;
+using DataAccessLayer.Entities;
+using EducationPortal.PL.InstanceCreator;
+using EducationPortal.PL.Interfaces;
+using EducationPortal.PL.Models;
+using EducationPortalConsoleApp.Interfaces;
+using System.Threading.Tasks;
 
+namespace EducationPortalConsoleApp.Controller
+{
     public class SkillController : ISkillController
     {
-        private ISkillService skillService;
-        private IMapperService mapperService;
+        private readonly ISkillService skillService;
+        private readonly IMapperService mapperService;
 
         public SkillController(ISkillService skillService, IMapperService mapper)
         {

@@ -13,5 +13,7 @@ namespace EducationPortal.PL.Models
         public List<SkillViewModel> Skills { get; set; }
 
         public List<MaterialViewModel> Materials { get; set; }
+
+        public string Completed { get; set; }
     }
 }
