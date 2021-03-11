@@ -1,13 +1,10 @@
-﻿namespace EducationPortal.DAL.DataContext
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-    using DataAccessLayer.Entities;
-    using EducationPortal.Domain.Entities;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using DataAccessLayer.Entities;
+using EducationPortal.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
+namespace EducationPortal.DAL.DataContext
+{
     public class CourseSkillConfiguration : IEntityTypeConfiguration<CourseSkill>
     {
         public void Configure(EntityTypeBuilder<CourseSkill> builder)

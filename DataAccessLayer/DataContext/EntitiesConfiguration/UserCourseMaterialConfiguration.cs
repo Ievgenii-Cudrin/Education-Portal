@@ -1,13 +1,10 @@
-﻿namespace EducationPortal.DAL.DataContext.EntitiesConfiguration
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-    using EducationPortal.Domain.Entities;
-    using Entities;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using EducationPortal.Domain.Entities;
+using Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
+namespace EducationPortal.DAL.DataContext.EntitiesConfiguration
+{
     public class UserCourseMaterialConfiguration : IEntityTypeConfiguration<UserCourseMaterial>
     {
         public void Configure(EntityTypeBuilder<UserCourseMaterial> builder)

@@ -1,12 +1,11 @@
-﻿namespace EducationPortal.DAL.DataContext
-{
-    using DataAccessLayer.Entities;
-    using EducationPortal.DAL.DataContext.EntitiesConfiguration;
-    using EducationPortal.Domain.Entities;
-    using Entities;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using DataAccessLayer.Entities;
+using EducationPortal.DAL.DataContext.EntitiesConfiguration;
+using EducationPortal.Domain.Entities;
+using Entities;
+using Microsoft.EntityFrameworkCore;
 
+namespace EducationPortal.DAL.DataContext
+{
     public class ApplicationContext : DbContext
     {
         public DbSet<Skill> Skills { get; set; }
@@ -36,7 +35,7 @@
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //optionsBuilder.UseSqlServer(@"Server=DESKTOP-7QBD7T4;Database=EducationPortal;Trusted_Connection=True;");
+            //optionsBuilder.UseSqlServer(@"Server=DESKTOP-7QBD7T4;Database=EducationPortalU;Trusted_Connection=True;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -51,6 +50,10 @@
             modelBuilder.ApplyConfiguration(new UserMaterialConfiguration());
             modelBuilder.ApplyConfiguration(new CourseMaterialConfiguration());
             modelBuilder.ApplyConfiguration(new UserCourseMaterialConfiguration());
+
+            modelBuilder.Entity<Article>().ToTable("Articles");
+            modelBuilder.Entity<Book>().ToTable("Books");
+            modelBuilder.Entity<Video>().ToTable("Videos");
         }
     }
 }
