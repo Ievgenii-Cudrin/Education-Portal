@@ -30,27 +30,6 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         #region AddSkillToUser
 
         [TestMethod]
-        public void AddSkillToUser_UserSkillExist_Update()
-        {
-            List<UserSkill> userSkills = new List<UserSkill>()
-            {
-                new UserSkill() { UserId = 0, SkillId = 0 }
-            };
-
-            userSkillRepository.Setup(db => db.Get(It.IsAny<Expression<Func<UserSkill, bool>>>())).ReturnsAsync(userSkills);
-            userSkillRepository.Setup(db => db.Update(It.IsAny<UserSkill>()));
-            userSkillRepository.Setup(db => db.Save());
-
-            UserSkillService userSkillSqlService = new UserSkillService(
-                userSkillRepository.Object);
-
-            userSkillSqlService.AddSkillToUser(It.IsAny<int>(), It.IsAny<int>());
-
-            userSkillRepository.Verify(x => x.Update(It.IsAny<UserSkill>()));
-            userSkillRepository.Verify(x => x.Save());
-        }
-
-        [TestMethod]
         public void AddSkillToUser_UserSkillNotExist_Add()
         {
             List<UserSkill> userSkills = new List<UserSkill>();

@@ -325,23 +325,6 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         #region GetAllUserSkills
 
         [TestMethod]
-        public void GetAllUserSkills_AuthorizedUserNull_Null()
-        {
-            UserService userSqlService = new UserService(
-                userRepository.Object,
-                courseService.Object,
-                null,
-                userCourseService.Object,
-                userCourseMaterialSqlService.Object,
-                userMaterialSqlService.Object,
-                userSkillSqlService.Object,
-                courseSkillService.Object,
-                courseMaterialService.Object);
-
-            Assert.IsNull(userSqlService.GetAllUserSkills());
-        }
-
-        [TestMethod]
         public void GetAllUserSkills_AuthorizedUserNotNull_CallGetAllUserSkills()
         {
             authorizedUser.SetupGet(db => db.User).Returns(new User());
@@ -368,23 +351,6 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         #region GetListWithCoursesInProgress
 
         [TestMethod]
-        public void GetListWithCoursesInProgress_AuthorizedUserNull_Null()
-        {
-            UserService userSqlService = new UserService(
-                userRepository.Object,
-                courseService.Object,
-                null,
-                userCourseService.Object,
-                userCourseMaterialSqlService.Object,
-                userMaterialSqlService.Object,
-                userSkillSqlService.Object,
-                courseSkillService.Object,
-                courseMaterialService.Object);
-
-            Assert.IsNull(userSqlService.GetListWithCoursesInProgress());
-        }
-
-        [TestMethod]
         public void GetListWithCoursesInProgress_AuthorizedUserNotNull_Call()
         {
             authorizedUser.SetupGet(db => db.User).Returns(new User());
@@ -409,25 +375,6 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         #endregion
 
         #region GetMaterialsFromCourseInProgress
-
-        [TestMethod]
-        public void GetMaterialsFromCourseInProgress_CourseNotExist_Null()
-        {
-            courseService.Setup(db => db.ExistCourse(It.IsAny<int>())).ReturnsAsync(false);
-
-            UserService userSqlService = new UserService(
-                userRepository.Object,
-                courseService.Object,
-                authorizedUser.Object,
-                userCourseService.Object,
-                userCourseMaterialSqlService.Object,
-                userMaterialSqlService.Object,
-                userSkillSqlService.Object,
-                courseSkillService.Object,
-                courseMaterialService.Object);
-
-            Assert.IsNull(userSqlService.GetMaterialsFromCourseInProgress(It.IsAny<int>()));
-        }
 
         [TestMethod]
         public async Task GetMaterialsFromCourseInProgress_CourseExist_CallGetUserCourse()
@@ -457,25 +404,6 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         #endregion
 
         #region GetSkillsFromCourseInProgress
-
-        [TestMethod]
-        public void GetSkillsFromCourseInProgress_CourseNotExist_Null()
-        {
-            courseService.Setup(db => db.ExistCourse(It.IsAny<int>())).ReturnsAsync(false);
-
-            UserService userSqlService = new UserService(
-                userRepository.Object,
-                courseService.Object,
-                authorizedUser.Object,
-                userCourseService.Object,
-                userCourseMaterialSqlService.Object,
-                userMaterialSqlService.Object,
-                userSkillSqlService.Object,
-                courseSkillService.Object,
-                courseMaterialService.Object);
-
-            Assert.IsNull(userSqlService.GetSkillsFromCourseInProgress(It.IsAny<int>()));
-        }
 
         [TestMethod]
         public void GetSkillsFromCourseInProgress_CourseExist_CallGetAllSkillsFromCourse()
@@ -627,24 +555,6 @@ namespace EducationPortal.BLL.Tests.ServicesSql
         #endregion
 
         #region GetAllPassedCourseFromUser
-
-        [TestMethod]
-        public void GetAllPassedCourseFromUser_AuthorizedUserNull_Null()
-        {
-
-            UserService userSqlService = new UserService(
-                userRepository.Object,
-                courseService.Object,
-                null,
-                userCourseService.Object,
-                userCourseMaterialSqlService.Object,
-                userMaterialSqlService.Object,
-                userSkillSqlService.Object,
-                courseSkillService.Object,
-                courseMaterialService.Object);
-
-            Assert.IsNull(userSqlService.GetAllPassedCourseFromUser());
-        }
 
         [TestMethod]
         public void GetAllPassedCourseFromUser_AuthorizedUserNotNull_CallGetAllPassedCourse()
