@@ -1,0 +1,13 @@
+﻿@model EducationPartal.CoreMVC.ModelsView.ArticleViewModel
+
+<div class="alert alert-secondary">
+    <h3>
+        <strong>Name: @Html.DisplayFor(m => m.Name)</strong></br>
+        <strong>Type: Article</strong>
+    </h3>
+    @Html.HiddenFor(m => m.Id)
+    @Html.HiddenFor(m => m.Name)
+    <span class="lead">Publication date: @Html.DisplayFor(m => m.PublicationDate)</br></span>
+    <span class="lead">Site: @Html.DisplayFor(m => m.Site)</br></span>
+    <span class="lead">@Html.CheckBoxFor(m => m.IsPassed)</span>
+</div>
