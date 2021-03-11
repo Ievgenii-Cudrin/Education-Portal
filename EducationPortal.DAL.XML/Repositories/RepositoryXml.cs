@@ -4,7 +4,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using DataAccessLayer.Interfaces;
-using EducationPortal.Domain.Entities;
 using XmlDataBase.Interfaces;
 
 namespace EducationPortal.DAL.XML.Repositories
@@ -41,7 +40,7 @@ namespace EducationPortal.DAL.XML.Repositories
             return this.context.XmlSet.Get(id);
         }
 
-        public virtual async Task<List<TResult>> Get<TResult>(Expression<Func<T, TResult>> selector, Expression<Func<T, bool>> predicat)
+        public virtual async Task<IEnumerable<TResult>> Get<TResult>(Expression<Func<T, TResult>> selector, Expression<Func<T, bool>> predicat)
         {
             return this.context.XmlSet.GetAll()
                 .AsQueryable()
@@ -50,14 +49,14 @@ namespace EducationPortal.DAL.XML.Repositories
                 .ToList();
         }
 
-        public async Task<List<TResult>> Get<TResult>(Expression<Func<T, TResult>> selector)
+        public async Task<IEnumerable<TResult>> Get<TResult>(Expression<Func<T, TResult>> selector)
         {
             return this.context.XmlSet.GetAll()
                 .AsQueryable()
                 .Select(selector).ToList();
         }
 
-        public async Task<List<T>> Get(Expression<Func<T, bool>> predicat)
+        public async Task<IEnumerable<T>> Get(Expression<Func<T, bool>> predicat)
         {
             return this.context.XmlSet.GetAll()
                 .AsQueryable()
@@ -71,12 +70,12 @@ namespace EducationPortal.DAL.XML.Repositories
                 .Where(predicat).Take(1).FirstOrDefault();
         }
 
-        public async Task<List<T>> GetAll()
+        public async Task<IEnumerable<T>> GetAll()
         {
             return this.context.XmlSet.GetAll().ToList();
         }
 
-        public async Task<List<T>> GetAll(params Expression<Func<T, object>>[] includes)
+        public async Task<IEnumerable<T>> GetAll(params Expression<Func<T, object>>[] includes)
         {
             throw new NotImplementedException();
         }
@@ -86,7 +85,7 @@ namespace EducationPortal.DAL.XML.Repositories
             return this.context.XmlSet.GetAll().AsQueryable().OrderBy(orderBy).Last();
         }
 
-        public async Task<List<T>> GetPage(Expression<Func<T, bool>> predicat, int take, int skip)
+        public async Task<IEnumerable<T>> GetPage(Expression<Func<T, bool>> predicat, int take, int skip)
         {
             return this.context.XmlSet.GetAll()
                 .AsQueryable()
@@ -95,7 +94,7 @@ namespace EducationPortal.DAL.XML.Repositories
                 .Take(skip).ToList();
         }
 
-        public async Task<List<T>> GetPage(int skip, int take)
+        public async Task<IEnumerable<T>> GetPage(int skip, int take)
         {
             return this.context.XmlSet.GetAll()
                 .AsQueryable()
@@ -118,7 +117,23 @@ namespace EducationPortal.DAL.XML.Repositories
             return this.context.XmlSet.GetAll().Count();
         }
 
-        public async Task<List<T>> GetPageWithInclude(Expression<Func<T, object>> predicat, int skip, int take)
+        public async Task<IEnumerable<T>> GetPageWithInclude(Expression<Func<T, object>> predicat, int skip, int take)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task Delete(T entity)
+        {
+            int id = (int)typeof(T).GetProperty("Id").GetValue(entity);
+            await this.Delete(id);
+        }
+
+        public async Task<int> GetCountWithPredicate(Expression<Func<T, bool>> predicat)
+        {
+            return this.context.XmlSet.GetAll().AsQueryable().Where(predicat).Count();
+        }
+
+        public virtual async Task<IEnumerable<T>> GetWithInclude(Expression<Func<T, bool>> predicat, Expression<Func<T, object>> param)
         {
             throw new NotImplementedException();
         }
