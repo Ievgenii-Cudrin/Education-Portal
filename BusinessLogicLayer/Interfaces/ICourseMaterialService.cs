@@ -1,15 +1,17 @@
-﻿namespace EducationPortal.BLL.Interfaces
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-    using System.Threading.Tasks;
-    using Entities;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Entities; 
 
+namespace EducationPortal.BLL.Interfaces
+{
     public interface ICourseMaterialService
     {
-        Task<bool> AddMaterialToCourse(int courseId, int materialId);
+        Task<IOperationResult> AddMaterialToCourse(int courseId, int materialId);
 
-        Task<List<Material>> GetAllMaterialsFromCourse(int courseId);
+        Task<IEnumerable<Material>> GetAllMaterialsFromCourse(int courseId);
+
+        Task<IOperationResult> DeleteMaterialFromCourse(int courseId, int materialId);
+
+        Task<int> GetCountOfMaterialInCourse(int courseId);
     }
 }

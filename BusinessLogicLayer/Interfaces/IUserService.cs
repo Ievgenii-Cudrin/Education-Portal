@@ -1,12 +1,12 @@
-﻿namespace BusinessLogicLayer.Interfaces
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq.Expressions;
-    using System.Threading.Tasks;
-    using DataAccessLayer.Entities;
-    using Entities;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
+using DataAccessLayer.Entities;
+using Entities;
 
+namespace BusinessLogicLayer.Interfaces
+{
     public interface IUserService
     {
         Task<bool> CreateUser(User user);
@@ -21,24 +21,26 @@
 
         Task<bool> UpdateValueOfPassMaterialInProgress(int courseId, int materialId);
 
-        Task<List<Course>> GetListWithCoursesInProgress();
+        Task<IEnumerable<Course>> GetListWithCoursesInProgress();
 
-        Task<List<Material>> GetMaterialsFromCourseInProgress(int id);
+        Task<IEnumerable<Material>> GetMaterialsFromCourseInProgress(int id);
 
-        Task<List<Skill>> GetSkillsFromCourseInProgress(int courseId);
+        Task<IEnumerable<Skill>> GetSkillsFromCourseInProgress(int courseId);
 
         List<Course> GetAvailableCoursesForUser();
 
         void UpdateCourseInProgress(int courseInProgressNotFinishId, List<Material> updatedMaterials);
 
-        Task<List<Skill>> GetAllUserSkills();
+        Task<IEnumerable<Skill>> GetAllUserSkills();
 
         Task<bool> ExistEmail(Expression<Func<User, bool>> predicat);
 
         Task<bool> Delete(int id);
 
-        Task<List<Course>> GetAllPassedCourseFromUser();
+        Task<IEnumerable<Course>> GetAllPassedCourseFromUser();
 
-        Task<List<Material>> GetAllNotPassedMaterialsInCourse(int courseId);
+        Task<IEnumerable<Material>> GetAllNotPassedMaterialsInCourse(int courseId);
+
+        Task AddSkills(List<Skill> skills);
     }
 }

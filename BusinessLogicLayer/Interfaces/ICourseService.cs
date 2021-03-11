@@ -1,30 +1,35 @@
-﻿namespace BusinessLogicLayer.Interfaces
-{
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using DataAccessLayer.Entities;
-    using Entities;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using DataAccessLayer.Entities;
+using EducationPortal.BLL.Interfaces;
+using Entities;
 
+namespace BusinessLogicLayer.Interfaces
+{
     public interface ICourseService
     {
-        Task<bool> CreateCourse(Course course);
+        Task<IOperationResult> CreateCourse(Course course);
 
-        Task<bool> UpdateCourse(Course course);
+        Task<IOperationResult> UpdateCourse(Course course);
 
-        Task<bool> AddMaterialToCourse(int courseId, Material material);
+        Task<IOperationResult> AddMaterialToCourse(int courseId, Material material);
 
-        Task<bool> AddSkillToCourse(int courseId, Skill skillToAdd);
+        Task<IOperationResult> AddSkillToCourse(int courseId, Skill skillToAdd);
 
-        Task<List<Skill>> GetSkillsFromCourse(int courseId);
+        Task<IEnumerable<Skill>> GetSkillsFromCourse(int courseId);
 
-        Task<List<Material>> GetMaterialsFromCourse(int courseId);
+        Task<IEnumerable<Material>> GetMaterialsFromCourse(int courseId);
 
-        Task<bool> Delete(int courseId);
+        Task<IOperationResult> Delete(int courseId);
 
         Task<bool> ExistCourse(int courseId);
 
-        Task<List<Course>> GetCoursesPerPage(int skip, int take);
+        Task<IEnumerable<Course>> GetCoursesPerPage(int skip, int take);
 
         Task<int> GetCount();
+
+        Task<Course> GetCourse(int id);
+
+        Task<int> GetLastId();
     }
 }

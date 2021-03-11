@@ -1,15 +1,15 @@
-﻿namespace EducationPortal.BLL.Interfaces
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-    using System.Threading.Tasks;
-    using DataAccessLayer.Entities;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using DataAccessLayer.Entities;
 
+namespace EducationPortal.BLL.Interfaces
+{
     public interface ICourseSkillService
     {
-        Task<bool> AddSkillToCourse(int courseId, int skillId);
+        Task<IOperationResult> AddSkillToCourse(int courseId, int skillId);
 
-        Task<List<Skill>> GetAllSkillsFromCourse(int courseId);
+        Task<IEnumerable<Skill>> GetAllSkillsFromCourse(int courseId);
+
+        Task<IOperationResult> DeleteSkillFromCourse(int courseId, int skillId);
     }
 }
