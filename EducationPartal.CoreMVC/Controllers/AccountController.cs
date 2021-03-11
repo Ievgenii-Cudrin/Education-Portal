@@ -6,9 +6,7 @@ using EducationPortal.BLL.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -16,9 +14,9 @@ namespace EducationPartal.CoreMVC.Controllers
 {
     public class AccountController : Controller
     {
-        private ILogInService logInService;
-        private IUserService userService;
-        private IAutoMapperService autoMapperService;
+        private readonly ILogInService logInService;
+        private readonly IUserService userService;
+        private readonly IAutoMapperService autoMapperService;
 
         public AccountController(
             ILogInService logInService,
@@ -41,11 +39,11 @@ namespace EducationPartal.CoreMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (await this.logInService.LogIn(model.Email, model.Password))
+                if (await this.logInService.LogIn(model.Name, model.Password))
                 {
                     var claims = new List<Claim>
                     {
-                        new Claim(ClaimTypes.Name, model.Email)
+                        new Claim(ClaimTypes.Name, model.Name)
                     };
 
                     var identity = new ClaimsIdentity(
@@ -54,8 +52,9 @@ namespace EducationPartal.CoreMVC.Controllers
                     var props = new AuthenticationProperties();
                     HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, props).Wait();
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Course");
                 }
+
                 ModelState.AddModelError("", "Некорректные логин и(или) пароль");
             }
             return View(model);
@@ -73,6 +72,8 @@ namespace EducationPartal.CoreMVC.Controllers
             if (ModelState.IsValid)
             {
                 User user = this.autoMapperService.CreateMapFromVMToDomain<RegisterViewModel, User>(model);
+
+                //Operation result
                 bool success = await this.userService.CreateUser(user);
 
                 if (success)
@@ -80,6 +81,7 @@ namespace EducationPartal.CoreMVC.Controllers
                     return RedirectToAction("Login", "Account");
                 }
             }
+
             return View(model);
         }
 
