@@ -58,15 +58,58 @@ namespace EducationPartal.CoreMVC.Mappers
                     .Include<TVideoDomain, TVideoView>()
                     .Include<TArticleDomain, TArticleView>()
                     .Include<TBookDomain, TBookView>();
-                cfg.CreateMap<TBookDomain, TBookView>();
                 cfg.CreateMap<TVideoDomain, TVideoView>();
                 cfg.CreateMap<TArticleDomain, TArticleView>();
+                cfg.CreateMap<TBookDomain, TBookView>();
             });
             var mapper = new Mapper(configuration);
             var domainAfterMapping = mapper.Map<List<TMaterialDomainD>, List<TMaterialView>>(viewModelType);
 
             return domainAfterMapping;
         }
+        //CreateSkillListMapFromVMToDomainWithIncludeSkillType
+        //public List<TSkillWithInckludeVM> CreateSkillListMapFromVMToDomainWithIncludeSkillType
+        public List<TCourseView> CreateSkillListMapFromVMToDomainWithIncludeSkillType
+            <TCourseDomain, TCourseView, TMaterialDomain, TMaterialView>(List<TCourseDomain> viewModelType)
+        {
+            var configuration = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<TCourseDomain, TCourseView>();
+                cfg.CreateMap<TMaterialDomain, TMaterialView>();
+            });
+
+            var mapper = new Mapper(configuration);
+            var domainAfterMapping = mapper.Map<List<TCourseDomain>, List<TCourseView>>(viewModelType);
+
+            return domainAfterMapping;
+        }
+
+
+        public TMaterialView CreateOneMapFromVMToDomainWithIncludeMaterialType
+            <TMaterialDomainD, TMaterialView, TVideoDomain, TVideoView, TArticleDomain, TArticleView, TBookDomain, TBookView>(TMaterialDomainD viewModelType)
+            where TVideoDomain : TMaterialDomainD
+            where TArticleDomain : TMaterialDomainD
+            where TBookDomain : TMaterialDomainD
+            where TVideoView : TMaterialView
+            where TArticleView : TMaterialView
+            where TBookView : TMaterialView
+        {
+            var configuration = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<TMaterialDomainD, TMaterialView>()
+                    .Include<TVideoDomain, TVideoView>()
+                    .Include<TArticleDomain, TArticleView>()
+                    .Include<TBookDomain, TBookView>();
+                cfg.CreateMap<TVideoDomain, TVideoView>();
+                cfg.CreateMap<TArticleDomain, TArticleView>();
+                cfg.CreateMap<TBookDomain, TBookView>();
+            });
+            var mapper = new Mapper(configuration);
+            var domainAfterMapping = mapper.Map<TMaterialDomainD, TMaterialView>(viewModelType);
+
+            return domainAfterMapping;
+        }
+
 
         public List<TCourseView> CreateListMapFromVMToDomainWithIncludeLsitType
             <TCourseDomain, TCourseView, TMaterialDomain, TMaterialView, TSkillDomain, TSkillView>(List<TCourseDomain> viewModelType)
