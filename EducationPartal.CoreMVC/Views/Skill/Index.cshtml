@@ -1,0 +1,57 @@
+﻿@model IEnumerable<EducationPartal.CoreMVC.ModelsView.SkillViewModel>
+
+@using EducationPortal.Domain.Entities
+@{
+    ViewData["Title"] = "Index";
+
+    PageInfo pager = new PageInfo();
+    int pageNumber = 0;
+
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNumber = pager.CurrentPage;
+    }
+}
+
+<h1>Skills</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                    <a asp-action="AddSkillToCourse" asp-route-id="@item.Id">Add skill to course</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="container">
+    @if (pager.TotalPages > 0)
+    {
+    <ul class="pagination justify-content-end">
+        @for (var pge = pager.StartPage; pge <= pager.EndPage; pge++)
+        {
+            <a class="page-link" asp-action="Index" asp-route-id="@pge"> @pge </a>
+        }
+    </ul>
+    }
+</div>

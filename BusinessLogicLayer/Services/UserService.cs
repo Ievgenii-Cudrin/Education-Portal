@@ -1,40 +1,95 @@
-﻿namespace EducationPortalConsoleApp.Services
-{
-    using System.Collections.Generic;
-    using System.Linq;
-    using BusinessLogicLayer.Interfaces;
-    using DataAccessLayer.Entities;
-    using DataAccessLayer.Interfaces;
-    using EducationPortal.Domain.Comparers;
-    using Entities;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
+using BusinessLogicLayer.Interfaces;
+using DataAccessLayer.Entities;
+using DataAccessLayer.Interfaces;
+using EducationPortal.BLL.Interfaces;
+using Entities;
 
+namespace EducationPortal.BLL.ServicesSql
+{
     public class UserService : IUserService
     {
-        private static User authorizedUser;
         private readonly IRepository<User> userRepository;
-        private readonly IRepository<Course> courseRepository;
+        private readonly ICourseService courseService;
+        private readonly IAuthorizedUser authorizedUser;
+        private readonly IUserCourseSqlService userCourseService;
+        private readonly IUserCourseMaterialSqlService userCourseMaterialSqlService;
+        private readonly IUserMaterialSqlService userMaterialSqlService;
+        private readonly IUserSkillSqlService userSkillSqlService;
+        private readonly ICourseSkillService courseSkillService;
+        private readonly ICourseMaterialService courseMaterialService;
 
-        public UserService(IRepository<User> repository, IRepository<Course> courseRepository)
+        public UserService(
+            IRepository<User> uRepo,
+            ICourseService courseService,
+            IAuthorizedUser authUser,
+            IUserCourseSqlService userCourseServ,
+            IUserCourseMaterialSqlService userCourseMaterialSqlService,
+            IUserMaterialSqlService userMaterialSqlService,
+            IUserSkillSqlService userSkillSqlService,
+            ICourseSkillService courseSkillService,
+            ICourseMaterialService courseMaterialService)
         {
-            this.userRepository = repository;
-            this.courseRepository = courseRepository;
+            this.userRepository = uRepo;
+            this.courseService = courseService;
+            this.authorizedUser = authUser;
+            this.userCourseService = userCourseServ;
+            this.userCourseMaterialSqlService = userCourseMaterialSqlService;
+            this.userMaterialSqlService = userMaterialSqlService;
+            this.userSkillSqlService = userSkillSqlService;
+            this.courseSkillService = courseSkillService;
+            this.courseMaterialService = courseMaterialService;
         }
 
-        public User AuthorizedUser
+        public async Task<bool> AddCourseInProgress(int courseId)
         {
-            get
+            if (this.authorizedUser != null &&
+                await this.courseService.ExistCourse(courseId))
             {
-                return authorizedUser;
+                await this.userCourseService.AddCourseToUser(this.authorizedUser.User.Id, courseId);
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task<bool> AddCourseToPassed(int courseId)
+        {
+            await this.userCourseService.SetPassForUserCourse(this.authorizedUser.User.Id, courseId);
+            return true;
+        }
+
+        public async Task<bool> AddSkill(Skill skill)
+        {
+            if (skill != null)
+            {
+                await this.userSkillSqlService.AddSkillToUser(this.authorizedUser.User.Id, skill.Id);
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task AddSkills(List<Skill> skills)
+        {
+            foreach (var skill in skills)
+            {
+                await this.userSkillSqlService.AddSkillToUser(this.authorizedUser.User.Id, skill.Id);
             }
         }
 
-        public bool CreateUser(User user)
+        public async Task<bool> CreateUser(User user)
         {
-            bool uniqueEmail = user != null && !this.userRepository.GetAll().Any(x => x.Email.ToLower().Equals(user.Email.ToLower()));
+            bool userExist = await this.userRepository.Exist(x => x.Email.ToLower().Equals(user.Email.ToLower()));
 
-            if (uniqueEmail)
+            if (user != null && !userExist)
             {
-                this.userRepository.Create(user);
+                await this.userRepository.Add(user);
+                await this.userRepository.Save();
             }
             else
             {
@@ -44,199 +99,130 @@
             return true;
         }
 
-        public bool VerifyUser(string name, string password)
+        public async Task<bool> Delete(int id)
         {
-            User user = this.userRepository.GetAll().Where(x => x.Name.ToLower() == name.ToLower() && x.Password == password).FirstOrDefault();
-
-            if (user == null)
+            if (await this.userRepository.Exist(x => x.Id == id))
             {
-                return false;
-            }
-            else
-            {
-                authorizedUser = user;
-            }
-
-            return true;
-        }
-
-        public bool LogOut()
-        {
-            authorizedUser = null;
-            return true;
-        }
-
-        public bool UpdateUser(User userToUpdate)
-        {
-            User user = this.userRepository.Get(authorizedUser.Id);
-
-            if (user == null)
-            {
-                return false;
-            }
-            else
-            {
-                user.Name = userToUpdate.Name;
-                user.Password = userToUpdate.Password;
-                user.Email = userToUpdate.Email;
-                user.PhoneNumber = userToUpdate.PhoneNumber;
-                this.userRepository.Update(user);
-            }
-
-            return true;
-        }
-
-        public IEnumerable<User> GetAllUsers()
-        {
-            return this.userRepository.GetAll();
-        }
-
-        public bool Delete(int id)
-        {
-            User user = this.userRepository.Get(id);
-
-            if (user == null)
-            {
-                return false;
-            }
-            else
-            {
-                this.userRepository.Delete(id);
-            }
-
-            return true;
-        }
-
-        public bool AddSkill(Skill skill)
-        {
-            if (skill == null)
-            {
-                return false;
-            }
-
-            bool skillExistInUser = authorizedUser.Skills.Any(x => x.Name.ToLower() == skill.Name.ToLower());
-
-            if (!skillExistInUser)
-            {
-                authorizedUser.Skills.Add(skill);
-                this.userRepository.Update(authorizedUser);
+                await this.userRepository.Delete(id);
+                await this.userRepository.Save();
                 return true;
             }
-            else
-            {
-                foreach (var skillUser in authorizedUser.Skills)
-                {
-                    if (skillUser.Name == skill.Name)
-                    {
-                        skillUser.CountOfPoint++;
-                    }
-                }
 
-                this.userRepository.Update(authorizedUser);
-                return true;
-            }
+            return false;
         }
 
-        public IEnumerable<Skill> GetUserSkills()
+        public async Task<IEnumerable<Skill>> GetAllUserSkills()
         {
-            return this.userRepository.Get(authorizedUser.Id).Skills;
-        }
-
-        public bool AddCourseInProgress(int id)
-        {
-            Course course = this.courseRepository.Get(id);
-
-            if (course != null)
+            if (this.authorizedUser != null)
             {
-                authorizedUser.CoursesInProgress.Add(course);
-                this.userRepository.Update(authorizedUser);
-                return true;
+                return await this.userSkillSqlService.GetAllSkillInUser(this.authorizedUser.User.Id);
             }
-            else
-            {
-                return false;
-            }
-        }
 
-        public bool DeleteCourseFromProgress(int id)
-        {
-            Course course = this.courseRepository.Get(id);
-
-            if (course != null)
-            {
-                authorizedUser.CoursesInProgress.ToList().RemoveAll(x => x.Id == id);
-                this.userRepository.Update(authorizedUser);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public bool AddCourseToPassed(int id)
-        {
-            Course course = this.courseRepository.Get(id);
-
-            if (course != null)
-            {
-                authorizedUser.CoursesPassed.Add(course);
-                this.userRepository.Update(authorizedUser);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public bool UpdateValueOfPassMaterialInProgress(int courseId, int materialId)
-        {
-            try
-            {
-                // find course in progress list and find material from this course, set true
-                authorizedUser.CoursesInProgress.Where(x => x.Id == courseId).FirstOrDefault().Materials.Where(x => x.Id == materialId).FirstOrDefault().IsPassed = true;
-                this.userRepository.Update(authorizedUser);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        public List<Course> GetListWithCoursesInProgress()
-        {
-            return authorizedUser.CoursesInProgress.ToList();
-        }
-
-        public List<Material> GetMaterialsFromCourseInProgress(int id)
-        {
-            return authorizedUser.CoursesInProgress.Where(x => x.Id == id).FirstOrDefault().Materials.ToList();
-        }
-
-        public List<Skill> GetSkillsFromCourseInProgress(int id)
-        {
-            return authorizedUser.CoursesInProgress.Where(x => x.Id == id).FirstOrDefault().Skills.ToList();
+            return null;
         }
 
         public List<Course> GetAvailableCoursesForUser()
         {
-            return this.courseRepository.GetAll().Except(authorizedUser.CoursesPassed, new CourseComparer()).ToList();
+            throw new NotImplementedException();
         }
 
-        public List<Skill> GetAllUserSkills()
+        public async Task<IEnumerable<Course>> GetListWithCoursesInProgress()
         {
-            return authorizedUser.Skills.ToList();
+            if (this.authorizedUser != null)
+            {
+                return await this.userCourseService.GetAllCourseInProgress(this.authorizedUser.User.Id);
+            }
+
+            return null;
+        }
+
+        public async Task<IEnumerable<Material>> GetMaterialsFromCourseInProgress(int courseId)
+        {
+            bool existCourseService = await this.courseService.ExistCourse(courseId);
+
+            if (!existCourseService)
+            {
+                return null;
+            }
+
+            var userCourse = await this.userCourseService.GetUserCourse(this.authorizedUser.User.Id, courseId);
+            int userCourseId = userCourse.Id;
+
+            return await this.userCourseMaterialSqlService.GetNotPassedMaterialsFromCourseInProgress(userCourseId);
+        }
+
+        public async Task<IEnumerable<Skill>> GetSkillsFromCourseInProgress(int courseId)
+        {
+            if (await this.courseService.ExistCourse(courseId))
+            {
+                return await this.courseSkillService.GetAllSkillsFromCourse(courseId);
+            }
+
+            return null;
         }
 
         public void UpdateCourseInProgress(int courseInProgressNotFinishId, List<Material> updatedMaterials)
         {
-            if (updatedMaterials != null)
+            throw new NotImplementedException();
+        }
+
+        public async Task<bool> UpdateUser(User user)
+        {
+            if (await this.userRepository.Exist(x => x.Id == user.Id))
             {
-                authorizedUser.CoursesInProgress.Where(x => x.Id == courseInProgressNotFinishId).FirstOrDefault().Materials = updatedMaterials;
-                this.userRepository.Update(authorizedUser);
+                await this.userRepository.Update(user);
+                await this.userRepository.Save();
+                return true;
             }
+
+            return false;
+        }
+
+        public async Task<bool> UpdateValueOfPassMaterialInProgress(int courseId, int materialId)
+        {
+            var userCourse = await this.userCourseService.GetUserCourse(this.authorizedUser.User.Id, courseId);
+            bool success = await this.userCourseMaterialSqlService.SetPassToMaterial(userCourse.Id, materialId);
+
+            if (success)
+            {
+                // Add pass material to user
+                await this.userMaterialSqlService.AddMaterialToUser(this.authorizedUser.User.Id, materialId);
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task<bool> ExistEmail(Expression<Func<User, bool>> predicat)
+        {
+            return await this.userRepository.Exist(predicat);
+        }
+
+        public async Task<IEnumerable<Course>> GetAllPassedCourseFromUser()
+        {
+            if (this.authorizedUser != null)
+            {
+                return await this.userCourseService.GetAllPassedCourse(this.authorizedUser.User.Id);
+            }
+
+            return null;
+        }
+
+        public async Task<IEnumerable<Material>> GetAllNotPassedMaterialsInCourse(int courseId)
+        {
+            var allMaterialsFromCourse = await this.courseMaterialService.GetAllMaterialsFromCourse(courseId);
+
+            foreach (var material in allMaterialsFromCourse.ToList())
+            {
+                bool existThisMaterialInUser = await this.userMaterialSqlService.ExistMaterialInUser(this.authorizedUser.User.Id, material.Id);
+
+                if (existThisMaterialInUser)
+                {
+                    material.IsPassed = true;
+                }
+            }
+
+            return allMaterialsFromCourse;
         }
     }
 }

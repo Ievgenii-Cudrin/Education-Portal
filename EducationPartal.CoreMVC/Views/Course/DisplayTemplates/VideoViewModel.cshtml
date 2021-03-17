@@ -1,0 +1,12 @@
+﻿@model EducationPartal.CoreMVC.ModelsView.VideoViewModel
+
+<div class="alert alert-secondary">
+    <h3>
+        <strong>Name: @Html.DisplayFor(m => m.Name)</strong></br>
+        <strong>Type: Video</strong></br>
+    </h3>
+    <span class="lead">Link: @Html.DisplayFor(m => m.Link)</br></span>
+    <span class="lead">Quality: @Html.DisplayFor(m => m.Quality)</br></span>
+    <span class="lead">Duration: @Html.DisplayFor(m => m.Duration)</br></span>
+    <a class="btn btn-default" asp-action="DeleteMaterialFromCourse" asp-controller="Material" asp-route-id="@Model.Id">Delete video from course</a>
+</div>

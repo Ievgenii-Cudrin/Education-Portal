@@ -1,84 +1,128 @@
-﻿namespace BusinessLogicLayer.Services
-{
-    using System.Collections.Generic;
-    using System.Linq;
-    using BusinessLogicLayer.Interfaces;
-    using DataAccessLayer.Entities;
-    using DataAccessLayer.Interfaces;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
+using BusinessLogicLayer.Interfaces;
+using DataAccessLayer.Entities;
+using DataAccessLayer.Interfaces;
+using EducationPortal.BLL.Interfaces;
+using Microsoft.Extensions.Logging;
 
+namespace EducationPortal.BLL.ServicesSql
+{
     public class SkillService : ISkillService
     {
-        private readonly IRepository<Skill> repository;
+        private readonly IRepository<Skill> skillRepository;
+        private readonly ILogger<SkillService> logger;
+        private readonly IAuthorizedUser authorizedUser;
+        private IOperationResult operationResult;
 
-        public SkillService(IRepository<Skill> repository)
+        private const string success = "Success";
+        private const string skillExistInDB = "Skill with this name exist";
+
+        public SkillService(
+            IRepository<Skill> repository,
+            ILogger<SkillService> logger,
+            IOperationResult operationResult,
+            IAuthorizedUser authorizedUser)
         {
-            this.repository = repository;
+            this.skillRepository = repository;
+            this.logger = logger;
+            this.operationResult = operationResult;
+            this.authorizedUser = authorizedUser;
         }
 
-        public bool CreateSkill(Skill skillToCreate)
+        public async Task<IOperationResult> CreateSkill(Skill skill)
         {
-            // check name, may be we have this skill
-            bool uniqueEmail = skillToCreate != null && !this.repository.GetAll().Any(x => x.Name.ToLower().Equals(skillToCreate.Name.ToLower()));
+            bool skillExist = await this.skillRepository.Exist(x => x.Name == skill.Name);
 
-            // if name is unique => create new skill, otherwise skill == null
-            if (uniqueEmail)
+            if (!skillExist)
             {
-                this.repository.Create(skillToCreate);
+                await this.skillRepository.Add(skill);
+                this.logger.LogDebug($"Skill ({skill.Name}) successfullu created by user {this.authorizedUser.User.Id}");
+                this.operationResult.Message = success;
+                this.operationResult.IsSucceed = true;
             }
             else
             {
-                return false;
+                this.operationResult.Message = skillExistInDB;
+                this.operationResult.IsSucceed = false;
+                this.logger.LogDebug($"Skill ({skill.Name}) not created. Skill exist");
             }
 
-            return true;
+            await this.skillRepository.Save();
+
+            return this.operationResult;
         }
 
-        public bool UpdateSkill(Skill skillToUpdate)
+        public async Task Delete(int id)
         {
-            Skill skill = this.repository.Get(skillToUpdate.Id);
-
-            if (skill == null)
+            try
             {
-                return false;
+                await this.skillRepository.Delete(id);
+                await this.skillRepository.Save();
             }
-            else
+            catch (Exception ex)
             {
-                skill.Name = skillToUpdate.Name;
-                this.repository.Update(skill);
+                this.logger.LogDebug($"Skill {id} not deleted - {ex.Message}");
             }
-
-            return true;
         }
 
-        public IEnumerable<Skill> GetAllSkills()
+        public async Task<Skill> GetSkill(int id)
         {
-            return this.repository.GetAll();
-        }
-
-        public bool Delete(int id)
-        {
-            Skill skill = this.repository.Get(id);
-
-            if (skill == null)
+            try
             {
-                return false;
+                return await this.skillRepository.Get(id);
             }
-            else
+            catch (Exception ex)
             {
-                this.repository.Delete(id);
+                this.logger.LogDebug($"Skill {id} not foound - {ex.Message}");
+                return null;
             }
-
-            return true;
         }
 
-        public Skill GetSkill(int id)
+        public async Task<Skill> GetSkillsByPredicate(Expression<Func<Skill, bool>> predicat)
         {
-            return this.repository.Get(id);
+            try
+            {
+                return await this.skillRepository.GetOne(predicat);
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogDebug($"Skill by predicat - {predicat.Body} not foound - {ex.Message}");
+                return null;
+            }
         }
 
-        public Skill GetSkillByName(string name)
+        public async Task UpdateSkill(Skill skill)
         {
-            return this.repository.GetAll().Where(x => x.Name == name).FirstOrDefault();
+            try
+            {
+                if (skill != null)
+                {
+                    await this.skillRepository.Update(skill);
+                    await this.skillRepository.Save();
+                }
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogDebug($"Skill by predicat - {skill.Name} not updated - {ex.Message}");
+            }
+        }
+
+        public async Task<bool> ExistSkill(int skillId)
+        {
+            return await this.skillRepository.Exist(x => x.Id == skillId);
+        }
+
+        public async Task<IEnumerable<Skill>> GetAllSkillsForOnePage(int take, int skip)
+        {
+            return await this.skillRepository.GetPage(take, skip);
+        }
+
+        public async Task<int> GetCount()
+        {
+            return await this.skillRepository.Count();
         }
     }
 }

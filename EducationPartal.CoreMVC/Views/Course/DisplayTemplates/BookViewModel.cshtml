@@ -1,0 +1,11 @@
+﻿@model EducationPartal.CoreMVC.ModelsView.BookViewModel
+
+<div class="alert alert-secondary">
+    <h3>
+        <strong>Name: @Html.DisplayFor(m => m.Name)</strong></br>
+        <strong>Type: Book</strong></br>
+    </h3>
+    <span class="lead">Author: @Html.DisplayFor(m => m.Author)</br></span>
+    <span class="lead">Count of pages: @Html.DisplayFor(m => m.CountOfPages)</br></span>
+    <a class="btn btn-default" asp-action="DeleteMaterialFromCourse" asp-controller="Material" asp-route-id="@Model.Id">Delete book from course</a>
+</div>

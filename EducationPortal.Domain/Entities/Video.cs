@@ -1,9 +1,9 @@
-﻿namespace Entities
-{
-    using System.Diagnostics.CodeAnalysis;
-    using System.Xml.Serialization;
-    using EducationPortal.Domain.Enums;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Xml.Serialization;
+using EducationPortal.Domain.Enums;
 
+namespace Entities
+{
     [XmlType("Video")]
     public class Video : Material
     {

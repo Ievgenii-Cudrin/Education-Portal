@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="9.5.2" />
+    <PackageReference Include="Microsoft.AspNet.Providers.Core" Version="2.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="4.11.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BusinessLogicLayer\EducationPortal.BLL.csproj" />
+    <ProjectReference Include="..\DataAccessLayer\EducationPortal.DAL.csproj" />
+    <ProjectReference Include="..\EducationPortal.DAL.XML\EducationPortal.DAL.XML.csproj" />
+    <ProjectReference Include="..\EducationPortal.Domain\EducationPortal.Domain.csproj" />
+    <ProjectReference Include="..\EducationPortal.XmlDataBase\EducationPortal.XmlDataBase.csproj" />
+  </ItemGroup>
+
+</Project>

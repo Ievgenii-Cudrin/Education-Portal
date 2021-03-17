@@ -1,0 +1,13 @@
+﻿@model IEnumerable<EducationPartal.CoreMVC.ModelsView.MaterialViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@using (Html.BeginForm())
+{
+    <div>
+        @Html.DisplayFor(m => m)
+    </div>
+    <input type="submit" asp-action="PassMaterials" asp-controller="PassCourse" />
+}

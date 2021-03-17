@@ -1,18 +1,28 @@
-﻿namespace BusinessLogicLayer.Interfaces
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
+using DataAccessLayer.Entities;
+using EducationPortal.BLL.Interfaces;
+
+namespace BusinessLogicLayer.Interfaces
 {
-    using System.Collections.Generic;
-    using DataAccessLayer.Entities;
-
-    public interface ISkillService : IDeleteEntity
+    public interface ISkillService
     {
-        public bool CreateSkill(Skill skill);
+        Task<IOperationResult> CreateSkill(Skill skill);
 
-        public Skill GetSkill(int id);
+        Task<Skill> GetSkill(int id);
 
-        public bool UpdateSkill(Skill skill);
+        Task UpdateSkill(Skill skill);
 
-        public IEnumerable<Skill> GetAllSkills();
+        Task Delete(int id);
 
-        public Skill GetSkillByName(string name);
+        Task<bool> ExistSkill(int skillId);
+
+        Task<Skill> GetSkillsByPredicate(Expression<Func<Skill, bool>> predicat);
+
+        Task<IEnumerable<Skill>> GetAllSkillsForOnePage(int take, int skip);
+
+        Task<int> GetCount();
     }
 }

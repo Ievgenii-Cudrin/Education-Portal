@@ -1,8 +1,7 @@
-﻿namespace Entities
-{
-    using System.Diagnostics.CodeAnalysis;
-    using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 
+namespace Entities
+{
     [XmlType("Book")]
     public class Book : Material
     {

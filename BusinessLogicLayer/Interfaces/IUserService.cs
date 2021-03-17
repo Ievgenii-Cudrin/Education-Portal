@@ -1,43 +1,46 @@
-﻿namespace BusinessLogicLayer.Interfaces
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
+using DataAccessLayer.Entities;
+using Entities;
+
+namespace BusinessLogicLayer.Interfaces
 {
-    using System.Collections.Generic;
-    using DataAccessLayer.Entities;
-    using Entities;
-
-    public interface IUserService : IDeleteEntity
+    public interface IUserService
     {
-        public User AuthorizedUser { get; }
+        Task<bool> CreateUser(User user);
 
-        public bool CreateUser(User user);
+        Task<bool> UpdateUser(User user);
 
-        public bool VerifyUser(string name, string password);
+        Task<bool> AddCourseInProgress(int id);
 
-        public bool LogOut();
+        Task<bool> AddCourseToPassed(int id);
 
-        public bool UpdateUser(User user);
+        Task<bool> AddSkill(Skill skill);
 
-        public IEnumerable<User> GetAllUsers();
+        Task<bool> UpdateValueOfPassMaterialInProgress(int courseId, int materialId);
 
-        public bool AddCourseInProgress(int id);
+        Task<IEnumerable<Course>> GetListWithCoursesInProgress();
 
-        public bool DeleteCourseFromProgress(int id);
+        Task<IEnumerable<Material>> GetMaterialsFromCourseInProgress(int id);
 
-        public bool AddCourseToPassed(int id);
+        Task<IEnumerable<Skill>> GetSkillsFromCourseInProgress(int courseId);
 
-        public bool AddSkill(Skill skill);
+        List<Course> GetAvailableCoursesForUser();
 
-        public bool UpdateValueOfPassMaterialInProgress(int courseId, int materialId);
+        void UpdateCourseInProgress(int courseInProgressNotFinishId, List<Material> updatedMaterials);
 
-        public List<Course> GetListWithCoursesInProgress();
+        Task<IEnumerable<Skill>> GetAllUserSkills();
 
-        public List<Material> GetMaterialsFromCourseInProgress(int id);
+        Task<bool> ExistEmail(Expression<Func<User, bool>> predicat);
 
-        public List<Skill> GetSkillsFromCourseInProgress(int id);
+        Task<bool> Delete(int id);
 
-        public List<Course> GetAvailableCoursesForUser();
+        Task<IEnumerable<Course>> GetAllPassedCourseFromUser();
 
-        public void UpdateCourseInProgress(int courseInProgressNotFinishId, List<Material> updatedMaterials);
+        Task<IEnumerable<Material>> GetAllNotPassedMaterialsInCourse(int courseId);
 
-        public List<Skill> GetAllUserSkills();
+        Task AddSkills(List<Skill> skills);
     }
 }

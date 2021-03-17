@@ -1,26 +1,42 @@
-﻿namespace EducationPortalConsoleApp.Controller
-{
-    using System;
-    using System.Linq;
-    using BusinessLogicLayer.Interfaces;
-    using DataAccessLayer.Entities;
-    using EducationPortal.PL.InstanceCreator;
-    using EducationPortal.PL.Mapping;
-    using EducationPortal.PL.Models;
-    using EducationPortalConsoleApp.Branch;
-    using EducationPortalConsoleApp.Interfaces;
-    using Entities;
+﻿using System;
+using System.Threading.Tasks;
+using BusinessLogicLayer.Interfaces;
+using DataAccessLayer.Entities;
+using EducationPortal.BLL.Interfaces;
+using EducationPortal.PL.InstanceCreator;
+using EducationPortal.PL.Interfaces;
+using EducationPortal.PL.Models;
+using EducationPortalConsoleApp.Interfaces;
+using Entities;
 
+namespace EducationPortalConsoleApp.Controller
+{
     public class CourseController : ICourseController
     {
-        private ICourseService courseService;
+        private readonly ICourseService courseService;
+        private readonly IMapperService mapperService;
+        private readonly ISkillController skillController;
+        private IOperationResult operationResult;
+        private IApplication application;
 
-        public CourseController(ICourseService courseService)
+        public CourseController(
+            ICourseService courseService,
+            IMapperService mapper,
+            ISkillController skilCntrl,
+            IOperationResult operationResult)
         {
             this.courseService = courseService;
+            this.mapperService = mapper;
+            this.skillController = skilCntrl;
+            this.operationResult = operationResult;
         }
 
-        public void CreateNewCourse()
+        public void WithApplication(IApplication application)
+        {
+            this.application = application;
+        }
+
+        public async Task CreateNewCourse()
         {
             Console.Clear();
 
@@ -28,42 +44,41 @@
             CourseViewModel courseVM = CourseVMInstanceCreator.CreateCourse();
 
             // mapping to Domain model
-            var courseDomain = Mapping.CreateMapFromVMToDomain<CourseViewModel, Course>(courseVM);
-            bool success = this.courseService.CreateCourse(courseDomain);
+            var courseDomain = this.mapperService.CreateMapFromVMToDomain<CourseViewModel, Course>(courseVM);
+            this.operationResult = await this.courseService.CreateCourse(courseDomain);
 
-            if (success)
+            if (this.operationResult.IsSucceed)
             {
-                int courseId = this.courseService.GetAllCourses().Where(x => x.Name == courseVM.Name).FirstOrDefault().Id;
-
                 // Add materials to course
-                this.AddMaterialToCourse(courseId);
+                await this.AddMaterialToCourse(courseDomain.Id);
 
                 // Add skills to course
-                this.AddSkillsToCourse(courseId);
+                await this.AddSkillsToCourse(courseDomain.Id);
 
                 // go ro start menu
-                ProgramBranch.SelectFirstStepForAuthorizedUser();
+                await this.application.SelectFirstStepForAuthorizedUser();
             }
             else
             {
-                Console.WriteLine("Course exist");
+                Console.WriteLine(this.operationResult.Message);
 
                 // Go to start menu
-                ProgramBranch.SelectFirstStepForAuthorizedUser();
+                await this.application.SelectFirstStepForAuthorizedUser();
             }
         }
 
-        private void AddMaterialToCourse(int courseId)
+        private async Task AddMaterialToCourse(int courseId)
         {
             string userChoice;
             do
             {
-                Material materialDomain = ProgramBranch.SelectMaterialForAddToCourse();
+                Material materialDomain = await this.application.SelectMaterialForAddToCourse(courseId);
+                this.operationResult = await this.courseService.AddMaterialToCourse(courseId, materialDomain);
 
                 // check, material exist in course, or no
-                if (!this.courseService.AddMaterialToCourse(courseId, materialDomain))
+                if (!this.operationResult.IsSucceed)
                 {
-                    Console.WriteLine("Material exist in course");
+                    Console.WriteLine(this.operationResult.Message);
                 }
 
                 Console.WriteLine("Do you want to add more material (Enter YES)?");
@@ -72,7 +87,7 @@
             while (userChoice.ToLower() == "yes");
         }
 
-        private void AddSkillsToCourse(int courseId)
+        private async Task AddSkillsToCourse(int courseId)
         {
             string userChoice;
 
@@ -81,10 +96,10 @@
                 Console.WriteLine("Add skill to your course: ");
 
                 // create skill
-                var skillVM = SkillVMInstanceCreator.CreateSkill();
+                var skillDomain = await this.skillController.CreateSkill();
 
                 // add skill to course after mapping
-                this.courseService.AddSkillToCourse(courseId, Mapping.CreateMapFromVMToDomain<SkillViewModel, Skill>(skillVM));
+                await this.courseService.AddSkillToCourse(courseId, skillDomain);
                 Console.WriteLine("Do you want to add one more skill (Enter YES)?");
                 userChoice = Console.ReadLine();
             }
