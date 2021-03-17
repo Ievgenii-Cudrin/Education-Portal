@@ -14,6 +14,8 @@ namespace EducationPortal.CoreMVC.LayersDependencyInjections
     {
         public static void InstallDal(this IServiceCollection services)
         {
+            //MVC
+
             //services.AddTransient<IRepository<UserCourse>, UserCourseXmlRepository>();
             //services.AddTransient<IRepository<CourseMaterial>, CourseMaterialXmlRepository>();
             //services.AddTransient<IRepository<CourseSkill>, CourseSkillXmlRepository>();

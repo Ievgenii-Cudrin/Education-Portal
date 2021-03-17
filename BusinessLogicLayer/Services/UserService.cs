@@ -215,6 +215,7 @@ namespace EducationPortal.BLL.ServicesSql
             foreach (var material in allMaterialsFromCourse.ToList())
             {
                 bool existThisMaterialInUser = await this.userMaterialSqlService.ExistMaterialInUser(this.authorizedUser.User.Id, material.Id);
+
                 if (existThisMaterialInUser)
                 {
                     material.IsPassed = true;
