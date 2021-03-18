@@ -1,10 +1,11 @@
-﻿namespace Entities
-{
-    using System.Collections.Generic;
-    using System.Xml.Serialization;
-    using DataAccessLayer.Entities;
-    using EducationPortal.Domain.Entities;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Xml.Serialization;
+using DataAccessLayer.Entities;
+using EducationPortal.Domain.Entities;
 
+namespace Entities
+{
     [XmlType("Material")] // define Type
     [XmlInclude(typeof(Video))]
     [XmlInclude(typeof(Book))]
@@ -14,6 +15,7 @@
         [XmlElement("Name")]
         public string Name { get; set; }
 
+        [NotMapped]
         [XmlElement("IsPassed")]
         public bool IsPassed { get; set; }
 

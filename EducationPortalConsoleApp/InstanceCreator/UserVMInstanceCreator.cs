@@ -1,8 +1,8 @@
-﻿namespace EducationPortal.PL.InstanceCreator
-{
-    using EducationPortal.PL.Models;
-    using EducationPortalConsoleApp.Helpers;
+﻿using EducationPortal.PL.Models;
+using EducationPortalConsoleApp.Helpers;
 
+namespace EducationPortal.PL.InstanceCreator
+{
     public static class UserVMInstanceCreator
     {
         public static UserViewModel CreateUser()

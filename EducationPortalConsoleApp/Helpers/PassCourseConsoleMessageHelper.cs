@@ -1,7 +1,7 @@
-﻿namespace EducationPortal.PL.Helpers
-{
-    using System;
+﻿using System;
 
+namespace EducationPortal.PL.Helpers 
+{
     public static class PassCourseConsoleMessageHelper
     {
         public static void ShowInfoToStartPassingCourse()

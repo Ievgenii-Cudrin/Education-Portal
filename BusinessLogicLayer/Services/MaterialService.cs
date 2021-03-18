@@ -1,164 +1,87 @@
-﻿namespace EducationPortalConsoleApp.Services
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using BusinessLogicLayer.Interfaces;
-    using DataAccessLayer.Interfaces;
-    using Entities;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using BusinessLogicLayer.Interfaces;
+using DataAccessLayer.Interfaces;
+using EducationPortal.BLL.Interfaces;
+using Entities;
+using Microsoft.Extensions.Logging;
 
+namespace EducationPortal.BLL.ServicesSql
+{
     public class MaterialService : IMaterialService
     {
-        private readonly IRepository<Material> repository;
-        private readonly List<Material> materialsFromDB;
+        private readonly IRepository<Material> materialRepository;
+        private readonly ILogger<MaterialService> logger;
+        private readonly IAuthorizedUser authorizedUser;
+        private IOperationResult operationResult;
 
-        public MaterialService(IRepository<Material> repository)
+        private const string success = "Success";
+        private const string materialWithThisNameExist = "Material with this name exist";
+
+        public MaterialService(
+            IRepository<Material> repository,
+            ILogger<MaterialService> logger,
+            IOperationResult operationResult,
+            IAuthorizedUser authorizedUser)
         {
-            this.repository = repository;
-            this.materialsFromDB = repository.GetAll().ToList();
+            this.materialRepository = repository;
+            this.logger = logger;
+            this.operationResult = operationResult;
+            this.authorizedUser = authorizedUser;
         }
 
-        public bool CreateVideo(Video video)
+        public async Task<IOperationResult> CreateMaterial(Material material)
         {
-            var videos = this.repository.GetAll().Where(x => x is Video).ToList();
-            int c = videos.Count;
+            bool materialExist = await this.materialRepository.Exist(x => x.Name == material.Name);
 
-            // check name and link, may be we have this skill
-            bool uniqueVideo = video != null &&
-                !this.materialsFromDB.Where(x => x is Video).Cast<Video>().Any(x =>
-                x.Name.ToLower().Equals(video.Name.ToLower()) &&
-                x.Link == video.Link);
-
-            return this.SaveMaterialToDB(uniqueVideo, video);
-        }
-
-        public bool CreateArticle(Article article)
-        {
-            // check, it is unique article in db
-            bool uniqueArticle = article != null &&
-                !this.materialsFromDB.Where(x => x is Article).Cast<Article>().Any(x =>
-                x.Name.ToLower().Equals(article.Name.ToLower()) &&
-                x.PublicationDate == article.PublicationDate &&
-                x.Site == article.Site);
-
-            return this.SaveMaterialToDB(uniqueArticle, article);
-        }
-
-        public bool CreateBook(Book book)
-        {
-            // check, it is unique book in db
-            bool uniqueBook = book != null &&
-                !this.materialsFromDB.Where(x => x is Book).Cast<Book>().Any(x =>
-                x.Name.ToLower().Equals(book.Name.ToLower()) &&
-                x.Author == book.Author &&
-                x.CountOfPages == book.CountOfPages);
-
-            return this.SaveMaterialToDB(uniqueBook, book);
-        }
-
-        public bool UpdateVideo(Video videoToUpdate)
-        {
-            if (!(this.repository.Get(videoToUpdate.Id) is Video video))
+            if (material != null && !materialExist)
             {
-                return false;
+                await this.materialRepository.Add(material);
+                await this.materialRepository.Save();
+                this.logger.LogDebug($"Material {material.Id} successfully created by user ({this.authorizedUser.User.Id})");
+                this.operationResult.IsSucceed = true;
+                this.operationResult.Message = success;
             }
             else
             {
-                video.Name = videoToUpdate.Name;
-                video.Link = videoToUpdate.Link;
-                video.Quality = videoToUpdate.Quality;
-                video.Duration = videoToUpdate.Duration;
-                this.repository.Update(video);
+                this.logger.LogDebug($"Material ({material.Id}) not created by user ({this.authorizedUser.User.Id}). Material exist");
+                this.operationResult.IsSucceed = false;
+                this.operationResult.Message = materialWithThisNameExist;
             }
 
-            return true;
+            return this.operationResult;
         }
 
-        public bool UpdateArticle(Article articleToUpdate)
+        public async Task<IEnumerable<Material>> GetAllMaterialsForOnePage(int take, int skip)
         {
-            if (!(this.repository.Get(articleToUpdate.Id) is Article article))
-            {
-                return false;
-            }
-            else
-            {
-                article.Name = articleToUpdate.Name;
-                article.Site = articleToUpdate.Site;
-                article.PublicationDate = articleToUpdate.PublicationDate;
-                this.repository.Update(article);
-            }
-
-            return true;
+            return await this.materialRepository.GetPage(take, skip);
         }
 
-        public bool UpdateBook(Book bookToUpdate)
+        public IEnumerable<Material> GetAllNotPassedMaterialFromUser()
         {
-            if (!(this.repository.Get(bookToUpdate.Id) is Book book))
-            {
-                return false;
-            }
-            else
-            {
-                book.Name = bookToUpdate.Name;
-                book.Author = bookToUpdate.Author;
-                book.CountOfPages = bookToUpdate.CountOfPages;
-                this.repository.Update(book);
-            }
-
-            return true;
+            throw new NotImplementedException();
         }
 
-        public IEnumerable<Material> GetAllMaterials()
+        public async Task<Material> GetMaterial(int materialId)
         {
-            return this.repository.GetAll();
+            return await this.materialRepository.GetOne(x => x.Id == materialId);
         }
 
-        public bool Delete(int id)
+        public async Task<bool> ExistMaterial(int materialId)
         {
-            Material material = this.repository.Get(id);
-
-            if (material == null)
-            {
-                return false;
-            }
-            else
-            {
-                this.repository.Delete(id);
-            }
-
-            return true;
+            return await this.materialRepository.Exist(x => x.Id == materialId);
         }
 
-        public Material GetMaterial(int id)
+        public async Task<int> GetCount()
         {
-            Material material;
-
-            try
-            {
-                material = this.repository.Get(id);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return null;
-            }
-
-            return material;
+            return await this.materialRepository.Count();
         }
 
-        private bool SaveMaterialToDB(bool uniqueMaterial, Material material)
+        public async Task UpdateMaterial(Material material)
         {
-            if (uniqueMaterial)
-            {
-                this.repository.Create(material);
-                this.materialsFromDB.Add(material);
-            }
-            else
-            {
-                return false;
-            }
-
-            return true;
+            await this.materialRepository.Update(material);
+            await this.materialRepository.Save();
         }
     }
 }

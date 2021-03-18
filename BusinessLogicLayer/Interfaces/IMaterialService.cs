@@ -1,24 +1,24 @@
-﻿namespace BusinessLogicLayer.Interfaces
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using EducationPortal.BLL.Interfaces;
+using Entities;
+
+namespace BusinessLogicLayer.Interfaces
 {
-    using System.Collections.Generic;
-    using Entities;
-
-    public interface IMaterialService : IDeleteEntity
+    public interface IMaterialService
     {
-        public bool CreateVideo(Video video);
+        Task<IOperationResult> CreateMaterial(Material material);
 
-        public bool CreateArticle(Article article);
+        Task<IEnumerable<Material>> GetAllMaterialsForOnePage(int take, int skip);
 
-        public bool CreateBook(Book book);
+        Task<Material> GetMaterial(int id);
 
-        public bool UpdateVideo(Video video);
+        Task<bool> ExistMaterial(int materialId);
 
-        public bool UpdateArticle(Article article);
+        IEnumerable<Material> GetAllNotPassedMaterialFromUser();
 
-        public bool UpdateBook(Book book);
+        Task<int> GetCount();
 
-        public IEnumerable<Material> GetAllMaterials();
-
-        public Material GetMaterial(int id);
+        Task UpdateMaterial(Material material);
     }
 }

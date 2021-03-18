@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Threading.Tasks;
+using DataAccessLayer.Entities;
 
 namespace EducationPortalConsoleApp.Interfaces
 {
     public interface ISkillController
     {
-        public void CreateSkill();
+        Task<Skill> CreateSkill();
     }
 }

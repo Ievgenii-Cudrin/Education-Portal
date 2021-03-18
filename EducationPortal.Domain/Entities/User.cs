@@ -1,11 +1,10 @@
-﻿namespace DataAccessLayer.Entities
-{
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Xml.Serialization;
-    using EducationPortal.Domain.Entities;
-    using global::Entities;
+﻿using System.Collections.Generic;
+using System.Xml.Serialization;
+using EducationPortal.Domain.Entities;
+using global::Entities;
 
+namespace DataAccessLayer.Entities
+{
     [XmlType("User")]
     [XmlInclude(typeof(Skill))]
     [XmlInclude(typeof(Course))]
@@ -23,23 +22,8 @@
         [XmlElement("Email")]
         public string Email { get; set; }
 
-        [NotMapped]
-        [XmlArray("SkillArray")]
-        [XmlArrayItem("SkillObjekt")]
-        public ICollection<Skill> Skills { get; set; }
-
-        [NotMapped]
-        [XmlArray("PassedCoursesArray")]
-        [XmlArrayItem("PassedCourseObjekt")]
-        public ICollection<Course> CoursesPassed { get; set; }
-
-        [NotMapped]
-        [XmlArray("InProgressCoursesArray")]
-        [XmlArrayItem("InProgressCourseObjekt")]
-        public ICollection<Course> CoursesInProgress { get; set; }
-
         [XmlIgnore]
-        public ICollection<UserSkill> UserSkills { get; set; }
+        public List<UserSkill> UserSkills { get; set; }
 
         [XmlIgnore]
         public ICollection<UserCourse> UserCourses { get; set; }

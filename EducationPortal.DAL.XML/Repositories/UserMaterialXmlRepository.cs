@@ -1,0 +1,54 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
+using XmlDataBase.Interfaces;
+using XmlDataBase.Serialization;
+using EducationPortal.Domain.Entities;
+
+namespace EducationPortal.DAL.XML.Repositories
+{
+    public class UserMaterialXmlRepository : RepositoryXml<UserMaterial>
+    {
+        private readonly IXmlSerializeContext<UserMaterial> context;
+
+        public UserMaterialXmlRepository(IXmlSerializeContext<UserMaterial> context)
+            :base(context)
+        {
+            this.context = context;
+        }
+
+        public async Task<List<TResult>> Get<TResult>(
+            Expression<Func<UserMaterial, TResult>> selector,
+            Expression<Func<UserMaterial, bool>> predicat)
+        {
+            var userMaterials = this.context.XmlSet.GetAll().AsQueryable()
+                .Where(predicat).ToList();
+
+            Type type = selector.Body.Type;
+            Type listType = typeof(List<>).MakeGenericType(new[] { type });
+            Type xmlType = typeof(XmlSet<>).MakeGenericType(new[] { type });
+            IList list = (IList)Activator.CreateInstance(listType);
+            dynamic xmlSet = Activator.CreateInstance(xmlType);
+
+            if (type.Name == "Material")
+            {
+                foreach (var courseMaterial in userMaterials)
+                {
+                    list.Add(xmlSet.Get(courseMaterial.MaterialId));
+                }
+            }
+            else
+            {
+                foreach (var courseMaterial in userMaterials)
+                {
+                    list.Add(xmlSet.Get(courseMaterial.UserId));
+                }
+            }
+
+            return (List<TResult>)list;
+        }
+    }
+}

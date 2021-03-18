@@ -1,0 +1,82 @@
+﻿@model EducationPartal.CoreMVC.ModelsView.CourseViewModel
+
+@{
+    ViewData["Title"] = "ContinueCourseCreating";
+}
+
+<div>
+    <h4>Course info</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+    </dl>
+</div>
+<div class="alert alert-secondary">
+    <h3>
+        <strong>Materials in Course: </strong></ br>
+    </h3>
+    <div>
+        @Html.DisplayFor(m => m.Materials)
+    </div>
+</div>
+
+@*<div class="alert alert-secondary">
+    <h3>
+        <strong>Skills in Course: </strong></ br>
+    </h3>
+    @foreach (var item in Model.Skills)
+    {
+        <tr>
+            <td>
+                Skill - @Html.DisplayFor(modelItem => item.Name)
+             </td>
+            <td>
+                <a class="btn btn-default" asp-action="DeleteSkillFromCourse" asp-controller="Skill" asp-route-id="@item.Id">Delete skill from course</a>
+
+            </td>
+        </tr>
+    }
+</div>*@
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Skill @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Skills)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    <a class="btn btn-default" asp-action="DeleteSkillFromCourse" asp-controller="Skill" asp-route-id="@item.Id">Delete skill from course</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<p>
+    <a class="btn btn-primary btn-lg active" asp-action="Index" asp-controller="Material">Add material to course</a>
+    <a class="btn btn-primary btn-lg active" asp-action="Index" asp-controller="Skill">Add skill to course</a>
+    <span @(Model.Skills.Count == 0 || Model.Materials.Count == 0 ? "hidden" : "")>
+        <a class="btn btn-primary btn-lg active" asp-action="Index" asp-controller="Course">Save</a>
+    </span>
+</p>

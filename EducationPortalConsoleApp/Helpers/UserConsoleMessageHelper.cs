@@ -1,10 +1,10 @@
-﻿namespace EducationPortalConsoleApp.Helpers
-{
-    using System;
-    using System.Collections.Generic;
-    using DataAccessLayer.Entities;
-    using EducationPortal.PL.Models;
+﻿using System;
+using System.Collections.Generic;
+using DataAccessLayer.Entities;
+using EducationPortal.PL.Models;
 
+namespace EducationPortalConsoleApp.Helpers
+{
     public class UserConsoleMessageHelper
     {
         public static void ShowTextForChoice()
@@ -33,7 +33,7 @@
         {
             for (int i = 0; i < courses.Count; i++)
             {
-                Console.WriteLine($"{i + 1}.Name - {courses[i].Name}");
+                Console.WriteLine($"{i + 1}.Name - {courses[i].Name}, ID - {courses[i].Id}");
             }
         }
     }

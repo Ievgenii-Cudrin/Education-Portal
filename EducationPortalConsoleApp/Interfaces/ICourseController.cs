@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using EducationPortal.PL.Interfaces;
+using System.Threading.Tasks;
 
 namespace EducationPortalConsoleApp.Interfaces
 {
     public interface ICourseController
     {
-        public void CreateNewCourse();
+        Task CreateNewCourse();
+
+        void WithApplication(IApplication application);
     }
 }

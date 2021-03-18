@@ -1,23 +1,35 @@
-﻿namespace BusinessLogicLayer.Interfaces
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using DataAccessLayer.Entities;
+using EducationPortal.BLL.Interfaces;
+using Entities;
+
+namespace BusinessLogicLayer.Interfaces
 {
-    using System.Collections.Generic;
-    using DataAccessLayer.Entities;
-    using Entities;
-
-    public interface ICourseService : IDeleteEntity
+    public interface ICourseService
     {
-        public bool CreateCourse(Course course);
+        Task<IOperationResult> CreateCourse(Course course);
 
-        public bool UpdateCourse(Course course);
+        Task<IOperationResult> UpdateCourse(Course course);
 
-        public IEnumerable<Course> GetAllCourses();
+        Task<IOperationResult> AddMaterialToCourse(int courseId, Material material);
 
-        public bool AddMaterialToCourse(int id, Material material);
+        Task<IOperationResult> AddSkillToCourse(int courseId, Skill skillToAdd);
 
-        public bool AddSkillToCourse(int id, Skill skillToAdd);
+        Task<IEnumerable<Skill>> GetSkillsFromCourse(int courseId);
 
-        public List<Skill> GetSkillsFromCourse(int id);
+        Task<IEnumerable<Material>> GetMaterialsFromCourse(int courseId);
 
-        public List<Material> GetMaterialsFromCourse(int id);
+        Task<IOperationResult> Delete(int courseId);
+
+        Task<bool> ExistCourse(int courseId);
+
+        Task<IEnumerable<Course>> GetCoursesPerPage(int skip, int take);
+
+        Task<int> GetCount();
+
+        Task<Course> GetCourse(int id);
+
+        Task<int> GetLastId();
     }
 }

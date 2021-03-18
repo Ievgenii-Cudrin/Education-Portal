@@ -1,7 +1,7 @@
-﻿namespace DataAccessLayer.Entities
-{
-    using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 
+namespace DataAccessLayer.Entities
+{
     public class BaseEntity
     {
         [XmlElement("Id")]
