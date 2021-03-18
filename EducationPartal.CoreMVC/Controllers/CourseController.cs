@@ -22,7 +22,6 @@ namespace EducationPortal.CoreMVC.Controllers
         private readonly IAutoMapperService mapperService;
         private readonly ICourseService courseService;
         private readonly IAuthorizedUser authorizedUser;
-        private readonly ICurrentCourse currentCourse;
         private readonly IUserCourseSqlService userCourseSqlService;
         private IOperationResult operationResult;
 
@@ -30,14 +29,12 @@ namespace EducationPortal.CoreMVC.Controllers
             IAutoMapperService autoMapperService,
             ICourseService courseService,
             IAuthorizedUser authorizedUser,
-            ICurrentCourse currentCourse,
             IOperationResult operationResult,
             IUserCourseSqlService userCourseSqlService)
         {
             this.authorizedUser = authorizedUser;
             this.mapperService = autoMapperService;
             this.courseService = courseService;
-            this.currentCourse = currentCourse;
             this.operationResult = operationResult;
             this.userCourseSqlService = userCourseSqlService;
         }

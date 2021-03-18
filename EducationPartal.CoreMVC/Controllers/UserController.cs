@@ -32,6 +32,7 @@ namespace EducationPortal.CoreMVC.Controllers
             this.authorizedUser = authorizedUser;
             this.autoMapperService = autoMapperService;
         }
+
         // GET: UserController
         public async Task<ActionResult> CourseInProgress()
         {
